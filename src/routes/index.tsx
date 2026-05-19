@@ -1,6 +1,6 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { useState } from "react";
-import { categories, trendingTools } from "@/data/tools";
+import { categories, tools, trendingTools } from "@/data/tools";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CategoryBentoCard } from "@/components/CategoryBentoCard";
 import { ToolCard } from "@/components/ToolCard";
