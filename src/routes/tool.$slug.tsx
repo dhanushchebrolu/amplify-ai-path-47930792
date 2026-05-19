@@ -6,7 +6,7 @@ import { ToolCard } from "@/components/ToolCard";
 import { ArrowUpRight, Check, Star, X } from "lucide-react";
 
 export const Route = createFileRoute("/tool/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { tool: Tool; category: Category; alternatives: Tool[] } => {
     const tool = getTool(params.slug);
     if (!tool) throw notFound();
     const category = getCategory(tool.category)!;
