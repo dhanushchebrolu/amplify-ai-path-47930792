@@ -40,7 +40,7 @@ function Home() {
         <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-12 text-center">
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-8">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{`${categories.reduce((n, c) => n + 1, 0) && "164+ AI Tools · Updated Daily"}`}</span>
+            <span>{tools.length}+ AI Tools · Updated Daily</span>
           </div>
           <h1 className="font-display text-6xl md:text-8xl leading-[1.02] tracking-tight">
             Every AI Tool in
