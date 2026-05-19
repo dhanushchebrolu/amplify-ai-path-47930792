@@ -126,7 +126,7 @@ function ToolPage() {
           <section className="card-surface p-6">
             <h3 className="font-medium mb-3">Key features</h3>
             <ul className="space-y-2">
-              {tool.features.map((f) => (
+              {tool.features.map((f: string) => (
                 <li key={f} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <span>{f}</span>
@@ -137,7 +137,7 @@ function ToolPage() {
           <section className="card-surface p-6">
             <h3 className="font-medium mb-3">Best for</h3>
             <ul className="space-y-2">
-              {tool.useCases.map((u) => (
+              {tool.useCases.map((u: string) => (
                 <li key={u} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <Check className="w-4 h-4 text-primary mt-0.5 shrink-0" />
                   <span>{u}</span>
@@ -145,7 +145,7 @@ function ToolPage() {
               ))}
             </ul>
             <div className="mt-5 flex flex-wrap gap-1.5">
-              {tool.tags.map((t) => (
+              {tool.tags.map((t: string) => (
                 <span
                   key={t}
                   className="text-[11px] px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-muted-foreground"
@@ -162,7 +162,7 @@ function ToolPage() {
           <section className="card-surface p-6">
             <h3 className="font-medium mb-3 text-emerald-400">Pros</h3>
             <ul className="space-y-2">
-              {tool.pros.map((p) => (
+              {tool.pros.map((p: string) => (
                 <li key={p} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <Check className="w-4 h-4 text-emerald-400 mt-0.5 shrink-0" />
                   <span>{p}</span>
@@ -173,7 +173,7 @@ function ToolPage() {
           <section className="card-surface p-6">
             <h3 className="font-medium mb-3 text-rose-400">Cons</h3>
             <ul className="space-y-2">
-              {tool.cons.map((c) => (
+              {tool.cons.map((c: string) => (
                 <li key={c} className="flex items-start gap-2 text-sm text-muted-foreground">
                   <X className="w-4 h-4 text-rose-400 mt-0.5 shrink-0" />
                   <span>{c}</span>
