@@ -188,7 +188,7 @@ function ToolPage() {
           <section className="mt-12">
             <h2 className="font-display text-2xl mb-5">Alternatives to {tool.name}</h2>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
-              {alternatives.map((t) => (
+              {alternatives.map((t: Tool) => (
                 <ToolCard key={t.slug} tool={t} />
               ))}
             </div>
