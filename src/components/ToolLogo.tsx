@@ -3,19 +3,23 @@ import type { Tool } from "@/data/tools";
 import { cn } from "@/lib/utils";
 
 interface ToolLogoProps {
-  tool: Pick<Tool, "name" | "brandColor" | "simpleIcon" | "iconOnDark">;
+  tool: Pick<Tool, "name" | "brandColor" | "simpleIcon" | "iconOnDark" | "website">;
   size?: number;
   className?: string;
   rounded?: "full" | "lg";
 }
 
 /**
- * Renders an AI tool's official logo via simpleicons.org when available,
- * gracefully falling back to a clean letter monogram on the brand color when
- * the remote icon is missing or blocked.
+ * Logo resolution chain:
+ *  1. simpleicons.org SVG mark on a brand-colored disc (white silhouette).
+ *  2. If that fails (e.g. brand removed from Simple Icons), fall back to
+ *     Google's favicon service for the tool's domain on a white disc.
+ *  3. Final fallback: clean letter monogram on the brand color.
+ *
+ * The fallback chain is driven by image onError to handle 404s after hydration.
  */
 export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLogoProps) {
-  const [failed, setFailed] = useState(false);
+  const [stage, setStage] = useState<0 | 1 | 2>(tool.simpleIcon ? 0 : 1);
 
   const radius = rounded === "full" ? "rounded-full" : "rounded-xl";
   const initials = tool.name
@@ -31,8 +35,29 @@ export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLog
     tool.brandColor.toLowerCase() === "#fff" ||
     tool.iconOnDark;
 
-  const bg = isLightBrand ? "#111111" : tool.brandColor;
-  const showImage = tool.simpleIcon && !failed;
+  let domain: string | null = null;
+  try {
+    domain = tool.website ? new URL(tool.website).hostname.replace(/^www\./, "") : null;
+  } catch { /* ignore */ }
+
+  // Background per stage
+  const bg =
+    stage === 0
+      ? isLightBrand
+        ? "#111111"
+        : tool.brandColor
+      : stage === 1
+        ? "#ffffff"
+        : isLightBrand
+          ? "#111111"
+          : tool.brandColor;
+
+  const src =
+    stage === 0 && tool.simpleIcon
+      ? `https://cdn.simpleicons.org/${tool.simpleIcon}/ffffff`
+      : stage === 1 && domain
+        ? `https://www.google.com/s2/favicons?sz=128&domain=${domain}`
+        : null;
 
   return (
     <div
@@ -44,16 +69,17 @@ export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLog
       style={{ width: size, height: size, backgroundColor: bg }}
       aria-label={`${tool.name} logo`}
     >
-      {showImage ? (
+      {src ? (
         <img
-          src={`https://cdn.simpleicons.org/${tool.simpleIcon}/ffffff`}
+          key={src}
+          src={src}
           alt=""
-          width={Math.round(size * 0.55)}
-          height={Math.round(size * 0.55)}
+          width={Math.round(size * (stage === 1 ? 0.7 : 0.55))}
+          height={Math.round(size * (stage === 1 ? 0.7 : 0.55))}
           loading="lazy"
           decoding="async"
           referrerPolicy="no-referrer"
-          onError={() => setFailed(true)}
+          onError={() => setStage((s) => (s < 2 ? ((s + 1) as 1 | 2) : 2))}
         />
       ) : (
         <span
