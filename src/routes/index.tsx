@@ -73,7 +73,7 @@ function Home() {
       </section>
 
       {/* Category Bento */}
-      <section className="mx-auto max-w-7xl px-6 pb-20">
+      <section className="w-full mx-auto max-w-7xl px-6 pb-20">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-7">
           {categories.slice(0, 4).map((c) => (
             <CategoryBentoCard key={c.slug} category={c} />
