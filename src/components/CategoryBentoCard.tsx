@@ -53,7 +53,8 @@ export function CategoryBentoCard({ category }: { category: Category }) {
       params={{ slug: category.slug }}
       onMouseMove={handleMove}
       aria-label={`Browse AI ${category.name} tools`}
-      className="bento-card group relative block w-full h-[340px] overflow-hidden rounded-2xl border border-white/10 bg-[var(--surface)] transition-colors hover:border-white/25"
+      style={{ display: "block", width: "100%" }}
+      className="bento-card group relative h-[340px] overflow-hidden rounded-2xl border border-white/10 transition-colors hover:border-white/25"
     >
       {/* cursor spotlight */}
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
