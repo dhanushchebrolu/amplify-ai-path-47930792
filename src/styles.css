@@ -91,7 +91,7 @@
 .bubble-float { animation: bubble-float 6s ease-in-out infinite; }
 
 /* Cursor spotlight for bento cards */
-.bento-card { --mx: 50%; --my: 50%; }
+.bento-card { --mx: 50%; --my: 50%; background-color: var(--surface); }
 .bento-spotlight {
   background: radial-gradient(
     280px circle at var(--mx) var(--my),
