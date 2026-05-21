@@ -83,9 +83,19 @@
   border-radius: 1rem;
 }
 
-/* Floating tool bubbles */
-@keyframes float-bubble {
-  0%, 100% { transform: translateY(0px); }
-  50% { transform: translateY(-6px); }
+/* Floating tool bubbles — gentle, varied per-instance via inline duration */
+@keyframes bubble-float {
+  0%, 100% { transform: translate(-50%, -50%) translateY(0px); }
+  50%      { transform: translate(-50%, -50%) translateY(-8px); }
 }
-.bubble { animation: float-bubble 6s ease-in-out infinite; }
+.bubble-float { animation: bubble-float 6s ease-in-out infinite; }
+
+/* Cursor spotlight for bento cards */
+.bento-card { --mx: 50%; --my: 50%; background-color: var(--surface); }
+.bento-spotlight {
+  background: radial-gradient(
+    280px circle at var(--mx) var(--my),
+    oklch(0.88 0.16 95 / 0.10),
+    transparent 60%
+  );
+}

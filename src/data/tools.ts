@@ -94,7 +94,7 @@ export const tools: Tool[] = [
     features: ["GPT-5 reasoning", "Image generation", "Voice mode", "Custom GPTs", "Code interpreter"],
     tags: ["Assistant", "Blog Writing", "Copywriting"], useCases: ["Drafting blog posts", "Research summaries", "Email writing"],
     pros: ["Best-in-class reasoning", "Huge ecosystem"], cons: ["Free tier rate-limited"],
-    rating: 4.8, trending: true, brandColor: "#10A37F", simpleIcon: "openai", iconOnDark: true },
+    rating: 4.8, trending: true, brandColor: "#10A37F" },
 
   { slug: "claude", name: "Claude", category: "writing", tagline: "Nuanced, thoughtful writing assistant",
     description: "Anthropic's assistant known for long-context reasoning, careful tone, and the best long-form writing quality in the industry.",
@@ -175,7 +175,7 @@ export const tools: Tool[] = [
     features: ["Long-form generation", "Storyboard", "Remix"],
     tags: ["Generation"], useCases: ["Concept films", "Storyboarding"],
     pros: ["Best photorealism"], cons: ["Pro plan required"],
-    rating: 4.6, brandColor: "#000000", simpleIcon: "openai", iconOnDark: true },
+    rating: 4.6, brandColor: "#000000" },
 
   { slug: "pika", name: "Pika", category: "video", tagline: "Idea-to-video in seconds",
     description: "Fast, playful video generation with effects, lip sync, and character consistency.",
@@ -289,7 +289,7 @@ export const tools: Tool[] = [
     features: ["Text-in-image", "ChatGPT integration", "Conversational editing"],
     tags: ["Generation"], useCases: ["Quick visuals", "Slide graphics"],
     pros: ["Inside ChatGPT"], cons: ["Less artistic than MJ"],
-    rating: 4.5, brandColor: "#10A37F", simpleIcon: "openai", iconOnDark: true },
+    rating: 4.5, brandColor: "#10A37F" },
 
   { slug: "flux", name: "Flux", category: "image", tagline: "Open-weights image model from Black Forest Labs",
     description: "State-of-the-art open-weights image model with excellent prompt adherence and photorealism.",
@@ -313,7 +313,7 @@ export const tools: Tool[] = [
     features: ["Generative Fill", "Vector recolor", "Photoshop integration"],
     tags: ["Generation", "Editing"], useCases: ["Photoshop workflows", "Commercial-safe assets"],
     pros: ["Commercial safety", "Adobe integration"], cons: ["Aesthetic less striking"],
-    rating: 4.4, brandColor: "#FA0F00", simpleIcon: "adobe", iconOnDark: true },
+    rating: 4.4, brandColor: "#FA0F00" },
 
   { slug: "canva", name: "Canva Magic Studio", category: "image", tagline: "AI design for everyone",
     description: "Canva's AI suite — Magic Design, Magic Write, image generation, and translation built into the editor.",
@@ -321,7 +321,7 @@ export const tools: Tool[] = [
     features: ["Magic Design", "Magic Write", "Background remover"],
     tags: ["Design"], useCases: ["Social posts", "Presentations"],
     pros: ["Easiest to use"], cons: ["Less control"],
-    rating: 4.6, brandColor: "#00C4CC", simpleIcon: "canva" },
+    rating: 4.6, brandColor: "#00C4CC" },
 
   { slug: "ideogram", name: "Ideogram", category: "image", tagline: "Best AI for text in images",
     description: "Image generator with the best typography rendering — perfect for posters, logos, and ads with real text.",

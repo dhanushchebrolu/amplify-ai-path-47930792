@@ -73,33 +73,16 @@ function Home() {
       </section>
 
       {/* Category Bento */}
-      <section className="mx-auto max-w-7xl px-6 pb-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
+      <section className="w-full mx-auto max-w-7xl px-6 pb-20">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-7">
           {categories.slice(0, 4).map((c) => (
             <CategoryBentoCard key={c.slug} category={c} />
           ))}
         </div>
-      </section>
 
-      {/* More categories */}
-      <section className="mx-auto max-w-7xl px-6 pb-20">
-        <div className="flex items-end justify-between mb-6">
-          <h2 className="font-display text-3xl md:text-4xl">More categories</h2>
-          <Link to="/browse" className="text-sm text-muted-foreground hover:text-foreground">
-            Browse all →
-          </Link>
-        </div>
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
-          {categories.map((c) => (
-            <Link
-              key={c.slug}
-              to="/category/$slug"
-              params={{ slug: c.slug }}
-              className="card-surface px-4 py-5 text-sm text-center hover:border-white/20 transition-colors"
-            >
-              <div className="font-medium">{c.name}</div>
-              <div className="text-xs text-muted-foreground mt-1">{c.short}</div>
-            </Link>
+        <div className="mt-7 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-7">
+          {categories.slice(4).map((c) => (
+            <CategoryBentoCard key={c.slug} category={c} />
           ))}
         </div>
       </section>
