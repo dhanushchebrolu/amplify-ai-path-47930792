@@ -1,10 +1,10 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { catalog, getCatalogCategory } from "@/data/catalog";
+import { catalog, getCatalogCategory, type CatalogCategory } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { SubcategoryCard } from "@/components/SubcategoryCard";
 
 export const Route = createFileRoute("/category/$slug")({
-  loader: ({ params }) => {
+  loader: ({ params }): { category: CatalogCategory } => {
     const category = getCatalogCategory(params.slug);
     if (!category) throw notFound();
     return { category };
