@@ -14,6 +14,7 @@ import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
 import { Route as CategorySlugRouteImport } from './routes/category.$slug'
+import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -40,28 +41,36 @@ const CategorySlugRoute = CategorySlugRouteImport.update({
   path: '/category/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
+  id: '/$sub',
+  path: '/$sub',
+  getParentRoute: () => CategorySlugRoute,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/category/$slug': typeof CategorySlugRoute
+  '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tool/$slug': typeof ToolSlugRoute
+  '/category/$slug/$sub': typeof CategorySlugSubRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/category/$slug': typeof CategorySlugRoute
+  '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tool/$slug': typeof ToolSlugRoute
+  '/category/$slug/$sub': typeof CategorySlugSubRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/category/$slug': typeof CategorySlugRoute
+  '/category/$slug': typeof CategorySlugRouteWithChildren
   '/tool/$slug': typeof ToolSlugRoute
+  '/category/$slug/$sub': typeof CategorySlugSubRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -71,8 +80,15 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/category/$slug'
     | '/tool/$slug'
+    | '/category/$slug/$sub'
   fileRoutesByTo: FileRoutesByTo
-  to: '/' | '/browse' | '/sitemap.xml' | '/category/$slug' | '/tool/$slug'
+  to:
+    | '/'
+    | '/browse'
+    | '/sitemap.xml'
+    | '/category/$slug'
+    | '/tool/$slug'
+    | '/category/$slug/$sub'
   id:
     | '__root__'
     | '/'
@@ -80,13 +96,14 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/category/$slug'
     | '/tool/$slug'
+    | '/category/$slug/$sub'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrowseRoute: typeof BrowseRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  CategorySlugRoute: typeof CategorySlugRoute
+  CategorySlugRoute: typeof CategorySlugRouteWithChildren
   ToolSlugRoute: typeof ToolSlugRoute
 }
 
@@ -127,14 +144,33 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/category/$slug/$sub': {
+      id: '/category/$slug/$sub'
+      path: '/$sub'
+      fullPath: '/category/$slug/$sub'
+      preLoaderRoute: typeof CategorySlugSubRouteImport
+      parentRoute: typeof CategorySlugRoute
+    }
   }
 }
+
+interface CategorySlugRouteChildren {
+  CategorySlugSubRoute: typeof CategorySlugSubRoute
+}
+
+const CategorySlugRouteChildren: CategorySlugRouteChildren = {
+  CategorySlugSubRoute: CategorySlugSubRoute,
+}
+
+const CategorySlugRouteWithChildren = CategorySlugRoute._addFileChildren(
+  CategorySlugRouteChildren,
+)
 
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrowseRoute: BrowseRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  CategorySlugRoute: CategorySlugRoute,
+  CategorySlugRoute: CategorySlugRouteWithChildren,
   ToolSlugRoute: ToolSlugRoute,
 }
 export const routeTree = rootRouteImport

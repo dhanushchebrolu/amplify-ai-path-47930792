@@ -1,22 +1,20 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
-import { useMemo, useState } from "react";
-import { categories, getCategory, toolsByCategory } from "@/data/tools";
+import { catalog, getCatalogCategory } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
-import { ToolCard } from "@/components/ToolCard";
-import { Search } from "lucide-react";
+import { SubcategoryCard } from "@/components/SubcategoryCard";
 
 export const Route = createFileRoute("/category/$slug")({
   loader: ({ params }) => {
-    const category = getCategory(params.slug);
+    const category = getCatalogCategory(params.slug);
     if (!category) throw notFound();
     return { category };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const c = loaderData.category;
-    const count = toolsByCategory(c.slug).length;
-    const title = `Best AI ${c.name} Tools (${count}+) — NeuroHub`;
-    const desc = `${count} curated AI ${c.name.toLowerCase()} tools. ${c.blurb}`;
+    const total = c.subs.reduce((a, s) => a + s.tools.length, 0);
+    const title = `Best ${c.name} (${total}+) — NeuroHub`;
+    const desc = `${total} curated ${c.name.toLowerCase()} across ${c.subs.length} sub-categories. Compare features, pricing, and find the right AI for your workflow.`;
     return {
       meta: [
         { title },
@@ -39,81 +37,38 @@ export const Route = createFileRoute("/category/$slug")({
 
 function CategoryPage() {
   const { category } = Route.useLoaderData();
-  const allTools = useMemo(() => toolsByCategory(category.slug), [category.slug]);
-  const [q, setQ] = useState("");
-
-  const filtered = useMemo(() => {
-    const needle = q.trim().toLowerCase();
-    if (!needle) return allTools;
-    return allTools.filter(
-      (t) =>
-        t.name.toLowerCase().includes(needle) ||
-        t.description.toLowerCase().includes(needle) ||
-        t.tags.some((tag) => tag.toLowerCase().includes(needle)),
-    );
-  }, [allTools, q]);
-
-  const others = categories.filter((c) => c.slug !== category.slug);
+  const others = catalog.filter((c) => c.slug !== category.slug);
+  const total = category.subs.reduce((a, s) => a + s.tools.length, 0);
 
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-6 pt-10 pb-16 w-full">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
-          ← Back to home
+        <Link to="/browse" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+          ← All categories
         </Link>
 
-        <div className="mt-8 grid grid-cols-1 lg:grid-cols-[220px_1fr] gap-10 lg:gap-12">
-          {/* Sidebar — other categories */}
+        <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
           <aside className="lg:sticky lg:top-24 self-start">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-              Categories
-            </div>
+            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Categories</div>
             <nav className="flex lg:flex-col gap-1 overflow-x-auto lg:overflow-visible">
-              <CatLink slug={category.slug} active>
-                {category.name}
-              </CatLink>
+              <CatLink slug={category.slug} active>{category.short}</CatLink>
               {others.map((c) => (
-                <CatLink key={c.slug} slug={c.slug}>
-                  {c.name}
-                </CatLink>
+                <CatLink key={c.slug} slug={c.slug}>{c.short}</CatLink>
               ))}
             </nav>
-            <div className="mt-6 hidden lg:block text-xs text-muted-foreground border-t border-border/60 pt-4">
-              {allTools.length} tools in {category.name}
-            </div>
           </aside>
 
-          {/* Main */}
           <section>
-            <h1 className="font-display text-5xl md:text-6xl">
-              AI {category.name} Tools
-            </h1>
+            <h1 className="font-display text-5xl md:text-6xl">{category.name}</h1>
             <p className="mt-3 text-muted-foreground max-w-3xl">
-              {allTools.length} tools for {category.description.toLowerCase()}.
-            </p>
-            <p className="mt-3 text-sm text-muted-foreground max-w-3xl leading-relaxed">
-              {category.blurb}
+              {total}+ tools across {category.subs.length} sub-categories. Pick a sub-category to dive in.
             </p>
 
-            <div className="mt-8 flex items-center gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 max-w-xl">
-              <Search className="w-4 h-4 text-muted-foreground ml-3" />
-              <input
-                value={q}
-                onChange={(e) => setQ(e.target.value)}
-                placeholder={`Search ${category.name.toLowerCase()} tools...`}
-                className="flex-1 bg-transparent outline-none px-2 py-2 text-sm placeholder:text-muted-foreground"
-              />
-            </div>
-
-            <div className="mt-3 text-xs text-muted-foreground">
-              {filtered.length} of {allTools.length} tools
-            </div>
-
-            <div className="mt-5 grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
-              {filtered.map((t) => (
-                <ToolCard key={t.slug} tool={t} />
+            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+              {category.subs.map((sub) => (
+                <SubcategoryCard key={sub.slug} catSlug={category.slug} sub={sub} />
               ))}
             </div>
           </section>
