@@ -1,12 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
-import { getCatalogCategory, getCatalogSub } from "@/data/catalog";
+import { getCatalogCategory, getCatalogSub, type CatalogCategory, type CatalogSub } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CatalogToolCard } from "@/components/CatalogToolCard";
 import { Search } from "lucide-react";
 
 export const Route = createFileRoute("/category/$slug/$sub")({
-  loader: ({ params }) => {
+  loader: ({ params }): { category: CatalogCategory; sub: CatalogSub } => {
     const category = getCatalogCategory(params.slug);
     const sub = getCatalogSub(params.slug, params.sub);
     if (!category || !sub) throw notFound();
