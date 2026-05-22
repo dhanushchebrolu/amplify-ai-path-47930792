@@ -36,9 +36,10 @@ export const Route = createFileRoute("/category/$slug")({
 });
 
 function CategoryPage() {
-  const { category } = Route.useLoaderData();
+  const { category } = Route.useLoaderData() as { category: CatalogCategory };
   const others = catalog.filter((c) => c.slug !== category.slug);
   const total = category.subs.reduce((a, s) => a + s.tools.length, 0);
+
 
   return (
     <div className="min-h-screen flex flex-col">
