@@ -15,14 +15,14 @@ export function SiteHeader() {
           <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Browse All
           </Link>
-          <Link to="/category/$slug" params={{ slug: "writing" }} className="hover:text-foreground transition-colors">
+          <Link to="/category/$slug" params={{ slug: "ai-writing-tools" }} className="hover:text-foreground transition-colors">
             Writing
           </Link>
-          <Link to="/category/$slug" params={{ slug: "video" }} className="hover:text-foreground transition-colors">
+          <Link to="/category/$slug" params={{ slug: "ai-video-tools" }} className="hover:text-foreground transition-colors">
             Video
           </Link>
-          <Link to="/category/$slug" params={{ slug: "audio" }} className="hover:text-foreground transition-colors">
-            Audio
+          <Link to="/category/$slug" params={{ slug: "ai-coding-developer-tools" }} className="hover:text-foreground transition-colors">
+            Coding
           </Link>
         </nav>
       </div>

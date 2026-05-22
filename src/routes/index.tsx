@@ -1,6 +1,7 @@
 import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
-import { categories, tools, trendingTools } from "@/data/tools";
+import { useMemo, useState } from "react";
+import { catalog, catalogTotalTools } from "@/data/catalog";
+import { trendingTools } from "@/data/tools";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CategoryBentoCard } from "@/components/CategoryBentoCard";
 import { ToolCard } from "@/components/ToolCard";
@@ -10,9 +11,9 @@ export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
       { title: "NeuroHub — Every AI tool in one platform" },
-      { name: "description", content: "Discover, compare, and access the best AI tools for writing, video, audio, image, coding, and productivity. 164+ tools, updated daily." },
+      { name: "description", content: `Discover ${catalogTotalTools()}+ AI tools across 15 categories — writing, video, audio, image, coding, marketing, SEO and more.` },
       { property: "og:title", content: "NeuroHub — Every AI tool in one platform" },
-      { property: "og:description", content: "Discover, compare, and access the best AI tools. 164+ tools, updated daily." },
+      { property: "og:description", content: `${catalogTotalTools()}+ AI tools, curated daily.` },
       { property: "og:url", content: "/" },
     ],
     links: [{ rel: "canonical", href: "/" }],
@@ -24,23 +25,26 @@ function Home() {
   const [q, setQ] = useState("");
   const navigate = useNavigate();
   const trending = trendingTools();
+  const total = useMemo(catalogTotalTools, []);
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault();
-    navigate({ to: "/browse", search: { q: q || undefined } });
+    navigate({ to: "/browse" });
   }
+
+  // Show top 6 categories on home as bento; rest accessible via Browse
+  const featured = catalog.slice(0, 6);
 
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      {/* Hero */}
       <section className="relative">
         <div className="hero-glow absolute inset-0 pointer-events-none" />
         <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-12 text-center">
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-8">
             <Sparkles className="w-3.5 h-3.5" />
-            <span>{tools.length}+ AI Tools · Updated Daily</span>
+            <span>{total}+ AI Tools · {catalog.length} Categories</span>
           </div>
           <h1 className="font-display text-6xl md:text-8xl leading-[1.02] tracking-tight">
             Every AI Tool in
@@ -62,33 +66,34 @@ function Home() {
               placeholder="I'm looking for..."
               className="flex-1 bg-transparent outline-none px-3 py-2 text-sm placeholder:text-muted-foreground"
             />
-            <button
-              type="submit"
+            <Link
+              to="/browse"
               className="bg-primary text-primary-foreground rounded-full px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
             >
-              Search
-            </button>
+              Browse all
+            </Link>
           </form>
         </div>
       </section>
 
-      {/* Category Bento */}
-      <section className="w-full mx-auto max-w-7xl px-6 pb-20">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6 lg:gap-7">
-          {categories.slice(0, 4).map((c) => (
+      <section className="w-full mx-auto max-w-7xl px-6 pb-10">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
+          {featured.map((c) => (
             <CategoryBentoCard key={c.slug} category={c} />
           ))}
         </div>
 
-        <div className="mt-7 grid grid-cols-1 md:grid-cols-2 gap-6 lg:gap-7">
-          {categories.slice(4).map((c) => (
-            <CategoryBentoCard key={c.slug} category={c} />
-          ))}
+        <div className="mt-8 flex justify-center">
+          <Link
+            to="/browse"
+            className="inline-flex items-center gap-2 text-sm font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 rounded-full px-5 py-2.5 transition-colors"
+          >
+            Explore all {catalog.length} categories →
+          </Link>
         </div>
       </section>
 
-      {/* Trending */}
-      <section className="mx-auto max-w-7xl px-6 pb-24">
+      <section className="mx-auto max-w-7xl px-6 pb-24 pt-10">
         <div className="flex items-end justify-between mb-6">
           <div>
             <h2 className="font-display text-3xl md:text-4xl">Trending right now</h2>

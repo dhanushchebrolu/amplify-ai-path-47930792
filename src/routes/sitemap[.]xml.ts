@@ -1,6 +1,7 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { categories, tools } from "@/data/tools";
+import { catalog } from "@/data/catalog";
+import { tools } from "@/data/tools";
 
 const BASE_URL = "";
 
@@ -8,16 +9,19 @@ export const Route = createFileRoute("/sitemap.xml")({
   server: {
     handlers: {
       GET: async () => {
-        const paths = [
+        const paths: { path: string; priority: string; changefreq: string }[] = [
           { path: "/", priority: "1.0", changefreq: "weekly" },
           { path: "/browse", priority: "0.9", changefreq: "daily" },
-          ...categories.map((c) => ({
-            path: `/category/${c.slug}`, priority: "0.8", changefreq: "weekly",
-          })),
-          ...tools.map((t) => ({
-            path: `/tool/${t.slug}`, priority: "0.7", changefreq: "weekly",
-          })),
         ];
+        for (const c of catalog) {
+          paths.push({ path: `/category/${c.slug}`, priority: "0.8", changefreq: "weekly" });
+          for (const s of c.subs) {
+            paths.push({ path: `/category/${c.slug}/${s.slug}`, priority: "0.7", changefreq: "weekly" });
+          }
+        }
+        for (const t of tools) {
+          paths.push({ path: `/tool/${t.slug}`, priority: "0.6", changefreq: "weekly" });
+        }
         const urls = paths.map(
           (p) =>
             `  <url><loc>${BASE_URL}${p.path}</loc><changefreq>${p.changefreq}</changefreq><priority>${p.priority}</priority></url>`,
@@ -29,10 +33,7 @@ export const Route = createFileRoute("/sitemap.xml")({
           `</urlset>`,
         ].join("\n");
         return new Response(xml, {
-          headers: {
-            "Content-Type": "application/xml",
-            "Cache-Control": "public, max-age=3600",
-          },
+          headers: { "Content-Type": "application/xml", "Cache-Control": "public, max-age=3600" },
         });
       },
     },
