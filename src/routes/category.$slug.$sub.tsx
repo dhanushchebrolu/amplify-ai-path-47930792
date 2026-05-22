@@ -53,7 +53,7 @@ export const Route = createFileRoute("/category/$slug/$sub")({
 });
 
 function SubPage() {
-  const { category, sub } = Route.useLoaderData();
+  const { category, sub } = Route.useLoaderData() as { category: CatalogCategory; sub: CatalogSub };
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -63,6 +63,7 @@ function SubPage() {
   }, [sub.tools, q]);
 
   const otherSubs = category.subs.filter((s) => s.slug !== sub.slug);
+
 
   return (
     <div className="min-h-screen flex flex-col">
