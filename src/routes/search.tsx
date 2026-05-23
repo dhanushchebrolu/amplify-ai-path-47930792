@@ -1,18 +1,14 @@
 import { createFileRoute, Link } from "@tanstack/react-router";
-import { zodValidator, fallback } from "@tanstack/zod-adapter";
-import { z } from "zod";
 import { useMemo, useState } from "react";
 import { searchCatalog } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CatalogToolCard } from "@/components/CatalogToolCard";
 import { Search } from "lucide-react";
 
-const searchSchema = z.object({
-  q: fallback(z.string(), "").default(""),
-});
-
 export const Route = createFileRoute("/search")({
-  validateSearch: zodValidator(searchSchema),
+  validateSearch: (input: Record<string, unknown>): { q: string } => ({
+    q: typeof input.q === "string" ? input.q : "",
+  }),
   head: () => ({
     meta: [
       { title: "Search AI Tools — NeuroHub" },
