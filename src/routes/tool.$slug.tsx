@@ -69,7 +69,7 @@ function ToolPage() {
         <div className="text-sm text-muted-foreground mb-6 flex items-center gap-1.5">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <span>/</span>
-          <Link to="/category/$slug" params={{ slug: category.slug }} className="hover:text-foreground">
+          <Link to="/category/$slug" params={{ slug: resolveCatalogSlug(category.slug) }} className="hover:text-foreground">
             {category.name}
           </Link>
           <span>/</span>
@@ -99,7 +99,7 @@ function ToolPage() {
               <span>·</span>
               <Link
                 to="/category/$slug"
-                params={{ slug: category.slug }}
+                params={{ slug: resolveCatalogSlug(category.slug) }}
                 className="hover:text-foreground"
               >
                 {category.name}
