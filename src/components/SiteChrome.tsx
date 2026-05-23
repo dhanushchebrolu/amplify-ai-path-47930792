@@ -1,9 +1,8 @@
 import { Link } from "@tanstack/react-router";
-import { Star, ChevronDown, Sparkles, ScratchOff, Compass } from "lucide-react";
+import { Star, ChevronDown, Sparkles, Eraser, Compass } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 
-// lucide doesn't have ScratchOff — fallback by aliasing
-const ScratchIcon = Sparkles;
+const ScratchIcon = Eraser;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
