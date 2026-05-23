@@ -14,7 +14,11 @@ import { Route as SearchRouteImport } from './routes/search'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
+import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
+import { Route as LearnSpinRouteImport } from './routes/learn.spin'
+import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
+import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -42,9 +46,29 @@ const ToolSlugRoute = ToolSlugRouteImport.update({
   path: '/tool/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnSwipeRoute = LearnSwipeRouteImport.update({
+  id: '/learn/swipe',
+  path: '/learn/swipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnSpinRoute = LearnSpinRouteImport.update({
+  id: '/learn/spin',
+  path: '/learn/spin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnScratchRoute = LearnScratchRouteImport.update({
+  id: '/learn/scratch',
+  path: '/learn/scratch',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
   id: '/category/$slug/',
   path: '/category/$slug/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnTaskIdRoute = LearnTaskIdRouteImport.update({
+  id: '/learn/task/$id',
+  path: '/learn/task/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
@@ -58,8 +82,12 @@ export interface FileRoutesByFullPath {
   '/browse': typeof BrowseRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
+  '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
 }
 export interface FileRoutesByTo {
@@ -67,8 +95,12 @@ export interface FileRoutesByTo {
   '/browse': typeof BrowseRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
+  '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug': typeof CategorySlugIndexRoute
 }
 export interface FileRoutesById {
@@ -77,8 +109,12 @@ export interface FileRoutesById {
   '/browse': typeof BrowseRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
+  '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
 }
 export interface FileRouteTypes {
@@ -88,8 +124,12 @@ export interface FileRouteTypes {
     | '/browse'
     | '/search'
     | '/sitemap.xml'
+    | '/learn/scratch'
+    | '/learn/spin'
+    | '/learn/swipe'
     | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -97,8 +137,12 @@ export interface FileRouteTypes {
     | '/browse'
     | '/search'
     | '/sitemap.xml'
+    | '/learn/scratch'
+    | '/learn/spin'
+    | '/learn/swipe'
     | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug'
   id:
     | '__root__'
@@ -106,8 +150,12 @@ export interface FileRouteTypes {
     | '/browse'
     | '/search'
     | '/sitemap.xml'
+    | '/learn/scratch'
+    | '/learn/spin'
+    | '/learn/swipe'
     | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug/'
   fileRoutesById: FileRoutesById
 }
@@ -116,8 +164,12 @@ export interface RootRouteChildren {
   BrowseRoute: typeof BrowseRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  LearnScratchRoute: typeof LearnScratchRoute
+  LearnSpinRoute: typeof LearnSpinRoute
+  LearnSwipeRoute: typeof LearnSwipeRoute
   ToolSlugRoute: typeof ToolSlugRoute
   CategorySlugSubRoute: typeof CategorySlugSubRoute
+  LearnTaskIdRoute: typeof LearnTaskIdRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
 }
 
@@ -158,11 +210,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof ToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/learn/swipe': {
+      id: '/learn/swipe'
+      path: '/learn/swipe'
+      fullPath: '/learn/swipe'
+      preLoaderRoute: typeof LearnSwipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/spin': {
+      id: '/learn/spin'
+      path: '/learn/spin'
+      fullPath: '/learn/spin'
+      preLoaderRoute: typeof LearnSpinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/scratch': {
+      id: '/learn/scratch'
+      path: '/learn/scratch'
+      fullPath: '/learn/scratch'
+      preLoaderRoute: typeof LearnScratchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/category/$slug/': {
       id: '/category/$slug/'
       path: '/category/$slug'
       fullPath: '/category/$slug/'
       preLoaderRoute: typeof CategorySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/task/$id': {
+      id: '/learn/task/$id'
+      path: '/learn/task/$id'
+      fullPath: '/learn/task/$id'
+      preLoaderRoute: typeof LearnTaskIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/category/$slug/$sub': {
@@ -180,10 +260,24 @@ const rootRouteChildren: RootRouteChildren = {
   BrowseRoute: BrowseRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  LearnScratchRoute: LearnScratchRoute,
+  LearnSpinRoute: LearnSpinRoute,
+  LearnSwipeRoute: LearnSwipeRoute,
   ToolSlugRoute: ToolSlugRoute,
   CategorySlugSubRoute: CategorySlugSubRoute,
+  LearnTaskIdRoute: LearnTaskIdRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
