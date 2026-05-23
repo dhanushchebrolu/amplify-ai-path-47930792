@@ -48,9 +48,9 @@ const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
-  id: '/$sub',
-  path: '/$sub',
-  getParentRoute: () => CategorySlugRoute,
+  id: '/category/$slug/$sub',
+  path: '/category/$slug/$sub',
+  getParentRoute: () => rootRouteImport,
 } as any)
 
 export interface FileRoutesByFullPath {
@@ -117,6 +117,7 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ToolSlugRoute: typeof ToolSlugRoute
+  CategorySlugSubRoute: typeof CategorySlugSubRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
 }
 
@@ -166,10 +167,10 @@ declare module '@tanstack/react-router' {
     }
     '/category/$slug/$sub': {
       id: '/category/$slug/$sub'
-      path: '/$sub'
+      path: '/category/$slug/$sub'
       fullPath: '/category/$slug/$sub'
       preLoaderRoute: typeof CategorySlugSubRouteImport
-      parentRoute: typeof CategorySlugRoute
+      parentRoute: typeof rootRouteImport
     }
   }
 }
@@ -180,18 +181,9 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ToolSlugRoute: ToolSlugRoute,
+  CategorySlugSubRoute: CategorySlugSubRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
