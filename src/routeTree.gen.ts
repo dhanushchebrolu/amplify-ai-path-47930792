@@ -16,11 +16,11 @@ import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
+import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
-import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
-import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
+import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -58,6 +58,11 @@ const ToolSlugRoute = ToolSlugRouteImport.update({
   path: '/tool/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const LearnSwipeRoute = LearnSwipeRouteImport.update({
+  id: '/learn/swipe',
+  path: '/learn/swipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const LearnSpinRoute = LearnSpinRouteImport.update({
   id: '/learn/spin',
   path: '/learn/spin',
@@ -68,19 +73,14 @@ const LearnScratchRoute = LearnScratchRouteImport.update({
   path: '/learn/scratch',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LearnSwipeRoute = LearnSwipeRouteImport.update({
-  id: '/learn/swipe',
-  path: '/learn/swipe',
+const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
+  id: '/category/$slug/',
+  path: '/category/$slug/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const LearnTaskIdRoute = LearnTaskIdRouteImport.update({
   id: '/learn/task/$id',
   path: '/learn/task/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
-  id: '/category/$slug/',
-  path: '/category/$slug/',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
@@ -96,12 +96,12 @@ export interface FileRoutesByFullPath {
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tool/$slug': typeof ToolSlugRoute
-  '/learn/spin': typeof LearnSpinRoute
   '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
-  '/learn/task/$id': typeof LearnTaskIdRoute
+  '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
 }
 export interface FileRoutesByTo {
@@ -111,12 +111,12 @@ export interface FileRoutesByTo {
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tool/$slug': typeof ToolSlugRoute
-  '/learn/spin': typeof LearnSpinRoute
   '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
-  '/learn/task/$id': typeof LearnTaskIdRoute
+  '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug': typeof CategorySlugIndexRoute
 }
 export interface FileRoutesById {
@@ -127,12 +127,12 @@ export interface FileRoutesById {
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
-  '/tool/$slug': typeof ToolSlugRoute
-  '/learn/spin': typeof LearnSpinRoute
   '/learn/scratch': typeof LearnScratchRoute
+  '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
-  '/learn/task/$id': typeof LearnTaskIdRoute
+  '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
+  '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
 }
 export interface FileRouteTypes {
@@ -144,12 +144,12 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
-    | '/tool/$slug'
-    | '/learn/spin'
     | '/learn/scratch'
+    | '/learn/spin'
     | '/learn/swipe'
-    | '/learn/task/$id'
+    | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug/'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -159,12 +159,12 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
-    | '/tool/$slug'
-    | '/learn/spin'
     | '/learn/scratch'
+    | '/learn/spin'
     | '/learn/swipe'
-    | '/learn/task/$id'
+    | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug'
   id:
     | '__root__'
@@ -174,12 +174,12 @@ export interface FileRouteTypes {
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
-    | '/tool/$slug'
-    | '/learn/spin'
     | '/learn/scratch'
+    | '/learn/spin'
     | '/learn/swipe'
-    | '/learn/task/$id'
+    | '/tool/$slug'
     | '/category/$slug/$sub'
+    | '/learn/task/$id'
     | '/category/$slug/'
   fileRoutesById: FileRoutesById
 }
@@ -190,30 +190,108 @@ export interface RootRouteChildren {
   RankingRoute: typeof RankingRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
-  ToolSlugRoute: typeof ToolSlugRoute
-  LearnSpinRoute: typeof LearnSpinRoute
   LearnScratchRoute: typeof LearnScratchRoute
+  LearnSpinRoute: typeof LearnSpinRoute
   LearnSwipeRoute: typeof LearnSwipeRoute
-  LearnTaskIdRoute: typeof LearnTaskIdRoute
+  ToolSlugRoute: typeof ToolSlugRoute
   CategorySlugSubRoute: typeof CategorySlugSubRoute
+  LearnTaskIdRoute: typeof LearnTaskIdRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
 }
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/sitemap.xml': { id: '/sitemap.xml'; path: '/sitemap.xml'; fullPath: '/sitemap.xml'; preLoaderRoute: typeof SitemapDotxmlRouteImport; parentRoute: typeof rootRouteImport }
-    '/search': { id: '/search'; path: '/search'; fullPath: '/search'; preLoaderRoute: typeof SearchRouteImport; parentRoute: typeof rootRouteImport }
-    '/ranking': { id: '/ranking'; path: '/ranking'; fullPath: '/ranking'; preLoaderRoute: typeof RankingRouteImport; parentRoute: typeof rootRouteImport }
-    '/prompts': { id: '/prompts'; path: '/prompts'; fullPath: '/prompts'; preLoaderRoute: typeof PromptsRouteImport; parentRoute: typeof rootRouteImport }
-    '/browse': { id: '/browse'; path: '/browse'; fullPath: '/browse'; preLoaderRoute: typeof BrowseRouteImport; parentRoute: typeof rootRouteImport }
-    '/': { id: '/'; path: '/'; fullPath: '/'; preLoaderRoute: typeof IndexRouteImport; parentRoute: typeof rootRouteImport }
-    '/tool/$slug': { id: '/tool/$slug'; path: '/tool/$slug'; fullPath: '/tool/$slug'; preLoaderRoute: typeof ToolSlugRouteImport; parentRoute: typeof rootRouteImport }
-    '/learn/spin': { id: '/learn/spin'; path: '/learn/spin'; fullPath: '/learn/spin'; preLoaderRoute: typeof LearnSpinRouteImport; parentRoute: typeof rootRouteImport }
-    '/learn/scratch': { id: '/learn/scratch'; path: '/learn/scratch'; fullPath: '/learn/scratch'; preLoaderRoute: typeof LearnScratchRouteImport; parentRoute: typeof rootRouteImport }
-    '/learn/swipe': { id: '/learn/swipe'; path: '/learn/swipe'; fullPath: '/learn/swipe'; preLoaderRoute: typeof LearnSwipeRouteImport; parentRoute: typeof rootRouteImport }
-    '/learn/task/$id': { id: '/learn/task/$id'; path: '/learn/task/$id'; fullPath: '/learn/task/$id'; preLoaderRoute: typeof LearnTaskIdRouteImport; parentRoute: typeof rootRouteImport }
-    '/category/$slug/': { id: '/category/$slug/'; path: '/category/$slug'; fullPath: '/category/$slug/'; preLoaderRoute: typeof CategorySlugIndexRouteImport; parentRoute: typeof rootRouteImport }
-    '/category/$slug/$sub': { id: '/category/$slug/$sub'; path: '/category/$slug/$sub'; fullPath: '/category/$slug/$sub'; preLoaderRoute: typeof CategorySlugSubRouteImport; parentRoute: typeof rootRouteImport }
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/ranking': {
+      id: '/ranking'
+      path: '/ranking'
+      fullPath: '/ranking'
+      preLoaderRoute: typeof RankingRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompts': {
+      id: '/prompts'
+      path: '/prompts'
+      fullPath: '/prompts'
+      preLoaderRoute: typeof PromptsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tool/$slug': {
+      id: '/tool/$slug'
+      path: '/tool/$slug'
+      fullPath: '/tool/$slug'
+      preLoaderRoute: typeof ToolSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/swipe': {
+      id: '/learn/swipe'
+      path: '/learn/swipe'
+      fullPath: '/learn/swipe'
+      preLoaderRoute: typeof LearnSwipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/spin': {
+      id: '/learn/spin'
+      path: '/learn/spin'
+      fullPath: '/learn/spin'
+      preLoaderRoute: typeof LearnSpinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/scratch': {
+      id: '/learn/scratch'
+      path: '/learn/scratch'
+      fullPath: '/learn/scratch'
+      preLoaderRoute: typeof LearnScratchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug/': {
+      id: '/category/$slug/'
+      path: '/category/$slug'
+      fullPath: '/category/$slug/'
+      preLoaderRoute: typeof CategorySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/task/$id': {
+      id: '/learn/task/$id'
+      path: '/learn/task/$id'
+      fullPath: '/learn/task/$id'
+      preLoaderRoute: typeof LearnTaskIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug/$sub': {
+      id: '/category/$slug/$sub'
+      path: '/category/$slug/$sub'
+      fullPath: '/category/$slug/$sub'
+      preLoaderRoute: typeof CategorySlugSubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -224,24 +302,14 @@ const rootRouteChildren: RootRouteChildren = {
   RankingRoute: RankingRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
-  ToolSlugRoute: ToolSlugRoute,
-  LearnSpinRoute: LearnSpinRoute,
   LearnScratchRoute: LearnScratchRoute,
+  LearnSpinRoute: LearnSpinRoute,
   LearnSwipeRoute: LearnSwipeRoute,
-  LearnTaskIdRoute: LearnTaskIdRoute,
+  ToolSlugRoute: ToolSlugRoute,
   CategorySlugSubRoute: CategorySlugSubRoute,
+  LearnTaskIdRoute: LearnTaskIdRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}
