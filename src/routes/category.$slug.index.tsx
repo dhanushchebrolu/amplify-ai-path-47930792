@@ -3,7 +3,7 @@ import { catalog, getCatalogCategory, type CatalogCategory } from "@/data/catalo
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { SubcategoryCard } from "@/components/SubcategoryCard";
 
-export const Route = createFileRoute("/category/$slug")({
+export const Route = createFileRoute("/category/$slug/")({
   loader: ({ params }): { category: CatalogCategory } => {
     const category = getCatalogCategory(params.slug);
     if (!category) throw notFound();

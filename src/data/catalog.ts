@@ -3064,3 +3064,41 @@ export const catalog: CatalogCategory[] = [
 export const getCatalogCategory = (slug: string) => catalog.find(c => c.slug === slug);
 export const getCatalogSub = (catSlug: string, subSlug: string) => getCatalogCategory(catSlug)?.subs.find(s => s.slug === subSlug);
 export const catalogTotalTools = () => catalog.reduce((a,c)=>a+c.subs.reduce((b,s)=>b+s.tools.length,0),0);
+
+// Map legacy short category slugs (writing/coding/etc) to catalog slugs.
+const LEGACY_SLUG_MAP: Record<string, string> = {
+  writing: "ai-writing-tools",
+  image: "ai-image-tools",
+  video: "ai-video-tools",
+  audio: "ai-audio-voice-tools",
+  coding: "ai-coding-developer-tools",
+  productivity: "ai-office-tools",
+  design: "ai-design-ui-ux-tools",
+  marketing: "ai-marketing-tools",
+  seo: "ai-seo-tools",
+  business: "ai-business-tools",
+};
+export const resolveCatalogSlug = (slug: string) => LEGACY_SLUG_MAP[slug] ?? slug;
+
+// Flat search across all tools.
+export interface CatalogSearchHit { tool: CatalogTool; catSlug: string; subSlug: string; subName: string; catShort: string }
+export function searchCatalog(query: string, limit = 50): CatalogSearchHit[] {
+  const q = query.trim().toLowerCase();
+  if (!q) return [];
+  const hits: CatalogSearchHit[] = [];
+  for (const c of catalog) {
+    for (const s of c.subs) {
+      if (s.name.toLowerCase().includes(q)) {
+        for (const t of s.tools) hits.push({ tool: t, catSlug: c.slug, subSlug: s.slug, subName: s.name, catShort: c.short });
+      } else {
+        for (const t of s.tools) {
+          if (t.name.toLowerCase().includes(q)) {
+            hits.push({ tool: t, catSlug: c.slug, subSlug: s.slug, subName: s.name, catShort: c.short });
+          }
+        }
+      }
+      if (hits.length >= limit) return hits.slice(0, limit);
+    }
+  }
+  return hits.slice(0, limit);
+}

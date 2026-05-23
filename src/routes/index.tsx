@@ -29,7 +29,7 @@ function Home() {
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault();
-    navigate({ to: "/browse" });
+    navigate({ to: "/search", search: { q: q.trim() } });
   }
 
   // Show top 6 categories on home as bento; rest accessible via Browse
@@ -66,12 +66,12 @@ function Home() {
               placeholder="I'm looking for..."
               className="flex-1 bg-transparent outline-none px-3 py-2 text-sm placeholder:text-muted-foreground"
             />
-            <Link
-              to="/browse"
+            <button
+              type="submit"
               className="bg-primary text-primary-foreground rounded-full px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
             >
-              Browse all
-            </Link>
+              Search
+            </button>
           </form>
         </div>
       </section>
