@@ -1,5 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { getCategory, getTool, toolsByCategory, type Tool, type Category } from "@/data/tools";
+import { resolveCatalogSlug } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { ToolLogo } from "@/components/ToolLogo";
 import { ToolCard } from "@/components/ToolCard";
