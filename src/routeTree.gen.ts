@@ -10,6 +10,7 @@
 
 import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as SearchRouteImport } from './routes/search'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
@@ -19,6 +20,11 @@ import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$su
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrowseRoute = BrowseRouteImport.update({
@@ -42,14 +48,15 @@ const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
-  id: '/category/$slug/$sub',
-  path: '/category/$slug/$sub',
-  getParentRoute: () => rootRouteImport,
+  id: '/$sub',
+  path: '/$sub',
+  getParentRoute: () => CategorySlugRoute,
 } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
@@ -58,6 +65,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
@@ -67,6 +75,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/browse': typeof BrowseRoute
+  '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
@@ -77,6 +86,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/browse'
+    | '/search'
     | '/sitemap.xml'
     | '/tool/$slug'
     | '/category/$slug/$sub'
@@ -85,6 +95,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/browse'
+    | '/search'
     | '/sitemap.xml'
     | '/tool/$slug'
     | '/category/$slug/$sub'
@@ -93,6 +104,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/browse'
+    | '/search'
     | '/sitemap.xml'
     | '/tool/$slug'
     | '/category/$slug/$sub'
@@ -102,9 +114,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   BrowseRoute: typeof BrowseRoute
+  SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   ToolSlugRoute: typeof ToolSlugRoute
-  CategorySlugSubRoute: typeof CategorySlugSubRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
 }
 
@@ -115,6 +127,13 @@ declare module '@tanstack/react-router' {
       path: '/sitemap.xml'
       fullPath: '/sitemap.xml'
       preLoaderRoute: typeof SitemapDotxmlRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/browse': {
@@ -147,10 +166,10 @@ declare module '@tanstack/react-router' {
     }
     '/category/$slug/$sub': {
       id: '/category/$slug/$sub'
-      path: '/category/$slug/$sub'
+      path: '/$sub'
       fullPath: '/category/$slug/$sub'
       preLoaderRoute: typeof CategorySlugSubRouteImport
-      parentRoute: typeof rootRouteImport
+      parentRoute: typeof CategorySlugRoute
     }
   }
 }
@@ -158,11 +177,21 @@ declare module '@tanstack/react-router' {
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   BrowseRoute: BrowseRoute,
+  SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   ToolSlugRoute: ToolSlugRoute,
-  CategorySlugSubRoute: CategorySlugSubRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
