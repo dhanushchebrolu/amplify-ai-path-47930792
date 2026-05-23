@@ -29,7 +29,7 @@ function Home() {
 
   function submitSearch(e: React.FormEvent) {
     e.preventDefault();
-    navigate({ to: "/browse" });
+    navigate({ to: "/search", search: { q: q.trim() } });
   }
 
   // Show top 6 categories on home as bento; rest accessible via Browse
