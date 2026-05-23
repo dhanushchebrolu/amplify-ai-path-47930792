@@ -13,17 +13,13 @@ const searchSchema = z.object({
 
 export const Route = createFileRoute("/search")({
   validateSearch: zodValidator(searchSchema),
-  head: ({ match }) => {
-    const q = (match.search as { q?: string })?.q ?? "";
-    const title = q ? `Search "${q}" — NeuroHub` : "Search AI Tools — NeuroHub";
-    return {
-      meta: [
-        { title },
-        { name: "description", content: `Search ${q ? `for "${q}" across` : ""} 2,750+ AI tools across 15 categories.` },
-      ],
-      links: [{ rel: "canonical", href: "/search" }],
-    };
-  },
+  head: () => ({
+    meta: [
+      { title: "Search AI Tools — NeuroHub" },
+      { name: "description", content: "Search 2,750+ AI tools across 15 categories." },
+    ],
+    links: [{ rel: "canonical", href: "/search" }],
+  }),
   component: SearchPage,
 });
 
