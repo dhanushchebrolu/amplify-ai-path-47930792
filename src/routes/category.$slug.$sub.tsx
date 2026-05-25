@@ -112,7 +112,7 @@ function SubPage() {
 
             <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {filtered.map((t, i) => (
-                <CatalogToolCard key={`${t.name}-${i}`} tool={t} />
+                <CatalogToolCard key={`${t.name}-${i}`} tool={t} categorySlug={category.slug} subSlug={sub.slug} />
               ))}
             </div>
           </section>
@@ -130,6 +130,7 @@ function SubLink({
     <Link
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: subSlug }}
+      resetScroll={false}
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active

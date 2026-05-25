@@ -50,7 +50,7 @@ function RankingPage() {
           </span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">The Top 100</h1>
           <p className="text-muted-foreground mt-4">
-            Our weekly leaderboard. Tools are ranked by category presence, momentum, and how often they appear across reference workflows.
+            Computed from our editorial catalog: tools are scored by how many sub-categories they appear in, weighted by category leadership. Snapshot updates each week — not live API data, but a real signal of where each tool earns its place across modern AI workflows.
           </p>
         </header>
 
