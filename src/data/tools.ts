@@ -90,7 +90,7 @@ export const tools: Tool[] = [
   // ───────── WRITING ─────────
   { slug: "chatgpt", name: "ChatGPT", category: "writing", tagline: "World's most popular AI assistant",
     description: "OpenAI's flagship assistant for writing, research, coding, and creative tasks. Strong reasoning, large context, native image and voice modes.",
-    pricing: "Freemium", priceFrom: "Free / $20/mo", website: "https://chat.openai.com",
+    pricing: "Freemium", priceFrom: "Free / $20/mo", website: "https://chatgpt.com",
     features: ["GPT-5 reasoning", "Image generation", "Voice mode", "Custom GPTs", "Code interpreter"],
     tags: ["Assistant", "Blog Writing", "Copywriting"], useCases: ["Drafting blog posts", "Research summaries", "Email writing"],
     pros: ["Best-in-class reasoning", "Huge ecosystem"], cons: ["Free tier rate-limited"],

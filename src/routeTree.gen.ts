@@ -22,6 +22,7 @@ import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
 import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
+import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
@@ -88,6 +89,11 @@ const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
   path: '/category/$slug/$sub',
   getParentRoute: () => rootRouteImport,
 } as any)
+const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
+  id: '/howto/$category/$sub/$tool',
+  path: '/howto/$category/$sub/$tool',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -103,6 +109,7 @@ export interface FileRoutesByFullPath {
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
+  '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
@@ -118,6 +125,7 @@ export interface FileRoutesByTo {
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug': typeof CategorySlugIndexRoute
+  '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRoutesById {
   __root__: typeof rootRouteImport
@@ -134,6 +142,7 @@ export interface FileRoutesById {
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
+  '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
@@ -151,6 +160,7 @@ export interface FileRouteTypes {
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/category/$slug/'
+    | '/howto/$category/$sub/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
@@ -166,6 +176,7 @@ export interface FileRouteTypes {
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/category/$slug'
+    | '/howto/$category/$sub/$tool'
   id:
     | '__root__'
     | '/'
@@ -181,6 +192,7 @@ export interface FileRouteTypes {
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/category/$slug/'
+    | '/howto/$category/$sub/$tool'
   fileRoutesById: FileRoutesById
 }
 export interface RootRouteChildren {
@@ -197,6 +209,7 @@ export interface RootRouteChildren {
   CategorySlugSubRoute: typeof CategorySlugSubRoute
   LearnTaskIdRoute: typeof LearnTaskIdRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
+  HowtoCategorySubToolRoute: typeof HowtoCategorySubToolRoute
 }
 
 declare module '@tanstack/react-router' {
@@ -292,6 +305,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugSubRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/howto/$category/$sub/$tool': {
+      id: '/howto/$category/$sub/$tool'
+      path: '/howto/$category/$sub/$tool'
+      fullPath: '/howto/$category/$sub/$tool'
+      preLoaderRoute: typeof HowtoCategorySubToolRouteImport
+      parentRoute: typeof rootRouteImport
+    }
   }
 }
 
@@ -309,6 +329,7 @@ const rootRouteChildren: RootRouteChildren = {
   CategorySlugSubRoute: CategorySlugSubRoute,
   LearnTaskIdRoute: LearnTaskIdRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
+  HowtoCategorySubToolRoute: HowtoCategorySubToolRoute,
 }
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)

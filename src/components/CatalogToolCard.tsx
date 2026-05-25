@@ -1,9 +1,16 @@
 import { useRef } from "react";
 import type { CatalogTool } from "@/data/catalog";
 import { CatalogLogo } from "@/components/CatalogLogo";
-import { ArrowUpRight } from "lucide-react";
+import { ArrowUpRight, Info } from "lucide-react";
+import { Link } from "@tanstack/react-router";
 
-export function CatalogToolCard({ tool }: { tool: CatalogTool }) {
+function toToolSlug(name: string) {
+  return name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+}
+
+export function CatalogToolCard({
+  tool, categorySlug, subSlug,
+}: { tool: CatalogTool; categorySlug?: string; subSlug?: string }) {
   const ref = useRef<HTMLDivElement>(null);
 
   function handleMove(e: React.MouseEvent<HTMLDivElement>) {
@@ -16,6 +23,8 @@ export function CatalogToolCard({ tool }: { tool: CatalogTool }) {
 
   let host = "";
   try { host = tool.website ? new URL(tool.website).hostname.replace(/^www\./, "") : ""; } catch { /* */ }
+
+  const toolSlug = toToolSlug(tool.name);
 
   return (
     <div
@@ -33,12 +42,22 @@ export function CatalogToolCard({ tool }: { tool: CatalogTool }) {
         </div>
       </div>
 
-      <div className="relative mt-auto pt-3 border-t border-border/60 flex items-center justify-end">
+      <div className="relative mt-auto pt-3 border-t border-border/60 flex items-center justify-between gap-2">
+        {categorySlug && subSlug ? (
+          <Link
+            to="/howto/$category/$sub/$tool"
+            params={{ category: categorySlug, sub: subSlug, tool: toolSlug }}
+            className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 rounded-full px-3 py-1.5 transition-colors text-muted-foreground hover:text-foreground"
+            aria-label={`How to use ${tool.name}`}
+          >
+            <Info className="w-3.5 h-3.5" /> How to use
+          </Link>
+        ) : <span />}
         {tool.website ? (
           <a
             href={tool.website}
             target="_blank"
-            rel="noopener sponsored"
+            rel="noopener noreferrer sponsored"
             className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 rounded-full px-3 py-1.5 transition-colors"
           >
             Visit <ArrowUpRight className="w-3 h-3" />

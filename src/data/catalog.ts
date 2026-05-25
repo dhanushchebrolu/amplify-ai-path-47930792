@@ -6,7 +6,7 @@ export interface CatalogCategory { name: string; slug: string; short: string; su
 export const catalog: CatalogCategory[] = [
   { name: "AI Writing Tools", slug: "ai-writing-tools", short: "Writing", subs: [
     { name: "AI Writing Assistants", slug: "ai-writing-assistants", tools: [
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "Grammarly", website: "https://www.grammarly.com" },
       { name: "Claude", website: "https://www.anthropic.com/claude" },
@@ -28,7 +28,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Sudowrite", website: "https://www.sudowrite.com" },
     ] },
     { name: "AI Blog Writing Tools", slug: "ai-blog-writing-tools", tools: [
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "Writesonic", website: "https://writesonic.com" },
       { name: "Scalenut", website: "https://www.scalenut.com" },
@@ -94,7 +94,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Wordtune", website: "https://www.wordtune.com" },
     ] },
     { name: "AI Email Writing Tools", slug: "ai-email-writing-tools", tools: [
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "Copy.ai", website: "https://www.copy.ai" },
       { name: "Writesonic", website: "https://writesonic.com" },
@@ -116,7 +116,7 @@ export const catalog: CatalogCategory[] = [
       { name: "HyperWrite", website: "https://www.hyperwriteai.com" },
     ] },
     { name: "AI Social Media Writing Tools", slug: "ai-social-media-writing-tools", tools: [
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "Copy.ai", website: "https://www.copy.ai" },
       { name: "Writesonic", website: "https://writesonic.com" },
@@ -185,7 +185,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Grammarly", website: "https://www.grammarly.com" },
       { name: "QuillBot", website: "https://quillbot.com" },
       { name: "Scribbr", website: "https://www.scribbr.com" },
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Wordtune", website: "https://www.wordtune.com" },
       { name: "Trinka AI", website: "https://www.trinka.ai" },
       { name: "Paperpal", website: "https://paperpal.com" },
@@ -204,7 +204,7 @@ export const catalog: CatalogCategory[] = [
       { name: "DeepL Write", website: "https://www.deepl.com/write" },
     ] },
     { name: "AI Story & Script Writing Tools", slug: "ai-story-script-writing-tools", tools: [
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Sudowrite", website: "https://www.sudowrite.com" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "NovelAI", website: "https://novelai.net" },
@@ -865,7 +865,7 @@ export const catalog: CatalogCategory[] = [
   ] },
   { name: "AI Chatbots & Assistants", slug: "ai-chatbots-assistants", short: "Chatbots", subs: [
     { name: "AI Chatbot Platforms", slug: "ai-chatbot-platforms", tools: [
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Google Gemini", website: "https://gemini.google.com" },
       { name: "Microsoft Copilot", website: "https://copilot.microsoft.com" },
@@ -887,7 +887,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Zoho SalesIQ", website: "https://www.zoho.com/salesiq" },
     ] },
     { name: "AI Personal Assistant Tools", slug: "ai-personal-assistant-tools", tools: [
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Google Gemini", website: "https://gemini.google.com" },
       { name: "Microsoft Copilot", website: "https://copilot.microsoft.com" },
@@ -975,7 +975,7 @@ export const catalog: CatalogCategory[] = [
       { name: "WATI WhatsApp Chatbot", website: "https://www.wati.io" },
     ] },
     { name: "AI Productivity Assistants", slug: "ai-productivity-assistants", tools: [
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Microsoft Copilot", website: "https://copilot.microsoft.com" },
       { name: "Google Gemini", website: "https://gemini.google.com" },
@@ -998,7 +998,7 @@ export const catalog: CatalogCategory[] = [
     ] },
     { name: "AI Coding Assistants", slug: "ai-coding-assistants", tools: [
       { name: "GitHub Copilot", website: "https://github.com/features/copilot" },
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Google Gemini Code Assist", website: "https://cloud.google.com/gemini/docs/codeassist" },
       { name: "Amazon CodeWhisperer", website: "https://aws.amazon.com/codewhisperer" },
@@ -1019,7 +1019,7 @@ export const catalog: CatalogCategory[] = [
       { name: "JetBrains AI Assistant", website: "https://www.jetbrains.com/ai" },
     ] },
     { name: "AI Writing Assistants", slug: "ai-writing-assistants", tools: [
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Jasper AI", website: "https://www.jasper.ai" },
       { name: "Writesonic", website: "https://writesonic.com" },
@@ -1042,7 +1042,7 @@ export const catalog: CatalogCategory[] = [
     ] },
     { name: "AI Research Assistants", slug: "ai-research-assistants", tools: [
       { name: "Perplexity AI", website: "https://www.perplexity.ai" },
-      { name: "ChatGPT (OpenAI)", website: "https://chat.openai.com" },
+      { name: "ChatGPT (OpenAI)", website: "https://chatgpt.com" },
       { name: "Claude (Anthropic)", website: "https://claude.ai" },
       { name: "Elicit", website: "https://elicit.org" },
       { name: "Consensus", website: "https://consensus.app" },
@@ -1428,7 +1428,7 @@ export const catalog: CatalogCategory[] = [
   { name: "AI Coding & Developer Tools", slug: "ai-coding-developer-tools", short: "Coding", subs: [
     { name: "AI Coding Tools", slug: "ai-coding-tools", tools: [
       { name: "GitHub Copilot", website: "https://github.com/features/copilot" },
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Claude", website: "https://claude.ai" },
       { name: "Amazon CodeWhisperer", website: "https://aws.amazon.com/codewhisperer" },
       { name: "Tabnine", website: "https://www.tabnine.com" },
@@ -2311,7 +2311,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Textio", website: "https://textio.com" },
       { name: "AI Cover Letter Generator", website: "https://coverletterai.com" },
       { name: "ResumAI Cover Letter", website: "https://resumai.com" },
-      { name: "OpenAI ChatGPT", website: "https://chat.openai.com" },
+      { name: "OpenAI ChatGPT", website: "https://chatgpt.com" },
       { name: "JobHero", website: "https://www.jobhero.com" },
       { name: "Novoresume Cover Letter", website: "https://novoresume.com" },
       { name: "CV Compiler Cover Letter", website: "https://cvcompiler.com" },
@@ -2786,7 +2786,7 @@ export const catalog: CatalogCategory[] = [
       { name: "Jasper", website: "https://www.jasper.ai" },
       { name: "Copy.ai", website: "https://www.copy.ai" },
       { name: "Writesonic", website: "https://writesonic.com" },
-      { name: "ChatGPT", website: "https://chat.openai.com" },
+      { name: "ChatGPT", website: "https://chatgpt.com" },
       { name: "Helium 10 Scribbles", website: "https://www.helium10.com" },
       { name: "AMZ Listing Optimizer", website: "https://amzlistingoptimizer.com" },
       { name: "Canva", website: "https://www.canva.com" },
