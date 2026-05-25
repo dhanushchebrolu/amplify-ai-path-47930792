@@ -56,7 +56,11 @@ function TaskPage() {
         <nav className="text-sm text-muted-foreground flex items-center gap-2">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <span>/</span>
-          <Link to="/learn/spin" className="hover:text-foreground">Learn New</Link>
+          {typeof document !== "undefined" && document.referrer.includes("/prompts") ? (
+            <Link to="/prompts" className="hover:text-foreground">Prompts</Link>
+          ) : (
+            <Link to="/learn/spin" className="hover:text-foreground">Learn New</Link>
+          )}
           <span>/</span>
           <span className="text-foreground">{task.title}</span>
         </nav>
