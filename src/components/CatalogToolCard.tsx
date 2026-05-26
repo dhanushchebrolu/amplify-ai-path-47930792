@@ -50,7 +50,7 @@ export function CatalogToolCard({
             className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 rounded-full px-3 py-1.5 transition-colors text-muted-foreground hover:text-foreground"
             aria-label={`How to use ${tool.name}`}
           >
-            <Info className="w-3.5 h-3.5" /> How to use
+            <Info className="w-3.5 h-3.5" /> Full guide
           </Link>
         ) : <span />}
         {tool.website ? (
