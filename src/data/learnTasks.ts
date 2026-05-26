@@ -16,9 +16,10 @@ export interface LearnTask {
   cover: string;
 }
 
-// Unsplash topic-matched covers (free, hot-linkable). Picsum fallback for uniqueness.
-const cover = (q: string) => `https://source.unsplash.com/featured/800x800/?${encodeURIComponent(q)}`;
-const refImg = (q: string) => `https://source.unsplash.com/featured/1200x800/?${encodeURIComponent(q)}`;
+// source.unsplash.com was deprecated — use Picsum (deterministic by seed) for reliable hot-linkable imagery.
+const slug = (q: string) => q.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
+const cover = (q: string) => `https://picsum.photos/seed/${slug(q)}-cover/800/800`;
+const refImg = (q: string) => `https://picsum.photos/seed/${slug(q)}-ref/1200/800`;
 
 export const learnTasks: LearnTask[] = [
   // ───────── Original 12 ─────────
