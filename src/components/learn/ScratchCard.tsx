@@ -145,9 +145,9 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
           ref={canvasRef}
           className="absolute inset-0 w-full h-full touch-none"
           style={{ opacity: revealed ? 0 : 1, transition: "opacity 0.4s ease", cursor: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='24'><rect x='1' y='1' width='38' height='22' rx='4' fill='%23f5e9c8' stroke='%23000' stroke-width='1.5'/></svg>\") 20 12, crosshair" }}
-          onPointerDown={(e) => { (e.target as HTMLElement).setPointerCapture(e.pointerId); drawing.current = true; lastPt.current = pos(e); eraseAt(lastPt.current); playScratch(); }}
-          onPointerUp={() => { drawing.current = false; lastPt.current = null; }}
-          onPointerLeave={() => { drawing.current = false; lastPt.current = null; }}
+          onPointerDown={(e) => { (e.target as HTMLElement).setPointerCapture(e.pointerId); drawing.current = true; lastPt.current = pos(e); eraseAt(lastPt.current); scratchSound.start(); }}
+          onPointerUp={() => { drawing.current = false; lastPt.current = null; scratchSound.stop(); }}
+          onPointerLeave={() => { drawing.current = false; lastPt.current = null; scratchSound.stop(); }}
           onPointerMove={scratch}
         />
       </div>
