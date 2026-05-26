@@ -16,9 +16,11 @@ export interface LearnTask {
   cover: string;
 }
 
-// Unsplash topic-matched covers (free, hot-linkable). Picsum fallback for uniqueness.
-const cover = (q: string) => `https://source.unsplash.com/featured/800x800/?${encodeURIComponent(q)}`;
-const refImg = (q: string) => `https://source.unsplash.com/featured/1200x800/?${encodeURIComponent(q)}`;
+// source.unsplash.com was deprecated — use LoremFlickr for topic-matched hot-linkable imagery (with Picsum lock fallback for determinism).
+const tag = (q: string) => q.split(",").map(s => s.trim()).filter(Boolean).join(",");
+const cover = (q: string) => `https://loremflickr.com/800/800/${encodeURIComponent(tag(q))}?lock=${Math.abs(hash(q))}`;
+const refImg = (q: string) => `https://loremflickr.com/1200/800/${encodeURIComponent(tag(q))}?lock=${Math.abs(hash(q + "-ref"))}`;
+function hash(s: string) { let h = 0; for (let i = 0; i < s.length; i++) h = ((h << 5) - h + s.charCodeAt(i)) | 0; return h; }
 
 export const learnTasks: LearnTask[] = [
   // ───────── Original 12 ─────────
