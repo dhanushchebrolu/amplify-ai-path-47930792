@@ -114,7 +114,7 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
       eraseAt({ x: last.x + (dx * i) / steps, y: last.y + (dy * i) / steps });
     }
     lastPt.current = p;
-    playScratch();
+    scratchSound.start();
 
     if (Math.random() < 0.08) {
       const c = canvasRef.current!;
