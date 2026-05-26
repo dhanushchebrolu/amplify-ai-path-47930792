@@ -2,33 +2,34 @@ import { useEffect, useRef, useState } from "react";
 import type { LearnTask } from "@/data/learnTasks";
 import { Sparkles } from "lucide-react";
 
-// Tiny WebAudio "scratch" noise burst — no asset needed.
+// Real scratch sample — loops while user is scratching.
 function useScratchSound() {
-  const ctxRef = useRef<AudioContext | null>(null);
-  const lastRef = useRef(0);
-  function play() {
-    const now = performance.now();
-    if (now - lastRef.current < 60) return; // throttle
-    lastRef.current = now;
-    try {
-      if (!ctxRef.current) ctxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const ctx = ctxRef.current;
-      const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.35;
-      const src = ctx.createBufferSource();
-      src.buffer = buffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = "highpass";
-      filter.frequency.value = 1800;
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.18, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      src.connect(filter).connect(gain).connect(ctx.destination);
-      src.start();
-    } catch { /* ignore */ }
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playingRef = useRef(false);
+
+  function ensure() {
+    if (!audioRef.current) {
+      const a = new Audio("/sounds/scratch.mp3");
+      a.loop = true;
+      a.volume = 0.6;
+      audioRef.current = a;
+    }
+    return audioRef.current;
   }
-  return play;
+  function start() {
+    const a = ensure();
+    if (playingRef.current) return;
+    playingRef.current = true;
+    a.currentTime = 0;
+    a.play().catch(() => {});
+  }
+  function stop() {
+    if (!playingRef.current) return;
+    playingRef.current = false;
+    const a = audioRef.current;
+    if (a) { a.pause(); a.currentTime = 0; }
+  }
+  return { start, stop };
 }
 
 const ERASE_W = 70;
