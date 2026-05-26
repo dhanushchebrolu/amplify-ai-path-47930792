@@ -41,7 +41,7 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
   const [progress, setProgress] = useState(0);
   const drawing = useRef(false);
   const lastPt = useRef<{ x: number; y: number } | null>(null);
-  const playScratch = useScratchSound();
+  const scratchSound = useScratchSound();
 
   useEffect(() => {
     const c = canvasRef.current;
