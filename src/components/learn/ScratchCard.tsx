@@ -2,33 +2,34 @@ import { useEffect, useRef, useState } from "react";
 import type { LearnTask } from "@/data/learnTasks";
 import { Sparkles } from "lucide-react";
 
-// Tiny WebAudio "scratch" noise burst — no asset needed.
+// Real scratch sample — loops while user is scratching.
 function useScratchSound() {
-  const ctxRef = useRef<AudioContext | null>(null);
-  const lastRef = useRef(0);
-  function play() {
-    const now = performance.now();
-    if (now - lastRef.current < 60) return; // throttle
-    lastRef.current = now;
-    try {
-      if (!ctxRef.current) ctxRef.current = new (window.AudioContext || (window as any).webkitAudioContext)();
-      const ctx = ctxRef.current;
-      const buffer = ctx.createBuffer(1, ctx.sampleRate * 0.08, ctx.sampleRate);
-      const data = buffer.getChannelData(0);
-      for (let i = 0; i < data.length; i++) data[i] = (Math.random() * 2 - 1) * 0.35;
-      const src = ctx.createBufferSource();
-      src.buffer = buffer;
-      const filter = ctx.createBiquadFilter();
-      filter.type = "highpass";
-      filter.frequency.value = 1800;
-      const gain = ctx.createGain();
-      gain.gain.setValueAtTime(0.18, ctx.currentTime);
-      gain.gain.exponentialRampToValueAtTime(0.001, ctx.currentTime + 0.08);
-      src.connect(filter).connect(gain).connect(ctx.destination);
-      src.start();
-    } catch { /* ignore */ }
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+  const playingRef = useRef(false);
+
+  function ensure() {
+    if (!audioRef.current) {
+      const a = new Audio("/sounds/scratch.mp3");
+      a.loop = true;
+      a.volume = 0.6;
+      audioRef.current = a;
+    }
+    return audioRef.current;
   }
-  return play;
+  function start() {
+    const a = ensure();
+    if (playingRef.current) return;
+    playingRef.current = true;
+    a.currentTime = 0;
+    a.play().catch(() => {});
+  }
+  function stop() {
+    if (!playingRef.current) return;
+    playingRef.current = false;
+    const a = audioRef.current;
+    if (a) { a.pause(); a.currentTime = 0; }
+  }
+  return { start, stop };
 }
 
 const ERASE_W = 70;
@@ -40,7 +41,7 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
   const [progress, setProgress] = useState(0);
   const drawing = useRef(false);
   const lastPt = useRef<{ x: number; y: number } | null>(null);
-  const playScratch = useScratchSound();
+  const scratchSound = useScratchSound();
 
   useEffect(() => {
     const c = canvasRef.current;
@@ -113,7 +114,7 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
       eraseAt({ x: last.x + (dx * i) / steps, y: last.y + (dy * i) / steps });
     }
     lastPt.current = p;
-    playScratch();
+    scratchSound.start();
 
     if (Math.random() < 0.08) {
       const c = canvasRef.current!;
@@ -144,9 +145,9 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
           ref={canvasRef}
           className="absolute inset-0 w-full h-full touch-none"
           style={{ opacity: revealed ? 0 : 1, transition: "opacity 0.4s ease", cursor: "url(\"data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='40' height='24'><rect x='1' y='1' width='38' height='22' rx='4' fill='%23f5e9c8' stroke='%23000' stroke-width='1.5'/></svg>\") 20 12, crosshair" }}
-          onPointerDown={(e) => { (e.target as HTMLElement).setPointerCapture(e.pointerId); drawing.current = true; lastPt.current = pos(e); eraseAt(lastPt.current); playScratch(); }}
-          onPointerUp={() => { drawing.current = false; lastPt.current = null; }}
-          onPointerLeave={() => { drawing.current = false; lastPt.current = null; }}
+          onPointerDown={(e) => { (e.target as HTMLElement).setPointerCapture(e.pointerId); drawing.current = true; lastPt.current = pos(e); eraseAt(lastPt.current); scratchSound.start(); }}
+          onPointerUp={() => { drawing.current = false; lastPt.current = null; scratchSound.stop(); }}
+          onPointerLeave={() => { drawing.current = false; lastPt.current = null; scratchSound.stop(); }}
           onPointerMove={scratch}
         />
       </div>
