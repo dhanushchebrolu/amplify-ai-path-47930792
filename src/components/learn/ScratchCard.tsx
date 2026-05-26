@@ -153,13 +153,24 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
       <div className="mt-4 h-1.5 rounded-full bg-white/5 overflow-hidden">
         <div className="h-full bg-primary transition-all" style={{ width: `${Math.min(100, progress * 200)}%` }} />
       </div>
-      <div className="mt-6 flex gap-3 justify-center">
+      <div className="mt-6 flex gap-3 justify-center flex-wrap">
         <button onClick={onNext} className="px-5 py-2.5 rounded-full border border-white/10 text-sm hover:border-white/25">
           New card
         </button>
+        {!revealed && (
+          <button
+            onClick={() => {
+              const c = canvasRef.current; if (c) c.getContext("2d")!.clearRect(0, 0, c.width, c.height);
+              setRevealed(true);
+            }}
+            className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-sm font-medium"
+          >
+            Reveal now
+          </button>
+        )}
         {revealed && (
           <button onClick={onReveal} className="px-5 py-2.5 rounded-full bg-primary text-primary-foreground text-sm font-medium inline-flex items-center gap-2">
-            <Sparkles className="w-4 h-4" /> Open task
+            <Sparkles className="w-4 h-4" /> Start task
           </button>
         )}
       </div>
