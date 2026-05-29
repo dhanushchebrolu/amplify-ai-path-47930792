@@ -2,13 +2,15 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { ImageField } from "./ImageField";
 
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps";
+  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
   options?: string[];
   required?: boolean;
+  imageFolder?: string;
 }
 
 export function CrudPage<T extends { id?: string }>({
@@ -85,8 +87,17 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
         <div className="space-y-3">
           {fields.map((f) => (
             <div key={f.name}>
-              <label className="text-xs text-muted-foreground">{f.label}{f.required && " *"}</label>
-              {f.type === "textarea" ? (
+              {f.type !== "image" && f.type !== "boolean" && (
+                <label className="text-xs text-muted-foreground">{f.label}{f.required && " *"}</label>
+              )}
+              {f.type === "image" ? (
+                <ImageField value={form[f.name]} onChange={(v) => set(f.name, v)} folder={f.imageFolder ?? "misc"} label={f.label} />
+              ) : f.type === "boolean" ? (
+                <label className="inline-flex items-center gap-2 mt-1 cursor-pointer">
+                  <input type="checkbox" checked={!!form[f.name]} onChange={(e) => set(f.name, e.target.checked)} className="w-4 h-4" />
+                  <span className="text-sm">{f.label}</span>
+                </label>
+              ) : f.type === "textarea" ? (
                 <textarea rows={4} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
               ) : f.type === "select" ? (

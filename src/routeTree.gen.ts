@@ -13,13 +13,17 @@ import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RankingRouteImport } from './routes/ranking'
 import { Route as PromptsRouteImport } from './routes/prompts'
+import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as BooksRouteImport } from './routes/books'
+import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
 import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
@@ -28,6 +32,10 @@ import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$su
 import { Route as AdminAdminToolsRouteImport } from './routes/_admin.admin.tools'
 import { Route as AdminAdminPromptsRouteImport } from './routes/_admin.admin.prompts'
 import { Route as AdminAdminLearnTasksRouteImport } from './routes/_admin.admin.learn-tasks'
+import { Route as AdminAdminCoursesRouteImport } from './routes/_admin.admin.courses'
+import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
+import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
+import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
 import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
@@ -50,9 +58,24 @@ const PromptsRoute = PromptsRouteImport.update({
   path: '/prompts',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CoursesRoute = CoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BrowseRoute = BrowseRouteImport.update({
   id: '/browse',
   path: '/browse',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BooksRoute = BooksRouteImport.update({
+  id: '/books',
+  path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogRoute = BlogRouteImport.update({
+  id: '/blog',
+  path: '/blog',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -83,6 +106,11 @@ const LearnScratchRoute = LearnScratchRouteImport.update({
   id: '/learn/scratch',
   path: '/learn/scratch',
   getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/$slug',
+  path: '/$slug',
+  getParentRoute: () => BlogRoute,
 } as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
@@ -124,6 +152,26 @@ const AdminAdminLearnTasksRoute = AdminAdminLearnTasksRouteImport.update({
   path: '/admin/learn-tasks',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminCoursesRoute = AdminAdminCoursesRouteImport.update({
+  id: '/admin/courses',
+  path: '/admin/courses',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBooksRoute = AdminAdminBooksRouteImport.update({
+  id: '/admin/books',
+  path: '/admin/books',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBlogRoute = AdminAdminBlogRouteImport.update({
+  id: '/admin/blog',
+  path: '/admin/blog',
+  getParentRoute: () => AdminRoute,
+} as any)
 const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
   id: '/howto/$category/$sub/$tool',
   path: '/howto/$category/$sub/$tool',
@@ -132,16 +180,24 @@ const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/courses': typeof CoursesRoute
   '/prompts': typeof PromptsRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/admin/blog': typeof AdminAdminBlogRoute
+  '/admin/books': typeof AdminAdminBooksRoute
+  '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/admin/prompts': typeof AdminAdminPromptsRoute
   '/admin/tools': typeof AdminAdminToolsRoute
@@ -153,16 +209,24 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/blog': typeof BlogRouteWithChildren
+  '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/courses': typeof CoursesRoute
   '/prompts': typeof PromptsRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/admin/blog': typeof AdminAdminBlogRoute
+  '/admin/books': typeof AdminAdminBooksRoute
+  '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/admin/prompts': typeof AdminAdminPromptsRoute
   '/admin/tools': typeof AdminAdminToolsRoute
@@ -176,16 +240,24 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
+  '/blog': typeof BlogRouteWithChildren
+  '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/courses': typeof CoursesRoute
   '/prompts': typeof PromptsRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/admin/login': typeof AdminLoginRoute
+  '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/_admin/admin/blog': typeof AdminAdminBlogRoute
+  '/_admin/admin/books': typeof AdminAdminBooksRoute
+  '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
+  '/_admin/admin/courses': typeof AdminAdminCoursesRoute
   '/_admin/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/_admin/admin/prompts': typeof AdminAdminPromptsRoute
   '/_admin/admin/tools': typeof AdminAdminToolsRoute
@@ -199,16 +271,24 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/blog'
+    | '/books'
     | '/browse'
+    | '/courses'
     | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/tool/$slug'
+    | '/admin/blog'
+    | '/admin/books'
+    | '/admin/categories'
+    | '/admin/courses'
     | '/admin/learn-tasks'
     | '/admin/prompts'
     | '/admin/tools'
@@ -220,16 +300,24 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/blog'
+    | '/books'
     | '/browse'
+    | '/courses'
     | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/tool/$slug'
+    | '/admin/blog'
+    | '/admin/books'
+    | '/admin/categories'
+    | '/admin/courses'
     | '/admin/learn-tasks'
     | '/admin/prompts'
     | '/admin/tools'
@@ -242,16 +330,24 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_admin'
+    | '/blog'
+    | '/books'
     | '/browse'
+    | '/courses'
     | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
     | '/admin/login'
+    | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/tool/$slug'
+    | '/_admin/admin/blog'
+    | '/_admin/admin/books'
+    | '/_admin/admin/categories'
+    | '/_admin/admin/courses'
     | '/_admin/admin/learn-tasks'
     | '/_admin/admin/prompts'
     | '/_admin/admin/tools'
@@ -265,7 +361,10 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  BlogRoute: typeof BlogRouteWithChildren
+  BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
+  CoursesRoute: typeof CoursesRoute
   PromptsRoute: typeof PromptsRoute
   RankingRoute: typeof RankingRoute
   SearchRoute: typeof SearchRoute
@@ -311,11 +410,32 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromptsRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/courses': {
+      id: '/courses'
+      path: '/courses'
+      fullPath: '/courses'
+      preLoaderRoute: typeof CoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/browse': {
       id: '/browse'
       path: '/browse'
       fullPath: '/browse'
       preLoaderRoute: typeof BrowseRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/books': {
+      id: '/books'
+      path: '/books'
+      fullPath: '/books'
+      preLoaderRoute: typeof BooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog': {
+      id: '/blog'
+      path: '/blog'
+      fullPath: '/blog'
+      preLoaderRoute: typeof BlogRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin': {
@@ -359,6 +479,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/learn/scratch'
       preLoaderRoute: typeof LearnScratchRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof BlogRoute
     }
     '/admin/login': {
       id: '/admin/login'
@@ -416,6 +543,34 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminLearnTasksRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/courses': {
+      id: '/_admin/admin/courses'
+      path: '/admin/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminAdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/categories': {
+      id: '/_admin/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminAdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/books': {
+      id: '/_admin/admin/books'
+      path: '/admin/books'
+      fullPath: '/admin/books'
+      preLoaderRoute: typeof AdminAdminBooksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/blog': {
+      id: '/_admin/admin/blog'
+      path: '/admin/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AdminAdminBlogRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/howto/$category/$sub/$tool': {
       id: '/howto/$category/$sub/$tool'
       path: '/howto/$category/$sub/$tool'
@@ -427,6 +582,10 @@ declare module '@tanstack/react-router' {
 }
 
 interface AdminRouteChildren {
+  AdminAdminBlogRoute: typeof AdminAdminBlogRoute
+  AdminAdminBooksRoute: typeof AdminAdminBooksRoute
+  AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
+  AdminAdminCoursesRoute: typeof AdminAdminCoursesRoute
   AdminAdminLearnTasksRoute: typeof AdminAdminLearnTasksRoute
   AdminAdminPromptsRoute: typeof AdminAdminPromptsRoute
   AdminAdminToolsRoute: typeof AdminAdminToolsRoute
@@ -434,6 +593,10 @@ interface AdminRouteChildren {
 }
 
 const AdminRouteChildren: AdminRouteChildren = {
+  AdminAdminBlogRoute: AdminAdminBlogRoute,
+  AdminAdminBooksRoute: AdminAdminBooksRoute,
+  AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
+  AdminAdminCoursesRoute: AdminAdminCoursesRoute,
   AdminAdminLearnTasksRoute: AdminAdminLearnTasksRoute,
   AdminAdminPromptsRoute: AdminAdminPromptsRoute,
   AdminAdminToolsRoute: AdminAdminToolsRoute,
@@ -442,10 +605,23 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
+interface BlogRouteChildren {
+  BlogSlugRoute: typeof BlogSlugRoute
+}
+
+const BlogRouteChildren: BlogRouteChildren = {
+  BlogSlugRoute: BlogSlugRoute,
+}
+
+const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  BlogRoute: BlogRouteWithChildren,
+  BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
+  CoursesRoute: CoursesRoute,
   PromptsRoute: PromptsRoute,
   RankingRoute: RankingRoute,
   SearchRoute: SearchRoute,
@@ -463,13 +639,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

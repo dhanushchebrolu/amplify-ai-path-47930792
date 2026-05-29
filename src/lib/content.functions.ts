@@ -27,6 +27,7 @@ const promptSchema = z.object({
   category: z.string().max(60).nullable().optional(),
   tool_name: z.string().max(120).nullable().optional(),
   tool_url: z.string().url().max(500).nullable().optional(),
+  image_url: z.string().url().max(500).nullable().optional(),
   tags: z.array(z.string().max(60)).max(20).default([]),
   sort_order: z.number().int().default(0),
 });
@@ -50,50 +51,137 @@ const learnTaskSchema = z.object({
   sort_order: z.number().int().default(0),
 });
 
+const categorySchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/),
+  name: z.string().min(1).max(200),
+  description: z.string().max(2000).nullable().optional(),
+  sort_order: z.number().int().default(0),
+});
+
+const subcategorySchema = z.object({
+  id: z.string().uuid().optional(),
+  category_slug: z.string().min(1).max(120),
+  slug: z.string().min(1).max(120).regex(/^[a-z0-9-]+$/),
+  name: z.string().min(1).max(200),
+  description: z.string().max(2000).nullable().optional(),
+  sort_order: z.number().int().default(0),
+});
+
+const blogSchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(1).max(160).regex(/^[a-z0-9-]+$/),
+  title: z.string().min(1).max(240),
+  excerpt: z.string().max(500).nullable().optional(),
+  body: z.string().max(60000).default(""),
+  cover_url: z.string().url().max(500).nullable().optional(),
+  tags: z.array(z.string().max(60)).max(20).default([]),
+  published: z.boolean().default(false),
+  published_at: z.string().nullable().optional(),
+  sort_order: z.number().int().default(0),
+});
+
+const bookSchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(1).max(160).regex(/^[a-z0-9-]+$/),
+  title: z.string().min(1).max(240),
+  author: z.string().max(200).nullable().optional(),
+  description: z.string().max(4000).nullable().optional(),
+  cover_url: z.string().url().max(500).nullable().optional(),
+  affiliate_url: z.string().url().max(500),
+  price_label: z.string().max(60).nullable().optional(),
+  tags: z.array(z.string().max(60)).max(20).default([]),
+  featured: z.boolean().default(false),
+  sort_order: z.number().int().default(0),
+});
+
+const courseSchema = z.object({
+  id: z.string().uuid().optional(),
+  slug: z.string().min(1).max(160).regex(/^[a-z0-9-]+$/),
+  title: z.string().min(1).max(240),
+  provider: z.string().max(200).nullable().optional(),
+  description: z.string().max(4000).nullable().optional(),
+  cover_url: z.string().url().max(500).nullable().optional(),
+  affiliate_url: z.string().url().max(500),
+  price_label: z.string().max(60).nullable().optional(),
+  level: z.string().max(60).nullable().optional(),
+  duration: z.string().max(60).nullable().optional(),
+  tags: z.array(z.string().max(60)).max(20).default([]),
+  featured: z.boolean().default(false),
+  sort_order: z.number().int().default(0),
+});
+
 const hideSchema = z.object({
   kind: z.enum(["tool", "learn_task", "prompt"]),
   ref_key: z.string().min(1).max(200),
 });
 
-// ─── Admin guard helper (called from inside server fns) ───────────────
-async function ensureAdmin(context: { supabase: ReturnType<typeof supabaseAdmin.from> extends never ? never : any; userId: string }) {
-  const { data, error } = await context.supabase.rpc("has_role", {
-    _user_id: context.userId,
-    _role: "admin",
-  });
+// ─── Admin guard helper ───────────────────────────────────────────────
+async function ensureAdmin(ctx: { supabase: any; userId: string }) {
+  const { data, error } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
   if (error || !data) throw new Error("Forbidden: admin role required");
 }
 
+// ─── Generic public list ──────────────────────────────────────────────
+function listFactory(table: string, opts?: { filter?: (q: any) => any }) {
+  return createServerFn({ method: "GET" }).handler(async () => {
+    let q: any = (supabaseAdmin as any).from(table).select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false });
+    if (opts?.filter) q = opts.filter(q);
+    const { data, error } = await q;
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+}
+
+// ─── Generic upsert/delete factory ────────────────────────────────────
+function upsertFactory<T extends z.ZodTypeAny>(table: string, schema: T) {
+  return createServerFn({ method: "POST" })
+    .middleware([requireSupabaseAuth])
+    .inputValidator((d: unknown) => schema.parse(d))
+    .handler(async ({ data, context }: any) => {
+      await ensureAdmin({ supabase: context.supabase, userId: context.userId });
+      const { id, ...rest } = data as any;
+      if (id) {
+        const { error } = await context.supabase.from(table).update(rest).eq("id", id);
+        if (error) throw new Error(error.message);
+        return { id };
+      }
+      const { data: created, error } = await context.supabase.from(table).insert(rest).select("id").single();
+      if (error) throw new Error(error.message);
+      return { id: created!.id };
+    });
+}
+
+function deleteFactory(table: string) {
+  return createServerFn({ method: "POST" })
+    .middleware([requireSupabaseAuth])
+    .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+    .handler(async ({ data, context }) => {
+      await ensureAdmin({ supabase: context.supabase, userId: context.userId });
+      const { error } = await (context.supabase as any).from(table).delete().eq("id", data.id);
+      if (error) throw new Error(error.message);
+      return { ok: true };
+    });
+}
+
 // ─── PUBLIC READS ─────────────────────────────────────────────────────
-export const listTools = createServerFn({ method: "GET" }).handler(async () => {
-  const { data, error } = await supabaseAdmin
-    .from("tools")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw new Error(error.message);
-  return data ?? [];
-});
+export const listTools = listFactory("tools");
+export const listPrompts = listFactory("prompts");
+export const listLearnTasks = listFactory("learn_tasks");
+export const listCategories = listFactory("categories");
+export const listSubcategories = listFactory("subcategories");
+export const listBooks = listFactory("books");
+export const listCourses = listFactory("courses");
+export const listBlogPosts = listFactory("blog_posts", { filter: (q) => q.eq("published", true).order("published_at", { ascending: false }) });
+export const listAllBlogPosts = listFactory("blog_posts"); // admin
 
-export const listPrompts = createServerFn({ method: "GET" }).handler(async () => {
-  const { data, error } = await supabaseAdmin
-    .from("prompts")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw new Error(error.message);
-  return data ?? [];
-});
-
-export const listLearnTasks = createServerFn({ method: "GET" }).handler(async () => {
-  const { data, error } = await supabaseAdmin
-    .from("learn_tasks")
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (error) throw new Error(error.message);
-  return data ?? [];
-});
+export const getBlogPost = createServerFn({ method: "GET" })
+  .inputValidator((d: unknown) => z.object({ slug: z.string() }).parse(d))
+  .handler(async ({ data }) => {
+    const { data: post, error } = await supabaseAdmin.from("blog_posts").select("*").eq("slug", data.slug).eq("published", true).maybeSingle();
+    if (error) throw new Error(error.message);
+    return post;
+  });
 
 export const listHiddenItems = createServerFn({ method: "GET" }).handler(async () => {
   const { data, error } = await supabaseAdmin.from("hidden_items").select("kind, ref_key");
@@ -110,86 +198,30 @@ export const checkAdmin = createServerFn({ method: "GET" })
     return { isAdmin: !!data, userId };
   });
 
-// ─── ADMIN: TOOLS ─────────────────────────────────────────────────────
-export const upsertTool = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => toolSchema.parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { id, ...rest } = data;
-    if (id) {
-      const { error } = await context.supabase.from("tools").update(rest).eq("id", id);
-      if (error) throw new Error(error.message);
-      return { id };
-    }
-    const { data: created, error } = await context.supabase.from("tools").insert(rest).select("id").single();
-    if (error) throw new Error(error.message);
-    return { id: created!.id };
-  });
+// ─── ADMIN write fns ──────────────────────────────────────────────────
+export const upsertTool = upsertFactory("tools", toolSchema);
+export const deleteTool = deleteFactory("tools");
 
-export const deleteTool = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("tools").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { ok: true };
-  });
+export const upsertPrompt = upsertFactory("prompts", promptSchema);
+export const deletePrompt = deleteFactory("prompts");
 
-// ─── ADMIN: PROMPTS ───────────────────────────────────────────────────
-export const upsertPrompt = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => promptSchema.parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { id, ...rest } = data;
-    if (id) {
-      const { error } = await context.supabase.from("prompts").update(rest).eq("id", id);
-      if (error) throw new Error(error.message);
-      return { id };
-    }
-    const { data: created, error } = await context.supabase.from("prompts").insert(rest).select("id").single();
-    if (error) throw new Error(error.message);
-    return { id: created!.id };
-  });
+export const upsertLearnTask = upsertFactory("learn_tasks", learnTaskSchema);
+export const deleteLearnTask = deleteFactory("learn_tasks");
 
-export const deletePrompt = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("prompts").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { ok: true };
-  });
+export const upsertCategory = upsertFactory("categories", categorySchema);
+export const deleteCategory = deleteFactory("categories");
 
-// ─── ADMIN: LEARN TASKS ───────────────────────────────────────────────
-export const upsertLearnTask = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => learnTaskSchema.parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { id, ...rest } = data;
-    if (id) {
-      const { error } = await context.supabase.from("learn_tasks").update(rest).eq("id", id);
-      if (error) throw new Error(error.message);
-      return { id };
-    }
-    const { data: created, error } = await context.supabase.from("learn_tasks").insert(rest).select("id").single();
-    if (error) throw new Error(error.message);
-    return { id: created!.id };
-  });
+export const upsertSubcategory = upsertFactory("subcategories", subcategorySchema);
+export const deleteSubcategory = deleteFactory("subcategories");
 
-export const deleteLearnTask = createServerFn({ method: "POST" })
-  .middleware([requireSupabaseAuth])
-  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
-  .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("learn_tasks").delete().eq("id", data.id);
-    if (error) throw new Error(error.message);
-    return { ok: true };
-  });
+export const upsertBlogPost = upsertFactory("blog_posts", blogSchema);
+export const deleteBlogPost = deleteFactory("blog_posts");
+
+export const upsertBook = upsertFactory("books", bookSchema);
+export const deleteBook = deleteFactory("books");
+
+export const upsertCourse = upsertFactory("courses", courseSchema);
+export const deleteCourse = deleteFactory("courses");
 
 // ─── ADMIN: HIDE / UNHIDE static items ────────────────────────────────
 export const hideItem = createServerFn({ method: "POST" })

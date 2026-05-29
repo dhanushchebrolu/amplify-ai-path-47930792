@@ -1,69 +1,56 @@
 ## Goal
 
-A single-admin dashboard at `/admin` where you can create, edit, and delete every piece of content on the site (tools, prompts, learning tasks, categories/subcategories). Public visitors continue browsing without any login.
+Extend the admin dashboard with full content management for categories, blog, books, and courses (with affiliate links), add image fields to prompts, and surface Books/Courses in the public navbar.
 
-## 1. Enable Lovable Cloud
+## 1. Database (single migration)
 
-Provisions Postgres + Auth so we can store editable content and gate the dashboard. The rest of the site stays public — no login wall for visitors.
+New tables in `public` (all with public SELECT, admin-only write via `has_role(auth.uid(),'admin')`, GRANTs to anon/authenticated/service_role):
 
-## 2. Database schema (migration)
+- `categories` — `id, slug (unique), name, description, sort_order, created_at, updated_at`
+- `subcategories` — `id, category_slug, slug, name, description, sort_order, created_at, updated_at` (unique on `category_slug, slug`)
+- `blog_posts` — `id, slug (unique), title, excerpt, body (markdown), cover_url, tags[], published (bool), published_at, sort_order, created_at, updated_at`
+- `books` — `id, slug, title, author, description, cover_url, affiliate_url, price_label, tags[], sort_order, featured, created_at, updated_at`
+- `courses` — `id, slug, title, provider, description, cover_url, affiliate_url, price_label, level, duration, tags[], sort_order, featured, created_at, updated_at`
 
-Tables in `public`:
+Add to existing `prompts`: `image_url text` (the screenshot/sample image shown above the prompt body — the red-box area).
 
-- `categories` — `id, slug, name, description, sort_order, created_at`
-- `subcategories` — `id, category_id (fk), slug, name, description, sort_order`
-- `tools` — `id, subcategory_id (fk), slug, name, tagline, description, url, logo_url, tags[], featured, sort_order`
-- `prompts` — `id, title, body, category, tags[], sort_order`
-- `learn_tasks` — `id, kind ('spin'|'swipe'|'scratch'), title, summary, body, cover_image, reference_image, sort_order`
-- `app_role` enum (`admin`) + `user_roles (id, user_id, role)` table
-- `has_role(uuid, app_role)` SECURITY DEFINER function
+Seed categories/subcategories from the existing static data so the admin sees them populated.
 
-RLS:
-- **Public SELECT** on all content tables (anon + authenticated) — site stays loginless.
-- **INSERT/UPDATE/DELETE** restricted to `has_role(auth.uid(),'admin')`.
-- `user_roles`: select for authenticated, all for admins.
-- Trigger on `auth.users` insert: if no admin exists yet, grant the new user the `admin` role (first signup = admin). All later signups get nothing.
+## 2. Server functions (`src/lib/content.functions.ts`)
 
-GRANTs: `SELECT` to `anon, authenticated`; `ALL` to `service_role`; write privileges to `authenticated` (RLS still enforces admin-only).
+Add list/upsert/delete fns for: categories, subcategories, blog posts, books, courses. Same pattern as existing tools/prompts (admin-gated writes, public reads).
 
-## 3. Seed existing content
+## 3. Admin UI
 
-A one-shot SQL seed migration copies every entry from `src/data/tools.ts`, `src/data/learnTasks.ts`, and the prompts/categories static files into the new tables so nothing is lost.
+New routes under `_admin/admin/`:
+- `categories` — list + CRUD; expandable rows showing subcategories with inline add/edit/delete
+- `blog` — list + CRUD with markdown textarea, cover image URL, published toggle
+- `books` — list + CRUD (title, author, cover, affiliate URL, price)
+- `courses` — list + CRUD (title, provider, cover, affiliate URL, level, duration, price)
 
-## 4. Server functions (read paths)
+Extend existing `prompts` admin to include `image_url` field.
 
-`src/lib/content.functions.ts` — public read fns (`listCategories`, `listToolsBySubcategory`, `getTool`, `listPrompts`, `listLearnTasks`, etc.) using `supabaseAdmin` scoped by safe filters. Public pages switch from importing static data to calling these via TanStack Query.
+**Image upload**: add a Supabase Storage bucket `content-images` (public read, admin write). Build a small `<ImageField>` component that lets the admin either paste a URL or upload a file (uploads via the browser supabase client; RLS on storage allows only admins). Use it in prompts, blog, books, courses, tools, learn-tasks forms.
 
-## 5. Admin auth
+Update `_admin.tsx` sidebar to include: Overview, Tools, Prompts, Learn tasks, Categories, Blog, Books, Courses.
 
-- `/admin/login` — email/password + Google sign-in (via Lovable broker + `supabase--configure_social_auth google`).
-- `_admin` pathless layout: `beforeLoad` calls a `requireAdmin` server fn that throws redirect if user isn't authenticated or doesn't have the admin role.
-- `attachSupabaseAuth` registered in `src/start.ts`.
+## 4. Public pages
 
-## 6. Admin dashboard UI (`/admin/*`)
+- Add `/blog` (list) and `/blog/$slug` (post) routes reading from `blog_posts` where `published = true`.
+- Add `/books` and `/courses` routes — card grids with affiliate "Get it" buttons (`rel="sponsored noopener"`).
+- Update `prompts.tsx` to render `image_url` above the prompt body when present (the red-box area).
+- Add **Books** and **Courses** links to the navbar (`SiteChrome.tsx`).
+- Wire **categories/subcategories** on `/browse` and `/category/$slug` to read from DB instead of static data (existing tools already DB-backed).
 
-Routes under `src/routes/_admin/admin/`:
-- `index` — overview with counts + quick links
-- `tools` — list/search/edit/delete + "New tool" dialog (form with all fields, image upload via URL for now)
-- `prompts` — same pattern
-- `learn-tasks` — same pattern, with kind selector (spin/swipe/scratch) and image fields
-- `categories` — manage categories and nested subcategories
+## 5. Out of scope (ask before doing)
 
-Each list uses a `DataTable` with inline edit dialog (`react-hook-form` + `zod`) and confirm-delete. Mutations go through `createServerFn` handlers with `requireSupabaseAuth` + admin check, then `queryClient.invalidateQueries` on success.
-
-## 7. Wire public pages to the DB
-
-Update `src/routes/index.tsx`, `browse.tsx`, `category.$slug.*`, `tool.$slug.tsx`, `prompts.tsx`, `learn.spin/swipe/scratch.tsx`, `learn.task.$id.tsx`, `ranking.tsx` to read from the new server fns instead of static data files. Keep the static `.ts` files as fallback during seeding then remove imports.
-
-## 8. Notes
-
-- First user to sign up at `/admin/login` becomes the sole admin. Tell you this clearly on the login page so you sign up immediately after deploy.
-- Subsequent signups have no role and get redirected away from `/admin`.
-- Images stay as URLs (paste a hot-linkable URL). Full file-upload storage can be added later if you want.
+- Rich-text/WYSIWYG blog editor — using markdown textarea for now.
+- Multi-image galleries per blog post — single cover only.
+- Affiliate click tracking / analytics.
 
 ## Technical details
 
-- `attachSupabaseAuth` appended to `functionMiddleware` in `src/start.ts`.
-- `onAuthStateChange` listener in `__root.tsx` invalidates router + query cache.
-- All write server fns: `.middleware([requireSupabaseAuth])` + inline admin-role check via `has_role` RPC.
-- TanStack Query for all reads; loaders use `ensureQueryData`.
+- Storage bucket created via migration with policies: `SELECT` for anon (public CDN URLs), `INSERT/UPDATE/DELETE` only when `has_role(auth.uid(),'admin')`.
+- `ImageField` uploads to `content-images/{kind}/{uuid}.{ext}` and writes the resulting public URL into the form field.
+- All new public list pages use TanStack Query + `ensureQueryData` in the loader, `useSuspenseQuery` in the component.
+- Add `errorComponent` + `notFoundComponent` to every new route with a loader.

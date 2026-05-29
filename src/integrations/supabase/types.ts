@@ -14,6 +14,183 @@ export type Database = {
   }
   public: {
     Tables: {
+      blog_posts: {
+        Row: {
+          body: string
+          cover_url: string | null
+          created_at: string
+          excerpt: string | null
+          id: string
+          published: boolean
+          published_at: string | null
+          slug: string
+          sort_order: number
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          body?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug: string
+          sort_order?: number
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          cover_url?: string | null
+          created_at?: string
+          excerpt?: string | null
+          id?: string
+          published?: boolean
+          published_at?: string | null
+          slug?: string
+          sort_order?: number
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      books: {
+        Row: {
+          affiliate_url: string
+          author: string | null
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          price_label: string | null
+          slug: string
+          sort_order: number
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_url: string
+          author?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          price_label?: string | null
+          slug: string
+          sort_order?: number
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_url?: string
+          author?: string | null
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          price_label?: string | null
+          slug?: string
+          sort_order?: number
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      categories: {
+        Row: {
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      courses: {
+        Row: {
+          affiliate_url: string
+          cover_url: string | null
+          created_at: string
+          description: string | null
+          duration: string | null
+          featured: boolean
+          id: string
+          level: string | null
+          price_label: string | null
+          provider: string | null
+          slug: string
+          sort_order: number
+          tags: string[]
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          affiliate_url: string
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          featured?: boolean
+          id?: string
+          level?: string | null
+          price_label?: string | null
+          provider?: string | null
+          slug: string
+          sort_order?: number
+          tags?: string[]
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          affiliate_url?: string
+          cover_url?: string | null
+          created_at?: string
+          description?: string | null
+          duration?: string | null
+          featured?: boolean
+          id?: string
+          level?: string | null
+          price_label?: string | null
+          provider?: string | null
+          slug?: string
+          sort_order?: number
+          tags?: string[]
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       hidden_items: {
         Row: {
           created_at: string
@@ -104,6 +281,7 @@ export type Database = {
           category: string | null
           created_at: string
           id: string
+          image_url: string | null
           sort_order: number
           tags: string[]
           title: string
@@ -116,6 +294,7 @@ export type Database = {
           category?: string | null
           created_at?: string
           id?: string
+          image_url?: string | null
           sort_order?: number
           tags?: string[]
           title: string
@@ -128,11 +307,45 @@ export type Database = {
           category?: string | null
           created_at?: string
           id?: string
+          image_url?: string | null
           sort_order?: number
           tags?: string[]
           title?: string
           tool_name?: string | null
           tool_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      subcategories: {
+        Row: {
+          category_slug: string
+          created_at: string
+          description: string | null
+          id: string
+          name: string
+          slug: string
+          sort_order: number
+          updated_at: string
+        }
+        Insert: {
+          category_slug: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name: string
+          slug: string
+          sort_order?: number
+          updated_at?: string
+        }
+        Update: {
+          category_slug?: string
+          created_at?: string
+          description?: string | null
+          id?: string
+          name?: string
+          slug?: string
+          sort_order?: number
           updated_at?: string
         }
         Relationships: []
