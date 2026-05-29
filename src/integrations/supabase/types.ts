@@ -14,16 +14,219 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      hidden_items: {
+        Row: {
+          created_at: string
+          id: string
+          kind: string
+          ref_key: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          kind: string
+          ref_key: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          kind?: string
+          ref_key?: string
+        }
+        Relationships: []
+      }
+      learn_tasks: {
+        Row: {
+          category: string | null
+          cover_url: string | null
+          created_at: string
+          difficulty: string | null
+          id: string
+          kind: string
+          minutes: number | null
+          prompt: string | null
+          reference_caption: string | null
+          reference_url: string | null
+          slug: string
+          sort_order: number
+          steps: string[]
+          tagline: string | null
+          title: string
+          tool_name: string | null
+          tool_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          kind: string
+          minutes?: number | null
+          prompt?: string | null
+          reference_caption?: string | null
+          reference_url?: string | null
+          slug: string
+          sort_order?: number
+          steps?: string[]
+          tagline?: string | null
+          title: string
+          tool_name?: string | null
+          tool_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          category?: string | null
+          cover_url?: string | null
+          created_at?: string
+          difficulty?: string | null
+          id?: string
+          kind?: string
+          minutes?: number | null
+          prompt?: string | null
+          reference_caption?: string | null
+          reference_url?: string | null
+          slug?: string
+          sort_order?: number
+          steps?: string[]
+          tagline?: string | null
+          title?: string
+          tool_name?: string | null
+          tool_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      prompts: {
+        Row: {
+          body: string
+          category: string | null
+          created_at: string
+          id: string
+          sort_order: number
+          tags: string[]
+          title: string
+          tool_name: string | null
+          tool_url: string | null
+          updated_at: string
+        }
+        Insert: {
+          body: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          sort_order?: number
+          tags?: string[]
+          title: string
+          tool_name?: string | null
+          tool_url?: string | null
+          updated_at?: string
+        }
+        Update: {
+          body?: string
+          category?: string | null
+          created_at?: string
+          id?: string
+          sort_order?: number
+          tags?: string[]
+          title?: string
+          tool_name?: string | null
+          tool_url?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
+      tools: {
+        Row: {
+          category: string | null
+          created_at: string
+          description: string | null
+          featured: boolean
+          id: string
+          logo_url: string | null
+          name: string
+          pricing: string | null
+          slug: string
+          sort_order: number
+          subcategory: string | null
+          tagline: string | null
+          tags: string[]
+          updated_at: string
+          url: string
+        }
+        Insert: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          logo_url?: string | null
+          name: string
+          pricing?: string | null
+          slug: string
+          sort_order?: number
+          subcategory?: string | null
+          tagline?: string | null
+          tags?: string[]
+          updated_at?: string
+          url: string
+        }
+        Update: {
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          featured?: boolean
+          id?: string
+          logo_url?: string | null
+          name?: string
+          pricing?: string | null
+          slug?: string
+          sort_order?: number
+          subcategory?: string | null
+          tagline?: string | null
+          tags?: string[]
+          updated_at?: string
+          url?: string
+        }
+        Relationships: []
+      }
+      user_roles: {
+        Row: {
+          created_at: string
+          id: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          role: Database["public"]["Enums"]["app_role"]
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          role?: Database["public"]["Enums"]["app_role"]
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
     }
     Functions: {
-      [_ in never]: never
+      has_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: boolean
+      }
     }
     Enums: {
-      [_ in never]: never
+      app_role: "admin"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -150,6 +353,8 @@ export type CompositeTypes<
 
 export const Constants = {
   public: {
-    Enums: {},
+    Enums: {
+      app_role: ["admin"],
+    },
   },
 } as const
