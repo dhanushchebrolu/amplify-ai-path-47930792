@@ -125,7 +125,7 @@ async function ensureAdmin(ctx: { supabase: any; userId: string }) {
 // ─── Generic public list ──────────────────────────────────────────────
 function listFactory(table: string, opts?: { filter?: (q: any) => any }) {
   return createServerFn({ method: "GET" }).handler(async () => {
-    let q = supabaseAdmin.from(table).select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false });
+    let q: any = (supabaseAdmin as any).from(table).select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false });
     if (opts?.filter) q = opts.filter(q);
     const { data, error } = await q;
     if (error) throw new Error(error.message);
