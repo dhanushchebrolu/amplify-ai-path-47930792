@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { checkAdmin } from "@/lib/content.functions";
-import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut } from "lucide-react";
+import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, BookOpen, GraduationCap } from "lucide-react";
 
 export const Route = createFileRoute("/_admin")({
   beforeLoad: async () => {
@@ -44,9 +44,13 @@ function AdminLayout() {
         <Link to="/" className="font-display text-xl mb-6">NeuroHub admin</Link>
         <nav className="space-y-1 text-sm flex-1">
           <NavItem to="/admin" icon={<LayoutDashboard className="w-4 h-4" />} label="Overview" />
+          <NavItem to="/admin/categories" icon={<FolderTree className="w-4 h-4" />} label="Categories" />
           <NavItem to="/admin/tools" icon={<Wrench className="w-4 h-4" />} label="Tools" />
           <NavItem to="/admin/prompts" icon={<MessageSquare className="w-4 h-4" />} label="Prompts" />
           <NavItem to="/admin/learn-tasks" icon={<Sparkles className="w-4 h-4" />} label="Learn tasks" />
+          <NavItem to="/admin/blog" icon={<FileText className="w-4 h-4" />} label="Blog" />
+          <NavItem to="/admin/books" icon={<BookOpen className="w-4 h-4" />} label="Books" />
+          <NavItem to="/admin/courses" icon={<GraduationCap className="w-4 h-4" />} label="Courses" />
         </nav>
         <button onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/admin/login" }); }}
           className="mt-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
