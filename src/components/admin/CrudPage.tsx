@@ -127,9 +127,16 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
           <button onClick={onClose} className="px-4 py-2 rounded-lg border border-white/10 text-sm">Cancel</button>
           <button onClick={() => {
             const cleaned: any = {};
+            const urlFields = new Set(fields.filter((f) => f.type === "url" || f.type === "image").map((f) => f.name));
             for (const k of Object.keys(form)) {
               const v = form[k];
-              cleaned[k] = v === "" ? null : v;
+              if (v === "" || v === undefined) {
+                // For url/image fields, send null so nullable schemas accept it.
+                // For other fields, omit so Zod defaults kick in and required fields surface a clear error.
+                if (urlFields.has(k)) cleaned[k] = null;
+                continue;
+              }
+              cleaned[k] = v;
             }
             onSubmit(cleaned);
           }} disabled={saving}
