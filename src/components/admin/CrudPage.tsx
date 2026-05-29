@@ -2,13 +2,15 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { ImageField } from "./ImageField";
 
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps";
+  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
   options?: string[];
   required?: boolean;
+  imageFolder?: string;
 }
 
 export function CrudPage<T extends { id?: string }>({
