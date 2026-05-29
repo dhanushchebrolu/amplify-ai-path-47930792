@@ -18,6 +18,7 @@ function PromptsAdmin() {
       fields={[
         { name: "title", label: "Title", required: true },
         { name: "body", label: "Prompt text", type: "textarea", required: true },
+        { name: "image_url", label: "Sample image (shown above the prompt)", type: "image", imageFolder: "prompts" },
         { name: "category", label: "Category (Image/Writing/Video/Coding/Audio/Design/Productivity)" },
         { name: "tool_name", label: "Recommended tool name" },
         { name: "tool_url", label: "Tool URL", type: "url" },
@@ -25,9 +26,12 @@ function PromptsAdmin() {
         { name: "sort_order", label: "Sort order", type: "number" },
       ]}
       renderRow={(p) => (
-        <div>
-          <div className="font-medium truncate">{p.title}</div>
-          <div className="text-xs text-muted-foreground truncate">{p.category} · {p.tool_name}</div>
+        <div className="flex items-center gap-3">
+          {p.image_url && <img src={p.image_url} alt="" className="w-12 h-12 rounded-lg object-cover" />}
+          <div className="min-w-0">
+            <div className="font-medium truncate">{p.title}</div>
+            <div className="text-xs text-muted-foreground truncate">{p.category} · {p.tool_name}</div>
+          </div>
         </div>
       )}
     />
