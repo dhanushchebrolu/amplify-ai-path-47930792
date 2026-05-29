@@ -25,18 +25,27 @@ export function SiteHeader() {
           </span>
           <span className="font-semibold tracking-tight">NeuroHub</span>
         </Link>
-        <nav className="flex items-center gap-7 text-sm text-muted-foreground">
+        <nav className="flex items-center gap-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>
             Home
           </Link>
           <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Browse
           </Link>
-          <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Ranking
-          </Link>
           <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Prompts
+          </Link>
+          <Link to="/books" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+            Books
+          </Link>
+          <Link to="/courses" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+            Courses
+          </Link>
+          <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+            Blog
+          </Link>
+          <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
+            Ranking
           </Link>
 
           <div ref={ref} className="relative">
