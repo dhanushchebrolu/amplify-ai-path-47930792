@@ -2,6 +2,7 @@ import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2 } from "lucide-react";
+import { useServerFn } from "@tanstack/react-start";
 import { ImageField } from "./ImageField";
 
 export interface FieldDef {
@@ -26,16 +27,18 @@ export function CrudPage<T extends { id?: string }>({
   emptyValues: T;
 }) {
   const qc = useQueryClient();
+  const upsert = useServerFn(upsertFn as any);
+  const remove = useServerFn(deleteFn as any);
   const { data, isLoading } = useQuery({ queryKey: [queryKey], queryFn: listFn });
   const [editing, setEditing] = useState<T | null>(null);
 
   const save = useMutation({
-    mutationFn: (v: T) => upsertFn({ data: v }),
+    mutationFn: (v: T) => upsert({ data: v }) as Promise<{ id: string }>,
     onSuccess: () => { qc.invalidateQueries({ queryKey: [queryKey] }); setEditing(null); toast.success("Saved"); },
     onError: (e: any) => toast.error(e.message ?? "Save failed"),
   });
   const del = useMutation({
-    mutationFn: (id: string) => deleteFn({ data: { id } }),
+    mutationFn: (id: string) => remove({ data: { id } }) as Promise<{ ok: boolean }>,
     onSuccess: () => { qc.invalidateQueries({ queryKey: [queryKey] }); toast.success("Deleted"); },
     onError: (e: any) => toast.error(e.message ?? "Delete failed"),
   });
