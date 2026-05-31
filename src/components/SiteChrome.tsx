@@ -35,12 +35,6 @@ export function SiteHeader() {
           <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Prompts
           </Link>
-          <Link to="/books" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Books
-          </Link>
-          <Link to="/courses" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Courses
-          </Link>
           <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
             Blog
           </Link>
