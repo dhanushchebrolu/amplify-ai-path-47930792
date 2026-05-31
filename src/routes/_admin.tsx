@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { checkAdmin } from "@/lib/content.functions";
-import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, Compass, Eraser, Heart } from "lucide-react";
+import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText } from "lucide-react";
 
 export const Route = createFileRoute("/_admin")({
   beforeLoad: async () => {
