@@ -231,8 +231,8 @@ export const hideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("hidden_items").upsert(data, { onConflict: "kind,ref_key" });
+    await ensureAdmin(context.userId);
+    const { error } = await (supabaseAdmin as any).from("hidden_items").upsert(data, { onConflict: "kind,ref_key" });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -241,8 +241,8 @@ export const unhideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("hidden_items").delete().eq("kind", data.kind).eq("ref_key", data.ref_key);
+    await ensureAdmin(context.userId);
+    const { error } = await (supabaseAdmin as any).from("hidden_items").delete().eq("kind", data.kind).eq("ref_key", data.ref_key);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
