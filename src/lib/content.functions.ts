@@ -117,8 +117,11 @@ const hideSchema = z.object({
 });
 
 // ─── Admin guard helper ───────────────────────────────────────────────
-async function ensureAdmin(ctx: { supabase: any; userId: string }) {
-  const { data, error } = await ctx.supabase.rpc("has_role", { _user_id: ctx.userId, _role: "admin" });
+// Uses supabaseAdmin (service role) to check the has_role function. Safe
+// because we only call this AFTER requireSupabaseAuth has validated the
+// bearer token and produced a verified userId.
+async function ensureAdmin(userId: string) {
+  const { data, error } = await (supabaseAdmin as any).rpc("has_role", { _user_id: userId, _role: "admin" });
   if (error || !data) throw new Error("Forbidden: admin role required");
 }
 
@@ -139,14 +142,14 @@ function upsertFactory<T extends z.ZodTypeAny>(table: string, schema: T) {
     .middleware([requireSupabaseAuth])
     .inputValidator((d: unknown) => schema.parse(d))
     .handler(async ({ data, context }: any) => {
-      await ensureAdmin({ supabase: context.supabase, userId: context.userId });
+      await ensureAdmin(context.userId);
       const { id, ...rest } = data as any;
       if (id) {
-        const { error } = await context.supabase.from(table).update(rest).eq("id", id);
+        const { error } = await (supabaseAdmin as any).from(table).update(rest).eq("id", id);
         if (error) throw new Error(error.message);
         return { id };
       }
-      const { data: created, error } = await context.supabase.from(table).insert(rest).select("id").single();
+      const { data: created, error } = await (supabaseAdmin as any).from(table).insert(rest).select("id").single();
       if (error) throw new Error(error.message);
       return { id: created!.id };
     });
@@ -157,8 +160,8 @@ function deleteFactory(table: string) {
     .middleware([requireSupabaseAuth])
     .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
     .handler(async ({ data, context }) => {
-      await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-      const { error } = await (context.supabase as any).from(table).delete().eq("id", data.id);
+      await ensureAdmin(context.userId);
+      const { error } = await (supabaseAdmin as any).from(table).delete().eq("id", data.id);
       if (error) throw new Error(error.message);
       return { ok: true };
     });
@@ -228,8 +231,8 @@ export const hideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("hidden_items").upsert(data, { onConflict: "kind,ref_key" });
+    await ensureAdmin(context.userId);
+    const { error } = await (supabaseAdmin as any).from("hidden_items").upsert(data, { onConflict: "kind,ref_key" });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -238,8 +241,8 @@ export const unhideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
-    await ensureAdmin({ supabase: context.supabase, userId: context.userId });
-    const { error } = await context.supabase.from("hidden_items").delete().eq("kind", data.kind).eq("ref_key", data.ref_key);
+    await ensureAdmin(context.userId);
+    const { error } = await (supabaseAdmin as any).from("hidden_items").delete().eq("kind", data.kind).eq("ref_key", data.ref_key);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
