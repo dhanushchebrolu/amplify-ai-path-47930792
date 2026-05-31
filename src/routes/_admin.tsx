@@ -47,10 +47,8 @@ function AdminLayout() {
           <NavItem to="/admin/categories" icon={<FolderTree className="w-4 h-4" />} label="Categories" />
           <NavItem to="/admin/tools" icon={<Wrench className="w-4 h-4" />} label="Tools" />
           <NavItem to="/admin/prompts" icon={<MessageSquare className="w-4 h-4" />} label="Prompts" />
-          <NavItem to="/admin/learn-tasks" icon={<Sparkles className="w-4 h-4" />} label="Learn tasks" />
+          <NavItem to="/admin/learn-tasks" icon={<Sparkles className="w-4 h-4" />} label="Learn tasks (all)" />
           <NavItem to="/admin/blog" icon={<FileText className="w-4 h-4" />} label="Blog" />
-          <NavItem to="/admin/books" icon={<BookOpen className="w-4 h-4" />} label="Books" />
-          <NavItem to="/admin/courses" icon={<GraduationCap className="w-4 h-4" />} label="Courses" />
         </nav>
         <button onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/admin/login" }); }}
           className="mt-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
