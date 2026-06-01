@@ -1,7 +1,6 @@
 import { createServerFn } from "@tanstack/react-start";
 import { z } from "zod";
 import { requireSupabaseAuth } from "@/integrations/supabase/auth-middleware";
-import { supabaseAdmin } from "@/integrations/supabase/client.server";
 
 // ─── Schemas ───────────────────────────────────────────────────────────
 const toolSchema = z.object({
@@ -116,77 +115,64 @@ const hideSchema = z.object({
   ref_key: z.string().min(1).max(200),
 });
 
-// ─── Admin guard helper ───────────────────────────────────────────────
-// Uses supabaseAdmin (service role) to check the has_role function. Safe
-// because we only call this AFTER requireSupabaseAuth has validated the
-// bearer token and produced a verified userId.
-async function ensureAdmin(userId: string) {
-  const { data, error } = await (supabaseAdmin as any).rpc("has_role", { _user_id: userId, _role: "admin" });
-  if (error || !data) throw new Error("Forbidden: admin role required");
-}
-
-// ─── Generic public list ──────────────────────────────────────────────
-function listFactory(table: string, opts?: { filter?: (q: any) => any }) {
-  return createServerFn({ method: "GET" }).handler(async () => {
-    let q: any = (supabaseAdmin as any).from(table).select("*").order("sort_order", { ascending: true }).order("created_at", { ascending: false });
-    if (opts?.filter) q = opts.filter(q);
-    const { data, error } = await q;
-    if (error) throw new Error(error.message);
-    return data ?? [];
-  });
-}
-
-// ─── Generic upsert/delete factory ────────────────────────────────────
-function upsertFactory<T extends z.ZodTypeAny>(table: string, schema: T) {
-  return createServerFn({ method: "POST" })
-    .middleware([requireSupabaseAuth])
-    .inputValidator((d: unknown) => schema.parse(d))
-    .handler(async ({ data, context }: any) => {
-      await ensureAdmin(context.userId);
-      const { id, ...rest } = data as any;
-      if (id) {
-        const { error } = await (supabaseAdmin as any).from(table).update(rest).eq("id", id);
-        if (error) throw new Error(error.message);
-        return { id };
-      }
-      const { data: created, error } = await (supabaseAdmin as any).from(table).insert(rest).select("id").single();
-      if (error) throw new Error(error.message);
-      return { id: created!.id };
-    });
-}
-
-function deleteFactory(table: string) {
-  return createServerFn({ method: "POST" })
-    .middleware([requireSupabaseAuth])
-    .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
-    .handler(async ({ data, context }) => {
-      await ensureAdmin(context.userId);
-      const { error } = await (supabaseAdmin as any).from(table).delete().eq("id", data.id);
-      if (error) throw new Error(error.message);
-      return { ok: true };
-    });
-}
+const idSchema = z.object({ id: z.string().uuid() });
 
 // ─── PUBLIC READS ─────────────────────────────────────────────────────
-export const listTools = listFactory("tools");
-export const listPrompts = listFactory("prompts");
-export const listLearnTasks = listFactory("learn_tasks");
-export const listCategories = listFactory("categories");
-export const listSubcategories = listFactory("subcategories");
-export const listBooks = listFactory("books");
-export const listCourses = listFactory("courses");
-export const listBlogPosts = listFactory("blog_posts", { filter: (q) => q.eq("published", true).order("published_at", { ascending: false }) });
-export const listAllBlogPosts = listFactory("blog_posts"); // admin
+export const listTools = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("tools");
+});
+export const listPrompts = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("prompts");
+});
+export const listLearnTasks = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("learn_tasks");
+});
+export const listCategories = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("categories");
+});
+export const listSubcategories = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("subcategories");
+});
+export const listBooks = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("books");
+});
+export const listCourses = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("courses");
+});
+export const listBlogPosts = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("blog_posts", {
+    filter: (q) => q.eq("published", true).order("published_at", { ascending: false }),
+  });
+});
+export const listAllBlogPosts = createServerFn({ method: "GET" }).handler(async () => {
+  const { adminList } = await import("./content.server");
+  return adminList("blog_posts");
+});
 
 export const getBlogPost = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => z.object({ slug: z.string() }).parse(d))
   .handler(async ({ data }) => {
-    const { data: post, error } = await supabaseAdmin.from("blog_posts").select("*").eq("slug", data.slug).eq("published", true).maybeSingle();
+    const { supabaseAdmin } = await import("./content.server");
+    const { data: post, error } = await supabaseAdmin
+      .from("blog_posts")
+      .select("*")
+      .eq("slug", data.slug)
+      .eq("published", true)
+      .maybeSingle();
     if (error) throw new Error(error.message);
     return post;
   });
 
 export const listHiddenItems = createServerFn({ method: "GET" }).handler(async () => {
+  const { supabaseAdmin } = await import("./content.server");
   const { data, error } = await supabaseAdmin.from("hidden_items").select("kind, ref_key");
   if (error) throw new Error(error.message);
   return data ?? [];
@@ -202,37 +188,152 @@ export const checkAdmin = createServerFn({ method: "GET" })
   });
 
 // ─── ADMIN write fns ──────────────────────────────────────────────────
-export const upsertTool = upsertFactory("tools", toolSchema);
-export const deleteTool = deleteFactory("tools");
+export const upsertTool = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => toolSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("tools", data);
+  });
+export const deleteTool = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("tools", data.id);
+  });
 
-export const upsertPrompt = upsertFactory("prompts", promptSchema);
-export const deletePrompt = deleteFactory("prompts");
+export const upsertPrompt = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => promptSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("prompts", data);
+  });
+export const deletePrompt = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("prompts", data.id);
+  });
 
-export const upsertLearnTask = upsertFactory("learn_tasks", learnTaskSchema);
-export const deleteLearnTask = deleteFactory("learn_tasks");
+export const upsertLearnTask = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => learnTaskSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("learn_tasks", data);
+  });
+export const deleteLearnTask = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("learn_tasks", data.id);
+  });
 
-export const upsertCategory = upsertFactory("categories", categorySchema);
-export const deleteCategory = deleteFactory("categories");
+export const upsertCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => categorySchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("categories", data);
+  });
+export const deleteCategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("categories", data.id);
+  });
 
-export const upsertSubcategory = upsertFactory("subcategories", subcategorySchema);
-export const deleteSubcategory = deleteFactory("subcategories");
+export const upsertSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => subcategorySchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("subcategories", data);
+  });
+export const deleteSubcategory = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("subcategories", data.id);
+  });
 
-export const upsertBlogPost = upsertFactory("blog_posts", blogSchema);
-export const deleteBlogPost = deleteFactory("blog_posts");
+export const upsertBlogPost = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => blogSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("blog_posts", data);
+  });
+export const deleteBlogPost = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("blog_posts", data.id);
+  });
 
-export const upsertBook = upsertFactory("books", bookSchema);
-export const deleteBook = deleteFactory("books");
+export const upsertBook = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => bookSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("books", data);
+  });
+export const deleteBook = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("books", data.id);
+  });
 
-export const upsertCourse = upsertFactory("courses", courseSchema);
-export const deleteCourse = deleteFactory("courses");
+export const upsertCourse = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => courseSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminUpsert } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminUpsert("courses", data);
+  });
+export const deleteCourse = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) => idSchema.parse(d))
+  .handler(async ({ data, context }) => {
+    const { ensureAdmin, adminDelete } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminDelete("courses", data.id);
+  });
 
 // ─── ADMIN: HIDE / UNHIDE static items ────────────────────────────────
 export const hideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
+    const { ensureAdmin, supabaseAdmin } = await import("./content.server");
     await ensureAdmin(context.userId);
-    const { error } = await (supabaseAdmin as any).from("hidden_items").upsert(data, { onConflict: "kind,ref_key" });
+    const { error } = await (supabaseAdmin as any)
+      .from("hidden_items")
+      .upsert(data, { onConflict: "kind,ref_key" });
     if (error) throw new Error(error.message);
     return { ok: true };
   });
@@ -241,8 +342,13 @@ export const unhideItem = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])
   .inputValidator((d: unknown) => hideSchema.parse(d))
   .handler(async ({ data, context }) => {
+    const { ensureAdmin, supabaseAdmin } = await import("./content.server");
     await ensureAdmin(context.userId);
-    const { error } = await (supabaseAdmin as any).from("hidden_items").delete().eq("kind", data.kind).eq("ref_key", data.ref_key);
+    const { error } = await (supabaseAdmin as any)
+      .from("hidden_items")
+      .delete()
+      .eq("kind", data.kind)
+      .eq("ref_key", data.ref_key);
     if (error) throw new Error(error.message);
     return { ok: true };
   });
