@@ -126,6 +126,18 @@ export const listPrompts = createServerFn({ method: "GET" }).handler(async () =>
   const { adminList } = await import("./content.server");
   return adminList("prompts");
 });
+export const getPromptById = createServerFn({ method: "GET" })
+  .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
+  .handler(async ({ data }) => {
+    const { supabaseAdmin } = await import("./content.server");
+    const { data: prompt, error } = await supabaseAdmin
+      .from("prompts")
+      .select("*")
+      .eq("id", data.id)
+      .maybeSingle();
+    if (error) throw new Error(error.message);
+    return prompt;
+  });
 export const listLearnTasks = createServerFn({ method: "GET" }).handler(async () => {
   const { adminList } = await import("./content.server");
   return adminList("learn_tasks");

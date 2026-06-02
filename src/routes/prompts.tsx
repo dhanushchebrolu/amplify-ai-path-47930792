@@ -1,9 +1,9 @@
-import { createFileRoute } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { useQuery } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { listPrompts } from "@/lib/content.functions";
-import { Copy, Check, Search } from "lucide-react";
+import { Copy, Check, Search, ArrowRight } from "lucide-react";
 
 export const Route = createFileRoute("/prompts")({
   head: () => ({
@@ -78,10 +78,19 @@ function PromptsPage() {
                     </p>
                   )}
                 </div>
-                <button onClick={() => copy(t.id, t.body)}
-                  className="shrink-0 text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
-                  {copiedId === t.id ? <><Check className="w-3.5 h-3.5" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy</>}
-                </button>
+                <div className="shrink-0 flex items-center gap-2">
+                  <button onClick={() => copy(t.id, t.body)}
+                    className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
+                    {copiedId === t.id ? <><Check className="w-3.5 h-3.5" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy</>}
+                  </button>
+                  <Link
+                    to="/prompts/$id"
+                    params={{ id: t.id }}
+                    className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-primary text-primary-foreground hover:opacity-90"
+                  >
+                    Full Guide <ArrowRight className="w-3.5 h-3.5" />
+                  </Link>
+                </div>
               </div>
               {t.image_url && (
                 <img src={t.image_url} alt="" className="mt-4 w-full rounded-xl border border-white/10 object-cover max-h-56" />

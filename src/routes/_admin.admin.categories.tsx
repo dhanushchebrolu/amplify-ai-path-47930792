@@ -1,5 +1,6 @@
 import { createFileRoute } from "@tanstack/react-router";
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useServerFn } from "@tanstack/react-start";
 import { useState } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, ChevronRight } from "lucide-react";
@@ -14,6 +15,10 @@ export const Route = createFileRoute("/_admin/admin/categories")({
 
 function CategoriesAdmin() {
   const qc = useQueryClient();
+  const saveCategory = useServerFn(upsertCategory as any);
+  const removeCategory = useServerFn(deleteCategory as any);
+  const saveSubcategory = useServerFn(upsertSubcategory as any);
+  const removeSubcategory = useServerFn(deleteSubcategory as any);
   const cats = useQuery({ queryKey: ["admin-cats"], queryFn: () => listCategories() });
   const subs = useQuery({ queryKey: ["admin-subs"], queryFn: () => listSubcategories() });
 
@@ -22,21 +27,21 @@ function CategoriesAdmin() {
   const [expanded, setExpanded] = useState<string | null>(null);
 
   const saveCat = useMutation({
-    mutationFn: (v: any) => upsertCategory({ data: v }),
+    mutationFn: (v: any) => saveCategory({ data: v }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-cats"] }); setEditing(null); toast.success("Saved"); },
     onError: (e: any) => toast.error(e.message),
   });
   const delCat = useMutation({
-    mutationFn: (id: string) => deleteCategory({ data: { id } }),
+    mutationFn: (id: string) => removeCategory({ data: { id } }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-cats"] }); toast.success("Deleted"); },
   });
   const saveSub = useMutation({
-    mutationFn: (v: any) => upsertSubcategory({ data: v }),
+    mutationFn: (v: any) => saveSubcategory({ data: v }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-subs"] }); setEditingSub(null); toast.success("Saved"); },
     onError: (e: any) => toast.error(e.message),
   });
   const delSub = useMutation({
-    mutationFn: (id: string) => deleteSubcategory({ data: { id } }),
+    mutationFn: (id: string) => removeSubcategory({ data: { id } }),
     onSuccess: () => { qc.invalidateQueries({ queryKey: ["admin-subs"] }); toast.success("Deleted"); },
   });
 

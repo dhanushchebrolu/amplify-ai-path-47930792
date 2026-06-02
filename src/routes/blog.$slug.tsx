@@ -32,6 +32,11 @@ export const Route = createFileRoute("/blog/$slug")({
 function BlogPost() {
   const { slug } = Route.useParams();
   const { data: p } = useSuspenseQuery(postQuery(slug));
+
+  if (!p) {
+    throw notFound();
+  }
+
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
