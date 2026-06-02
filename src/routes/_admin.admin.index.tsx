@@ -4,6 +4,8 @@ import {
   listTools, listPrompts, listLearnTasks, listCategories, listSubcategories,
   listAllBlogPosts,
 } from "@/lib/content.functions";
+import { catalog } from "@/data/catalog";
+import { learnTasks as staticLearnTasks } from "@/data/learnTasks";
 import {
   Wrench, MessageSquare, Sparkles, FolderTree, FileText, Layers, Compass, Eraser, Heart,
 } from "lucide-react";
@@ -20,18 +22,23 @@ function AdminHome() {
   const subs = useQuery({ queryKey: ["admin", "subs"], queryFn: () => listSubcategories() });
   const blog = useQuery({ queryKey: ["admin", "blog"], queryFn: () => listAllBlogPosts() });
 
+  const websiteCategoryCount = catalog.length;
+  const websiteSubcategoryCount = catalog.reduce((acc, category) => acc + category.subs.length, 0);
+  const websiteToolCount = catalog.reduce((acc, category) => acc + category.subs.reduce((sum, sub) => sum + sub.tools.length, 0), 0);
+  const websiteLearnCount = staticLearnTasks.length;
+
   const learnAll = tasks.data ?? [];
   const spinCount = learnAll.filter((t: any) => t.kind === "spin" || t.kind === "any").length;
   const swipeCount = learnAll.filter((t: any) => t.kind === "swipe" || t.kind === "any").length;
   const scratchCount = learnAll.filter((t: any) => t.kind === "scratch" || t.kind === "any").length;
 
   const cards = [
-    { label: "Categories", count: cats.data?.length ?? 0, to: "/admin/categories", icon: <FolderTree className="w-5 h-5" />, hint: "Top-level groups for tools" },
-    { label: "Subcategories", count: subs.data?.length ?? 0, to: "/admin/categories", icon: <Layers className="w-5 h-5" />, hint: "Nested under categories" },
-    { label: "Tools", count: tools.data?.length ?? 0, to: "/admin/tools", icon: <Wrench className="w-5 h-5" />, hint: "Every AI tool you list" },
+    { label: "Categories", count: cats.data?.length ?? 0, to: "/admin/categories", icon: <FolderTree className="w-5 h-5" />, hint: `Website has ${websiteCategoryCount}` },
+    { label: "Subcategories", count: subs.data?.length ?? 0, to: "/admin/categories", icon: <Layers className="w-5 h-5" />, hint: `Website has ${websiteSubcategoryCount}` },
+    { label: "Tools", count: tools.data?.length ?? 0, to: "/admin/tools", icon: <Wrench className="w-5 h-5" />, hint: `Website has ${websiteToolCount} tool placements` },
     { label: "Prompts", count: prompts.data?.length ?? 0, to: "/admin/prompts", icon: <MessageSquare className="w-5 h-5" />, hint: "Library entries + sample image" },
     { label: "Blog posts", count: blog.data?.length ?? 0, to: "/admin/blog", icon: <FileText className="w-5 h-5" />, hint: "Daily posts (drafts + published)" },
-    { label: "Learn — all tasks", count: learnAll.length, to: "/admin/learn-tasks", icon: <Sparkles className="w-5 h-5" />, hint: "Manage every Learn task in one place" },
+    { label: "Learn — all tasks", count: learnAll.length, to: "/admin/learn-tasks", icon: <Sparkles className="w-5 h-5" />, hint: `Website has ${websiteLearnCount}` },
     { label: "Spin tasks", count: spinCount, to: "/admin/learn-tasks", icon: <Compass className="w-5 h-5" />, hint: "Tasks that appear on /learn/spin" },
     { label: "Swipe tasks", count: swipeCount, to: "/admin/learn-tasks", icon: <Heart className="w-5 h-5" />, hint: "Tasks shown on /learn/swipe" },
     { label: "Scratch tasks", count: scratchCount, to: "/admin/learn-tasks", icon: <Eraser className="w-5 h-5" />, hint: "Tasks shown on /learn/scratch" },
@@ -65,8 +72,8 @@ function AdminHome() {
           <li>Required fields show a red asterisk. If a save fails, the error toast says exactly what's wrong.</li>
           <li>For images, paste a URL <em>or</em> upload a file — both work.</li>
           <li>Blog posts only appear on <code className="text-foreground">/blog</code> when <strong>Published</strong> is on.</li>
-          <li>Categories you create here power the <code className="text-foreground">/browse</code> and <code className="text-foreground">/category</code> pages.</li>
-          <li>Learn tasks share one editor — set <strong>Kind</strong> to Spin, Swipe, Scratch, or Any to choose where they show.</li>
+          <li>Current website dataset: <strong>{websiteCategoryCount}</strong> categories, <strong>{websiteSubcategoryCount}</strong> subcategories, <strong>{websiteToolCount}</strong> tool placements, and <strong>{websiteLearnCount}</strong> learn tasks.</li>
+          <li>The website still has more catalog structure than the database. I’m keeping these counts visible so mismatches are obvious until the full sync is completed.</li>
         </ul>
       </div>
     </div>

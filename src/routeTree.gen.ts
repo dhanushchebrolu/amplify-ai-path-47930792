@@ -20,6 +20,7 @@ import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
+import { Route as PromptsIdRouteImport } from './routes/prompts.$id'
 import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
@@ -91,6 +92,11 @@ const ToolSlugRoute = ToolSlugRouteImport.update({
   id: '/tool/$slug',
   path: '/tool/$slug',
   getParentRoute: () => rootRouteImport,
+} as any)
+const PromptsIdRoute = PromptsIdRouteImport.update({
+  id: '/$id',
+  path: '/$id',
+  getParentRoute: () => PromptsRoute,
 } as any)
 const LearnSwipeRoute = LearnSwipeRouteImport.update({
   id: '/learn/swipe',
@@ -184,7 +190,7 @@ export interface FileRoutesByFullPath {
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -193,6 +199,7 @@ export interface FileRoutesByFullPath {
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
+  '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
@@ -213,7 +220,7 @@ export interface FileRoutesByTo {
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -222,6 +229,7 @@ export interface FileRoutesByTo {
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
+  '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
@@ -244,7 +252,7 @@ export interface FileRoutesById {
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRoute
+  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -253,6 +261,7 @@ export interface FileRoutesById {
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
+  '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/_admin/admin/blog': typeof AdminAdminBlogRoute
   '/_admin/admin/books': typeof AdminAdminBooksRoute
@@ -284,6 +293,7 @@ export interface FileRouteTypes {
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
+    | '/prompts/$id'
     | '/tool/$slug'
     | '/admin/blog'
     | '/admin/books'
@@ -313,6 +323,7 @@ export interface FileRouteTypes {
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
+    | '/prompts/$id'
     | '/tool/$slug'
     | '/admin/blog'
     | '/admin/books'
@@ -343,6 +354,7 @@ export interface FileRouteTypes {
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
+    | '/prompts/$id'
     | '/tool/$slug'
     | '/_admin/admin/blog'
     | '/_admin/admin/books'
@@ -365,7 +377,7 @@ export interface RootRouteChildren {
   BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
   CoursesRoute: typeof CoursesRoute
-  PromptsRoute: typeof PromptsRoute
+  PromptsRoute: typeof PromptsRouteWithChildren
   RankingRoute: typeof RankingRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -458,6 +470,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/tool/$slug'
       preLoaderRoute: typeof ToolSlugRouteImport
       parentRoute: typeof rootRouteImport
+    }
+    '/prompts/$id': {
+      id: '/prompts/$id'
+      path: '/$id'
+      fullPath: '/prompts/$id'
+      preLoaderRoute: typeof PromptsIdRouteImport
+      parentRoute: typeof PromptsRoute
     }
     '/learn/swipe': {
       id: '/learn/swipe'
@@ -615,6 +634,17 @@ const BlogRouteChildren: BlogRouteChildren = {
 
 const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
 
+interface PromptsRouteChildren {
+  PromptsIdRoute: typeof PromptsIdRoute
+}
+
+const PromptsRouteChildren: PromptsRouteChildren = {
+  PromptsIdRoute: PromptsIdRoute,
+}
+
+const PromptsRouteWithChildren =
+  PromptsRoute._addFileChildren(PromptsRouteChildren)
+
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
@@ -622,7 +652,7 @@ const rootRouteChildren: RootRouteChildren = {
   BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
   CoursesRoute: CoursesRoute,
-  PromptsRoute: PromptsRoute,
+  PromptsRoute: PromptsRouteWithChildren,
   RankingRoute: RankingRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -639,3 +669,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
