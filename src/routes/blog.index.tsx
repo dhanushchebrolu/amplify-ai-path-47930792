@@ -57,27 +57,52 @@ function BlogIndex() {
           </div>
         </div>
 
-        <div className={view === "grid" ? "mt-8 grid md:grid-cols-2 gap-6" : "mt-8 flex flex-col gap-4"}>
-          {posts.map((p: any) => (
-            <Link
-              key={p.id}
-              to="/blog/$slug"
-              params={{ slug: p.slug }}
-              className={view === "grid"
-                ? "card-surface rounded-2xl border border-white/10 overflow-hidden hover:border-white/25 transition-colors"
-                : "card-surface rounded-2xl border border-white/10 hover:border-white/25 transition-colors overflow-hidden md:grid md:grid-cols-[280px_1fr]"
-              }
-            >
-              {p.cover_url && <img src={p.cover_url} alt={p.title} className={view === "grid" ? "w-full aspect-[16/9] object-cover" : "w-full h-full min-h-52 object-cover"} />}
-              <div className="p-5">
-                <h2 className="font-semibold text-lg">{p.title}</h2>
-                {p.excerpt && <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{p.excerpt}</p>}
-                <div className="text-xs text-muted-foreground mt-3">{p.published_at ? new Date(p.published_at).toLocaleDateString() : ""}</div>
-              </div>
-            </Link>
-          ))}
-          {posts.length === 0 && <p className="text-muted-foreground col-span-2">No posts yet — check back soon.</p>}
-        </div>
+        {view === "grid" ? (
+          <div className="mt-8 grid md:grid-cols-2 gap-6">
+            {posts.map((p: any) => (
+              <Link
+                key={p.id}
+                to="/blog/$slug"
+                params={{ slug: p.slug }}
+                className="card-surface rounded-2xl border border-white/10 overflow-hidden hover:border-white/25 transition-colors"
+              >
+                {p.cover_url && <img src={p.cover_url} alt={p.title} className="w-full aspect-[16/9] object-cover" />}
+                <div className="p-5">
+                  <h2 className="font-semibold text-lg">{p.title}</h2>
+                  {p.excerpt && <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{p.excerpt}</p>}
+                  <div className="text-xs text-muted-foreground mt-3">{p.published_at ? new Date(p.published_at).toLocaleDateString() : ""}</div>
+                </div>
+              </Link>
+            ))}
+            {posts.length === 0 && <p className="text-muted-foreground col-span-2">No posts yet — check back soon.</p>}
+          </div>
+        ) : (
+          <div className="mt-8 flex flex-col gap-12 divide-y divide-white/10">
+            {posts.map((p: any) => (
+              <article key={p.id} className="pt-12 first:pt-0">
+                <header>
+                  <h2 className="font-display text-3xl md:text-4xl leading-tight">
+                    <Link to="/blog/$slug" params={{ slug: p.slug }} className="hover:text-primary transition-colors">
+                      {p.title}
+                    </Link>
+                  </h2>
+                  <div className="text-xs text-muted-foreground mt-2">{p.published_at ? new Date(p.published_at).toLocaleDateString() : ""}</div>
+                </header>
+                {p.cover_url && <img src={p.cover_url} alt={p.title} className="w-full max-h-[420px] object-cover rounded-2xl mt-5" />}
+                {p.excerpt && <p className="text-lg text-muted-foreground mt-5">{p.excerpt}</p>}
+                {p.body && (
+                  <div className="prose prose-invert mt-5 whitespace-pre-wrap text-foreground/90 leading-relaxed max-w-none">
+                    {p.body}
+                  </div>
+                )}
+                <Link to="/blog/$slug" params={{ slug: p.slug }} className="inline-flex items-center gap-1 mt-6 text-sm text-primary hover:underline">
+                  Open full post →
+                </Link>
+              </article>
+            ))}
+            {posts.length === 0 && <p className="text-muted-foreground">No posts yet — check back soon.</p>}
+          </div>
+        )}
       </main>
       <SiteFooter />
     </div>
