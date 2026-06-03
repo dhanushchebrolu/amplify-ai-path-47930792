@@ -60,7 +60,7 @@ function PromptGuidePage() {
   ];
 
   function copyPrompt() {
-    navigator.clipboard.writeText(prompt.body);
+    navigator.clipboard.writeText(prompt!.body);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   }
