@@ -5,7 +5,7 @@ import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { listPrompts } from "@/lib/content.functions";
 import { Copy, Check, Search, ArrowRight } from "lucide-react";
 
-export const Route = createFileRoute("/prompts")({
+export const Route = createFileRoute("/prompts/")({
   head: () => ({
     meta: [
       { title: "AI Prompt Library — Ready-to-paste Prompts · NeuroHub" },
