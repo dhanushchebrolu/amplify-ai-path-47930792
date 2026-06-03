@@ -1,4 +1,4 @@
-import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { createFileRoute, Link } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { getPromptById } from "@/lib/content.functions";
@@ -9,8 +9,7 @@ const promptQuery = (id: string) => queryOptions({
   queryKey: ["prompt", id],
   queryFn: async () => {
     const prompt = await getPromptById({ data: { id } });
-    if (!prompt) throw notFound();
-    return prompt;
+    return prompt ?? null;
   },
 });
 
@@ -18,13 +17,13 @@ export const Route = createFileRoute("/prompts/$id")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(promptQuery(params.id)),
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Prompt"} — Full Guide · NeuroHub` },
-      { name: "description", content: loaderData?.body?.slice(0, 150) ?? "Prompt guide" },
-      { property: "og:title", content: `${loaderData?.title ?? "Prompt"} — Full Guide · NeuroHub` },
-      { property: "og:description", content: loaderData?.body?.slice(0, 150) ?? "Prompt guide" },
-      ...(loaderData?.image_url ? [{ property: "og:image", content: loaderData.image_url }] : []),
+      { title: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · NeuroHub` },
+      { name: "description", content: (loaderData as any)?.body?.slice(0, 150) ?? "Prompt guide" },
+      { property: "og:title", content: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · NeuroHub` },
+      { property: "og:description", content: (loaderData as any)?.body?.slice(0, 150) ?? "Prompt guide" },
+      ...((loaderData as any)?.image_url ? [{ property: "og:image", content: (loaderData as any).image_url }] : []),
     ],
-    links: [{ rel: "canonical", href: `/prompts/${loaderData?.id ?? ""}` }],
+    links: [{ rel: "canonical", href: `/prompts/${(loaderData as any)?.id ?? ""}` }],
   }),
   component: PromptGuidePage,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load guide: {error.message}</div>,
@@ -36,7 +35,21 @@ function PromptGuidePage() {
   const { data: prompt } = useSuspenseQuery(promptQuery(id));
   const [copied, setCopied] = useState(false);
 
-  if (!prompt) throw notFound();
+  if (!prompt) {
+    return (
+      <div className="min-h-screen flex flex-col">
+        <SiteHeader />
+        <main className="mx-auto max-w-3xl px-6 py-24 text-center w-full">
+          <h1 className="font-display text-4xl">Prompt not found</h1>
+          <p className="text-muted-foreground mt-3">This prompt may have been removed.</p>
+          <Link to="/prompts" className="inline-flex items-center gap-2 mt-6 text-primary">
+            <ArrowLeft className="w-4 h-4" /> Back to prompts
+          </Link>
+        </main>
+        <SiteFooter />
+      </div>
+    );
+  }
 
   const steps = [
     `Open ${prompt.tool_name ?? "your chosen AI tool"}${prompt.tool_url ? " and start a fresh session" : " and create a new session"}.`,
@@ -47,7 +60,7 @@ function PromptGuidePage() {
   ];
 
   function copyPrompt() {
-    navigator.clipboard.writeText(prompt.body);
+    navigator.clipboard.writeText(prompt!.body);
     setCopied(true);
     setTimeout(() => setCopied(false), 1800);
   }
