@@ -12,13 +12,13 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RankingRouteImport } from './routes/ranking'
-import { Route as PromptsRouteImport } from './routes/prompts'
 import { Route as CoursesRouteImport } from './routes/courses'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BooksRouteImport } from './routes/books'
-import { Route as BlogRouteImport } from './routes/blog'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
+import { Route as PromptsIndexRouteImport } from './routes/prompts.index'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
 import { Route as PromptsIdRouteImport } from './routes/prompts.$id'
 import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
@@ -54,11 +54,6 @@ const RankingRoute = RankingRouteImport.update({
   path: '/ranking',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PromptsRoute = PromptsRouteImport.update({
-  id: '/prompts',
-  path: '/prompts',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const CoursesRoute = CoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
@@ -74,11 +69,6 @@ const BooksRoute = BooksRouteImport.update({
   path: '/books',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogRoute = BlogRouteImport.update({
-  id: '/blog',
-  path: '/blog',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminRoute = AdminRouteImport.update({
   id: '/_admin',
   getParentRoute: () => rootRouteImport,
@@ -88,15 +78,25 @@ const IndexRoute = IndexRouteImport.update({
   path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PromptsIndexRoute = PromptsIndexRouteImport.update({
+  id: '/prompts/',
+  path: '/prompts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const ToolSlugRoute = ToolSlugRouteImport.update({
   id: '/tool/$slug',
   path: '/tool/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const PromptsIdRoute = PromptsIdRouteImport.update({
-  id: '/$id',
-  path: '/$id',
-  getParentRoute: () => PromptsRoute,
+  id: '/prompts/$id',
+  path: '/prompts/$id',
+  getParentRoute: () => rootRouteImport,
 } as any)
 const LearnSwipeRoute = LearnSwipeRouteImport.update({
   id: '/learn/swipe',
@@ -186,11 +186,9 @@ const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -201,6 +199,8 @@ export interface FileRoutesByFullPath {
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/prompts/': typeof PromptsIndexRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
@@ -216,11 +216,9 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
-  '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -231,6 +229,8 @@ export interface FileRoutesByTo {
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/blog': typeof BlogIndexRoute
+  '/prompts': typeof PromptsIndexRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
@@ -248,11 +248,9 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
-  '/blog': typeof BlogRouteWithChildren
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/courses': typeof CoursesRoute
-  '/prompts': typeof PromptsRouteWithChildren
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
@@ -263,6 +261,8 @@ export interface FileRoutesById {
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
+  '/blog/': typeof BlogIndexRoute
+  '/prompts/': typeof PromptsIndexRoute
   '/_admin/admin/blog': typeof AdminAdminBlogRoute
   '/_admin/admin/books': typeof AdminAdminBooksRoute
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
@@ -280,11 +280,9 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
-    | '/blog'
     | '/books'
     | '/browse'
     | '/courses'
-    | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
@@ -295,6 +293,8 @@ export interface FileRouteTypes {
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
+    | '/blog/'
+    | '/prompts/'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/categories'
@@ -310,11 +310,9 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
-    | '/blog'
     | '/books'
     | '/browse'
     | '/courses'
-    | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
@@ -325,6 +323,8 @@ export interface FileRouteTypes {
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
+    | '/blog'
+    | '/prompts'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/categories'
@@ -341,11 +341,9 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_admin'
-    | '/blog'
     | '/books'
     | '/browse'
     | '/courses'
-    | '/prompts'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
@@ -356,6 +354,8 @@ export interface FileRouteTypes {
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
+    | '/blog/'
+    | '/prompts/'
     | '/_admin/admin/blog'
     | '/_admin/admin/books'
     | '/_admin/admin/categories'
@@ -373,11 +373,9 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
-  BlogRoute: typeof BlogRouteWithChildren
   BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
   CoursesRoute: typeof CoursesRoute
-  PromptsRoute: typeof PromptsRouteWithChildren
   RankingRoute: typeof RankingRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
@@ -385,7 +383,10 @@ export interface RootRouteChildren {
   LearnScratchRoute: typeof LearnScratchRoute
   LearnSpinRoute: typeof LearnSpinRoute
   LearnSwipeRoute: typeof LearnSwipeRoute
+  PromptsIdRoute: typeof PromptsIdRoute
   ToolSlugRoute: typeof ToolSlugRoute
+  BlogIndexRoute: typeof BlogIndexRoute
+  PromptsIndexRoute: typeof PromptsIndexRoute
   CategorySlugSubRoute: typeof CategorySlugSubRoute
   LearnTaskIdRoute: typeof LearnTaskIdRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
@@ -415,13 +416,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/prompts': {
-      id: '/prompts'
-      path: '/prompts'
-      fullPath: '/prompts'
-      preLoaderRoute: typeof PromptsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/courses': {
       id: '/courses'
       path: '/courses'
@@ -443,13 +437,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BooksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog': {
-      id: '/blog'
-      path: '/blog'
-      fullPath: '/blog'
-      preLoaderRoute: typeof BlogRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/_admin': {
       id: '/_admin'
       path: ''
@@ -464,6 +451,20 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/prompts/': {
+      id: '/prompts/'
+      path: '/prompts'
+      fullPath: '/prompts/'
+      preLoaderRoute: typeof PromptsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/tool/$slug': {
       id: '/tool/$slug'
       path: '/tool/$slug'
@@ -473,10 +474,10 @@ declare module '@tanstack/react-router' {
     }
     '/prompts/$id': {
       id: '/prompts/$id'
-      path: '/$id'
+      path: '/prompts/$id'
       fullPath: '/prompts/$id'
       preLoaderRoute: typeof PromptsIdRouteImport
-      parentRoute: typeof PromptsRoute
+      parentRoute: typeof rootRouteImport
     }
     '/learn/swipe': {
       id: '/learn/swipe'
@@ -624,35 +625,12 @@ const AdminRouteChildren: AdminRouteChildren = {
 
 const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 
-interface BlogRouteChildren {
-  BlogSlugRoute: typeof BlogSlugRoute
-}
-
-const BlogRouteChildren: BlogRouteChildren = {
-  BlogSlugRoute: BlogSlugRoute,
-}
-
-const BlogRouteWithChildren = BlogRoute._addFileChildren(BlogRouteChildren)
-
-interface PromptsRouteChildren {
-  PromptsIdRoute: typeof PromptsIdRoute
-}
-
-const PromptsRouteChildren: PromptsRouteChildren = {
-  PromptsIdRoute: PromptsIdRoute,
-}
-
-const PromptsRouteWithChildren =
-  PromptsRoute._addFileChildren(PromptsRouteChildren)
-
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
-  BlogRoute: BlogRouteWithChildren,
   BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
   CoursesRoute: CoursesRoute,
-  PromptsRoute: PromptsRouteWithChildren,
   RankingRoute: RankingRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
@@ -660,7 +638,10 @@ const rootRouteChildren: RootRouteChildren = {
   LearnScratchRoute: LearnScratchRoute,
   LearnSpinRoute: LearnSpinRoute,
   LearnSwipeRoute: LearnSwipeRoute,
+  PromptsIdRoute: PromptsIdRoute,
   ToolSlugRoute: ToolSlugRoute,
+  BlogIndexRoute: BlogIndexRoute,
+  PromptsIndexRoute: PromptsIndexRoute,
   CategorySlugSubRoute: CategorySlugSubRoute,
   LearnTaskIdRoute: LearnTaskIdRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
@@ -669,3 +650,13 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
+
+import type { getRouter } from './router.tsx'
+import type { startInstance } from './start.ts'
+declare module '@tanstack/react-start' {
+  interface Register {
+    ssr: true
+    router: Awaited<ReturnType<typeof getRouter>>
+    config: Awaited<ReturnType<typeof startInstance.getOptions>>
+  }
+}
