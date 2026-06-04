@@ -3,7 +3,7 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { checkAdmin } from "@/lib/content.functions";
-import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText } from "lucide-react";
+import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, Bug } from "lucide-react";
 
 export const Route = createFileRoute("/_admin")({
   beforeLoad: async () => {
@@ -49,6 +49,7 @@ function AdminLayout() {
           <NavItem to="/admin/prompts" icon={<MessageSquare className="w-4 h-4" />} label="Prompts" />
           <NavItem to="/admin/learn-tasks" icon={<Sparkles className="w-4 h-4" />} label="Learn tasks (all)" />
           <NavItem to="/admin/blog" icon={<FileText className="w-4 h-4" />} label="Blog" />
+          <NavItem to="/admin/bug-reports" icon={<Bug className="w-4 h-4" />} label="Bug reports" />
         </nav>
         <button onClick={async () => { await supabase.auth.signOut(); navigate({ to: "/admin/login" }); }}
           className="mt-4 flex items-center gap-2 text-sm text-muted-foreground hover:text-foreground">
