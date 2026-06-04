@@ -107,6 +107,42 @@ export type Database = {
         }
         Relationships: []
       }
+      bug_reports: {
+        Row: {
+          created_at: string
+          description: string
+          id: string
+          page_url: string | null
+          reporter_email: string | null
+          severity: string
+          status: string
+          title: string
+          updated_at: string
+        }
+        Insert: {
+          created_at?: string
+          description: string
+          id?: string
+          page_url?: string | null
+          reporter_email?: string | null
+          severity?: string
+          status?: string
+          title: string
+          updated_at?: string
+        }
+        Update: {
+          created_at?: string
+          description?: string
+          id?: string
+          page_url?: string | null
+          reporter_email?: string | null
+          severity?: string
+          status?: string
+          title?: string
+          updated_at?: string
+        }
+        Relationships: []
+      }
       categories: {
         Row: {
           created_at: string
