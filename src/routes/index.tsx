@@ -10,13 +10,16 @@ import { Search, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "NeuroHub — Every AI tool in one platform" },
-      { name: "description", content: `Discover ${catalogTotalTools()}+ AI tools across 15 categories — writing, video, audio, image, coding, marketing, SEO and more.` },
-      { property: "og:title", content: "NeuroHub — Every AI tool in one platform" },
-      { property: "og:description", content: `${catalogTotalTools()}+ AI tools, curated daily.` },
-      { property: "og:url", content: "/" },
+      { title: "NeuroHub — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
+      { name: "description", content: `Discover ${catalogTotalTools()}+ AI tools across 15 categories — writing, image, video, audio, coding, marketing & SEO. Compare, learn, and find the perfect AI for any task.` },
+      { name: "keywords", content: "best AI tools 2026, AI tool directory, free AI tools, ChatGPT alternatives, AI image generator, AI video generator, Midjourney alternatives, Sora prompts, AI writing assistant, AI for marketing, AI for coding, generative AI tools, AI prompts, AI tutorials" },
+      { property: "og:title", content: "NeuroHub — Every AI Tool in One Platform" },
+      { property: "og:description", content: `${catalogTotalTools()}+ AI tools, curated daily. Compare, learn, and find your perfect AI.` },
+      { property: "og:url", content: "https://amplify-ai-path.lovable.app/" },
+      { name: "twitter:title", content: "NeuroHub — Every AI Tool in One Platform" },
+      { name: "twitter:description", content: `${catalogTotalTools()}+ AI tools, curated daily.` },
     ],
-    links: [{ rel: "canonical", href: "/" }],
+    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/" }],
   }),
   component: Home,
 });

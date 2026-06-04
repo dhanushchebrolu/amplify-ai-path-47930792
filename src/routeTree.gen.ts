@@ -9,12 +9,19 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
 import { Route as RankingRouteImport } from './routes/ranking'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
 import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BooksRouteImport } from './routes/books'
+import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PromptsIndexRouteImport } from './routes/prompts.index'
@@ -35,10 +42,16 @@ import { Route as AdminAdminPromptsRouteImport } from './routes/_admin.admin.pro
 import { Route as AdminAdminLearnTasksRouteImport } from './routes/_admin.admin.learn-tasks'
 import { Route as AdminAdminCoursesRouteImport } from './routes/_admin.admin.courses'
 import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
+import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
 import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
 import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
 import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
   id: '/sitemap.xml',
   path: '/sitemap.xml',
@@ -54,9 +67,34 @@ const RankingRoute = RankingRouteImport.update({
   path: '/ranking',
   getParentRoute: () => rootRouteImport,
 } as any)
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const CoursesRoute = CoursesRouteImport.update({
   id: '/courses',
   path: '/courses',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BrowseRoute = BrowseRouteImport.update({
@@ -67,6 +105,11 @@ const BrowseRoute = BrowseRouteImport.update({
 const BooksRoute = BooksRouteImport.update({
   id: '/books',
   path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AboutRoute = AboutRouteImport.update({
+  id: '/about',
+  path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminRoute = AdminRouteImport.update({
@@ -168,6 +211,11 @@ const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
   path: '/admin/categories',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminBugReportsRoute = AdminAdminBugReportsRouteImport.update({
+  id: '/admin/bug-reports',
+  path: '/admin/bug-reports',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminBooksRoute = AdminAdminBooksRouteImport.update({
   id: '/admin/books',
   path: '/admin/books',
@@ -186,12 +234,19 @@ const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/courses': typeof CoursesRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/dmca': typeof DmcaRoute
+  '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
@@ -203,6 +258,7 @@ export interface FileRoutesByFullPath {
   '/prompts/': typeof PromptsIndexRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
+  '/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
@@ -216,12 +272,19 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
+  '/about': typeof AboutRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/courses': typeof CoursesRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/dmca': typeof DmcaRoute
+  '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
@@ -233,6 +296,7 @@ export interface FileRoutesByTo {
   '/prompts': typeof PromptsIndexRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
+  '/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
   '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
@@ -248,12 +312,19 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
+  '/about': typeof AboutRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
+  '/contact': typeof ContactRoute
+  '/cookies': typeof CookiesRoute
   '/courses': typeof CoursesRoute
+  '/disclaimer': typeof DisclaimerRoute
+  '/dmca': typeof DmcaRoute
+  '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
+  '/terms': typeof TermsRoute
   '/admin/login': typeof AdminLoginRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
@@ -265,6 +336,7 @@ export interface FileRoutesById {
   '/prompts/': typeof PromptsIndexRoute
   '/_admin/admin/blog': typeof AdminAdminBlogRoute
   '/_admin/admin/books': typeof AdminAdminBooksRoute
+  '/_admin/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
   '/_admin/admin/courses': typeof AdminAdminCoursesRoute
   '/_admin/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
@@ -280,12 +352,19 @@ export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
   fullPaths:
     | '/'
+    | '/about'
     | '/books'
     | '/browse'
+    | '/contact'
+    | '/cookies'
     | '/courses'
+    | '/disclaimer'
+    | '/dmca'
+    | '/privacy'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin/login'
     | '/blog/$slug'
     | '/learn/scratch'
@@ -297,6 +376,7 @@ export interface FileRouteTypes {
     | '/prompts/'
     | '/admin/blog'
     | '/admin/books'
+    | '/admin/bug-reports'
     | '/admin/categories'
     | '/admin/courses'
     | '/admin/learn-tasks'
@@ -310,12 +390,19 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/about'
     | '/books'
     | '/browse'
+    | '/contact'
+    | '/cookies'
     | '/courses'
+    | '/disclaimer'
+    | '/dmca'
+    | '/privacy'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin/login'
     | '/blog/$slug'
     | '/learn/scratch'
@@ -327,6 +414,7 @@ export interface FileRouteTypes {
     | '/prompts'
     | '/admin/blog'
     | '/admin/books'
+    | '/admin/bug-reports'
     | '/admin/categories'
     | '/admin/courses'
     | '/admin/learn-tasks'
@@ -341,12 +429,19 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/_admin'
+    | '/about'
     | '/books'
     | '/browse'
+    | '/contact'
+    | '/cookies'
     | '/courses'
+    | '/disclaimer'
+    | '/dmca'
+    | '/privacy'
     | '/ranking'
     | '/search'
     | '/sitemap.xml'
+    | '/terms'
     | '/admin/login'
     | '/blog/$slug'
     | '/learn/scratch'
@@ -358,6 +453,7 @@ export interface FileRouteTypes {
     | '/prompts/'
     | '/_admin/admin/blog'
     | '/_admin/admin/books'
+    | '/_admin/admin/bug-reports'
     | '/_admin/admin/categories'
     | '/_admin/admin/courses'
     | '/_admin/admin/learn-tasks'
@@ -373,12 +469,19 @@ export interface FileRouteTypes {
 export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
+  AboutRoute: typeof AboutRoute
   BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
+  ContactRoute: typeof ContactRoute
+  CookiesRoute: typeof CookiesRoute
   CoursesRoute: typeof CoursesRoute
+  DisclaimerRoute: typeof DisclaimerRoute
+  DmcaRoute: typeof DmcaRoute
+  PrivacyRoute: typeof PrivacyRoute
   RankingRoute: typeof RankingRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
+  TermsRoute: typeof TermsRoute
   AdminLoginRoute: typeof AdminLoginRoute
   BlogSlugRoute: typeof BlogSlugRoute
   LearnScratchRoute: typeof LearnScratchRoute
@@ -396,6 +499,13 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/sitemap.xml': {
       id: '/sitemap.xml'
       path: '/sitemap.xml'
@@ -417,11 +527,46 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof RankingRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/courses': {
       id: '/courses'
       path: '/courses'
       fullPath: '/courses'
       preLoaderRoute: typeof CoursesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/browse': {
@@ -436,6 +581,13 @@ declare module '@tanstack/react-router' {
       path: '/books'
       fullPath: '/books'
       preLoaderRoute: typeof BooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin': {
@@ -578,6 +730,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminCategoriesRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/bug-reports': {
+      id: '/_admin/admin/bug-reports'
+      path: '/admin/bug-reports'
+      fullPath: '/admin/bug-reports'
+      preLoaderRoute: typeof AdminAdminBugReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/admin/books': {
       id: '/_admin/admin/books'
       path: '/admin/books'
@@ -605,6 +764,7 @@ declare module '@tanstack/react-router' {
 interface AdminRouteChildren {
   AdminAdminBlogRoute: typeof AdminAdminBlogRoute
   AdminAdminBooksRoute: typeof AdminAdminBooksRoute
+  AdminAdminBugReportsRoute: typeof AdminAdminBugReportsRoute
   AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
   AdminAdminCoursesRoute: typeof AdminAdminCoursesRoute
   AdminAdminLearnTasksRoute: typeof AdminAdminLearnTasksRoute
@@ -616,6 +776,7 @@ interface AdminRouteChildren {
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminBlogRoute: AdminAdminBlogRoute,
   AdminAdminBooksRoute: AdminAdminBooksRoute,
+  AdminAdminBugReportsRoute: AdminAdminBugReportsRoute,
   AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
   AdminAdminCoursesRoute: AdminAdminCoursesRoute,
   AdminAdminLearnTasksRoute: AdminAdminLearnTasksRoute,
@@ -629,12 +790,19 @@ const AdminRouteWithChildren = AdminRoute._addFileChildren(AdminRouteChildren)
 const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
+  AboutRoute: AboutRoute,
   BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
+  ContactRoute: ContactRoute,
+  CookiesRoute: CookiesRoute,
   CoursesRoute: CoursesRoute,
+  DisclaimerRoute: DisclaimerRoute,
+  DmcaRoute: DmcaRoute,
+  PrivacyRoute: PrivacyRoute,
   RankingRoute: RankingRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
+  TermsRoute: TermsRoute,
   AdminLoginRoute: AdminLoginRoute,
   BlogSlugRoute: BlogSlugRoute,
   LearnScratchRoute: LearnScratchRoute,
@@ -652,13 +820,3 @@ const rootRouteChildren: RootRouteChildren = {
 export const routeTree = rootRouteImport
   ._addFileChildren(rootRouteChildren)
   ._addFileTypes<FileRouteTypes>()
-
-import type { getRouter } from './router.tsx'
-import type { startInstance } from './start.ts'
-declare module '@tanstack/react-start' {
-  interface Register {
-    ssr: true
-    router: Awaited<ReturnType<typeof getRouter>>
-    config: Awaited<ReturnType<typeof startInstance.getOptions>>
-  }
-}

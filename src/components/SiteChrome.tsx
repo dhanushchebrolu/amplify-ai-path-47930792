@@ -1,6 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { Star, ChevronDown, Sparkles, Eraser, Compass } from "lucide-react";
+import { Star, ChevronDown, Sparkles, Eraser, Compass, Bug, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { BugReportDialog } from "@/components/BugReportDialog";
 
 const ScratchIcon = Eraser;
 
@@ -26,21 +27,11 @@ export function SiteHeader() {
           <span className="font-semibold tracking-tight">NeuroHub</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>
-            Home
-          </Link>
-          <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Browse
-          </Link>
-          <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Prompts
-          </Link>
-          <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Blog
-          </Link>
-          <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>
-            Ranking
-          </Link>
+          <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
+          <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Browse</Link>
+          <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Prompts</Link>
+          <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Blog</Link>
+          <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Ranking</Link>
 
           <div ref={ref} className="relative">
             <button
@@ -82,23 +73,88 @@ function DropdownItem({ to, icon, title, desc, onClick }: { to: string; icon: Re
 }
 
 export function SiteFooter() {
+  const [bugOpen, setBugOpen] = useState(false);
+  const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border/60 mt-24">
-      <div className="mx-auto max-w-7xl px-6 py-10 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between text-sm text-muted-foreground">
-        <div className="flex items-center gap-2">
-          <span className="flex items-center justify-center w-6 h-6 rounded-full bg-primary text-primary-foreground">
-            <Star className="w-3 h-3 fill-current" />
-          </span>
-          <span className="text-foreground font-medium">NeuroHub</span>
-          <span>— Every AI tool in one platform.</span>
+    <footer className="border-t border-border/60 mt-24 bg-background/40">
+      <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 md:grid-cols-4">
+        <div>
+          <div className="flex items-center gap-2">
+            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground">
+              <Star className="w-3.5 h-3.5 fill-current" />
+            </span>
+            <span className="font-semibold">NeuroHub</span>
+          </div>
+          <p className="mt-3 text-sm text-muted-foreground max-w-xs">
+            Every AI tool in one platform. Discover, compare, and learn the best AI tools for writing, video, image, audio, coding, marketing and more.
+          </p>
+          <a href="mailto:aiblaze.io@gmail.com" className="mt-4 inline-flex items-center gap-2 text-sm text-foreground hover:text-primary">
+            <Mail className="w-4 h-4" /> aiblaze.io@gmail.com
+          </a>
         </div>
-        <div className="flex items-center gap-6">
-          <Link to="/browse" className="hover:text-foreground">Browse</Link>
-          <Link to="/ranking" className="hover:text-foreground">Ranking</Link>
-          <Link to="/prompts" className="hover:text-foreground">Prompts</Link>
-          <Link to="/learn/spin" className="hover:text-foreground">Learn</Link>
+
+        <FooterCol title="Explore" links={[
+          { label: "Home", to: "/" },
+          { label: "Browse all tools", to: "/browse" },
+          { label: "Prompts", to: "/prompts" },
+          { label: "Blog", to: "/blog" },
+          { label: "Ranking", to: "/ranking" },
+          { label: "Learn — Spin", to: "/learn/spin" },
+        ]} />
+
+        <FooterCol title="Legal" links={[
+          { label: "Privacy Policy", to: "/privacy" },
+          { label: "Terms of Service", to: "/terms" },
+          { label: "Cookie Policy", to: "/cookies" },
+          { label: "Disclaimer", to: "/disclaimer" },
+          { label: "DMCA", to: "/dmca" },
+        ]} />
+
+        <div>
+          <h4 className="text-sm font-semibold text-foreground">Company</h4>
+          <ul className="mt-4 space-y-2 text-sm">
+            <li><Link to="/about" className="text-muted-foreground hover:text-foreground">About</Link></li>
+            <li><Link to="/contact" className="text-muted-foreground hover:text-foreground">Contact</Link></li>
+            <li>
+              <button onClick={() => setBugOpen(true)} className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5">
+                <Bug className="w-3.5 h-3.5" /> Report a bug
+              </button>
+            </li>
+            <li><a href="/sitemap.xml" className="text-muted-foreground hover:text-foreground">Sitemap</a></li>
+          </ul>
         </div>
       </div>
+
+      <div className="border-t border-border/60">
+        <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
+          <p>© {year} NeuroHub · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
+          <p>Built for AI builders and learners worldwide.</p>
+        </div>
+      </div>
+
+      {/* Floating Report-a-bug FAB */}
+      <button
+        onClick={() => setBugOpen(true)}
+        aria-label="Report a bug"
+        className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-sm font-medium shadow-lg hover:opacity-90 transition-opacity"
+      >
+        <Bug className="w-4 h-4" /> Report a bug
+      </button>
+
+      <BugReportDialog open={bugOpen} onOpenChange={setBugOpen} />
     </footer>
+  );
+}
+
+function FooterCol({ title, links }: { title: string; links: { label: string; to: string }[] }) {
+  return (
+    <div>
+      <h4 className="text-sm font-semibold text-foreground">{title}</h4>
+      <ul className="mt-4 space-y-2 text-sm">
+        {links.map((l) => (
+          <li key={l.to}><Link to={l.to} className="text-muted-foreground hover:text-foreground">{l.label}</Link></li>
+        ))}
+      </ul>
+    </div>
   );
 }
