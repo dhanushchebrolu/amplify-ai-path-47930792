@@ -7,8 +7,9 @@ import {
 import { catalog } from "@/data/catalog";
 import { learnTasks as staticLearnTasks } from "@/data/learnTasks";
 import {
-  Wrench, MessageSquare, Sparkles, FolderTree, FileText, Layers, Compass, Eraser, Heart,
+  Wrench, MessageSquare, Sparkles, FolderTree, FileText, Layers, Compass, Eraser, Heart, Bug,
 } from "lucide-react";
+import { supabase } from "@/integrations/supabase/client";
 
 export const Route = createFileRoute("/_admin/admin/")({
   component: AdminHome,
@@ -21,6 +22,14 @@ function AdminHome() {
   const cats = useQuery({ queryKey: ["admin", "cats"], queryFn: () => listCategories() });
   const subs = useQuery({ queryKey: ["admin", "subs"], queryFn: () => listSubcategories() });
   const blog = useQuery({ queryKey: ["admin", "blog"], queryFn: () => listAllBlogPosts() });
+  const bugs = useQuery({
+    queryKey: ["admin", "bugs-count"],
+    queryFn: async () => {
+      const { count, error } = await supabase.from("bug_reports").select("*", { count: "exact", head: true }).eq("status", "new");
+      if (error) throw error;
+      return count ?? 0;
+    },
+  });
 
   const websiteCategoryCount = catalog.length;
   const websiteSubcategoryCount = catalog.reduce((acc, category) => acc + category.subs.length, 0);
@@ -42,6 +51,7 @@ function AdminHome() {
     { label: "Spin tasks", count: spinCount, to: "/admin/learn-tasks", icon: <Compass className="w-5 h-5" />, hint: "Tasks that appear on /learn/spin" },
     { label: "Swipe tasks", count: swipeCount, to: "/admin/learn-tasks", icon: <Heart className="w-5 h-5" />, hint: "Tasks shown on /learn/swipe" },
     { label: "Scratch tasks", count: scratchCount, to: "/admin/learn-tasks", icon: <Eraser className="w-5 h-5" />, hint: "Tasks shown on /learn/scratch" },
+    { label: "New bug reports", count: bugs.data ?? 0, to: "/admin/bug-reports", icon: <Bug className="w-5 h-5" />, hint: "Unread submissions from the report-a-bug button" },
   ];
 
   return (
