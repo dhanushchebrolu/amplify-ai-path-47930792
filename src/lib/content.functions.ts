@@ -118,30 +118,20 @@ const hideSchema = z.object({
 const idSchema = z.object({ id: z.string().uuid() });
 
 // ─── PUBLIC READS (use anon key + RLS, NOT service role) ─────────────
-async function publicList(table: string, opts?: { filter?: (q: any) => any }) {
-  const { getPublicSupabase } = await import("./public-supabase.server");
-  let q: any = getPublicSupabase()
-    .from(table as any)
-    .select("*")
-    .order("sort_order", { ascending: true })
-    .order("created_at", { ascending: false });
-  if (opts?.filter) q = opts.filter(q);
-  const { data, error } = await q;
-  if (error) throw new Error(error.message);
-  return data ?? [];
-}
-
-export const listTools = createServerFn({ method: "GET" }).handler(async () => publicList("tools"));
-export const listPrompts = createServerFn({ method: "GET" }).handler(async () => publicList("prompts"));
+export const listTools = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("tools");
+});
+export const listPrompts = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("prompts");
+});
 export const getPromptById = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => z.object({ id: z.string().uuid() }).parse(d))
   .handler(async ({ data }) => {
     const { getPublicSupabase } = await import("./public-supabase.server");
     const { data: prompt, error } = await getPublicSupabase()
-      .from("prompts")
-      .select("*")
-      .eq("id", data.id)
-      .maybeSingle();
+      .from("prompts").select("*").eq("id", data.id).maybeSingle();
     if (error) throw new Error(error.message);
     return prompt;
   });
@@ -150,21 +140,35 @@ export const getToolBySlug = createServerFn({ method: "GET" })
   .handler(async ({ data }) => {
     const { getPublicSupabase } = await import("./public-supabase.server");
     const { data: tool, error } = await getPublicSupabase()
-      .from("tools")
-      .select("*")
-      .eq("slug", data.slug)
-      .maybeSingle();
+      .from("tools").select("*").eq("slug", data.slug).maybeSingle();
     if (error) throw new Error(error.message);
     return tool;
   });
-export const listLearnTasks = createServerFn({ method: "GET" }).handler(async () => publicList("learn_tasks"));
-export const listCategories = createServerFn({ method: "GET" }).handler(async () => publicList("categories"));
-export const listSubcategories = createServerFn({ method: "GET" }).handler(async () => publicList("subcategories"));
-export const listBooks = createServerFn({ method: "GET" }).handler(async () => publicList("books"));
-export const listCourses = createServerFn({ method: "GET" }).handler(async () => publicList("courses"));
-export const listBlogPosts = createServerFn({ method: "GET" }).handler(async () =>
-  publicList("blog_posts", { filter: (q) => q.eq("published", true).order("published_at", { ascending: false }) }),
-);
+export const listLearnTasks = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("learn_tasks");
+});
+export const listCategories = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("categories");
+});
+export const listSubcategories = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("subcategories");
+});
+export const listBooks = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("books");
+});
+export const listCourses = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("courses");
+});
+export const listBlogPosts = createServerFn({ method: "GET" }).handler(async () => {
+  const { publicList } = await import("./public-supabase.server");
+  return publicList("blog_posts", { filter: (q) => q.eq("published", true).order("published_at", { ascending: false }) });
+});
+
 export const listAllBlogPosts = createServerFn({ method: "GET" }).handler(async () => {
   const { adminList } = await import("./content.server");
   return adminList("blog_posts");

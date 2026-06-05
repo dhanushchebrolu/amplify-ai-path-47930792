@@ -20,3 +20,15 @@ export function getPublicSupabase() {
   });
   return _client;
 }
+
+export async function publicList(table: string, opts?: { filter?: (q: any) => any }) {
+  let q: any = getPublicSupabase()
+    .from(table as any)
+    .select("*")
+    .order("sort_order", { ascending: true })
+    .order("created_at", { ascending: false });
+  if (opts?.filter) q = opts.filter(q);
+  const { data, error } = await q;
+  if (error) throw new Error(error.message);
+  return data ?? [];
+}
