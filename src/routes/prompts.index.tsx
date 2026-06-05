@@ -53,6 +53,8 @@ function PromptsPage() {
           <span className="text-xs uppercase tracking-[0.2em] text-primary">Prompts</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">The prompt library</h1>
           <p className="text-muted-foreground mt-4">Battle-tested prompts paired with the right tool. Click Copy — then ship.</p>
+          <p className="text-xs text-muted-foreground/70 mt-2">{(data ?? []).length} prompts in the library</p>
+
         </header>
 
         <div className="mt-10 flex flex-col md:flex-row gap-4 md:items-center">
