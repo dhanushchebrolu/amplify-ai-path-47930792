@@ -1,4 +1,4 @@
-# NeuroHub — Backup & Restore Guide
+# AIBlaze — Backup & Restore Guide
 
 This guide covers backing up and restoring three things: **code**, **database**, and **uploaded assets**.
 
@@ -6,7 +6,7 @@ This guide covers backing up and restoring three things: **code**, **database**,
 
 ## 1. Code backup — GitHub
 
-NeuroHub uses Lovable's two-way GitHub sync. Every edit in Lovable pushes to GitHub automatically, and every push to GitHub syncs back to Lovable.
+AIBlaze uses Lovable's two-way GitHub sync. Every edit in Lovable pushes to GitHub automatically, and every push to GitHub syncs back to Lovable.
 
 ### Connect once
 1. In the Lovable editor, click the **+** menu in the chat input → **GitHub** → **Connect project**.
@@ -47,7 +47,7 @@ For human-readable backups you control:
 
 ## 3. Uploaded assets — Storage
 
-NeuroHub uses the `content-images` Supabase storage bucket for tool logos, blog covers, prompt sample images, and learn-task covers.
+AIBlaze uses the `content-images` Supabase storage bucket for tool logos, blog covers, prompt sample images, and learn-task covers.
 
 - Supabase storage is **replicated** and durable by default — files won't disappear on their own.
 - The bucket is **public**, meaning the files are reachable via a stable HTTPS URL.

@@ -3,7 +3,7 @@ import type {} from "@tanstack/react-start";
 import { catalog } from "@/data/catalog";
 import { tools as staticTools } from "@/data/tools";
 
-const BASE_URL = "https://amplify-ai-path.lovable.app";
+const BASE_URL = "https://aiblaze.io";
 
 interface SitemapEntry {
   path: string;

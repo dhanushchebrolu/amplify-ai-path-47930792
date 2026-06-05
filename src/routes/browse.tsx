@@ -9,16 +9,16 @@ const PREVIEW_COUNT = 6;
 export const Route = createFileRoute("/browse")({
   head: () => ({
     meta: [
-      { title: "Browse 500+ AI Tools by Category — NeuroHub Directory" },
+      { title: "Browse 500+ AI Tools by Category — AIBlaze Directory" },
       { name: "description", content: `Explore ${catalogTotalTools()}+ AI tools across ${catalog.length} categories and 130+ sub-categories. Find the best AI for writing, image, video, audio, coding, marketing and more.` },
       { name: "keywords", content: "browse AI tools, AI tool categories, best AI tools by category, AI image tools, AI video tools, AI writing tools, AI coding tools, AI marketing tools, AI tool directory 2026, free AI tools" },
-      { property: "og:title", content: "Browse 500+ AI Tools by Category — NeuroHub" },
+      { property: "og:title", content: "Browse 500+ AI Tools by Category — AIBlaze" },
       { property: "og:description", content: "The complete AI directory — categories, sub-categories, and curated tools." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/browse" },
-      { name: "twitter:title", content: "Browse 500+ AI Tools — NeuroHub" },
+      { property: "og:url", content: "https://aiblaze.io/browse" },
+      { name: "twitter:title", content: "Browse 500+ AI Tools — AIBlaze" },
       { name: "twitter:description", content: "The complete AI directory by category." },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/browse" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/browse" }],
   }),
   component: Browse,
 });

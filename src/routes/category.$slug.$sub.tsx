@@ -15,7 +15,7 @@ export const Route = createFileRoute("/category/$slug/$sub")({
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const { category, sub } = loaderData;
-    const title = `Best ${sub.name} (${sub.tools.length}+) — NeuroHub`;
+    const title = `Best ${sub.name} (${sub.tools.length}+) — AIBlaze`;
     const desc = `${sub.tools.length} curated ${sub.name.toLowerCase()} in ${category.name}. Compare and discover the right AI tool for the job.`;
     return {
       meta: [

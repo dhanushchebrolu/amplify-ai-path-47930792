@@ -4,21 +4,21 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/terms")({
   head: () => ({
     meta: [
-      { title: "Terms of Service — NeuroHub" },
-      { name: "description", content: "Terms of Service for NeuroHub — rules for using our AI tool directory, prompts library, and learning features." },
-      { name: "keywords", content: "terms of service, user agreement, AI tool directory terms, NeuroHub legal" },
-      { property: "og:title", content: "Terms of Service — NeuroHub" },
-      { property: "og:description", content: "Rules for using NeuroHub." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/terms" },
+      { title: "Terms of Service — AIBlaze" },
+      { name: "description", content: "Terms of Service for AIBlaze — rules for using our AI tool directory, prompts library, and learning features." },
+      { name: "keywords", content: "terms of service, user agreement, AI tool directory terms, AIBlaze legal" },
+      { property: "og:title", content: "Terms of Service — AIBlaze" },
+      { property: "og:description", content: "Rules for using AIBlaze." },
+      { property: "og:url", content: "https://aiblaze.io/terms" },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/terms" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/terms" }],
   }),
   component: () => (
     <LegalPage title="Terms of Service" updated="June 4, 2026">
-      <p>By accessing or using NeuroHub, you agree to these Terms. If you don't agree, don't use the service.</p>
+      <p>By accessing or using AIBlaze, you agree to these Terms. If you don't agree, don't use the service.</p>
 
       <h2>1. The service</h2>
-      <p>NeuroHub is an editorial directory of AI tools, prompts, tutorials, and related content. We may modify, suspend, or discontinue features at any time.</p>
+      <p>AIBlaze is an editorial directory of AI tools, prompts, tutorials, and related content. We may modify, suspend, or discontinue features at any time.</p>
 
       <h2>2. Accounts</h2>
       <p>You are responsible for your account credentials and all activity under your account. Notify us promptly of any unauthorized use.</p>
@@ -32,16 +32,16 @@ export const Route = createFileRoute("/terms")({
       </ul>
 
       <h2>4. Third-party tools</h2>
-      <p>NeuroHub links to and describes third-party AI tools. We are not affiliated with most listed tools and are not responsible for their availability, accuracy, or content. Use of any third-party tool is governed by that tool's own terms.</p>
+      <p>AIBlaze links to and describes third-party AI tools. We are not affiliated with most listed tools and are not responsible for their availability, accuracy, or content. Use of any third-party tool is governed by that tool's own terms.</p>
 
       <h2>5. Intellectual property</h2>
-      <p>NeuroHub branding, copy, layout, and curated organization are owned by us. Tool names, logos, and trademarks belong to their respective owners.</p>
+      <p>AIBlaze branding, copy, layout, and curated organization are owned by us. Tool names, logos, and trademarks belong to their respective owners.</p>
 
       <h2>6. Disclaimer</h2>
       <p>The service is provided "as is" without warranties of any kind. See our <a href="/disclaimer">Disclaimer</a>.</p>
 
       <h2>7. Limitation of liability</h2>
-      <p>To the maximum extent permitted by law, NeuroHub and its operators are not liable for indirect, incidental, special, or consequential damages arising from use of the service.</p>
+      <p>To the maximum extent permitted by law, AIBlaze and its operators are not liable for indirect, incidental, special, or consequential damages arising from use of the service.</p>
 
       <h2>8. Termination</h2>
       <p>We may suspend or terminate access for violations of these Terms.</p>

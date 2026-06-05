@@ -22,7 +22,7 @@ export const Route = createFileRoute("/howto/$category/$sub/$tool")({
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const { tool, sub, category } = loaderData;
-    const title = `How to use ${tool.name} for ${sub.name} — NeuroHub`;
+    const title = `How to use ${tool.name} for ${sub.name} — AIBlaze`;
     const desc = `Step-by-step guide to using ${tool.name} for ${sub.name.toLowerCase()} in ${category.name}. Ready-to-paste prompts inside.`;
     return {
       meta: [

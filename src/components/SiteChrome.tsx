@@ -24,7 +24,7 @@ export function SiteHeader() {
           <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
             <Star className="w-4 h-4 fill-current" />
           </span>
-          <span className="font-semibold tracking-tight">NeuroHub</span>
+          <span className="font-semibold tracking-tight">AIBlaze</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
@@ -83,7 +83,7 @@ export function SiteFooter() {
             <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground">
               <Star className="w-3.5 h-3.5 fill-current" />
             </span>
-            <span className="font-semibold">NeuroHub</span>
+            <span className="font-semibold">AIBlaze</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
             Every AI tool in one platform. Discover, compare, and learn the best AI tools for writing, video, image, audio, coding, marketing and more.
@@ -127,7 +127,7 @@ export function SiteFooter() {
 
       <div className="border-t border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
-          <p>© {year} NeuroHub · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
+          <p>© {year} AIBlaze · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
           <p>Built for AI builders and learners worldwide.</p>
         </div>
       </div>

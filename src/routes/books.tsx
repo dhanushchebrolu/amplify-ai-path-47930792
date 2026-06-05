@@ -7,9 +7,9 @@ import { ArrowUpRight } from "lucide-react";
 export const Route = createFileRoute("/books")({
   head: () => ({
     meta: [
-      { title: "Books — NeuroHub" },
+      { title: "Books — AIBlaze" },
       { name: "description", content: "Curated books on AI, prompting, and creative workflows." },
-      { property: "og:title", content: "Books — NeuroHub" },
+      { property: "og:title", content: "Books — AIBlaze" },
       { property: "og:description", content: "Hand-picked books to level up your AI skills." },
     ],
   }),

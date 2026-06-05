@@ -8,21 +8,22 @@ import { Copy, Check, Search, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/prompts/")({
   head: () => ({
     meta: [
-      { title: "AI Prompt Library 2026 — 500+ Ready-to-Paste Prompts | NeuroHub" },
+      { title: "AI Prompt Library — Ready-to-Paste Prompts | AIBlaze" },
       { name: "description", content: "Battle-tested AI prompts for ChatGPT, Midjourney, Sora, Claude, Gemini and more. Copy, paste, and ship — with full step-by-step guides." },
-      { name: "keywords", content: "AI prompts, ChatGPT prompts, Midjourney prompts, Sora prompts, best AI prompts 2026, prompt library, prompt engineering, free AI prompts, image prompts, video prompts, writing prompts" },
-      { property: "og:title", content: "AI Prompt Library — 500+ Ready-to-Paste Prompts | NeuroHub" },
-      { property: "og:description", content: "Battle-tested prompts for ChatGPT, Midjourney, Sora & more — with full guides." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/prompts" },
-      { name: "twitter:title", content: "AI Prompt Library — NeuroHub" },
-      { name: "twitter:description", content: "500+ ready-to-paste AI prompts with full guides." },
+      { name: "keywords", content: "AI prompts, ChatGPT prompts, Midjourney prompts, Sora prompts, prompt library, prompt engineering, free AI prompts, image prompts, video prompts, writing prompts, coding prompts, business prompts" },
+      { property: "og:title", content: "AI Prompt Library | AIBlaze" },
+      { property: "og:description", content: "Ready-to-paste prompts for ChatGPT, Midjourney, Sora and more — with full guides." },
+      { property: "og:url", content: "https://aiblaze.io/prompts" },
+      { name: "twitter:title", content: "AI Prompt Library | AIBlaze" },
+      { name: "twitter:description", content: "Ready-to-paste AI prompts with full guides." },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/prompts" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/prompts" }],
   }),
+
   component: PromptsPage,
 });
 
-const CATS = ["All", "Image", "Writing", "Video", "Coding", "Audio", "Design", "Productivity"] as const;
+const CATS = ["All", "Image", "Writing", "Video", "Coding", "Audio", "Design", "Business", "Productivity"] as const;
 
 function PromptsPage() {
   const [cat, setCat] = useState<(typeof CATS)[number]>("All");
@@ -52,6 +53,8 @@ function PromptsPage() {
           <span className="text-xs uppercase tracking-[0.2em] text-primary">Prompts</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">The prompt library</h1>
           <p className="text-muted-foreground mt-4">Battle-tested prompts paired with the right tool. Click Copy — then ship.</p>
+          <p className="text-xs text-muted-foreground/70 mt-2">{(data ?? []).length} prompts in the library</p>
+
         </header>
 
         <div className="mt-10 flex flex-col md:flex-row gap-4 md:items-center">

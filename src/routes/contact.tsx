@@ -12,14 +12,14 @@ import { Mail } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact NeuroHub — Get in Touch" },
-      { name: "description", content: "Contact the NeuroHub team. Email aiblaze.io@gmail.com or use the form for partnerships, press, and feedback." },
-      { name: "keywords", content: "contact NeuroHub, AI tool directory contact, partnerships, press inquiries, feedback" },
-      { property: "og:title", content: "Contact NeuroHub" },
-      { property: "og:description", content: "Get in touch with the NeuroHub team." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/contact" },
+      { title: "Contact AIBlaze — Get in Touch" },
+      { name: "description", content: "Contact the AIBlaze team. Email aiblaze.io@gmail.com or use the form for partnerships, press, and feedback." },
+      { name: "keywords", content: "contact AIBlaze, AI tool directory contact, partnerships, press inquiries, feedback" },
+      { property: "og:title", content: "Contact AIBlaze" },
+      { property: "og:description", content: "Get in touch with the AIBlaze team." },
+      { property: "og:url", content: "https://aiblaze.io/contact" },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/contact" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/contact" }],
   }),
   component: ContactPage,
 });

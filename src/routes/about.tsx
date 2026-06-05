@@ -4,18 +4,18 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About NeuroHub — The AI Tool Directory" },
-      { name: "description", content: "NeuroHub is the curated directory of AI tools — discover, compare, and learn the best AI tools for writing, image, video, audio, coding, and more." },
-      { name: "keywords", content: "about NeuroHub, AI tool directory, AI discovery platform, best AI tools 2026, AI productivity, AI for creators" },
-      { property: "og:title", content: "About NeuroHub" },
+      { title: "About AIBlaze — The AI Tool Directory" },
+      { name: "description", content: "AIBlaze is the curated directory of AI tools — discover, compare, and learn the best AI tools for writing, image, video, audio, coding, and more." },
+      { name: "keywords", content: "about AIBlaze, AI tool directory, AI discovery platform, best AI tools 2026, AI productivity, AI for creators" },
+      { property: "og:title", content: "About AIBlaze" },
       { property: "og:description", content: "The curated directory of AI tools." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/about" },
+      { property: "og:url", content: "https://aiblaze.io/about" },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/about" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/about" }],
   }),
   component: () => (
-    <LegalPage title="About NeuroHub">
-      <p>NeuroHub is the everything-AI platform — a curated directory of AI tools across writing, video, image, audio, coding, marketing, SEO, and more, plus prompts, step-by-step tutorials, and discovery games.</p>
+    <LegalPage title="About AIBlaze">
+      <p>AIBlaze is the everything-AI platform — a curated directory of AI tools across writing, video, image, audio, coding, marketing, SEO, and more, plus prompts, step-by-step tutorials, and discovery games.</p>
 
       <h2>What we do</h2>
       <ul>
