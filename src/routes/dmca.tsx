@@ -4,25 +4,25 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/dmca")({
   head: () => ({
     meta: [
-      { title: "DMCA Policy — NeuroHub" },
-      { name: "description", content: "Copyright takedown procedure under the Digital Millennium Copyright Act for NeuroHub." },
-      { name: "keywords", content: "DMCA, copyright takedown, intellectual property, NeuroHub" },
-      { property: "og:title", content: "DMCA Policy — NeuroHub" },
+      { title: "DMCA Policy — AIBlaze" },
+      { name: "description", content: "Copyright takedown procedure under the Digital Millennium Copyright Act for AIBlaze." },
+      { name: "keywords", content: "DMCA, copyright takedown, intellectual property, AIBlaze" },
+      { property: "og:title", content: "DMCA Policy — AIBlaze" },
       { property: "og:description", content: "Copyright takedown procedure." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/dmca" },
+      { property: "og:url", content: "https://aiblaze.io/dmca" },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/dmca" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/dmca" }],
   }),
   component: () => (
     <LegalPage title="DMCA Policy" updated="June 4, 2026">
-      <p>NeuroHub respects the intellectual property rights of others and complies with the Digital Millennium Copyright Act (DMCA).</p>
+      <p>AIBlaze respects the intellectual property rights of others and complies with the Digital Millennium Copyright Act (DMCA).</p>
 
       <h2>Submitting a takedown notice</h2>
-      <p>If you believe content on NeuroHub infringes your copyright, send a written notice to <a href="mailto:aiblaze.io@gmail.com">aiblaze.io@gmail.com</a> including:</p>
+      <p>If you believe content on AIBlaze infringes your copyright, send a written notice to <a href="mailto:aiblaze.io@gmail.com">aiblaze.io@gmail.com</a> including:</p>
       <ul>
         <li>Your physical or electronic signature.</li>
         <li>Identification of the copyrighted work claimed to be infringed.</li>
-        <li>The URL or location of the allegedly infringing material on NeuroHub.</li>
+        <li>The URL or location of the allegedly infringing material on AIBlaze.</li>
         <li>Your contact information (address, phone, email).</li>
         <li>A statement that you have a good-faith belief the use is not authorized.</li>
         <li>A statement, under penalty of perjury, that the information is accurate and you are authorized to act on behalf of the copyright owner.</li>

@@ -6,7 +6,7 @@ import { learnTasks } from "@/data/learnTasks";
 export const Route = createFileRoute("/learn/spin")({
   head: () => ({
     meta: [
-      { title: "Spin — Discover Your Next AI Task · NeuroHub" },
+      { title: "Spin — Discover Your Next AI Task · AIBlaze" },
       { name: "description", content: "Spin the AI globe and land on a new tool to try right now. Step-by-step guide, ready-to-paste prompt, reference output." },
       { property: "og:title", content: "Spin — Discover Your Next AI Task" },
       { property: "og:description", content: "Drag the sphere, land on a task, learn a new AI workflow in minutes." },

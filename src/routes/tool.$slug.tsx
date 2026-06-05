@@ -19,7 +19,7 @@ export const Route = createFileRoute("/tool/$slug")({
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const { tool } = loaderData;
-    const title = `${tool.name} — ${tool.tagline} | NeuroHub`;
+    const title = `${tool.name} — ${tool.tagline} | AIBlaze`;
     const desc = tool.description;
     return {
       meta: [

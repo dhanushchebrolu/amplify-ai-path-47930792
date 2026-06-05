@@ -7,9 +7,9 @@ import { ArrowUpRight } from "lucide-react";
 export const Route = createFileRoute("/courses")({
   head: () => ({
     meta: [
-      { title: "Courses — NeuroHub" },
+      { title: "Courses — AIBlaze" },
       { name: "description", content: "Curated AI courses and tutorials, hand-picked." },
-      { property: "og:title", content: "Courses — NeuroHub" },
+      { property: "og:title", content: "Courses — AIBlaze" },
       { property: "og:description", content: "Level up with hand-picked AI courses." },
     ],
   }),

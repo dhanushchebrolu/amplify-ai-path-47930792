@@ -4,4 +4,4 @@ Disallow: /admin
 Disallow: /admin/
 Disallow: /_admin/
 
-Sitemap: https://amplify-ai-path.lovable.app/sitemap.xml
+Sitemap: https://aiblaze.io/sitemap.xml

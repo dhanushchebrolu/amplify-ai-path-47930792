@@ -17,7 +17,7 @@ export const Route = createFileRoute("/blog/$slug")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(postQuery(params.slug)),
   head: ({ loaderData }: any) => ({
     meta: [
-      { title: `${loaderData?.title ?? "Post"} — NeuroHub Blog` },
+      { title: `${loaderData?.title ?? "Post"} — AIBlaze Blog` },
       { name: "description", content: loaderData?.excerpt ?? "" },
       { property: "og:title", content: loaderData?.title ?? "" },
       { property: "og:description", content: loaderData?.excerpt ?? "" },

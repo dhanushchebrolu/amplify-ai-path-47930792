@@ -11,7 +11,7 @@ export const Route = createFileRoute("/search")({
   }),
   head: () => ({
     meta: [
-      { title: "Search AI Tools — NeuroHub" },
+      { title: "Search AI Tools — AIBlaze" },
       { name: "description", content: "Search 2,750+ AI tools across 15 categories." },
     ],
     links: [{ rel: "canonical", href: "/search" }],

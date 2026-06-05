@@ -6,7 +6,7 @@ import { learnTasks } from "@/data/learnTasks";
 export const Route = createFileRoute("/learn/swipe")({
   head: () => ({
     meta: [
-      { title: "Swipe — Match With Your Next AI Workflow · NeuroHub" },
+      { title: "Swipe — Match With Your Next AI Workflow · AIBlaze" },
       { name: "description", content: "Swipe right to try, left to skip. Build your personal AI playlist one card at a time." },
       { property: "og:title", content: "Swipe — Match With Your Next AI Workflow" },
       { property: "og:description", content: "Tinder-style discovery for AI tools and tasks." },

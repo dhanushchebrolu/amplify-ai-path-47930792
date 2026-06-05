@@ -8,16 +8,16 @@ import { Copy, Check, Search, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/prompts/")({
   head: () => ({
     meta: [
-      { title: "AI Prompt Library 2026 — 500+ Ready-to-Paste Prompts | NeuroHub" },
+      { title: "AI Prompt Library 2026 — 500+ Ready-to-Paste Prompts | AIBlaze" },
       { name: "description", content: "Battle-tested AI prompts for ChatGPT, Midjourney, Sora, Claude, Gemini and more. Copy, paste, and ship — with full step-by-step guides." },
       { name: "keywords", content: "AI prompts, ChatGPT prompts, Midjourney prompts, Sora prompts, best AI prompts 2026, prompt library, prompt engineering, free AI prompts, image prompts, video prompts, writing prompts" },
-      { property: "og:title", content: "AI Prompt Library — 500+ Ready-to-Paste Prompts | NeuroHub" },
+      { property: "og:title", content: "AI Prompt Library — 500+ Ready-to-Paste Prompts | AIBlaze" },
       { property: "og:description", content: "Battle-tested prompts for ChatGPT, Midjourney, Sora & more — with full guides." },
-      { property: "og:url", content: "https://amplify-ai-path.lovable.app/prompts" },
-      { name: "twitter:title", content: "AI Prompt Library — NeuroHub" },
+      { property: "og:url", content: "https://aiblaze.io/prompts" },
+      { name: "twitter:title", content: "AI Prompt Library — AIBlaze" },
       { name: "twitter:description", content: "500+ ready-to-paste AI prompts with full guides." },
     ],
-    links: [{ rel: "canonical", href: "https://amplify-ai-path.lovable.app/prompts" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/prompts" }],
   }),
   component: PromptsPage,
 });
