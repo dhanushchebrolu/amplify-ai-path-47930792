@@ -84,11 +84,15 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
-      { name: "twitter:site", content: "@neurohub" },
+      { name: "twitter:site", content: "@aiblaze" },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
     ],
     links: [
       { rel: "stylesheet", href: appCss },
+      { rel: "icon", href: "/favicon.ico", sizes: "any" },
+      { rel: "icon", href: "/favicon-32.png", type: "image/png", sizes: "32x32" },
+      { rel: "icon", href: "/favicon.png", type: "image/png", sizes: "512x512" },
+      { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://kcjsfwnzlwcnucfkesgh.supabase.co" },
@@ -97,6 +101,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap",
       },
     ],
+
     scripts: [
       {
         type: "application/ld+json",
