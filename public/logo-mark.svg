@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="none">
+  <!-- AIBlaze mark: geometric blaze — upward flame formed by 3 chevrons + spark dot -->
+  <!-- Outer flame body -->
+  <path d="M128 24 L196 116 L160 116 L196 184 L128 152 L60 184 L96 116 L60 116 Z"
+        fill="#F5D547"/>
+  <!-- Inner notch (negative space gives depth) -->
+  <path d="M128 84 L156 124 L128 144 L100 124 Z" fill="#0A0A0A"/>
+  <!-- Spark dot above flame -->
+  <circle cx="128" cy="218" r="14" fill="#F5D547"/>
+</svg>
