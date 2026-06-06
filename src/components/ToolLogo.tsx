@@ -68,7 +68,7 @@ export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLog
         className,
       )}
       style={{ width: size, height: size, backgroundColor: bg }}
-      aria-label={`${tool.name} logo`}
+      aria-label={`${name || "Tool"} logo`}
     >
       {src ? (
         <img
