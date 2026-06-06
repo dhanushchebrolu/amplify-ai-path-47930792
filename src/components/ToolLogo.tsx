@@ -19,42 +19,43 @@ interface ToolLogoProps {
  * The fallback chain is driven by image onError to handle 404s after hydration.
  */
 export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLogoProps) {
-  const [stage, setStage] = useState<0 | 1 | 2>(tool.simpleIcon ? 0 : 1);
+  const name = tool?.name ?? "";
+  const brandColor = (tool as any)?.brandColor || "#111111";
+  const simpleIcon = (tool as any)?.simpleIcon ?? null;
+  const website = (tool as any)?.website ?? null;
+  const iconOnDark = (tool as any)?.iconOnDark ?? false;
+
+  const [stage, setStage] = useState<0 | 1 | 2>(simpleIcon ? 0 : 1);
 
   const radius = rounded === "full" ? "rounded-full" : "rounded-xl";
-  const initials = tool.name
-    .replace(/[^A-Za-z0-9 .·-]/g, "")
-    .split(/\s+/)
-    .map((w) => w[0])
-    .slice(0, 2)
-    .join("")
-    .toUpperCase();
+  const initials =
+    name
+      .replace(/[^A-Za-z0-9 .·-]/g, "")
+      .split(/\s+/)
+      .map((w) => w[0])
+      .filter(Boolean)
+      .slice(0, 2)
+      .join("")
+      .toUpperCase() || "?";
 
-  const isLightBrand =
-    tool.brandColor.toLowerCase() === "#ffffff" ||
-    tool.brandColor.toLowerCase() === "#fff" ||
-    tool.iconOnDark;
+  const bcLower = (brandColor || "").toLowerCase();
+  const isLightBrand = bcLower === "#ffffff" || bcLower === "#fff" || iconOnDark;
 
   let domain: string | null = null;
   try {
-    domain = tool.website ? new URL(tool.website).hostname.replace(/^www\./, "") : null;
+    domain = website ? new URL(website).hostname.replace(/^www\./, "") : null;
   } catch { /* ignore */ }
 
-  // Background per stage
   const bg =
     stage === 0
-      ? isLightBrand
-        ? "#111111"
-        : tool.brandColor
+      ? isLightBrand ? "#111111" : brandColor
       : stage === 1
         ? "#ffffff"
-        : isLightBrand
-          ? "#111111"
-          : tool.brandColor;
+        : isLightBrand ? "#111111" : brandColor;
 
   const src =
-    stage === 0 && tool.simpleIcon
-      ? `https://cdn.simpleicons.org/${tool.simpleIcon}/ffffff`
+    stage === 0 && simpleIcon
+      ? `https://cdn.simpleicons.org/${simpleIcon}/ffffff`
       : stage === 1 && domain
         ? `https://www.google.com/s2/favicons?sz=128&domain=${domain}`
         : null;
