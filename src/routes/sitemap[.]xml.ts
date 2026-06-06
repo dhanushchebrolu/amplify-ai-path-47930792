@@ -1,7 +1,5 @@
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
-import { catalog } from "@/data/catalog";
-import { tools as staticTools } from "@/data/tools";
 
 const BASE_URL = "https://aiblaze.io";
 
@@ -13,22 +11,98 @@ interface SitemapEntry {
 }
 
 async function fetchDbEntries(): Promise<SitemapEntry[]> {
-  const url = process.env.SUPABASE_URL;
-  const key = process.env.SUPABASE_PUBLISHABLE_KEY;
+  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
+  const key =
+    process.env.SUPABASE_PUBLISHABLE_KEY ||
+    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY;
   if (!url || !key) return [];
   const out: SitemapEntry[] = [];
   const headers = { apikey: key, Authorization: `Bearer ${key}` };
+  const fetchAll = async (path: string) => {
+    const rows: any[] = [];
+    let from = 0;
+    const pageSize = 1000;
+    while (true) {
+      const res = await fetch(`${url}${path}`, {
+        headers: { ...headers, Range: `${from}-${from + pageSize - 1}` },
+      });
+      if (!res.ok) break;
+      const batch = await res.json();
+      rows.push(...batch);
+      if (!batch.length || batch.length < pageSize) break;
+      from += pageSize;
+    }
+    return rows;
+  };
+
   try {
-    const [blog, prompts, dbTools] = await Promise.all([
-      fetch(`${url}/rest/v1/blog_posts?select=slug,updated_at&published=eq.true`, { headers }).then(r => r.ok ? r.json() : []),
-      fetch(`${url}/rest/v1/prompts?select=id,updated_at`, { headers }).then(r => r.ok ? r.json() : []),
-      fetch(`${url}/rest/v1/tools?select=slug,updated_at`, { headers }).then(r => r.ok ? r.json() : []),
+    const [categories, subcategories, tools, blog, prompts, learnTasks] = await Promise.all([
+      fetchAll(`/rest/v1/categories?select=slug,updated_at&order=sort_order.asc`),
+      fetchAll(`/rest/v1/subcategories?select=category_slug,slug,updated_at&order=sort_order.asc`),
+      fetchAll(`/rest/v1/tools?select=slug,updated_at`),
+      fetchAll(`/rest/v1/blog_posts?select=slug,updated_at&published=eq.true`),
+      fetchAll(`/rest/v1/prompts?select=id,updated_at`),
+      fetchAll(`/rest/v1/learn_tasks?select=id,updated_at`),
     ]);
-    for (const p of blog ?? []) out.push({ path: `/blog/${p.slug}`, lastmod: p.updated_at?.slice(0, 10), changefreq: "weekly", priority: "0.7" });
-    for (const p of prompts ?? []) out.push({ path: `/prompts/${p.id}`, lastmod: p.updated_at?.slice(0, 10), changefreq: "monthly", priority: "0.6" });
-    for (const t of dbTools ?? []) out.push({ path: `/tool/${t.slug}`, lastmod: t.updated_at?.slice(0, 10), changefreq: "weekly", priority: "0.6" });
+
+    for (const c of categories) {
+      if (!c.slug) continue;
+      out.push({
+        path: `/category/${c.slug}`,
+        lastmod: c.updated_at?.slice(0, 10),
+        changefreq: "weekly",
+        priority: "0.8",
+      });
+    }
+    for (const s of subcategories) {
+      if (!s.slug || !s.category_slug) continue;
+      out.push({
+        path: `/category/${s.category_slug}/${s.slug}`,
+        lastmod: s.updated_at?.slice(0, 10),
+        changefreq: "weekly",
+        priority: "0.7",
+      });
+    }
+    for (const t of tools) {
+      if (!t.slug) continue;
+      out.push({
+        path: `/tool/${t.slug}`,
+        lastmod: t.updated_at?.slice(0, 10),
+        changefreq: "weekly",
+        priority: "0.6",
+      });
+    }
+    for (const p of blog) {
+      if (!p.slug) continue;
+      out.push({
+        path: `/blog/${p.slug}`,
+        lastmod: p.updated_at?.slice(0, 10),
+        changefreq: "weekly",
+        priority: "0.7",
+      });
+    }
+    for (const p of prompts) {
+      if (!p.id) continue;
+      out.push({
+        path: `/prompts/${p.id}`,
+        lastmod: p.updated_at?.slice(0, 10),
+        changefreq: "monthly",
+        priority: "0.6",
+      });
+    }
+    for (const l of learnTasks) {
+      if (!l.id) continue;
+      out.push({
+        path: `/learn/task/${l.id}`,
+        lastmod: l.updated_at?.slice(0, 10),
+        changefreq: "monthly",
+        priority: "0.5",
+      });
+    }
   } catch {
-    /* ignore — sitemap should still render from static catalog */
+    /* ignore — static routes still ship */
   }
   return out;
 }
@@ -58,20 +132,9 @@ export const Route = createFileRoute("/sitemap.xml")({
           { path: "/dmca", changefreq: "yearly", priority: "0.3" },
         ];
 
-        for (const c of catalog) {
-          entries.push({ path: `/category/${c.slug}`, changefreq: "weekly", priority: "0.8" });
-          for (const s of c.subs) {
-            entries.push({ path: `/category/${c.slug}/${s.slug}`, changefreq: "weekly", priority: "0.7" });
-          }
-        }
-        for (const t of staticTools) {
-          entries.push({ path: `/tool/${t.slug}`, changefreq: "weekly", priority: "0.6" });
-        }
-
         const dbEntries = await fetchDbEntries();
         for (const e of dbEntries) entries.push(e);
 
-        // De-duplicate by path
         const seen = new Set<string>();
         const unique = entries.filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)));
 
