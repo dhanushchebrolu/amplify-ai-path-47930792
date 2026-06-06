@@ -1,7 +1,9 @@
 import { Link } from "@tanstack/react-router";
-import { Star, ChevronDown, Sparkles, Eraser, Compass, Bug, Mail } from "lucide-react";
+import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BugReportDialog } from "@/components/BugReportDialog";
+
+const LOGO_MARK = "/logo-mark.svg";
 
 const ScratchIcon = Eraser;
 
@@ -21,10 +23,8 @@ export function SiteHeader() {
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
-          <span className="flex items-center justify-center w-8 h-8 rounded-full bg-primary text-primary-foreground">
-            <Star className="w-4 h-4 fill-current" />
-          </span>
-          <span className="font-semibold tracking-tight">AIBlaze</span>
+          <img src={LOGO_MARK} alt="" width={32} height={32} className="w-8 h-8" />
+          <span className="font-semibold tracking-tight text-base">AIBlaze</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
@@ -80,9 +80,7 @@ export function SiteFooter() {
       <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 md:grid-cols-4">
         <div>
           <div className="flex items-center gap-2">
-            <span className="flex items-center justify-center w-7 h-7 rounded-full bg-primary text-primary-foreground">
-              <Star className="w-3.5 h-3.5 fill-current" />
-            </span>
+            <img src={LOGO_MARK} alt="" width={28} height={28} className="w-7 h-7" />
             <span className="font-semibold">AIBlaze</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
