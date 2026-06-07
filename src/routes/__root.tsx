@@ -10,6 +10,7 @@ import {
 import { useEffect } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { Toaster } from "@/components/ui/sonner";
+import { Analytics } from "@/components/Analytics";
 
 import appCss from "../styles.css?url";
 
