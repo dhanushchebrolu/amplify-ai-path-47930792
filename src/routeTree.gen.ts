@@ -21,6 +21,7 @@ import { Route as CookiesRouteImport } from './routes/cookies'
 import { Route as ContactRouteImport } from './routes/contact'
 import { Route as BrowseRouteImport } from './routes/browse'
 import { Route as BooksRouteImport } from './routes/books'
+import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
 import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
@@ -105,6 +106,11 @@ const BrowseRoute = BrowseRouteImport.update({
 const BooksRoute = BooksRouteImport.update({
   id: '/books',
   path: '/books',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
+  id: '/affiliate-disclosure',
+  path: '/affiliate-disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -235,6 +241,7 @@ const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/contact': typeof ContactRoute
@@ -273,6 +280,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexRoute
   '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/contact': typeof ContactRoute
@@ -313,6 +321,7 @@ export interface FileRoutesById {
   '/': typeof IndexRoute
   '/_admin': typeof AdminRouteWithChildren
   '/about': typeof AboutRoute
+  '/affiliate-disclosure': typeof AffiliateDisclosureRoute
   '/books': typeof BooksRoute
   '/browse': typeof BrowseRoute
   '/contact': typeof ContactRoute
@@ -353,6 +362,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/about'
+    | '/affiliate-disclosure'
     | '/books'
     | '/browse'
     | '/contact'
@@ -391,6 +401,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/about'
+    | '/affiliate-disclosure'
     | '/books'
     | '/browse'
     | '/contact'
@@ -430,6 +441,7 @@ export interface FileRouteTypes {
     | '/'
     | '/_admin'
     | '/about'
+    | '/affiliate-disclosure'
     | '/books'
     | '/browse'
     | '/contact'
@@ -470,6 +482,7 @@ export interface RootRouteChildren {
   IndexRoute: typeof IndexRoute
   AdminRoute: typeof AdminRouteWithChildren
   AboutRoute: typeof AboutRoute
+  AffiliateDisclosureRoute: typeof AffiliateDisclosureRoute
   BooksRoute: typeof BooksRoute
   BrowseRoute: typeof BrowseRoute
   ContactRoute: typeof ContactRoute
@@ -581,6 +594,13 @@ declare module '@tanstack/react-router' {
       path: '/books'
       fullPath: '/books'
       preLoaderRoute: typeof BooksRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/affiliate-disclosure': {
+      id: '/affiliate-disclosure'
+      path: '/affiliate-disclosure'
+      fullPath: '/affiliate-disclosure'
+      preLoaderRoute: typeof AffiliateDisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/about': {
@@ -791,6 +811,7 @@ const rootRouteChildren: RootRouteChildren = {
   IndexRoute: IndexRoute,
   AdminRoute: AdminRouteWithChildren,
   AboutRoute: AboutRoute,
+  AffiliateDisclosureRoute: AffiliateDisclosureRoute,
   BooksRoute: BooksRoute,
   BrowseRoute: BrowseRoute,
   ContactRoute: ContactRoute,

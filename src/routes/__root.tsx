@@ -85,6 +85,10 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
       { name: "twitter:site", content: "@aiblaze" },
+      { property: "og:image", content: "https://aiblaze.io/og-default.png" },
+      { property: "og:image:width", content: "1200" },
+      { property: "og:image:height", content: "630" },
+      { name: "twitter:image", content: "https://aiblaze.io/og-default.png" },
       { name: "robots", content: "index, follow, max-image-preview:large, max-snippet:-1" },
     ],
     links: [
