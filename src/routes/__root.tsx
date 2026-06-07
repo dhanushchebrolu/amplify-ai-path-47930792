@@ -177,6 +177,7 @@ function RootComponent() {
   return (
     <QueryClientProvider client={queryClient}>
       <AuthSync />
+      <Analytics />
       <Outlet />
       <Toaster />
     </QueryClientProvider>
