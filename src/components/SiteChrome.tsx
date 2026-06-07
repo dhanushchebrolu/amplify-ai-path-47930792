@@ -105,6 +105,7 @@ export function SiteFooter() {
           { label: "Terms of Service", to: "/terms" },
           { label: "Cookie Policy", to: "/cookies" },
           { label: "Disclaimer", to: "/disclaimer" },
+          { label: "Affiliate Disclosure", to: "/affiliate-disclosure" },
           { label: "DMCA", to: "/dmca" },
         ]} />
 
