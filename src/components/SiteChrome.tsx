@@ -3,7 +3,7 @@ import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail } from "lucide-react"
 import { useEffect, useRef, useState } from "react";
 import { BugReportDialog } from "@/components/BugReportDialog";
 
-const LOGO_MARK = "/logo-mark.svg";
+const LOGO_MARK = "/logo.png";
 
 const ScratchIcon = Eraser;
 
