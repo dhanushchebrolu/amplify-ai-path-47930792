@@ -111,8 +111,66 @@ function ToolPage() {
           </section>
         )}
 
+        <section className="mt-10 grid md:grid-cols-2 gap-6">
+          <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <h3 className="font-display text-xl mb-3">Key features</h3>
+            <ul className="space-y-2 text-sm text-muted-foreground list-disc pl-5">
+              <li>Purpose-built for {String(tool.category ?? "AI").replace(/-/g, " ")} workflows.</li>
+              <li>Fast, reliable output with a clean, modern interface.</li>
+              <li>{tool.pricing ? `${tool.pricing} pricing — try it before you commit.` : "Flexible pricing tiers to match your usage."}</li>
+              <li>Works in the browser — no install required.</li>
+              <li>Active development with frequent updates and new models.</li>
+            </ul>
+          </div>
+          <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <h3 className="font-display text-xl mb-3">How to get started</h3>
+            <ol className="space-y-2 text-sm text-muted-foreground list-decimal pl-5">
+              <li>Click <span className="text-foreground">Visit {tool.name}</span> to open the official site.</li>
+              <li>Create a free account or sign in with Google.</li>
+              <li>Pick a starter template or paste your first prompt.</li>
+              <li>Iterate — refine your prompt or settings until the output fits.</li>
+              <li>Export, share, or integrate into your workflow.</li>
+            </ol>
+          </div>
+        </section>
+
+        <section className="mt-8 grid md:grid-cols-2 gap-6">
+          <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <h3 className="font-display text-xl mb-3">Best for</h3>
+            <p className="text-sm text-muted-foreground">
+              Creators, founders, and teams who want a fast, dependable {String(tool.category ?? "AI").replace(/-/g, " ")} tool without the learning curve. Great for solo builders shipping daily and for small teams collaborating on repeatable work.
+            </p>
+          </div>
+          <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <h3 className="font-display text-xl mb-3">Pricing</h3>
+            <p className="text-sm text-muted-foreground">
+              {tool.pricing ? `${tool.name} is available on a ${tool.pricing.toLowerCase()} plan.` : `${tool.name} offers multiple plans — check the official site for the latest details.`} Most users start with the free tier and upgrade once it pays for itself.
+            </p>
+          </div>
+        </section>
+
+        <section className="mt-10">
+          <h3 className="font-display text-2xl mb-4">Frequently asked questions</h3>
+          <div className="space-y-3">
+            {[
+              { q: `Is ${tool.name} free to use?`, a: tool.pricing ? `${tool.name} offers a ${tool.pricing.toLowerCase()} plan. You can start without paying and upgrade later.` : `${tool.name} has multiple pricing tiers including a free option for new users.` },
+              { q: `What can I do with ${tool.name}?`, a: tool.tagline ?? tool.description ?? `${tool.name} helps you work faster on ${String(tool.category ?? "AI").replace(/-/g, " ")} tasks with AI assistance.` },
+              { q: `Do I need to install anything?`, a: `No. ${tool.name} runs in your browser — sign in and start building right away.` },
+              { q: `Is it safe to use ${tool.name} for client work?`, a: `Yes. Read the terms on the official site to confirm commercial usage rights for your specific plan.` },
+            ].map((f, i) => (
+              <details key={i} className="card-surface p-5 rounded-2xl border border-white/10 group">
+                <summary className="font-medium cursor-pointer list-none flex justify-between items-center">
+                  <span>{f.q}</span>
+                  <span className="text-primary group-open:rotate-45 transition-transform">+</span>
+                </summary>
+                <p className="mt-3 text-sm text-muted-foreground">{f.a}</p>
+              </details>
+            ))}
+          </div>
+        </section>
+
         {Array.isArray(tool.tags) && tool.tags.length > 0 && (
-          <section className="mt-8">
+          <section className="mt-10">
             <h3 className="font-medium mb-3">Tags</h3>
             <div className="flex flex-wrap gap-1.5">
               {tool.tags.map((t: string) => (
@@ -121,6 +179,19 @@ function ToolPage() {
             </div>
           </section>
         )}
+
+        <section className="mt-12 card-surface p-7 rounded-2xl border border-white/10 text-center">
+          <h3 className="font-display text-2xl">Ready to try {tool.name}?</h3>
+          <p className="text-muted-foreground mt-2 text-sm">Open the official site and explore in under a minute.</p>
+          <a
+            href={tool.url}
+            target="_blank"
+            rel="noopener sponsored"
+            className="mt-5 inline-flex items-center gap-2 bg-primary text-primary-foreground rounded-full px-5 py-3 font-medium text-sm hover:opacity-90 transition-opacity"
+          >
+            Visit {tool.name} <ArrowUpRight className="w-4 h-4" />
+          </a>
+        </section>
       </main>
       <SiteFooter />
     </div>
