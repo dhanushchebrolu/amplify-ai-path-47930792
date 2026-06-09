@@ -24,7 +24,7 @@ export function SiteHeader() {
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
           <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11" />
-          <span className="font-semibold tracking-tight text-base">AI Blaze</span>
+          <span className="font-semibold tracking-tight text-xl whitespace-nowrap">AI Blaze</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
