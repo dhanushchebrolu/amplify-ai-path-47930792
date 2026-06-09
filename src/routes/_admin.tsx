@@ -41,7 +41,7 @@ function AdminLayout() {
   return (
     <div className="min-h-screen flex">
       <aside className="w-60 border-r border-white/10 p-4 flex flex-col">
-        <Link to="/" className="font-display text-xl mb-6">AIBlaze admin</Link>
+        <Link to="/" className="font-display text-xl mb-6">AI Blaze admin</Link>
         <nav className="space-y-1 text-sm flex-1">
           <NavItem to="/admin" icon={<LayoutDashboard className="w-4 h-4" />} label="Overview" />
           <NavItem to="/admin/categories" icon={<FolderTree className="w-4 h-4" />} label="Categories" />

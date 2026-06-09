@@ -12,11 +12,11 @@ import { Mail } from "lucide-react";
 export const Route = createFileRoute("/contact")({
   head: () => ({
     meta: [
-      { title: "Contact AIBlaze — Get in Touch" },
-      { name: "description", content: "Contact the AIBlaze team. Email aiblaze.io@gmail.com or use the form for partnerships, press, and feedback." },
-      { name: "keywords", content: "contact AIBlaze, AI tool directory contact, partnerships, press inquiries, feedback" },
-      { property: "og:title", content: "Contact AIBlaze" },
-      { property: "og:description", content: "Get in touch with the AIBlaze team." },
+      { title: "Contact AI Blaze — Get in Touch" },
+      { name: "description", content: "Contact the AI Blaze team. Email aiblaze.io@gmail.com or use the form for partnerships, press, and feedback." },
+      { name: "keywords", content: "contact AI Blaze, AI tool directory contact, partnerships, press inquiries, feedback" },
+      { property: "og:title", content: "Contact AI Blaze" },
+      { property: "og:description", content: "Get in touch with the AI Blaze team." },
       { property: "og:url", content: "https://aiblaze.io/contact" },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/contact" }],

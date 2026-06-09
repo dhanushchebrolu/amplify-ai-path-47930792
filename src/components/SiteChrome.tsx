@@ -24,7 +24,7 @@ export function SiteHeader() {
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group">
           <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11" />
-          <span className="font-semibold tracking-tight text-base">AIBlaze</span>
+          <span className="font-semibold tracking-tight text-base">AI Blaze</span>
         </Link>
         <nav className="flex items-center gap-6 text-sm text-muted-foreground">
           <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
@@ -81,7 +81,7 @@ export function SiteFooter() {
         <div>
           <div className="flex items-center gap-2">
             <img src={LOGO_MARK} alt="" width={40} height={40} className="w-10 h-10" />
-            <span className="font-semibold">AIBlaze</span>
+            <span className="font-semibold">AI Blaze</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
             Every AI tool in one platform. Discover, compare, and learn the best AI tools for writing, video, image, audio, coding, marketing and more.
@@ -126,7 +126,7 @@ export function SiteFooter() {
 
       <div className="border-t border-border/60">
         <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
-          <p>© {year} AIBlaze · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
+          <p>© {year} AI Blaze · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
           <p>Built for AI builders and learners worldwide.</p>
         </div>
       </div>

@@ -7,7 +7,7 @@ import { useState } from "react";
 export const Route = createFileRoute("/learn/task/$id")({
   head: ({ params }) => {
     const t = getTask(params.id);
-    const title = t ? `${t.title} — Learn with ${t.tool.name} · AIBlaze` : "Task — AIBlaze";
+    const title = t ? `${t.title} — Learn with ${t.tool.name} · AI Blaze` : "Task — AI Blaze";
     const desc = t?.tagline ?? "Try a new AI workflow.";
     return {
       meta: [

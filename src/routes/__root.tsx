@@ -76,12 +76,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     meta: [
       { charSet: "utf-8" },
       { name: "viewport", content: "width=device-width, initial-scale=1" },
-      { title: "AIBlaze — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
+      { title: "AI Blaze — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
       { name: "description", content: "Discover 500+ AI tools across 15 categories — writing, image, video, audio, coding, marketing & SEO. Compare, learn, and find the perfect AI for any task." },
       { name: "keywords", content: "AI tools, best AI tools 2026, AI tool directory, ChatGPT alternatives, AI image generator, AI video generator, AI writing tools, AI for marketing, AI for coding, AI prompts library, free AI tools, compare AI tools, AI for students, AI for creators, generative AI tools" },
-      { name: "author", content: "AIBlaze" },
+      { name: "author", content: "AI Blaze" },
       { name: "theme-color", content: "#0a0a0a" },
-      { property: "og:site_name", content: "AIBlaze" },
+      { property: "og:site_name", content: "AI Blaze" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },
       { name: "twitter:card", content: "summary_large_image" },
@@ -114,7 +114,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "Organization",
-          name: "AIBlaze",
+          name: "AI Blaze",
           url: "https://aiblaze.io",
           email: "aiblaze.io@gmail.com",
           description: "The curated directory of AI tools, prompts, and tutorials.",
@@ -125,7 +125,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
         children: JSON.stringify({
           "@context": "https://schema.org",
           "@type": "WebSite",
-          name: "AIBlaze",
+          name: "AI Blaze",
           url: "https://aiblaze.io",
           potentialAction: {
             "@type": "SearchAction",

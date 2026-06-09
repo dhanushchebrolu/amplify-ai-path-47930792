@@ -4,18 +4,18 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/about")({
   head: () => ({
     meta: [
-      { title: "About AIBlaze — The AI Tool Directory" },
-      { name: "description", content: "AIBlaze is the curated directory of AI tools — discover, compare, and learn the best AI tools for writing, image, video, audio, coding, and more." },
-      { name: "keywords", content: "about AIBlaze, AI tool directory, AI discovery platform, best AI tools 2026, AI productivity, AI for creators" },
-      { property: "og:title", content: "About AIBlaze" },
+      { title: "About AI Blaze — The AI Tool Directory" },
+      { name: "description", content: "AI Blaze is the curated directory of AI tools — discover, compare, and learn the best AI tools for writing, image, video, audio, coding, and more." },
+      { name: "keywords", content: "about AI Blaze, AI tool directory, AI discovery platform, best AI tools 2026, AI productivity, AI for creators" },
+      { property: "og:title", content: "About AI Blaze" },
       { property: "og:description", content: "The curated directory of AI tools." },
       { property: "og:url", content: "https://aiblaze.io/about" },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/about" }],
   }),
   component: () => (
-    <LegalPage title="About AIBlaze">
-      <p>AIBlaze is the everything-AI platform — a curated directory of AI tools across writing, video, image, audio, coding, marketing, SEO, and more, plus prompts, step-by-step tutorials, and discovery games.</p>
+    <LegalPage title="About AI Blaze">
+      <p>AI Blaze is the everything-AI platform — a curated directory of AI tools across writing, video, image, audio, coding, marketing, SEO, and more, plus prompts, step-by-step tutorials, and discovery games.</p>
 
       <h2>What we do</h2>
       <ul>

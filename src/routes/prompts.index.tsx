@@ -8,13 +8,13 @@ import { Copy, Check, Search, ArrowRight } from "lucide-react";
 export const Route = createFileRoute("/prompts/")({
   head: () => ({
     meta: [
-      { title: "AI Prompt Library — Ready-to-Paste Prompts | AIBlaze" },
+      { title: "AI Prompt Library — Ready-to-Paste Prompts | AI Blaze" },
       { name: "description", content: "Battle-tested AI prompts for ChatGPT, Midjourney, Sora, Claude, Gemini and more. Copy, paste, and ship — with full step-by-step guides." },
       { name: "keywords", content: "AI prompts, ChatGPT prompts, Midjourney prompts, Sora prompts, prompt library, prompt engineering, free AI prompts, image prompts, video prompts, writing prompts, coding prompts, business prompts" },
-      { property: "og:title", content: "AI Prompt Library | AIBlaze" },
+      { property: "og:title", content: "AI Prompt Library | AI Blaze" },
       { property: "og:description", content: "Ready-to-paste prompts for ChatGPT, Midjourney, Sora and more — with full guides." },
       { property: "og:url", content: "https://aiblaze.io/prompts" },
-      { name: "twitter:title", content: "AI Prompt Library | AIBlaze" },
+      { name: "twitter:title", content: "AI Prompt Library | AI Blaze" },
       { name: "twitter:description", content: "Ready-to-paste AI prompts with full guides." },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/prompts" }],

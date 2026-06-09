@@ -4,10 +4,10 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/privacy")({
   head: () => ({
     meta: [
-      { title: "Privacy Policy — AIBlaze" },
-      { name: "description", content: "How AIBlaze collects, uses, and protects your personal data. GDPR & CCPA compliant privacy practices for our AI tool directory." },
+      { title: "Privacy Policy — AI Blaze" },
+      { name: "description", content: "How AI Blaze collects, uses, and protects your personal data. GDPR & CCPA compliant privacy practices for our AI tool directory." },
       { name: "keywords", content: "privacy policy, data protection, GDPR, CCPA, AI tool directory privacy, user data, cookies" },
-      { property: "og:title", content: "Privacy Policy — AIBlaze" },
+      { property: "og:title", content: "Privacy Policy — AI Blaze" },
       { property: "og:description", content: "How we collect, use, and protect your data." },
       { property: "og:url", content: "https://aiblaze.io/privacy" },
     ],
@@ -15,7 +15,7 @@ export const Route = createFileRoute("/privacy")({
   }),
   component: () => (
     <LegalPage title="Privacy Policy" updated="June 4, 2026">
-      <p>AIBlaze ("we", "us", "our") respects your privacy. This Privacy Policy explains what information we collect, how we use it, and your rights.</p>
+      <p>AI Blaze ("we", "us", "our") respects your privacy. This Privacy Policy explains what information we collect, how we use it, and your rights.</p>
 
       <h2>1. Information we collect</h2>
       <ul>
@@ -27,7 +27,7 @@ export const Route = createFileRoute("/privacy")({
 
       <h2>2. How we use your information</h2>
       <ul>
-        <li>To operate, maintain, and improve AIBlaze.</li>
+        <li>To operate, maintain, and improve AI Blaze.</li>
         <li>To respond to support requests and bug reports.</li>
         <li>To detect and prevent abuse.</li>
         <li>To comply with legal obligations.</li>
@@ -48,7 +48,7 @@ export const Route = createFileRoute("/privacy")({
       <p>We keep personal data only as long as needed to provide the service or comply with legal obligations. Bug reports and contact messages are retained for up to 24 months.</p>
 
       <h2>6. Children</h2>
-      <p>AIBlaze is not directed at children under 13. We do not knowingly collect personal data from children.</p>
+      <p>AI Blaze is not directed at children under 13. We do not knowingly collect personal data from children.</p>
 
       <h2>7. Changes</h2>
       <p>We may update this policy. Material changes will be announced on the site. Continued use after changes means acceptance.</p>

@@ -13,7 +13,7 @@ export const Route = createFileRoute("/category/$slug/")({
     if (!loaderData) return {};
     const c = loaderData.category;
     const total = c.subs.reduce((a, s) => a + s.tools.length, 0);
-    const title = `Best ${c.name} (${total}+) — AIBlaze`;
+    const title = `Best ${c.name} (${total}+) — AI Blaze`;
     const desc = `${total} curated ${c.name.toLowerCase()} across ${c.subs.length} sub-categories. Compare features, pricing, and find the right AI for your workflow.`;
     return {
       meta: [

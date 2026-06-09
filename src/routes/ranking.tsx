@@ -7,10 +7,10 @@ import { Trophy, TrendingUp, Flame } from "lucide-react";
 export const Route = createFileRoute("/ranking")({
   head: () => ({
     meta: [
-      { title: "Top 100 AI Tools Ranking 2026 — Updated Weekly | AIBlaze" },
+      { title: "Top 100 AI Tools Ranking 2026 — Updated Weekly | AI Blaze" },
       { name: "description", content: "The 100 most-used AI tools ranked by adoption, momentum and category leadership. Updated weekly. See which AI tools creators and teams trust in 2026." },
       { name: "keywords", content: "top AI tools 2026, AI tools ranking, best AI tools, most popular AI tools, AI leaderboard, top 100 AI, trending AI tools, AI tool comparison" },
-      { property: "og:title", content: "Top 100 AI Tools Ranking 2026 — AIBlaze" },
+      { property: "og:title", content: "Top 100 AI Tools Ranking 2026 — AI Blaze" },
       { property: "og:description", content: "The definitive AI tools leaderboard, updated weekly." },
       { property: "og:url", content: "https://aiblaze.io/ranking" },
       { name: "twitter:title", content: "Top 100 AI Tools Ranking 2026" },
