@@ -20,8 +20,8 @@ export const Route = createFileRoute("/tool/$slug")({
   head: ({ loaderData, params }) => {
     if (!loaderData) return {};
     const { tool } = loaderData as any;
-    const title = `${tool.name}${tool.tagline ? ` — ${tool.tagline}` : ""} | AIBlaze`;
-    const desc = (tool.description ?? tool.tagline ?? `${tool.name} on AIBlaze.`).slice(0, 158);
+    const title = `${tool.name}${tool.tagline ? ` — ${tool.tagline}` : ""} | AI Blaze`;
+    const desc = (tool.description ?? tool.tagline ?? `${tool.name} on AI Blaze.`).slice(0, 158);
     const url = `https://aiblaze.io/tool/${params.slug}`;
     return {
       meta: [

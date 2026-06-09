@@ -17,9 +17,9 @@ export const Route = createFileRoute("/prompts/$id")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(promptQuery(params.id)),
   head: ({ loaderData }) => ({
     meta: [
-      { title: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · AIBlaze` },
+      { title: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · AI Blaze` },
       { name: "description", content: (loaderData as any)?.body?.slice(0, 150) ?? "Prompt guide" },
-      { property: "og:title", content: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · AIBlaze` },
+      { property: "og:title", content: `${(loaderData as any)?.title ?? "Prompt"} — Full Guide · AI Blaze` },
       { property: "og:description", content: (loaderData as any)?.body?.slice(0, 150) ?? "Prompt guide" },
       ...((loaderData as any)?.image_url ? [{ property: "og:image", content: (loaderData as any).image_url }] : []),
     ],

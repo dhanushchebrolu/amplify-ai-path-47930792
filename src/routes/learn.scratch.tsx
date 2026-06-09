@@ -7,7 +7,7 @@ import { learnTasks, randomTaskId, getTask } from "@/data/learnTasks";
 export const Route = createFileRoute("/learn/scratch")({
   head: () => ({
     meta: [
-      { title: "Scratch — Reveal a New AI Task · AIBlaze" },
+      { title: "Scratch — Reveal a New AI Task · AI Blaze" },
       { name: "description", content: "Scratch a card to reveal your next AI workflow. Full guide, prompt and reference inside." },
       { property: "og:title", content: "Scratch — Reveal a New AI Task" },
       { property: "og:description", content: "Lottery-style discovery for new AI tools and prompts." },

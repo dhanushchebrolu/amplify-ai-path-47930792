@@ -4,18 +4,18 @@ import { LegalPage } from "@/components/LegalPage";
 export const Route = createFileRoute("/cookies")({
   head: () => ({
     meta: [
-      { title: "Cookie Policy — AIBlaze" },
-      { name: "description", content: "How AIBlaze uses cookies and similar technologies. Essential cookies, analytics, and how to manage your preferences." },
-      { name: "keywords", content: "cookie policy, cookies, tracking, web storage, AIBlaze" },
-      { property: "og:title", content: "Cookie Policy — AIBlaze" },
-      { property: "og:description", content: "How AIBlaze uses cookies." },
+      { title: "Cookie Policy — AI Blaze" },
+      { name: "description", content: "How AI Blaze uses cookies and similar technologies. Essential cookies, analytics, and how to manage your preferences." },
+      { name: "keywords", content: "cookie policy, cookies, tracking, web storage, AI Blaze" },
+      { property: "og:title", content: "Cookie Policy — AI Blaze" },
+      { property: "og:description", content: "How AI Blaze uses cookies." },
       { property: "og:url", content: "https://aiblaze.io/cookies" },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/cookies" }],
   }),
   component: () => (
     <LegalPage title="Cookie Policy" updated="June 4, 2026">
-      <p>This Cookie Policy explains how AIBlaze uses cookies and similar technologies.</p>
+      <p>This Cookie Policy explains how AI Blaze uses cookies and similar technologies.</p>
 
       <h2>What are cookies?</h2>
       <p>Cookies are small text files stored on your device by your browser. They let websites remember your preferences and keep you signed in.</p>

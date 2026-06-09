@@ -10,13 +10,13 @@ import { Search, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AIBlaze — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
+      { title: "AI Blaze — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
       { name: "description", content: `Discover ${catalogTotalTools()}+ AI tools across 15 categories — writing, image, video, audio, coding, marketing & SEO. Compare, learn, and find the perfect AI for any task.` },
       { name: "keywords", content: "best AI tools 2026, AI tool directory, free AI tools, ChatGPT alternatives, AI image generator, AI video generator, Midjourney alternatives, Sora prompts, AI writing assistant, AI for marketing, AI for coding, generative AI tools, AI prompts, AI tutorials" },
-      { property: "og:title", content: "AIBlaze — Every AI Tool in One Platform" },
+      { property: "og:title", content: "AI Blaze — Every AI Tool in One Platform" },
       { property: "og:description", content: `${catalogTotalTools()}+ AI tools, curated daily. Compare, learn, and find your perfect AI.` },
       { property: "og:url", content: "https://aiblaze.io/" },
-      { name: "twitter:title", content: "AIBlaze — Every AI Tool in One Platform" },
+      { name: "twitter:title", content: "AI Blaze — Every AI Tool in One Platform" },
       { name: "twitter:description", content: `${catalogTotalTools()}+ AI tools, curated daily.` },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/" }],
