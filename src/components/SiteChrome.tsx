@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail } from "lucide-react";
+import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail, Menu, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BugReportDialog } from "@/components/BugReportDialog";
 
@@ -9,6 +9,7 @@ const ScratchIcon = Eraser;
 
 export function SiteHeader() {
   const [open, setOpen] = useState(false);
+  const [mobileOpen, setMobileOpen] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -19,20 +20,27 @@ export function SiteHeader() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  const navLinks = (
+    <>
+      <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Home</Link>
+      <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Browse</Link>
+      <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Prompts</Link>
+      <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Blog</Link>
+      <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Ranking</Link>
+    </>
+  );
+
   return (
     <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
-        <Link to="/" className="flex items-center gap-2.5 group">
-          <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11" />
+        <Link to="/" className="flex items-center gap-2.5 group min-w-0">
+          <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11 shrink-0" />
           <span className="font-semibold tracking-tight text-xl whitespace-nowrap">AI Blaze</span>
         </Link>
-        <nav className="flex items-center gap-6 text-sm text-muted-foreground">
-          <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }}>Home</Link>
-          <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Browse</Link>
-          <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Prompts</Link>
-          <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Blog</Link>
-          <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }}>Ranking</Link>
 
+        {/* Desktop nav */}
+        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+          {navLinks}
           <div ref={ref} className="relative">
             <button
               onClick={() => setOpen((v) => !v)}
@@ -51,7 +59,34 @@ export function SiteHeader() {
             )}
           </div>
         </nav>
+
+        {/* Mobile hamburger */}
+        <button
+          onClick={() => setMobileOpen((v) => !v)}
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/[0.06] text-foreground"
+          aria-label="Toggle menu"
+          aria-expanded={mobileOpen}
+        >
+          {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+        </button>
       </div>
+
+      {/* Mobile menu panel */}
+      {mobileOpen && (
+        <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl">
+          <nav className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-3 text-sm text-muted-foreground">
+            {navLinks}
+            <div className="pt-2 border-t border-border/60">
+              <p className="text-xs uppercase tracking-wide text-muted-foreground/70 mb-2">Learn New</p>
+              <div className="flex flex-col gap-1">
+                <DropdownItem to="/learn/spin" icon={<Compass className="w-4 h-4" />} title="Spin" desc="Drag the AI globe, land on a task." onClick={() => setMobileOpen(false)} />
+                <DropdownItem to="/learn/scratch" icon={<ScratchIcon className="w-4 h-4" />} title="Scratch" desc="Reveal a hidden challenge." onClick={() => setMobileOpen(false)} />
+                <DropdownItem to="/learn/swipe" icon={<Sparkles className="w-4 h-4" />} title="Swipe" desc="Tinder-style discovery." onClick={() => setMobileOpen(false)} />
+              </div>
+            </div>
+          </nav>
+        </div>
+      )}
     </header>
   );
 }
