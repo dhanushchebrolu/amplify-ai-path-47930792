@@ -15,14 +15,42 @@ const postQuery = (slug: string) =>
 
 export const Route = createFileRoute("/blog/$slug")({
   loader: ({ context, params }) => context.queryClient.ensureQueryData(postQuery(params.slug)),
-  head: ({ loaderData }: any) => ({
+  head: ({ loaderData, params }: any) => ({
     meta: [
       { title: `${loaderData?.title ?? "Post"} — AI Blaze Blog` },
       { name: "description", content: loaderData?.excerpt ?? "" },
+      { property: "og:type", content: "article" },
       { property: "og:title", content: loaderData?.title ?? "" },
       { property: "og:description", content: loaderData?.excerpt ?? "" },
-      ...(loaderData?.cover_url ? [{ property: "og:image", content: loaderData.cover_url }] : []),
+      { property: "og:url", content: `https://aiblaze.io/blog/${params.slug}` },
+      { name: "twitter:title", content: loaderData?.title ?? "" },
+      { name: "twitter:description", content: loaderData?.excerpt ?? "" },
+      ...(loaderData?.cover_url
+        ? [
+            { property: "og:image", content: loaderData.cover_url },
+            { name: "twitter:image", content: loaderData.cover_url },
+          ]
+        : []),
     ],
+    links: [{ rel: "canonical", href: `https://aiblaze.io/blog/${params.slug}` }],
+    scripts: loaderData
+      ? [
+          {
+            type: "application/ld+json",
+            children: JSON.stringify({
+              "@context": "https://schema.org",
+              "@type": "Article",
+              headline: loaderData.title,
+              description: loaderData.excerpt ?? undefined,
+              image: loaderData.cover_url ?? undefined,
+              datePublished: loaderData.published_at ?? undefined,
+              author: { "@type": "Organization", name: "AI Blaze" },
+              publisher: { "@type": "Organization", name: "AI Blaze" },
+              mainEntityOfPage: `https://aiblaze.io/blog/${params.slug}`,
+            }),
+          },
+        ]
+      : [],
   }),
   component: BlogPost,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load: {error.message}</div>,
