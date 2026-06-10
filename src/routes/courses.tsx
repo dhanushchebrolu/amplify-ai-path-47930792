@@ -7,11 +7,16 @@ import { ArrowUpRight } from "lucide-react";
 export const Route = createFileRoute("/courses")({
   head: () => ({
     meta: [
-      { title: "Courses — AI Blaze" },
-      { name: "description", content: "Curated AI courses and tutorials, hand-picked." },
-      { property: "og:title", content: "Courses — AI Blaze" },
-      { property: "og:description", content: "Level up with hand-picked AI courses." },
+      { title: "Best AI Courses 2026 — Learn AI Properly | AI Blaze" },
+      { name: "description", content: "Hand-picked AI courses, tutorials, and bootcamps from top providers. Beginner to advanced — learn prompt engineering, LLMs, generative AI and more." },
+      { name: "keywords", content: "AI courses, best AI courses 2026, learn AI, AI tutorials, prompt engineering course, generative AI course, LLM training" },
+      { property: "og:title", content: "Best AI Courses 2026 — Learn AI Properly | AI Blaze" },
+      { property: "og:description", content: "Hand-picked AI courses and tutorials to level up your skills." },
+      { property: "og:url", content: "https://aiblaze.io/courses" },
+      { name: "twitter:title", content: "Best AI Courses 2026 — AI Blaze" },
+      { name: "twitter:description", content: "Hand-picked AI courses and tutorials." },
     ],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/courses" }],
   }),
   component: CoursesPage,
 });

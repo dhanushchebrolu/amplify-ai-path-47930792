@@ -7,11 +7,16 @@ import { ArrowUpRight } from "lucide-react";
 export const Route = createFileRoute("/books")({
   head: () => ({
     meta: [
-      { title: "Books — AI Blaze" },
-      { name: "description", content: "Curated books on AI, prompting, and creative workflows." },
-      { property: "og:title", content: "Books — AI Blaze" },
-      { property: "og:description", content: "Hand-picked books to level up your AI skills." },
+      { title: "Best AI Books 2026 — Curated Reading List | AI Blaze" },
+      { name: "description", content: "Hand-picked books on AI, prompt engineering, machine learning, and creative AI workflows. Curated for builders, creators, and students." },
+      { name: "keywords", content: "AI books, best AI books 2026, prompt engineering books, machine learning books, generative AI reading list" },
+      { property: "og:title", content: "Best AI Books 2026 — Curated Reading List | AI Blaze" },
+      { property: "og:description", content: "Hand-picked books on AI, prompting, and creative AI workflows." },
+      { property: "og:url", content: "https://aiblaze.io/books" },
+      { name: "twitter:title", content: "Best AI Books 2026 — AI Blaze" },
+      { name: "twitter:description", content: "Hand-picked books on AI, prompting, and creative workflows." },
     ],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/books" }],
   }),
   component: BooksPage,
 });
