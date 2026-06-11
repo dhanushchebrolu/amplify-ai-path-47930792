@@ -3,6 +3,9 @@
   "private": true,
   "sideEffects": false,
   "type": "module",
+  "engines": {
+    "node": ">=20.11.1"
+  },
   "scripts": {
     "dev": "vite dev",
     "build": "vite build",
@@ -11,6 +14,7 @@
     "cf:build": "vite build",
     "cf:deploy": "wrangler deploy",
     "cf:deploy:dry": "wrangler deploy --dry-run",
+    "deploy": "wrangler deploy",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
