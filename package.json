@@ -12,9 +12,9 @@
     "build:dev": "vite build --mode development",
     "preview": "vite preview",
     "cf:build": "vite build",
-    "cf:deploy": "wrangler deploy",
-    "cf:deploy:dry": "wrangler deploy --dry-run",
-    "deploy": "wrangler deploy",
+    "cf:deploy": "bun run build && wrangler deploy",
+    "cf:deploy:dry": "bun run build && wrangler deploy --dry-run",
+    "deploy": "bun run build && wrangler deploy",
     "lint": "eslint .",
     "format": "prettier --write ."
   },
