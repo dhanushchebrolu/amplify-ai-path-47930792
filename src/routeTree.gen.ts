@@ -33,7 +33,9 @@ import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
 import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
@@ -167,9 +169,19 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/admin/reset-password',
+  path: '/admin/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminLoginRoute = AdminLoginRouteImport.update({
   id: '/admin/login',
   path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/admin/forgot-password',
+  path: '/admin/forgot-password',
   getParentRoute: () => rootRouteImport,
 } as any)
 const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
@@ -254,7 +266,9 @@ export interface FileRoutesByFullPath {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -293,7 +307,9 @@ export interface FileRoutesByTo {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -334,7 +350,9 @@ export interface FileRoutesById {
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
+  '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
+  '/admin/reset-password': typeof AdminResetPasswordRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -375,7 +393,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/reset-password'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -414,7 +434,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/reset-password'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -454,7 +476,9 @@ export interface FileRouteTypes {
     | '/search'
     | '/sitemap.xml'
     | '/terms'
+    | '/admin/forgot-password'
     | '/admin/login'
+    | '/admin/reset-password'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -495,7 +519,9 @@ export interface RootRouteChildren {
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
+  AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
+  AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   BlogSlugRoute: typeof BlogSlugRoute
   LearnScratchRoute: typeof LearnScratchRoute
   LearnSpinRoute: typeof LearnSpinRoute
@@ -680,11 +706,25 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/admin/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/login': {
       id: '/admin/login'
       path: '/admin/login'
       fullPath: '/admin/login'
       preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/forgot-password': {
+      id: '/admin/forgot-password'
+      path: '/admin/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/category/$slug/': {
@@ -824,7 +864,9 @@ const rootRouteChildren: RootRouteChildren = {
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
+  AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
+  AdminResetPasswordRoute: AdminResetPasswordRoute,
   BlogSlugRoute: BlogSlugRoute,
   LearnScratchRoute: LearnScratchRoute,
   LearnSpinRoute: LearnSpinRoute,
