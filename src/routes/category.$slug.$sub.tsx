@@ -23,10 +23,10 @@ export const Route = createFileRoute("/category/$slug/$sub")({
         { name: "description", content: desc.slice(0, 158) },
         { property: "og:title", content: title },
         { property: "og:description", content: desc.slice(0, 158) },
-        { property: "og:url", content: `/category/${category.slug}/${sub.slug}` },
+        { property: "og:url", content: `https://aiblaze.io/category/${category.slug}/${sub.slug}` },
         { property: "og:type", content: "website" },
       ],
-      links: [{ rel: "canonical", href: `/category/${category.slug}/${sub.slug}` }],
+      links: [{ rel: "canonical", href: `https://aiblaze.io/category/${category.slug}/${sub.slug}` }],
       scripts: [{
         type: "application/ld+json",
         children: JSON.stringify({

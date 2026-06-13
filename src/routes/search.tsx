@@ -13,8 +13,9 @@ export const Route = createFileRoute("/search")({
     meta: [
       { title: "Search AI Tools — AI Blaze" },
       { name: "description", content: "Search 2,750+ AI tools across 15 categories." },
+      { name: "robots", content: "noindex, follow" },
     ],
-    links: [{ rel: "canonical", href: "/search" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/search" }],
   }),
   component: SearchPage,
 });
