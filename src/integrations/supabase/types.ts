@@ -14,6 +14,75 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_audit_log: {
+        Row: {
+          action: string
+          actor_email: string | null
+          actor_id: string | null
+          created_at: string
+          id: string
+          metadata: Json | null
+          target_email: string | null
+          target_user_id: string | null
+        }
+        Insert: {
+          action: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          target_email?: string | null
+          target_user_id?: string | null
+        }
+        Update: {
+          action?: string
+          actor_email?: string | null
+          actor_id?: string | null
+          created_at?: string
+          id?: string
+          metadata?: Json | null
+          target_email?: string | null
+          target_user_id?: string | null
+        }
+        Relationships: []
+      }
+      admin_invitations: {
+        Row: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          status: string
+          token: string
+        }
+        Insert: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email: string
+          expires_at?: string
+          id?: string
+          invited_by: string
+          status?: string
+          token?: string
+        }
+        Update: {
+          accepted_at?: string | null
+          accepted_by?: string | null
+          created_at?: string
+          email?: string
+          expires_at?: string
+          id?: string
+          invited_by?: string
+          status?: string
+          token?: string
+        }
+        Relationships: []
+      }
       blog_posts: {
         Row: {
           body: string
@@ -466,6 +535,7 @@ export type Database = {
       [_ in never]: never
     }
     Functions: {
+      accept_admin_invitation: { Args: { _token: string }; Returns: undefined }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -473,6 +543,35 @@ export type Database = {
         }
         Returns: boolean
       }
+      invite_admin: {
+        Args: { _email: string }
+        Returns: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          status: string
+          token: string
+        }
+        SetofOptions: {
+          from: "*"
+          to: "admin_invitations"
+          isOneToOne: true
+          isSetofReturn: false
+        }
+      }
+      list_admins: {
+        Args: never
+        Returns: {
+          email: string
+          granted_at: string
+          user_id: string
+        }[]
+      }
+      revoke_admin: { Args: { _user_id: string }; Returns: undefined }
     }
     Enums: {
       app_role: "admin"
