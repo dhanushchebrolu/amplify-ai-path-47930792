@@ -23,7 +23,7 @@ export const Route = createFileRoute("/prompts/$id")({
       { property: "og:description", content: (loaderData as any)?.body?.slice(0, 150) ?? "Prompt guide" },
       ...((loaderData as any)?.image_url ? [{ property: "og:image", content: (loaderData as any).image_url }] : []),
     ],
-    links: [{ rel: "canonical", href: `/prompts/${(loaderData as any)?.id ?? ""}` }],
+    links: [{ rel: "canonical", href: `https://aiblaze.io/prompts/${(loaderData as any)?.id ?? ""}` }],
   }),
   component: PromptGuidePage,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load guide: {error.message}</div>,

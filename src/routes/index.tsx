@@ -10,14 +10,13 @@ import { Search, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Blaze — Every AI Tool in One Platform | Discover, Compare & Learn AI" },
-      { name: "description", content: `Discover ${catalogTotalTools()}+ AI tools across 15 categories — writing, image, video, audio, coding, marketing & SEO. Compare, learn, and find the perfect AI for any task.` },
-      { name: "keywords", content: "best AI tools 2026, AI tool directory, free AI tools, ChatGPT alternatives, AI image generator, AI video generator, Midjourney alternatives, Sora prompts, AI writing assistant, AI for marketing, AI for coding, generative AI tools, AI prompts, AI tutorials" },
-      { property: "og:title", content: "AI Blaze — Every AI Tool in One Platform" },
-      { property: "og:description", content: `${catalogTotalTools()}+ AI tools, curated daily. Compare, learn, and find your perfect AI.` },
+      { title: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
+      { name: "description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform. Compare features, explore the latest innovations, and stay ahead with AI Blaze." },
+      { property: "og:title", content: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
+      { property: "og:description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform. Compare features, explore the latest innovations, and stay ahead with AI Blaze." },
       { property: "og:url", content: "https://aiblaze.io/" },
-      { name: "twitter:title", content: "AI Blaze — Every AI Tool in One Platform" },
-      { name: "twitter:description", content: `${catalogTotalTools()}+ AI tools, curated daily.` },
+      { name: "twitter:title", content: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
+      { name: "twitter:description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform." },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/" }],
   }),
