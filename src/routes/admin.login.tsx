@@ -14,7 +14,6 @@ function AdminLogin() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
-  const [mode, setMode] = useState<"signin" | "signup">("signin");
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
@@ -31,20 +30,10 @@ function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     try {
-      if (mode === "signup") {
-        const { error } = await supabase.auth.signUp({
-          email, password,
-          options: { emailRedirectTo: window.location.origin + "/admin" },
-        });
-        if (error) throw error;
-        toast.success("Account created. Check your email if confirmation is required, then sign in.");
-        setMode("signin");
-      } else {
-        const { error } = await supabase.auth.signInWithPassword({ email, password });
-        if (error) throw error;
-      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      if (error) throw error;
     } catch (err: any) {
-      toast.error(err.message ?? "Authentication failed");
+      toast.error(err.message ?? "Sign in failed");
     } finally {
       setLoading(false);
     }
@@ -64,7 +53,7 @@ function AdminLogin() {
       <div className="w-full max-w-md card-surface rounded-2xl border border-white/10 p-8">
         <h1 className="font-display text-3xl">Admin sign in</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          The <strong>first account</strong> to sign up here becomes the sole admin. After that, signups have no dashboard access.
+          Admin access is invitation-only. If you received an invitation link, open it directly to accept.
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-3">
@@ -76,8 +65,8 @@ function AdminLogin() {
           <div className="relative">
             <input
               type={showPassword ? "text" : "password"}
-              required minLength={8} placeholder="password (min 8 chars)"
-              autoComplete={mode === "signin" ? "current-password" : "new-password"}
+              required minLength={8} placeholder="password"
+              autoComplete="current-password"
               value={password} onChange={(e) => setPassword(e.target.value)}
               className="w-full pl-3 pr-10 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25"
             />
@@ -93,17 +82,15 @@ function AdminLogin() {
           </div>
           <button disabled={loading} type="submit"
             className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 disabled:opacity-50">
-            {loading ? "..." : mode === "signin" ? "Sign in" : "Create admin account"}
+            {loading ? "..." : "Sign in"}
           </button>
         </form>
 
-        {mode === "signin" && (
-          <div className="mt-3 text-right">
-            <Link to="/admin/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
-              Forgot password?
-            </Link>
-          </div>
-        )}
+        <div className="mt-3 text-right">
+          <Link to="/admin/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
+            Forgot password?
+          </Link>
+        </div>
 
         <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
           <div className="h-px bg-white/10 flex-1" /> or <div className="h-px bg-white/10 flex-1" />
@@ -112,11 +99,6 @@ function AdminLogin() {
         <button onClick={onGoogle} disabled={loading}
           className="w-full py-2.5 rounded-lg border border-white/15 text-sm hover:bg-white/5 disabled:opacity-50">
           Continue with Google
-        </button>
-
-        <button onClick={() => setMode(mode === "signin" ? "signup" : "signin")}
-          className="mt-4 w-full text-xs text-muted-foreground hover:text-foreground">
-          {mode === "signin" ? "First time? Create the admin account →" : "Already have an account? Sign in →"}
         </button>
       </div>
     </div>
