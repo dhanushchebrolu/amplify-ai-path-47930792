@@ -43,12 +43,12 @@ function Home() {
 
       <section className="relative">
         <div className="hero-glow absolute inset-0 pointer-events-none" />
-        <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-12 text-center">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-24 pb-12 text-center">
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-8">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{total}+ AI Tools · {catalog.length} Categories</span>
           </div>
-          <h1 className="font-display text-6xl md:text-8xl leading-[1.02] tracking-tight">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl leading-[1.05] md:leading-[1.02] tracking-tight">
             Every AI Tool in
             <br />
             <em style={{ color: "var(--serif-italic-color)" }}>one Platform</em>
@@ -59,18 +59,18 @@ function Home() {
 
           <form
             onSubmit={submitSearch}
-            className="mt-10 mx-auto max-w-xl flex items-center gap-1 p-1.5 rounded-full bg-white/[0.04] border border-white/10 focus-within:border-white/25 transition-colors"
+            className="mt-10 mx-auto w-full max-w-xl flex items-center gap-1 p-1.5 rounded-full bg-white/[0.04] border border-white/10 focus-within:border-white/25 transition-colors"
           >
-            <Search className="w-4 h-4 text-muted-foreground ml-4" />
+            <Search className="w-4 h-4 text-muted-foreground ml-3 sm:ml-4 shrink-0" />
             <input
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="I'm looking for..."
-              className="flex-1 bg-transparent outline-none px-3 py-2 text-sm placeholder:text-muted-foreground"
+              className="flex-1 min-w-0 bg-transparent outline-none px-2 sm:px-3 py-2 text-sm placeholder:text-muted-foreground"
             />
             <button
               type="submit"
-              className="bg-primary text-primary-foreground rounded-full px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
+              className="shrink-0 bg-primary text-primary-foreground rounded-full px-4 sm:px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
             >
               Search
             </button>

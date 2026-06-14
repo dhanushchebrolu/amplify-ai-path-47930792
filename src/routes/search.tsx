@@ -49,18 +49,18 @@ function SearchPage() {
       <main className="mx-auto max-w-7xl px-6 pt-10 pb-20 w-full">
         <h1 className="font-display text-4xl md:text-5xl">Search AI tools</h1>
 
-        <form onSubmit={submit} className="mt-6 mx-auto max-w-2xl flex items-center gap-1 p-1.5 rounded-full bg-white/[0.04] border border-white/10 focus-within:border-white/25 transition-colors">
-          <Search className="w-4 h-4 text-muted-foreground ml-4" />
+        <form onSubmit={submit} className="mt-6 mx-auto w-full max-w-2xl flex items-center gap-1 p-1.5 rounded-full bg-white/[0.04] border border-white/10 focus-within:border-white/25 transition-colors">
+          <Search className="w-4 h-4 text-muted-foreground ml-3 sm:ml-4 shrink-0" />
           <input
             value={q}
             onChange={(e) => setQ(e.target.value)}
             autoFocus
             placeholder="Search by tool, category, or use case..."
-            className="flex-1 bg-transparent outline-none px-3 py-2 text-sm placeholder:text-muted-foreground"
+            className="flex-1 min-w-0 bg-transparent outline-none px-2 sm:px-3 py-2 text-sm placeholder:text-muted-foreground"
           />
           <button
             type="submit"
-            className="bg-primary text-primary-foreground rounded-full px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
+            className="shrink-0 bg-primary text-primary-foreground rounded-full px-4 sm:px-5 py-2 text-sm font-medium hover:opacity-90 transition-opacity"
           >
             Search
           </button>
