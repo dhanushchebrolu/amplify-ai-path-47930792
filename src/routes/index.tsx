@@ -43,12 +43,12 @@ function Home() {
 
       <section className="relative">
         <div className="hero-glow absolute inset-0 pointer-events-none" />
-        <div className="relative mx-auto max-w-7xl px-6 pt-24 pb-12 text-center">
+        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-16 sm:pt-24 pb-12 text-center">
           <div className="inline-flex items-center gap-2 text-xs text-muted-foreground mb-8">
             <Sparkles className="w-3.5 h-3.5" />
             <span>{total}+ AI Tools · {catalog.length} Categories</span>
           </div>
-          <h1 className="font-display text-6xl md:text-8xl leading-[1.02] tracking-tight">
+          <h1 className="font-display text-5xl sm:text-6xl md:text-8xl leading-[1.05] md:leading-[1.02] tracking-tight">
             Every AI Tool in
             <br />
             <em style={{ color: "var(--serif-italic-color)" }}>one Platform</em>
