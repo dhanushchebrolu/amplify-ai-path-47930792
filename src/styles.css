@@ -100,3 +100,40 @@
     transparent 60%
   );
 }
+
+/* Premium shimmer skeleton — GPU-accelerated, dark-theme tuned */
+@keyframes skeleton-shimmer {
+  0%   { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+.skeleton-shimmer {
+  background-color: oklch(0.235 0.006 80);
+  background-image: linear-gradient(
+    90deg,
+    transparent 0%,
+    oklch(0.32 0.008 80 / 0.55) 50%,
+    transparent 100%
+  );
+  background-size: 200% 100%;
+  background-repeat: no-repeat;
+  animation: skeleton-shimmer 1.6s ease-in-out infinite;
+  will-change: background-position;
+}
+
+/* Graceful page/content fade-in (no movement → no CLS) */
+@keyframes fade-in-soft {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+.fade-in-soft { animation: fade-in-soft 280ms ease-out both; }
+
+/* Image lazy fade-in */
+.img-fade-in { opacity: 0; transition: opacity 320ms ease-out; }
+.img-fade-in.is-loaded { opacity: 1; }
+
+@media (prefers-reduced-motion: reduce) {
+  .skeleton-shimmer { animation: none; }
+  .fade-in-soft { animation: none; }
+  .img-fade-in { transition: none; opacity: 1; }
+  .bubble-float { animation: none; }
+}
