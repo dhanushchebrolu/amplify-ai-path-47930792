@@ -4,6 +4,7 @@ import { getToolBySlug } from "@/lib/content.functions";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { ToolLogo } from "@/components/ToolLogo";
 import { ArrowUpRight } from "lucide-react";
+import { ToolPagePending } from "@/components/skeletons";
 
 const toolQuery = (slug: string) =>
   queryOptions({
@@ -50,6 +51,9 @@ export const Route = createFileRoute("/tool/$slug")({
     };
   },
   component: ToolPage,
+  pendingComponent: ToolPagePending,
+  pendingMs: 200,
+  pendingMinMs: 400,
   errorComponent: ({ error }) => (
     <div className="min-h-screen flex items-center justify-center p-10 text-center">
       <p className="text-muted-foreground">Couldn't load tool: {error.message}</p>

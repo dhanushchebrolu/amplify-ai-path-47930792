@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { listBlogPosts } from "@/lib/content.functions";
 import { LayoutGrid, List } from "lucide-react";
+import { BlogIndexPending } from "@/components/skeletons";
 
 const blogPostsQuery = queryOptions({
   queryKey: ["blog-posts"],
@@ -26,6 +27,9 @@ export const Route = createFileRoute("/blog/")({
     links: [{ rel: "canonical", href: "https://aiblaze.io/blog" }],
   }),
   component: BlogIndex,
+  pendingComponent: BlogIndexPending,
+  pendingMs: 200,
+  pendingMinMs: 400,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load blog: {error.message}</div>,
   notFoundComponent: () => <div className="p-10 text-center text-muted-foreground">No blog page found.</div>,
 });

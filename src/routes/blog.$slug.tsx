@@ -2,6 +2,7 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { getBlogPost } from "@/lib/content.functions";
+import { BlogPostPending } from "@/components/skeletons";
 
 const postQuery = (slug: string) =>
   queryOptions({
@@ -53,6 +54,9 @@ export const Route = createFileRoute("/blog/$slug")({
       : [],
   }),
   component: BlogPost,
+  pendingComponent: BlogPostPending,
+  pendingMs: 200,
+  pendingMinMs: 400,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load: {error.message}</div>,
   notFoundComponent: () => <div className="p-10 text-center text-muted-foreground">Post not found.</div>,
 });
