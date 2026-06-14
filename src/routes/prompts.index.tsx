@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { listPrompts } from "@/lib/content.functions";
 import { Copy, Check, Search, ArrowRight } from "lucide-react";
+import { PromptCardSkeleton } from "@/components/skeletons";
 
 export const Route = createFileRoute("/prompts/")({
   head: () => ({
@@ -29,7 +30,7 @@ function PromptsPage() {
   const [cat, setCat] = useState<(typeof CATS)[number]>("All");
   const [q, setQ] = useState("");
   const [copiedId, setCopiedId] = useState<string | null>(null);
-  const { data } = useQuery({ queryKey: ["prompts"], queryFn: () => listPrompts() });
+  const { data, isPending } = useQuery({ queryKey: ["prompts"], queryFn: () => listPrompts() });
 
   const filtered = useMemo(() => {
     return (data ?? []).filter((t: any) => {
@@ -74,8 +75,9 @@ function PromptsPage() {
         </div>
 
         <div className="mt-8 grid md:grid-cols-2 gap-5">
-          {filtered.map((t: any) => (
-            <article key={t.id} className="card-surface rounded-2xl border border-white/10 p-5 flex flex-col">
+          {isPending && Array.from({ length: 6 }).map((_, i) => <PromptCardSkeleton key={`s-${i}`} />)}
+          {!isPending && filtered.map((t: any) => (
+            <article key={t.id} className="card-surface fade-in-soft rounded-2xl border border-white/10 p-5 flex flex-col">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h3 className="font-semibold leading-tight">{t.title}</h3>
@@ -114,7 +116,7 @@ function PromptsPage() {
           ))}
         </div>
 
-        {filtered.length === 0 && (
+        {!isPending && filtered.length === 0 && (
           <p className="text-center text-muted-foreground mt-16">No prompts match those filters yet.</p>
         )}
       </main>
