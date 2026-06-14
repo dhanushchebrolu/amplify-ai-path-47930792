@@ -3,6 +3,7 @@ import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { getPromptById } from "@/lib/content.functions";
 import { ArrowLeft, Check, Copy, ExternalLink, Sparkles, Zap } from "lucide-react";
+import { PromptPagePending } from "@/components/skeletons";
 import { useState } from "react";
 
 const promptQuery = (id: string) => queryOptions({
@@ -26,6 +27,9 @@ export const Route = createFileRoute("/prompts/$id")({
     links: [{ rel: "canonical", href: `https://aiblaze.io/prompts/${(loaderData as any)?.id ?? ""}` }],
   }),
   component: PromptGuidePage,
+  pendingComponent: PromptPagePending,
+  pendingMs: 200,
+  pendingMinMs: 400,
   errorComponent: ({ error }) => <div className="p-10 text-center text-muted-foreground">Couldn't load guide: {error.message}</div>,
   notFoundComponent: () => <div className="p-10 text-center text-muted-foreground">Prompt guide not found.</div>,
 });
