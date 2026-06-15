@@ -1,71 +1,78 @@
-# AIBlaze full audit & migration plan
+## Scope (from your answers)
 
-This is a large, multi-area change. I'll execute it in the order below. Before I start, I need a few confirmations because some decisions are irreversible or depend on infrastructure you control.
+- **All category pages** (23) — long intro above the grid, FAQs / buying guide / conclusion below.
+- **All subcategory pages** (152) — same treatment, scoped to the subcategory.
+- **All tool detail pages** (1,917) — deep guide, comparison block, FAQs, JSON-LD.
+- Every page must read as if **independently written by a domain expert**: different ordering, examples, FAQs, recommendations, comparisons, conclusion.
+- Content **stored in the database**, served from initial HTML (SSR-friendly, indexable, editable in admin).
 
-## Questions I need answered first
+Total: **2,092 pages** of unique long-form content.
 
-1. **Domain DNS** — Is `https://aiblaze.io` already pointed at this Lovable project (custom domain connected in Project Settings)? If not, I'll still bake `https://aiblaze.io` into all canonical/OG/sitemap URLs as you asked, but the site won't actually resolve there until you connect the domain.
-2. **Static catalog removal** — `src/data/catalog.ts` and `src/data/tools.ts` are imported by ~10 pages (home, browse, ranking, category pages, tool detail, search, sitemap, InfiniteMenu, etc.). Confirm: **delete the static files entirely** and rebuild every page on Supabase queries? This will visibly change the home/browse/ranking pages while Supabase is being populated. If the DB is missing tools, those pages will look empty until you import data.
-3. **Has the catalog been synced into Supabase already?** Earlier we created `scripts/sync-catalog.ts`. Did that run? If `tools`/`categories`/`subcategories` are mostly empty, removing the static files = empty site. I should run the sync first.
-4. **Favicon** — Do you have an AIBlaze logo file to upload, or should I generate one (simple wordmark / flame icon)?
+## Important upfront
 
-## Phase-by-phase plan
+Generating 2,092 expert-quality pages with Lovable AI will take ~1–3 hours of generation time and consume meaningful workspace credits (rough order: 2,092 × ~3K output tokens). I'll generate in batches with resume support so we can pause/restart and so a failure doesn't redo finished pages.
 
-### Phase 1 — Database as single source of truth
-- Run `scripts/sync-catalog.ts` to push every static catalog row into Supabase `categories`, `subcategories`, `tools` (idempotent upsert by slug).
-- Rewrite `src/routes/tool.$slug.tsx` to query `tools` table by slug via a public server fn (admin client, safe column projection). Only show 404 when DB row is genuinely absent.
-- Rewrite `src/routes/category.$slug.index.tsx` and `category.$slug.$sub.tsx` to query Supabase.
-- Rewrite `src/routes/browse.tsx`, `ranking.tsx`, `search.tsx`, home `index.tsx` sections that read `catalog`/`tools` to read from Supabase via server fns.
-- Delete `src/data/tools.ts` and `src/data/catalog.ts` (keep `src/data/learnTasks.ts` — that's a different system).
+If you'd rather start with categories + subcategories first (175 pages, fast) and queue tools as a second pass, say the word — otherwise I run the whole set.
 
-### Phase 2 — Blog fix (SERVICE_ROLE_KEY error)
-- The error means a client-reachable module is importing `client.server`. I'll trace `blog.index.tsx` and `blog.$slug.tsx` and move all DB access into `createServerFn` handlers with `await import("@/integrations/supabase/client.server")` inside the handler body.
-- Verify RLS on `blog_posts` allows public read of `published = true` rows; tighten if needed.
+## Architecture
 
-### Phase 3 — Prompts fix
-- Audit `listPrompts()` in `src/lib/content.functions.ts`. Likely the query filters by `published`/RLS in a way that hides rows. Switch list to public server fn + admin read with safe projection.
-- Replace any hardcoded "500+" copy with a dynamic count from the query result.
+### 1. DB migration — add SEO content columns
 
-### Phase 4 — Slug consistency report
-- Server script that pulls every slug from DB + every route param across the app + sitemap entries, produces `docs/SLUG_AUDIT.md` listing duplicates, mismatches, orphans.
+Add to `categories`, `subcategories`, `tools`:
 
-### Phase 5 — Categories/subcategories dynamic
-- Folded into Phase 1.
+- `seo_title`, `seo_description`, `seo_slug` (text)
+- `og_title`, `og_description`, `twitter_title`, `twitter_description` (text)
+- `long_form` (jsonb) — structured sections: `intro`, `sections[]` (each `{heading, body}` with **route-randomised order/headings**), `faqs[]` (`{q,a}`), `buying_guide`, `comparison_table` (tools only), `conclusion`
+- `structured_data` (jsonb) — pre-rendered JSON-LD blocks (`WebPage`, `BreadcrumbList`, `FAQPage`, `ItemList`/`Article`, etc.)
+- `seo_generated_at` (timestamptz)
 
-### Phase 6 — SEO cleanup
-- Global find-and-replace across `src/**`, `public/**`, `docs/**`:
-  - `NeuroHub` → `AIBlaze`
-  - `Amplify AI` → `AIBlaze`
-  - `amplify-ai-path.lovable.app` → `aiblaze.io`
-  - any remaining `*.lovable.app` canonical/OG → `aiblaze.io`
-- Update every route `head()`, `__root.tsx` Organization/WebSite JSON-LD, footer, header logo, legal pages.
+Editable in the existing admin CRUD pages.
 
-### Phase 7 — Dynamic sitemap on aiblaze.io
-- Rewrite `src/routes/sitemap[.]xml.ts` to drop the static catalog import and pull 100% from Supabase, with `BASE_URL = "https://aiblaze.io"`. Filter `published = true` for blog. Generate lastmod from `updated_at`.
+### 2. Generation pipeline (`scripts/seo-generate.ts`)
 
-### Phase 8 — Branding cleanup
-- Same sweep as Phase 6 + header logo text, footer copy, `index.html` `<title>` if any, `public/robots.txt` sitemap line.
+- Reads rows with `seo_generated_at IS NULL`.
+- For each row, builds a **per-row prompt seeded with the row's id** so the model picks a different writing voice, section order, FAQ set, and example mix every time (we pass an enum of "voice profiles", "ordering profiles", "FAQ angles" hashed from the id — guarantees deterministic uniqueness across pages and prevents two pages from collapsing into the same template).
+- Calls Lovable AI (`google/gemini-3-flash-preview`) with strict JSON schema → validates with Zod → upserts into the new columns.
+- Writes a `seo_generation_log` row per attempt (success/failure/cost) so we can resume.
+- Concurrency: 6 parallel requests, exponential backoff on 429.
+- Resumable: re-running skips already-generated rows.
 
-### Phase 9 — Favicon & logo
-- Generate AIBlaze favicon (flame icon, brand color) at 32×32, 192×192, 512×512, apple-touch-icon, and ICO. Wire into `__root.tsx` `links`. Add `manifest.json`.
+### 3. Route rendering (SSR-first, zero JS-only content)
 
-### Phase 10 — Validation
-- Build, then hit each major route via `stack_modern--invoke-server-function`: `/`, `/browse`, `/prompts`, `/blog`, `/ranking`, `/sitemap.xml`, a known `/tool/<slug>`, `/category/<slug>`, `/blog/<slug>`. Report status codes.
-- Run `supabase--linter` to catch RLS regressions.
-- Produce `docs/LAUNCH_AUDIT.md` summarising files changed, tables hit, remaining issues.
+For `category.$slug.index.tsx`, `category.$slug.$sub.tsx`, `tool.$slug.tsx`:
 
-### Phase 11 — Dashboard & production
-- Verify `/admin` routes are gated by `_authenticated` + `has_role('admin')`.
-- Smoke-test each CRUD page locally by invoking the underlying server fn with a fake admin session — or, more realistically, document the test steps for you to run after deploy since I can't sign in as you.
-- Document deployment env-var checklist in `docs/DEPLOYMENT.md`.
+- Loader fetches the row (already done) + the new `long_form` / `structured_data`.
+- `head()` emits SEO + OG + Twitter meta from DB, self-referencing `canonical`, `og:url`, and `robots: index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1`.
+- Body renders intro → tool grid → sections → FAQs (semantic `<details>`, no JS gate) → buying guide → conclusion → comparison table (tools).
+- JSON-LD injected via `scripts: [{type: "application/ld+json", children: JSON.stringify(...)}]`.
+- Single `<h1>`, proper `<h2>`/`<h3>` hierarchy, `alt` text for images.
 
-## What I will NOT do without your sign-off
-- Delete the static data files (Phase 1) until you confirm the Supabase catalog is populated (see Q3).
-- Connect the `aiblaze.io` domain — that requires you to add DNS records in your registrar and click "Add custom domain" in Lovable.
+### 4. Sitemap & robots
 
-## Rough size
-~30-40 files edited, 1 migration (only if RLS needs tightening), 1 large data sync. Realistic execution time across multiple turns.
+- Verify `sitemap.xml` includes every category/subcategory/tool with `lastmod = seo_generated_at`.
+- `robots.txt` already permissive — no change.
 
----
+### 5. Admin editing
 
-**Please answer the 4 questions above** (especially Q2 and Q3) and I'll start with Phase 1 immediately.
+`_admin.admin.categories.tsx`, `…subcategories…`, `…tools.tsx` already use the generic `CrudPage`. I'll add textarea/jsonb fields so editors can override AI output later. A "Regenerate SEO" button per row calls the generator for just that row.
+
+## Execution order
+
+1. Migration: add columns + log table (you approve).
+2. Wire empty rendering (routes read from DB, fall back gracefully when columns are empty — no visual regression).
+3. Generate **categories** (23 pages, ~3 min).
+4. Generate **subcategories** (152 pages, ~15 min).
+5. Generate **tools** (1,917 pages, batched; ~1–3 h depending on rate limits).
+6. Add the "Regenerate" admin action.
+7. Re-verify sitemap, run SEO scan.
+
+## What stays unchanged
+
+- No UI redesign. Long-form sections slot **below** existing grids using the current design tokens.
+- No business-logic changes to tool/category schemas beyond additive columns.
+- No client-side fetching of SEO copy — everything ships in the initial HTML.
+
+## Confirm before I start
+
+1. Run the **full 2,092-page** generation, or **categories+subcategories first** and tools in a second turn?
+2. Default chat model `google/gemini-3-flash-preview` is great for breadth + cost. Want me to upgrade tool detail pages to `google/gemini-3-pro-preview` for the longest tier (more expensive, sharper writing)?
