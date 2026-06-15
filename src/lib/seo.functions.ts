@@ -31,7 +31,9 @@ export type SeoContentRow = {
   twitter_title: string | null;
   twitter_description: string | null;
   long_form: SeoLongForm | null;
-  structured_data: unknown[] | null;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  structured_data: any;
+
 
 };
 
