@@ -217,27 +217,57 @@ export type Database = {
           created_at: string
           description: string | null
           id: string
+          long_form: Json | null
           name: string
+          og_description: string | null
+          og_title: string | null
+          seo_description: string | null
+          seo_generated_at: string | null
+          seo_slug: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
+          structured_data: Json | null
+          twitter_description: string | null
+          twitter_title: string | null
           updated_at: string
         }
         Insert: {
           created_at?: string
           description?: string | null
           id?: string
+          long_form?: Json | null
           name: string
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Update: {
           created_at?: string
           description?: string | null
           id?: string
+          long_form?: Json | null
           name?: string
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -422,15 +452,61 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_generation_log: {
+        Row: {
+          completion_tokens: number | null
+          created_at: string
+          error: string | null
+          id: string
+          model: string | null
+          prompt_tokens: number | null
+          status: string
+          target_id: string
+          target_table: string
+        }
+        Insert: {
+          completion_tokens?: number | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          model?: string | null
+          prompt_tokens?: number | null
+          status: string
+          target_id: string
+          target_table: string
+        }
+        Update: {
+          completion_tokens?: number | null
+          created_at?: string
+          error?: string | null
+          id?: string
+          model?: string | null
+          prompt_tokens?: number | null
+          status?: string
+          target_id?: string
+          target_table?: string
+        }
+        Relationships: []
+      }
       subcategories: {
         Row: {
           category_slug: string
           created_at: string
           description: string | null
           id: string
+          long_form: Json | null
           name: string
+          og_description: string | null
+          og_title: string | null
+          seo_description: string | null
+          seo_generated_at: string | null
+          seo_slug: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
+          structured_data: Json | null
+          twitter_description: string | null
+          twitter_title: string | null
           updated_at: string
         }
         Insert: {
@@ -438,9 +514,19 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          long_form?: Json | null
           name: string
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Update: {
@@ -448,9 +534,19 @@ export type Database = {
           created_at?: string
           description?: string | null
           id?: string
+          long_form?: Json | null
           name?: string
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Relationships: []
@@ -463,13 +559,23 @@ export type Database = {
           featured: boolean
           id: string
           logo_url: string | null
+          long_form: Json | null
           name: string
+          og_description: string | null
+          og_title: string | null
           pricing: string | null
+          seo_description: string | null
+          seo_generated_at: string | null
+          seo_slug: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
+          structured_data: Json | null
           subcategory: string | null
           tagline: string | null
           tags: string[]
+          twitter_description: string | null
+          twitter_title: string | null
           updated_at: string
           url: string
         }
@@ -480,13 +586,23 @@ export type Database = {
           featured?: boolean
           id?: string
           logo_url?: string | null
+          long_form?: Json | null
           name: string
+          og_description?: string | null
+          og_title?: string | null
           pricing?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
+          structured_data?: Json | null
           subcategory?: string | null
           tagline?: string | null
           tags?: string[]
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
           url: string
         }
@@ -497,13 +613,23 @@ export type Database = {
           featured?: boolean
           id?: string
           logo_url?: string | null
+          long_form?: Json | null
           name?: string
+          og_description?: string | null
+          og_title?: string | null
           pricing?: string | null
+          seo_description?: string | null
+          seo_generated_at?: string | null
+          seo_slug?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
+          structured_data?: Json | null
           subcategory?: string | null
           tagline?: string | null
           tags?: string[]
+          twitter_description?: string | null
+          twitter_title?: string | null
           updated_at?: string
           url?: string
         }
