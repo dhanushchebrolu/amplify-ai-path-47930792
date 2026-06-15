@@ -95,10 +95,12 @@ export const Route = createFileRoute("/tool/$slug")({
 
 
 function ToolPage() {
-  const { tool } = Route.useLoaderData() as any;
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { tool, seo } = Route.useLoaderData() as any;
   const slug = Route.useParams().slug;
   // re-subscribe in case of background refetch
   useSuspenseQuery(toolQuery(slug));
+
 
   return (
     <div className="min-h-screen flex flex-col">
