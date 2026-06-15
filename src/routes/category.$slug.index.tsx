@@ -2,29 +2,51 @@ import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { catalog, getCatalogCategory, type CatalogCategory } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { SubcategoryCard } from "@/components/SubcategoryCard";
+import { SeoLongForm } from "@/components/SeoLongForm";
+import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
 
 export const Route = createFileRoute("/category/$slug/")({
-  loader: ({ params }): { category: CatalogCategory } => {
+  loader: async ({ params }): Promise<{ category: CatalogCategory; seo: SeoContentRow | null }> => {
     const category = getCatalogCategory(params.slug);
     if (!category) throw notFound();
-    return { category };
+    const seo = await getSeoContent({ data: { kind: "category", slugPath: params.slug } });
+    return { category, seo };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
     const c = loaderData.category;
+    const seo = loaderData.seo;
     const total = c.subs.reduce((a, s) => a + s.tools.length, 0);
-    const title = `Best ${c.name} (${total}+) — AI Blaze`;
-    const desc = `${total} curated ${c.name.toLowerCase()} across ${c.subs.length} sub-categories. Compare features, pricing, and find the right AI for your workflow.`;
+    const fallbackTitle = `Best ${c.name} (${total}+) — AI Blaze`;
+    const fallbackDesc = `${total} curated ${c.name.toLowerCase()} across ${c.subs.length} sub-categories. Compare features, pricing, and find the right AI for your workflow.`;
+    const title = seo?.seo_title ?? fallbackTitle;
+    const desc = (seo?.seo_description ?? fallbackDesc).slice(0, 158);
+    const url = `https://aiblaze.io/category/${c.slug}`;
+    const ogTitle = seo?.og_title ?? title;
+    const ogDesc = (seo?.og_description ?? desc).slice(0, 158);
+    const twTitle = seo?.twitter_title ?? ogTitle;
+    const twDesc = (seo?.twitter_description ?? ogDesc).slice(0, 158);
     return {
       meta: [
         { title },
-        { name: "description", content: desc.slice(0, 158) },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc.slice(0, 158) },
-        { property: "og:url", content: `https://aiblaze.io/category/${c.slug}` },
+        { name: "description", content: desc },
+        { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
+        { property: "og:title", content: ogTitle },
+        { property: "og:description", content: ogDesc },
+        { property: "og:url", content: url },
         { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: twTitle },
+        { name: "twitter:description", content: twDesc },
       ],
-      links: [{ rel: "canonical", href: `https://aiblaze.io/category/${c.slug}` }],
+      links: [{ rel: "canonical", href: url }],
+      scripts:
+        seo?.structured_data && Array.isArray(seo.structured_data)
+          ? (seo.structured_data as unknown[]).map((block) => ({
+              type: "application/ld+json",
+              children: JSON.stringify(block),
+            }))
+          : undefined,
     };
   },
   component: CategoryPage,
@@ -36,10 +58,10 @@ export const Route = createFileRoute("/category/$slug/")({
 });
 
 function CategoryPage() {
-  const { category } = Route.useLoaderData() as { category: CatalogCategory };
+  const { category, seo } = Route.useLoaderData() as { category: CatalogCategory; seo: SeoContentRow | null };
   const others = catalog.filter((c) => c.slug !== category.slug);
   const total = category.subs.reduce((a, s) => a + s.tools.length, 0);
-
+  const headline = seo?.long_form?.h1 ?? category.name;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -62,16 +84,20 @@ function CategoryPage() {
           </aside>
 
           <section>
-            <h1 className="font-display text-5xl md:text-6xl">{category.name}</h1>
+            <h1 className="font-display text-5xl md:text-6xl">{headline}</h1>
             <p className="mt-3 text-muted-foreground max-w-3xl">
               {total}+ tools across {category.subs.length} sub-categories. Pick a sub-category to dive in.
             </p>
+
+            <SeoLongForm longForm={seo?.long_form} position="above" />
 
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {category.subs.map((sub) => (
                 <SubcategoryCard key={sub.slug} catSlug={category.slug} sub={sub} />
               ))}
             </div>
+
+            <SeoLongForm longForm={seo?.long_form} position="below" />
           </section>
         </div>
       </main>
