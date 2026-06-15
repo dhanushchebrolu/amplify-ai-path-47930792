@@ -1,10 +1,12 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { queryOptions, useSuspenseQuery } from "@tanstack/react-query";
 import { getToolBySlug } from "@/lib/content.functions";
+import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { ToolLogo } from "@/components/ToolLogo";
 import { ArrowUpRight } from "lucide-react";
 import { ToolPagePending } from "@/components/skeletons";
+import { SeoLongForm } from "@/components/SeoLongForm";
 
 const toolQuery = (slug: string) =>
   queryOptions({
@@ -12,42 +14,67 @@ const toolQuery = (slug: string) =>
     queryFn: () => getToolBySlug({ data: { slug } }),
   });
 
+const toolSeoQuery = (slug: string) =>
+  queryOptions({
+    queryKey: ["tool-seo", slug],
+    queryFn: () => getSeoContent({ data: { kind: "tool", slugPath: slug } }),
+  });
+
 export const Route = createFileRoute("/tool/$slug")({
   loader: async ({ params, context }) => {
-    const tool = await context.queryClient.ensureQueryData(toolQuery(params.slug));
+    const [tool, seo] = await Promise.all([
+      context.queryClient.ensureQueryData(toolQuery(params.slug)),
+      context.queryClient.ensureQueryData(toolSeoQuery(params.slug)),
+    ]);
     if (!tool) throw notFound();
-    return { tool };
+    return { tool, seo: seo as SeoContentRow | null };
   },
   head: ({ loaderData, params }) => {
     if (!loaderData) return {};
-    const { tool } = loaderData as any;
-    const title = `${tool.name}${tool.tagline ? ` — ${tool.tagline}` : ""} | AI Blaze`;
-    const desc = (tool.description ?? tool.tagline ?? `${tool.name} on AI Blaze.`).slice(0, 158);
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { tool, seo } = loaderData as any;
+    const fallbackTitle = `${tool.name}${tool.tagline ? ` — ${tool.tagline}` : ""} | AI Blaze`;
+    const fallbackDesc = (tool.description ?? tool.tagline ?? `${tool.name} on AI Blaze.`).slice(0, 158);
+    const title = seo?.seo_title ?? fallbackTitle;
+    const desc = (seo?.seo_description ?? fallbackDesc).slice(0, 158);
     const url = `https://aiblaze.io/tool/${params.slug}`;
+    const ogTitle = seo?.og_title ?? title;
+    const ogDesc = (seo?.og_description ?? desc).slice(0, 158);
+    const twTitle = seo?.twitter_title ?? ogTitle;
+    const twDesc = (seo?.twitter_description ?? ogDesc).slice(0, 158);
+
+    const fallbackLd = {
+      "@context": "https://schema.org",
+      "@type": "SoftwareApplication",
+      name: tool.name,
+      description: tool.description ?? tool.tagline ?? undefined,
+      applicationCategory: tool.category ?? undefined,
+      url: tool.url,
+    };
+    const ldBlocks =
+      seo?.structured_data && Array.isArray(seo.structured_data) && seo.structured_data.length > 0
+        ? (seo.structured_data as unknown[])
+        : [fallbackLd];
+
     return {
       meta: [
         { title },
         { name: "description", content: desc },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc },
+        { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
+        { property: "og:title", content: ogTitle },
+        { property: "og:description", content: ogDesc },
         { property: "og:url", content: url },
         { property: "og:type", content: "product" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: twTitle },
+        { name: "twitter:description", content: twDesc },
         ...(tool.logo_url ? [{ property: "og:image", content: tool.logo_url }] : []),
       ],
       links: [{ rel: "canonical", href: url }],
-      scripts: [
-        {
-          type: "application/ld+json",
-          children: JSON.stringify({
-            "@context": "https://schema.org",
-            "@type": "SoftwareApplication",
-            name: tool.name,
-            description: tool.description ?? tool.tagline ?? undefined,
-            applicationCategory: tool.category ?? undefined,
-            url: tool.url,
-          }),
-        },
-      ],
+      scripts: ldBlocks.map((block) => ({
+        type: "application/ld+json",
+        children: JSON.stringify(block),
+      })),
     };
   },
   component: ToolPage,
@@ -65,6 +92,7 @@ export const Route = createFileRoute("/tool/$slug")({
     </div>
   ),
 });
+
 
 function ToolPage() {
   const { tool } = Route.useLoaderData() as any;
