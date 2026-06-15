@@ -4,44 +4,67 @@ import { getCatalogCategory, getCatalogSub, type CatalogCategory, type CatalogSu
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CatalogToolCard } from "@/components/CatalogToolCard";
 import { Search } from "lucide-react";
+import { SeoLongForm } from "@/components/SeoLongForm";
+import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
 
 export const Route = createFileRoute("/category/$slug/$sub")({
-  loader: ({ params }): { category: CatalogCategory; sub: CatalogSub } => {
+  loader: async ({ params }): Promise<{ category: CatalogCategory; sub: CatalogSub; seo: SeoContentRow | null }> => {
     const category = getCatalogCategory(params.slug);
     const sub = getCatalogSub(params.slug, params.sub);
     if (!category || !sub) throw notFound();
-    return { category, sub };
+    const seo = await getSeoContent({
+      data: { kind: "subcategory", slugPath: `${params.slug}/${params.sub}` },
+    });
+    return { category, sub, seo };
   },
   head: ({ loaderData }) => {
     if (!loaderData) return {};
-    const { category, sub } = loaderData;
-    const title = `Best ${sub.name} (${sub.tools.length}+) — AI Blaze`;
-    const desc = `${sub.tools.length} curated ${sub.name.toLowerCase()} in ${category.name}. Compare and discover the right AI tool for the job.`;
+    const { category, sub, seo } = loaderData;
+    const fallbackTitle = `Best ${sub.name} (${sub.tools.length}+) — AI Blaze`;
+    const fallbackDesc = `${sub.tools.length} curated ${sub.name.toLowerCase()} in ${category.name}. Compare and discover the right AI tool for the job.`;
+    const title = seo?.seo_title ?? fallbackTitle;
+    const desc = (seo?.seo_description ?? fallbackDesc).slice(0, 158);
+    const url = `https://aiblaze.io/category/${category.slug}/${sub.slug}`;
+    const ogTitle = seo?.og_title ?? title;
+    const ogDesc = (seo?.og_description ?? desc).slice(0, 158);
+    const twTitle = seo?.twitter_title ?? ogTitle;
+    const twDesc = (seo?.twitter_description ?? ogDesc).slice(0, 158);
+
+    const fallbackLd = {
+      "@context": "https://schema.org",
+      "@type": "ItemList",
+      name: sub.name,
+      numberOfItems: sub.tools.length,
+      itemListElement: sub.tools.slice(0, 50).map((t, i) => ({
+        "@type": "ListItem",
+        position: i + 1,
+        name: t.name,
+        url: t.website,
+      })),
+    };
+    const ldBlocks =
+      seo?.structured_data && Array.isArray(seo.structured_data) && seo.structured_data.length > 0
+        ? (seo.structured_data as unknown[])
+        : [fallbackLd];
+
     return {
       meta: [
         { title },
-        { name: "description", content: desc.slice(0, 158) },
-        { property: "og:title", content: title },
-        { property: "og:description", content: desc.slice(0, 158) },
-        { property: "og:url", content: `https://aiblaze.io/category/${category.slug}/${sub.slug}` },
+        { name: "description", content: desc },
+        { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
+        { property: "og:title", content: ogTitle },
+        { property: "og:description", content: ogDesc },
+        { property: "og:url", content: url },
         { property: "og:type", content: "website" },
+        { name: "twitter:card", content: "summary_large_image" },
+        { name: "twitter:title", content: twTitle },
+        { name: "twitter:description", content: twDesc },
       ],
-      links: [{ rel: "canonical", href: `https://aiblaze.io/category/${category.slug}/${sub.slug}` }],
-      scripts: [{
+      links: [{ rel: "canonical", href: url }],
+      scripts: ldBlocks.map((block) => ({
         type: "application/ld+json",
-        children: JSON.stringify({
-          "@context": "https://schema.org",
-          "@type": "ItemList",
-          name: sub.name,
-          numberOfItems: sub.tools.length,
-          itemListElement: sub.tools.slice(0, 50).map((t, i) => ({
-            "@type": "ListItem",
-            position: i + 1,
-            name: t.name,
-            url: t.website,
-          })),
-        }),
-      }],
+        children: JSON.stringify(block),
+      })),
     };
   },
   component: SubPage,
@@ -53,7 +76,11 @@ export const Route = createFileRoute("/category/$slug/$sub")({
 });
 
 function SubPage() {
-  const { category, sub } = Route.useLoaderData() as { category: CatalogCategory; sub: CatalogSub };
+  const { category, sub, seo } = Route.useLoaderData() as {
+    category: CatalogCategory;
+    sub: CatalogSub;
+    seo: SeoContentRow | null;
+  };
   const [q, setQ] = useState("");
 
   const filtered = useMemo(() => {
@@ -63,7 +90,7 @@ function SubPage() {
   }, [sub.tools, q]);
 
   const otherSubs = category.subs.filter((s) => s.slug !== sub.slug);
-
+  const headline = seo?.long_form?.h1 ?? sub.name;
 
   return (
     <div className="min-h-screen flex flex-col">
@@ -91,10 +118,12 @@ function SubPage() {
           </aside>
 
           <section>
-            <h1 className="font-display text-4xl md:text-5xl">{sub.name}</h1>
+            <h1 className="font-display text-4xl md:text-5xl">{headline}</h1>
             <p className="mt-3 text-muted-foreground max-w-3xl">
               {sub.tools.length} curated tools in {category.name}.
             </p>
+
+            <SeoLongForm longForm={seo?.long_form} position="above" />
 
             <div className="mt-6 flex items-center gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 max-w-xl">
               <Search className="w-4 h-4 text-muted-foreground ml-3" />
@@ -115,6 +144,8 @@ function SubPage() {
                 <CatalogToolCard key={`${t.name}-${i}`} tool={t} categorySlug={category.slug} subSlug={sub.slug} />
               ))}
             </div>
+
+            <SeoLongForm longForm={seo?.long_form} position="below" />
           </section>
         </div>
       </main>
