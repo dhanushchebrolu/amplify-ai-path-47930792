@@ -452,6 +452,57 @@ export type Database = {
         }
         Relationships: []
       }
+      seo_content: {
+        Row: {
+          generated_at: string
+          id: string
+          kind: string
+          long_form: Json | null
+          model: string | null
+          og_description: string | null
+          og_title: string | null
+          seo_description: string | null
+          seo_title: string | null
+          slug_path: string
+          structured_data: Json | null
+          twitter_description: string | null
+          twitter_title: string | null
+          updated_at: string
+        }
+        Insert: {
+          generated_at?: string
+          id?: string
+          kind: string
+          long_form?: Json | null
+          model?: string | null
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug_path: string
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
+          updated_at?: string
+        }
+        Update: {
+          generated_at?: string
+          id?: string
+          kind?: string
+          long_form?: Json | null
+          model?: string | null
+          og_description?: string | null
+          og_title?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
+          slug_path?: string
+          structured_data?: Json | null
+          twitter_description?: string | null
+          twitter_title?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       seo_generation_log: {
         Row: {
           completion_tokens: number | null
