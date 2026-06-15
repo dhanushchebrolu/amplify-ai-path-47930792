@@ -31,7 +31,8 @@ export type SeoContentRow = {
   twitter_title: string | null;
   twitter_description: string | null;
   long_form: SeoLongForm | null;
-  structured_data: Record<string, unknown>[] | null;
+  structured_data: unknown[] | null;
+
 };
 
 export const getSeoContent = createServerFn({ method: "GET" })
