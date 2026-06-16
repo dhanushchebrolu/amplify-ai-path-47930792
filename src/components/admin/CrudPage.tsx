@@ -1,9 +1,10 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, Pencil as PencilIcon } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { ImageField } from "./ImageField";
+import { BlogContent } from "@/components/BlogContent";
 
 export interface FieldDef {
   name: string;
@@ -85,7 +86,7 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
         <h2 className="font-display text-2xl mb-4">{form.id ? "Edit" : "Create"}</h2>
         <div className="space-y-3">
           {fields.map((f) => (
@@ -103,7 +104,8 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
               ) : f.type === "textarea" ? (
                 <textarea rows={4} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
-              ) : f.type === "select" ? (
+              ) : f.type === "markdown" ? (
+                <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
                 <select value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm">
                   {f.options!.map((o) => <option key={o} value={o}>{o}</option>)}
