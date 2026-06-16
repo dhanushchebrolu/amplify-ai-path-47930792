@@ -146,10 +146,7 @@ function ToolPage() {
         )}
 
         {seo?.long_form ? (
-          <>
-            <SeoLongForm longForm={seo.long_form} position="above" />
-            <SeoLongForm longForm={seo.long_form} position="below" />
-          </>
+          <SeoLongForm longForm={seo.long_form} position="below" />
         ) : (
           <>
             <section className="mt-10 grid md:grid-cols-2 gap-6">

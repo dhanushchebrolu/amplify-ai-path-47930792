@@ -95,71 +95,71 @@ interface PromptInput {
 function buildPrompt(input: PromptInput): string {
   const seed = hash(input.slugPath);
   const voice = pick(VOICES, seed);
-  const order = pick(SECTION_ORDERS, seed >> 3);
-  const angles = pick(FAQ_ANGLES, seed >> 5);
+  const order = pick(SECTION_ORDERS, seed >> 3).slice(0, 4);
+  const angles = pick(FAQ_ANGLES, seed >> 5).slice(0, 6);
   const conclusionStyle = pick(CONCLUSION_STYLES, seed >> 7);
-  const wordTarget = input.kind === "tool" ? "1800-2400" : "2200-2800";
-  const minSections = input.kind === "tool" ? 5 : 7;
-  const minFaqs = 14;
-  const minComparison = input.kind === "tool" ? 0 : 6;
+  const wordTarget = input.kind === "tool" ? "500-750" : "600-850";
+  const minSections = 4;
+  const minFaqs = 6;
+  const minComparison = input.kind === "tool" ? 0 : 4;
 
   const subject =
     input.kind === "category"
-      ? `the entire category "${input.name}"`
+      ? `the category "${input.name}"`
       : input.kind === "subcategory"
         ? `the sub-category "${input.name}" (inside "${input.parentName}")`
         : `the AI tool "${input.name}"${input.parentName ? ` (category: ${input.parentName})` : ""}`;
 
   const toolsBlock =
     input.tools && input.tools.length
-      ? `\nThe specific tools featured on this page (use them by name in examples, sections, FAQs, and the comparison table — never invent tools that aren't on this list):\n${input.tools.slice(0, 30).map((t) => `- ${t.name} (${t.website})`).join("\n")}`
+      ? `\nFeatured tools on this page (use them by exact name in examples and the comparison table — never invent tools):\n${input.tools.slice(0, 20).map((t) => `- ${t.name}`).join("\n")}`
       : "";
 
   const toolFactBlock =
     input.kind === "tool"
-      ? `\nWhat we already know about ${input.name}:\n- Category: ${input.toolCategory ?? "unspecified"}\n- Pricing: ${input.toolPricing ?? "unspecified"}\n- Existing short description: ${input.toolDescription ?? "(none — write from general knowledge of the product)"}`
+      ? `\nWhat we know about ${input.name}:\n- Category: ${input.toolCategory ?? "unspecified"}\n- Pricing: ${input.toolPricing ?? "unspecified"}\n- Short description: ${input.toolDescription ?? "(write from general knowledge)"}`
       : "";
 
-  return `You are writing the single best resource on the internet about ${subject}. The page must rank #1 because it genuinely deserves to.
+  return `Write concise, SEO-optimized supporting content for ${subject}. This block renders BELOW a grid of tool/category cards on the page, so the reader has already seen the listings — your job is to add scannable context, answer key buying questions, and earn ranking with natural keyword coverage. Be informative, not padded.
 
-CRITICAL UNIQUENESS RULES — every output you produce must follow these:
-1. Voice: write as ${voice}. Don't impersonate a generic AI. Don't open with "In today's fast-paced world".
-2. Section ordering you must follow exactly (don't reorder, don't merge): ${order.map((s, i) => `${i + 1}. ${s}`).join("  ")}
-3. Use these angles for the FAQ set (one FAQ per angle, in this order, no repeats): ${angles.join(", ")}
+RULES:
+1. Voice: ${voice}. No generic AI tone.
+2. Section order (exactly these 4 headings, no merging/reordering): ${order.map((s, i) => `${i + 1}. ${s}`).join("  ")}
+3. FAQ angles (exactly ${minFaqs}, in this order, one question per angle): ${angles.join(", ")}
 4. Conclusion style: ${conclusionStyle}.
-5. Do not use these openings: "In today's", "Welcome to", "Are you looking for", "Have you ever wondered", "Imagine".
-6. Do not use the words "delve", "leverage", "unleash", "navigate the landscape", "in the realm of", "game-changer", "revolutionize". Pick concrete verbs.
-7. No bullet lists in the intro or conclusion — narrative paragraphs only.
-8. Every sentence must add information. Strip filler.
-9. Target ${wordTarget} words total across intro + sections + FAQs + conclusion. Don't pad.
+5. Banned openings: "In today's", "Welcome to", "Are you looking for", "Imagine".
+6. Banned words: delve, leverage, unleash, navigate the landscape, in the realm of, game-changer, revolutionize.
+7. Naturally include relevant search keywords (e.g. "best ${input.name.toLowerCase()}", "${input.name.toLowerCase()} for [use case]", comparisons, pricing terms) — but no stuffing.
+8. TOTAL length: ${wordTarget} words across intro + sections + FAQs + conclusion. Tight, no filler.
+9. Skip the intro paragraph entirely — start straight at the first section.
 ${toolsBlock}${toolFactBlock}
 
-Return ONLY a JSON object with this exact shape and nothing else:
+Return ONLY a JSON object with this exact shape:
 
 {
-  "seo_title": "string, 50-60 chars, includes the exact subject and a hook",
-  "seo_description": "string, 150-158 chars, distinct from seo_title, leads with the strongest hook",
-  "og_title": "string, can differ from seo_title (more shareable)",
-  "og_description": "string, 150-158 chars, optimized for click-through on social",
+  "seo_title": "string, 50-60 chars, includes the subject + a hook keyword",
+  "seo_description": "string, 150-158 chars, distinct from seo_title, click-worthy",
+  "og_title": "string, shareable",
+  "og_description": "string, 150-158 chars",
   "twitter_title": "string",
   "twitter_description": "string, 150-158 chars",
   "long_form": {
-    "h1": "string — the on-page H1, NOT the same as seo_title",
-    "intro": "string — 3-4 paragraphs separated by \\n\\n. Cover what it is, why it matters now, market signals, evolution, business impact, productivity impact, and the 2026 outlook. No bullet points.",
+    "h1": "string — on-page H1, different wording from seo_title",
+    "intro": "",
     "sections": [
-      { "heading": "string — use the exact heading from the order above", "body": "string — 2-4 substantial paragraphs separated by \\n\\n. Concrete examples, specific tool names, real numbers where credible." }
+      { "heading": "string — exact heading from the order above", "body": "string — 1-2 tight paragraphs, concrete and specific" }
     ],
     "faqs": [
-      { "q": "string — a real question a buyer would type", "a": "string — 2-4 sentences, specific, no hedging fluff" }
+      { "q": "string — a real question a buyer types", "a": "string — 1-2 sentences, specific, no hedging" }
     ],
-    "buying_guide": "string — 3-5 paragraphs of decision criteria a buyer should rank, with explicit tradeoffs",
+    "buying_guide": "string — 1-2 short paragraphs of decision criteria with tradeoffs",
     ${
       minComparison > 0
-        ? '"comparison": [ { "tool": "string (exact name from the featured tools list above)", "strengths": "string — one sentence", "weaknesses": "string — one sentence, honest", "ideal_for": "string — one sentence", "pricing": "string — one short phrase" } ],'
+        ? '"comparison": [ { "tool": "string (exact name from featured tools)", "strengths": "string — one short clause", "weaknesses": "string — one honest clause", "ideal_for": "string — one clause", "pricing": "string — short phrase" } ],'
         : ""
     }
-    "conclusion": "string — 2-3 paragraphs in the conclusion style above",
-    "related": [ { "label": "string", "href": "string — a relative path like /category/ai-writing-tools" } ]
+    "conclusion": "string — 1 paragraph in the conclusion style above",
+    "related": [ { "label": "string", "href": "string — relative path like /category/ai-writing-tools" } ]
   },
   "structured_data": [
     { "@context": "https://schema.org", "@type": "WebPage", "name": "...", "url": "${input.url}", "description": "..." },
@@ -169,10 +169,10 @@ Return ONLY a JSON object with this exact shape and nothing else:
 }
 
 Hard requirements:
-- "sections" must have at least ${minSections} entries, in the exact heading order specified.
-- "faqs" must have at least ${minFaqs} entries, one per angle in the order specified, no two questions phrased the same way.
-${minComparison > 0 ? `- "comparison" must have at least ${minComparison} entries, each one a tool from the featured list above.` : ""}
-- "structured_data" must include WebPage, BreadcrumbList, and FAQPage entries. Build FAQPage from the faqs array. The BreadcrumbList should reflect the page's actual position.
+- "sections" must have exactly ${minSections} entries, headings in the exact order above.
+- "faqs" must have exactly ${minFaqs} entries, one per angle in order.
+${minComparison > 0 ? `- "comparison" must have at least ${minComparison} entries from the featured tools above.` : ""}
+- "structured_data" must include WebPage, BreadcrumbList, and FAQPage built from the faqs.
 - Output strictly valid JSON. No markdown fences, no commentary, no trailing commas.`;
 }
 

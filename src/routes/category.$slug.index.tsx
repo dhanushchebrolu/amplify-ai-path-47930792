@@ -89,8 +89,6 @@ function CategoryPage() {
               {total}+ tools across {category.subs.length} sub-categories. Pick a sub-category to dive in.
             </p>
 
-            <SeoLongForm longForm={seo?.long_form} position="above" />
-
             <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
               {category.subs.map((sub) => (
                 <SubcategoryCard key={sub.slug} catSlug={category.slug} sub={sub} />
