@@ -106,6 +106,7 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
               ) : f.type === "markdown" ? (
                 <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
+              ) : f.type === "select" ? (
                 <select value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm">
                   {f.options!.map((o) => <option key={o} value={o}>{o}</option>)}
