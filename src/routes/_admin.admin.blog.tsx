@@ -19,7 +19,7 @@ function BlogAdmin() {
         { name: "title", label: "Title", required: true },
         { name: "slug", label: "Slug (lowercase, dashes)", required: true },
         { name: "excerpt", label: "Excerpt (short summary)", type: "textarea" },
-        { name: "body", label: "Body (Markdown supported)", type: "textarea" },
+        { name: "body", label: "Body (Markdown — supports headings, lists, tables, code, quotes, images)", type: "markdown" },
         { name: "cover_url", label: "Cover image", type: "image", imageFolder: "blog" },
         { name: "tags", label: "Tags", type: "tags" },
         { name: "published", label: "Published (visible on /blog)", type: "boolean" },

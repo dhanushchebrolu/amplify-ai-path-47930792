@@ -3,6 +3,7 @@ import { useSuspenseQuery, queryOptions } from "@tanstack/react-query";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { getBlogPost } from "@/lib/content.functions";
 import { BlogPostPending } from "@/components/skeletons";
+import { BlogContent } from "@/components/BlogContent";
 
 const postQuery = (slug: string) =>
   queryOptions({
@@ -78,7 +79,9 @@ function BlogPost() {
         {p.published_at && <div className="text-xs text-muted-foreground mt-3">{new Date(p.published_at).toLocaleDateString()}</div>}
         {p.cover_url && <img src={p.cover_url} alt="" className="w-full rounded-2xl mt-6 object-cover" />}
         {p.excerpt && <p className="text-lg text-muted-foreground mt-6">{p.excerpt}</p>}
-        <div className="prose prose-invert mt-8 whitespace-pre-wrap text-foreground/90 leading-relaxed">{p.body}</div>
+        <div className="mt-8">
+          <BlogContent content={p.body ?? ""} />
+        </div>
       </main>
       <SiteFooter />
     </div>

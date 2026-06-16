@@ -1,14 +1,15 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
 import { useState } from "react";
 import { toast } from "sonner";
-import { Plus, Pencil, Trash2 } from "lucide-react";
+import { Plus, Pencil, Trash2, Eye, Pencil as PencilIcon } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { ImageField } from "./ImageField";
+import { BlogContent } from "@/components/BlogContent";
 
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
+  type?: "text" | "textarea" | "markdown" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
   options?: string[];
   required?: boolean;
   imageFolder?: string;
@@ -85,7 +86,7 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-2xl max-h-[90vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
         <h2 className="font-display text-2xl mb-4">{form.id ? "Edit" : "Create"}</h2>
         <div className="space-y-3">
           {fields.map((f) => (
@@ -103,6 +104,8 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
               ) : f.type === "textarea" ? (
                 <textarea rows={4} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
+              ) : f.type === "markdown" ? (
+                <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
               ) : f.type === "select" ? (
                 <select value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm">
@@ -146,6 +149,38 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
             className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm disabled:opacity-50">{saving ? "Saving…" : "Save"}</button>
         </div>
       </div>
+    </div>
+  );
+}
+
+function MarkdownField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [tab, setTab] = useState<"write" | "preview">("write");
+  return (
+    <div className="mt-1 rounded-xl border border-white/10 overflow-hidden">
+      <div className="flex items-center gap-1 bg-white/[0.03] border-b border-white/10 px-2 py-1.5">
+        <button type="button" onClick={() => setTab("write")}
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "write" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          <PencilIcon className="w-3 h-3" /> Write
+        </button>
+        <button type="button" onClick={() => setTab("preview")}
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "preview" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          <Eye className="w-3 h-3" /> Preview
+        </button>
+        <span className="ml-auto text-[10px] text-muted-foreground pr-1">Markdown supported</span>
+      </div>
+      {tab === "write" ? (
+        <textarea
+          rows={18}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="# Heading&#10;&#10;Paragraph text. **Bold**, *italic*, `code`.&#10;&#10;- bullet&#10;- list&#10;&#10;> Quote&#10;&#10;```js&#10;const x = 1;&#10;```"
+          className="w-full px-3 py-2.5 bg-transparent text-sm outline-none font-mono leading-relaxed resize-y min-h-[280px]"
+        />
+      ) : (
+        <div className="px-5 py-4 max-h-[60vh] overflow-auto">
+          {value.trim() ? <BlogContent content={value} /> : <p className="text-sm text-muted-foreground">Nothing to preview yet.</p>}
+        </div>
+      )}
     </div>
   );
 }
