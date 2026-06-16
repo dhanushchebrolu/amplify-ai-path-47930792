@@ -152,3 +152,35 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
     </div>
   );
 }
+
+function MarkdownField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
+  const [tab, setTab] = useState<"write" | "preview">("write");
+  return (
+    <div className="mt-1 rounded-xl border border-white/10 overflow-hidden">
+      <div className="flex items-center gap-1 bg-white/[0.03] border-b border-white/10 px-2 py-1.5">
+        <button type="button" onClick={() => setTab("write")}
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "write" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          <PencilIcon className="w-3 h-3" /> Write
+        </button>
+        <button type="button" onClick={() => setTab("preview")}
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "preview" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          <Eye className="w-3 h-3" /> Preview
+        </button>
+        <span className="ml-auto text-[10px] text-muted-foreground pr-1">Markdown supported</span>
+      </div>
+      {tab === "write" ? (
+        <textarea
+          rows={18}
+          value={value}
+          onChange={(e) => onChange(e.target.value)}
+          placeholder="# Heading&#10;&#10;Paragraph text. **Bold**, *italic*, `code`.&#10;&#10;- bullet&#10;- list&#10;&#10;> Quote&#10;&#10;```js&#10;const x = 1;&#10;```"
+          className="w-full px-3 py-2.5 bg-transparent text-sm outline-none font-mono leading-relaxed resize-y min-h-[280px]"
+        />
+      ) : (
+        <div className="px-5 py-4 max-h-[60vh] overflow-auto">
+          {value.trim() ? <BlogContent content={value} /> : <p className="text-sm text-muted-foreground">Nothing to preview yet.</p>}
+        </div>
+      )}
+    </div>
+  );
+}
