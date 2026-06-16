@@ -8,7 +8,7 @@ import { ImageField } from "./ImageField";
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
+  type?: "text" | "textarea" | "markdown" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
   options?: string[];
   required?: boolean;
   imageFolder?: string;
