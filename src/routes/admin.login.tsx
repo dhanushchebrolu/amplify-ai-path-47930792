@@ -41,11 +41,11 @@ function AdminLogin() {
 
   async function onGoogle() {
     setLoading(true);
-    // Redirect back to /admin/login — the auth state listener above will
-    // then route the signed-in user to /admin. Using a real existing route
-    // as the redirect target avoids a post-OAuth 404 on custom domains.
+    // Use bare origin — Lovable's OAuth broker only allows the site origin
+    // as redirect_uri, so a path like /admin/login produces a 404 on the
+    // OAuth callback. The auth state listener above forwards to /admin.
     const res = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin + "/admin/login",
+      redirect_uri: window.location.origin,
     });
     if (res.error) {
       toast.error(res.error.message ?? "Google sign-in failed");

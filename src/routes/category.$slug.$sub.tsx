@@ -123,8 +123,6 @@ function SubPage() {
               {sub.tools.length} curated tools in {category.name}.
             </p>
 
-            <SeoLongForm longForm={seo?.long_form} position="above" />
-
             <div className="mt-6 flex items-center gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 max-w-xl">
               <Search className="w-4 h-4 text-muted-foreground ml-3" />
               <input
