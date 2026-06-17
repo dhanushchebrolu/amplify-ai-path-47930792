@@ -40,7 +40,7 @@ function AcceptInvitation() {
     try {
       await accept({ data: { token } });
       toast.success("You are now an admin");
-      navigate({ to: "/admin" });
+      navigate({ to: "/admin/" });
     } catch (e: any) {
       toast.error(e.message ?? "Failed to accept invitation");
     } finally {
