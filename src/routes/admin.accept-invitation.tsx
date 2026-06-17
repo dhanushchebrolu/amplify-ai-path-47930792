@@ -97,7 +97,9 @@ function AcceptInvitation() {
 
   async function onGoogle() {
     setLoading(true);
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.href });
+    // Use bare origin — Lovable's OAuth broker only allows the site origin
+    // as redirect_uri, so a deep path produces a 404 on the OAuth callback.
+    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
     if (res.error) {
       toast.error(res.error.message ?? "Google sign-in failed");
       setLoading(false);

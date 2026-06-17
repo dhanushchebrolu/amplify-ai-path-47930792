@@ -18,6 +18,7 @@ export const getRouter = () => {
     routeTree,
     context: { queryClient },
     scrollRestoration: true,
+    trailingSlash: "never",
     defaultPreloadStaleTime: 30_000,
     defaultPendingComponent: GenericPagePending,
     defaultPendingMs: 200,
