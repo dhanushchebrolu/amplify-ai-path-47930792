@@ -163,9 +163,23 @@ function AuthSync() {
   const router = useRouter();
   const qc = useQueryClient();
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange(() => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
       router.invalidate();
       qc.invalidateQueries();
+      // Honor a pending post-OAuth redirect (set before lovable.auth.signInWithOAuth)
+      // so Google sign-in from /admin/login lands on /admin even though the OAuth
+      // broker forces redirect_uri to the bare origin.
+      if (event === "SIGNED_IN") {
+        try {
+          const target = sessionStorage.getItem("post_oauth_redirect");
+          if (target) {
+            sessionStorage.removeItem("post_oauth_redirect");
+            if (window.location.pathname !== target) {
+              window.location.replace(target);
+            }
+          }
+        } catch {}
+      }
     });
     return () => subscription.unsubscribe();
   }, [router, qc]);

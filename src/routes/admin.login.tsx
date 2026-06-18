@@ -41,9 +41,12 @@ function AdminLogin() {
 
   async function onGoogle() {
     setLoading(true);
-    // Use bare origin — Lovable's OAuth broker only allows the site origin
-    // as redirect_uri, so a path like /admin/login produces a 404 on the
-    // OAuth callback. The auth state listener above forwards to /admin.
+    // The OAuth broker only allows the site origin as redirect_uri, so we
+    // land on `/` after Google. Persist the intended destination so the
+    // global AuthSync listener can forward to /admin once SIGNED_IN fires.
+    try {
+      sessionStorage.setItem("post_oauth_redirect", "/admin");
+    } catch {}
     const res = await lovable.auth.signInWithOAuth("google", {
       redirect_uri: window.location.origin,
     });
