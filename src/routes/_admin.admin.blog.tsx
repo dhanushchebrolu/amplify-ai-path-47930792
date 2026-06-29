@@ -28,6 +28,7 @@ function BlogAdmin() {
         { name: "cover_url", label: "Cover image", type: "image", imageFolder: "blog" },
         { name: "tags", label: "Tags", type: "tags" },
         { name: "published", label: "Published (visible on /blog)", type: "boolean" },
+        { name: "noindex", label: "Hide from search engines (noindex)", type: "boolean" },
         { name: "published_at", label: "Published at (ISO timestamp, optional)" },
         { name: "sort_order", label: "Sort order", type: "number" },
 

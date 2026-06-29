@@ -27,6 +27,7 @@ function ToolsAdmin() {
         { name: "pricing", label: "Pricing (Free/Freemium/Paid)" },
         { name: "tags", label: "Tags", type: "tags" },
         { name: "sort_order", label: "Sort order", type: "number" },
+        { name: "noindex", label: "Hide from search engines (noindex)", type: "boolean" },
       ]}
       renderRow={(t) => (
         <div className="flex items-center gap-3">
