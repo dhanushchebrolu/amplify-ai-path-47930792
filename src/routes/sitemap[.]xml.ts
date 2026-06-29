@@ -8,6 +8,11 @@ interface SitemapEntry {
   lastmod?: string;
   changefreq?: "always" | "hourly" | "daily" | "weekly" | "monthly" | "yearly" | "never";
   priority?: string;
+  images?: string[];
+}
+
+function escXml(s: string): string {
+  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;").replace(/'/g, "&apos;");
 }
 
 async function fetchDbEntries(): Promise<SitemapEntry[]> {
@@ -39,10 +44,10 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
 
   try {
     const [categories, subcategories, tools, blog, prompts, learnTasks] = await Promise.all([
-      fetchAll(`/rest/v1/categories?select=slug,updated_at&order=sort_order.asc`),
-      fetchAll(`/rest/v1/subcategories?select=category_slug,slug,updated_at&order=sort_order.asc`),
-      fetchAll(`/rest/v1/tools?select=slug,updated_at`),
-      fetchAll(`/rest/v1/blog_posts?select=slug,updated_at&published=eq.true`),
+      fetchAll(`/rest/v1/categories?select=slug,updated_at,icon_url`),
+      fetchAll(`/rest/v1/subcategories?select=category_slug,slug,updated_at,icon_url`),
+      fetchAll(`/rest/v1/tools?select=slug,updated_at,logo_url`),
+      fetchAll(`/rest/v1/blog_posts?select=slug,updated_at,cover_url&published=eq.true`),
       fetchAll(`/rest/v1/prompts?select=id,updated_at`),
       fetchAll(`/rest/v1/learn_tasks?select=id,updated_at`),
     ]);
@@ -54,6 +59,7 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         lastmod: c.updated_at?.slice(0, 10),
         changefreq: "weekly",
         priority: "0.8",
+        images: c.icon_url ? [c.icon_url] : undefined,
       });
     }
     for (const s of subcategories) {
