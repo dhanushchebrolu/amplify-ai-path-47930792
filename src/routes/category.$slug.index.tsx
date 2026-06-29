@@ -40,13 +40,27 @@ export const Route = createFileRoute("/category/$slug/")({
         { name: "twitter:description", content: twDesc },
       ],
       links: [{ rel: "canonical", href: url }],
-      scripts:
-        seo?.structured_data && Array.isArray(seo.structured_data)
-          ? (seo.structured_data as unknown[]).map((block) => ({
-              type: "application/ld+json",
-              children: JSON.stringify(block),
-            }))
-          : undefined,
+      scripts: (() => {
+        const blocks: unknown[] =
+          seo?.structured_data && Array.isArray(seo.structured_data)
+            ? (seo.structured_data as unknown[]).slice()
+            : [];
+        const faqs = seo?.long_form?.faqs;
+        if (faqs && Array.isArray(faqs) && faqs.length > 0) {
+          blocks.push({
+            "@context": "https://schema.org",
+            "@type": "FAQPage",
+            mainEntity: faqs.map((f: any) => ({
+              "@type": "Question",
+              name: f.q,
+              acceptedAnswer: { "@type": "Answer", text: f.a },
+            })),
+          });
+        }
+        return blocks.length
+          ? blocks.map((b) => ({ type: "application/ld+json", children: JSON.stringify(b) }))
+          : undefined;
+      })(),
     };
   },
   component: CategoryPage,

@@ -1,78 +1,78 @@
-## Scope (from your answers)
+# Plan: HTML Blog CMS + Category SEO + Meta Update
 
-- **All category pages** (23) — long intro above the grid, FAQs / buying guide / conclusion below.
-- **All subcategory pages** (152) — same treatment, scoped to the subcategory.
-- **All tool detail pages** (1,917) — deep guide, comparison block, FAQs, JSON-LD.
-- Every page must read as if **independently written by a domain expert**: different ordering, examples, FAQs, recommendations, comparisons, conclusion.
-- Content **stored in the database**, served from initial HTML (SSR-friendly, indexable, editable in admin).
+This request spans three independent workstreams. I'll do them in order. Confirm or trim before I start.
 
-Total: **2,092 pages** of unique long-form content.
+---
 
-## Important upfront
+## 1. Homepage meta (small, 1 edit)
 
-Generating 2,092 expert-quality pages with Lovable AI will take ~1–3 hours of generation time and consume meaningful workspace credits (rough order: 2,092 × ~3K output tokens). I'll generate in batches with resume support so we can pause/restart and so a failure doesn't redo finished pages.
+Update `src/routes/index.tsx` `head()`:
+- title → `Best AI Tools Directory 2026 | 1900+ AI Tools, Prompts & Resources - AI Blaze`
+- description → `Explore 1900+ AI tools, AI apps, and AI prompts. Compare the best AI tools for content creation, coding, marketing, design, automation, productivity, and business.`
+- Mirror into `og:title`, `og:description`, `twitter:title`, `twitter:description`.
 
-If you'd rather start with categories + subcategories first (175 pages, fast) and queue tools as a second pass, say the word — otherwise I run the whole set.
+---
 
-## Architecture
+## 2. Professional HTML blog editor (the big piece)
 
-### 1. DB migration — add SEO content columns
+**Database**
+- Add `content_html text` to `blog_posts` (keep existing `body` for back-compat).
+- Add SEO columns: `seo_title`, `seo_description`, `focus_keyword`, `canonical_url`, `og_title`, `og_description`, `og_image`, `twitter_title`, `twitter_description`, `twitter_image` (all text, nullable).
+- One-shot migration: for any post where `content_html` is null, copy `body` rendered to HTML via `marked` server-side so nothing breaks.
 
-Add to `categories`, `subcategories`, `tools`:
+**Editor (`src/components/admin/HtmlEditor.tsx`)**
+- Tiptap v2 + StarterKit, Underline, Link, Image, Table (+row/header/cell), TaskList/TaskItem, CodeBlockLowlight (highlight.js), Placeholder, TextAlign.
+- Toolbar: H1-H6, B/I/U/S, inline code, bullet/numbered/task list, blockquote, hr, link (with "open in new tab"), image (URL), table insert/edit, code block, undo/redo.
+- Three modes via tab strip: **Visual** | **Raw HTML** (textarea w/ basic monospace) | **Preview** (renders sanitized HTML in BlogContent renderer).
+- Live counters: words, reading time, headings, images, tables.
+- Paste from Word/Google Docs/ChatGPT preserved (Tiptap default paste handling + `Clipboard` from prosemirror).
+- Sanitize on save with `isomorphic-dompurify`, allow-list per spec. Block `script`/`iframe`/`object`/`embed` + event-handler attrs.
 
-- `seo_title`, `seo_description`, `seo_slug` (text)
-- `og_title`, `og_description`, `twitter_title`, `twitter_description` (text)
-- `long_form` (jsonb) — structured sections: `intro`, `sections[]` (each `{heading, body}` with **route-randomised order/headings**), `faqs[]` (`{q,a}`), `buying_guide`, `comparison_table` (tools only), `conclusion`
-- `structured_data` (jsonb) — pre-rendered JSON-LD blocks (`WebPage`, `BreadcrumbList`, `FAQPage`, `ItemList`/`Article`, etc.)
-- `seo_generated_at` (timestamptz)
+**Wiring**
+- `CrudPage` already supports field types. Add `type: "html"` that mounts `<HtmlEditor>`.
+- In `_admin.admin.blog.tsx`, replace `body` markdown field with `content_html` html field + the new SEO field group.
+- Server-side: `upsertBlogPost` runs sanitize before insert/update.
 
-Editable in the existing admin CRUD pages.
+**Frontend rendering (`src/routes/blog.$slug.tsx`)**
+- If `content_html` present → render via `<div className="blog-content" dangerouslySetInnerHTML={{__html: sanitized}} />` (sanitized server-side already, but re-sanitize defensively).
+- Else fall back to existing `<BlogContent>` markdown renderer.
+- Auto-add `id` slugs to h2/h3 server-side for anchor links / TOC.
+- Apply `head()` overrides from SEO fields when present (seo_title, og_*, twitter_*).
 
-### 2. Generation pipeline (`scripts/seo-generate.ts`)
+**Auto Table of Contents**
+- Server-side parse headings → small TOC component rendered above article (sticky on lg).
 
-- Reads rows with `seo_generated_at IS NULL`.
-- For each row, builds a **per-row prompt seeded with the row's id** so the model picks a different writing voice, section order, FAQ set, and example mix every time (we pass an enum of "voice profiles", "ordering profiles", "FAQ angles" hashed from the id — guarantees deterministic uniqueness across pages and prevents two pages from collapsing into the same template).
-- Calls Lovable AI (`google/gemini-3-flash-preview`) with strict JSON schema → validates with Zod → upserts into the new columns.
-- Writes a `seo_generation_log` row per attempt (success/failure/cost) so we can resume.
-- Concurrency: 6 parallel requests, exponential backoff on 429.
-- Resumable: re-running skips already-generated rows.
+**Packages to add**: `@tiptap/react @tiptap/starter-kit @tiptap/extension-underline @tiptap/extension-link @tiptap/extension-image @tiptap/extension-table @tiptap/extension-table-row @tiptap/extension-table-header @tiptap/extension-table-cell @tiptap/extension-task-list @tiptap/extension-task-item @tiptap/extension-code-block-lowlight @tiptap/extension-placeholder @tiptap/extension-text-align lowlight isomorphic-dompurify`
 
-### 3. Route rendering (SSR-first, zero JS-only content)
+---
 
-For `category.$slug.index.tsx`, `category.$slug.$sub.tsx`, `tool.$slug.tsx`:
+## 3. Category & subcategory SEO content sections
 
-- Loader fetches the row (already done) + the new `long_form` / `structured_data`.
-- `head()` emits SEO + OG + Twitter meta from DB, self-referencing `canonical`, `og:url`, and `robots: index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1`.
-- Body renders intro → tool grid → sections → FAQs (semantic `<details>`, no JS gate) → buying guide → conclusion → comparison table (tools).
-- JSON-LD injected via `scripts: [{type: "application/ld+json", children: JSON.stringify(...)}]`.
-- Single `<h1>`, proper `<h2>`/`<h3>` hierarchy, `alt` text for images.
+**Already present** (no rebuild needed):
+- `seo_content` table with `long_form` jsonb
+- `SeoLongForm` component already renders intro, sections (H2 + paragraphs), buying guide, comparison table, FAQs (accordion), conclusion, related links — exactly what the spec describes.
+- `scripts/generate-seo.ts` generates this via AI.
 
-### 4. Sitemap & robots
+**Gaps to close**:
+- Add **FAQ JSON-LD** automatically when `long_form.faqs` exists (currently only `structured_data` blob is used).
+- Add **BreadcrumbList JSON-LD** on subcategory pages.
+- Editable from dashboard: add a new admin route `_admin.admin.seo.tsx` (CRUD over `seo_content`) so non-CLI editing works.
+- Add **"Generate SEO content"** button per row that calls a server fn wrapping the existing `generate-seo` logic (uses Lovable AI Gateway, no key needed).
+- Tweak `SeoLongForm` to also output: "Benefits" bullet list, "Common use cases" bullet list, "How to choose" subsection — by mapping any section whose heading matches those keywords into `<ul>` when body lines start with `- `.
 
-- Verify `sitemap.xml` includes every category/subcategory/tool with `lastmod = seo_generated_at`.
-- `robots.txt` already permissive — no change.
+---
 
-### 5. Admin editing
+## Order of execution
 
-`_admin.admin.categories.tsx`, `…subcategories…`, `…tools.tsx` already use the generic `CrudPage`. I'll add textarea/jsonb fields so editors can override AI output later. A "Regenerate SEO" button per row calls the generator for just that row.
+1. Homepage meta (1 file).
+2. DB migration: add columns.
+3. Install Tiptap packages, build `HtmlEditor` + sanitizer.
+4. Update blog admin + blog frontend renderer.
+5. Add FAQ/Breadcrumb JSON-LD + admin SEO CRUD + Generate button.
 
-## Execution order
+## Out of scope (flag explicitly)
 
-1. Migration: add columns + log table (you approve).
-2. Wire empty rendering (routes read from DB, fall back gracefully when columns are empty — no visual regression).
-3. Generate **categories** (23 pages, ~3 min).
-4. Generate **subcategories** (152 pages, ~15 min).
-5. Generate **tools** (1,917 pages, batched; ~1–3 h depending on rate limits).
-6. Add the "Regenerate" admin action.
-7. Re-verify sitemap, run SEO scan.
+- I will **not** bulk-rewrite all existing blog posts to HTML beyond the one-shot markdown→HTML copy.
+- I will **not** auto-generate SEO content for every existing category in one go — you'll trigger per row from the dashboard.
 
-## What stays unchanged
-
-- No UI redesign. Long-form sections slot **below** existing grids using the current design tokens.
-- No business-logic changes to tool/category schemas beyond additive columns.
-- No client-side fetching of SEO copy — everything ships in the initial HTML.
-
-## Confirm before I start
-
-1. Run the **full 2,092-page** generation, or **categories+subcategories first** and tools in a second turn?
-2. Default chat model `google/gemini-3-flash-preview` is great for breadth + cost. Want me to upgrade tool detail pages to `google/gemini-3-pro-preview` for the longest tier (more expensive, sharper writing)?
+Reply **"go"** to execute, or tell me which sections to skip / change.

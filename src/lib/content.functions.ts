@@ -73,11 +73,23 @@ const blogSchema = z.object({
   title: z.string().min(1).max(240),
   excerpt: z.string().max(500).nullable().optional(),
   body: z.string().max(60000).default(""),
+  content_html: z.string().max(200000).nullable().optional(),
   cover_url: z.string().url().max(500).nullable().optional(),
   tags: z.array(z.string().max(60)).max(20).default([]),
   published: z.boolean().default(false),
   published_at: z.string().nullable().optional(),
   sort_order: z.number().int().default(0),
+  // SEO
+  seo_title: z.string().max(120).nullable().optional(),
+  seo_description: z.string().max(300).nullable().optional(),
+  focus_keyword: z.string().max(120).nullable().optional(),
+  canonical_url: z.string().url().max(500).nullable().optional(),
+  og_title: z.string().max(160).nullable().optional(),
+  og_description: z.string().max(300).nullable().optional(),
+  og_image: z.string().url().max(500).nullable().optional(),
+  twitter_title: z.string().max(160).nullable().optional(),
+  twitter_description: z.string().max(300).nullable().optional(),
+  twitter_image: z.string().url().max(500).nullable().optional(),
 });
 
 const bookSchema = z.object({
@@ -296,8 +308,11 @@ export const upsertBlogPost = createServerFn({ method: "POST" })
   .inputValidator((d: unknown) => blogSchema.parse(d))
   .handler(async ({ data, context }) => {
     const { ensureAdmin, adminUpsert } = await import("./content.server");
+    const { sanitizeHtml } = await import("./html-sanitize");
     await ensureAdmin(context.userId);
-    return adminUpsert("blog_posts", data);
+    const payload: any = { ...data };
+    if (payload.content_html) payload.content_html = sanitizeHtml(payload.content_html);
+    return adminUpsert("blog_posts", payload);
   });
 export const deleteBlogPost = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

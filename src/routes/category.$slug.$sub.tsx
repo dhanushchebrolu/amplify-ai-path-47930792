@@ -42,10 +42,33 @@ export const Route = createFileRoute("/category/$slug/$sub")({
         url: t.website,
       })),
     };
-    const ldBlocks =
+    const ldBlocks: unknown[] =
       seo?.structured_data && Array.isArray(seo.structured_data) && seo.structured_data.length > 0
         ? (seo.structured_data as unknown[])
         : [fallbackLd];
+    // Auto FAQPage from long_form.faqs
+    const faqs = seo?.long_form?.faqs;
+    if (faqs && Array.isArray(faqs) && faqs.length > 0) {
+      ldBlocks.push({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        mainEntity: faqs.map((f: any) => ({
+          "@type": "Question",
+          name: f.q,
+          acceptedAnswer: { "@type": "Answer", text: f.a },
+        })),
+      });
+    }
+    // Breadcrumbs
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "BreadcrumbList",
+      itemListElement: [
+        { "@type": "ListItem", position: 1, name: "Browse", item: "https://aiblaze.io/browse" },
+        { "@type": "ListItem", position: 2, name: category.name, item: `https://aiblaze.io/category/${category.slug}` },
+        { "@type": "ListItem", position: 3, name: sub.name, item: url },
+      ],
+    });
 
     return {
       meta: [

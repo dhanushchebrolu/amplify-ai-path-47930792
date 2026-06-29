@@ -10,13 +10,13 @@ import { Search, Sparkles } from "lucide-react";
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
-      { name: "description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform. Compare features, explore the latest innovations, and stay ahead with AI Blaze." },
-      { property: "og:title", content: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
-      { property: "og:description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform. Compare features, explore the latest innovations, and stay ahead with AI Blaze." },
+      { title: "Best AI Tools Directory 2026 | 1900+ AI Tools, Prompts & Resources - AI Blaze" },
+      { name: "description", content: "Explore 1900+ AI tools, AI apps, and AI prompts. Compare the best AI tools for content creation, coding, marketing, design, automation, productivity, and business." },
+      { property: "og:title", content: "Best AI Tools Directory 2026 | 1900+ AI Tools, Prompts & Resources - AI Blaze" },
+      { property: "og:description", content: "Explore 1900+ AI tools, AI apps, and AI prompts. Compare the best AI tools for content creation, coding, marketing, design, automation, productivity, and business." },
       { property: "og:url", content: "https://aiblaze.io/" },
-      { name: "twitter:title", content: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
-      { name: "twitter:description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform." },
+      { name: "twitter:title", content: "Best AI Tools Directory 2026 | 1900+ AI Tools, Prompts & Resources - AI Blaze" },
+      { name: "twitter:description", content: "Explore 1900+ AI tools, AI apps, and AI prompts. Compare the best AI tools for content creation, coding, marketing, design, automation, productivity, and business." },
     ],
     links: [{ rel: "canonical", href: "https://aiblaze.io/" }],
   }),
