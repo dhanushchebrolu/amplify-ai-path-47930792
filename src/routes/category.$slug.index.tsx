@@ -142,6 +142,17 @@ function CategoryPage() {
             </div>
 
             <SeoLongForm longForm={seo?.long_form} position="below" />
+
+            {!seo?.long_form && (
+              <RichSeoBlock
+                content={buildCategoryFallback(category)}
+                related={others.slice(0, 12).map((c) => ({
+                  label: c.short,
+                  to: "/category/$slug",
+                  params: { slug: c.slug },
+                }))}
+              />
+            )}
           </section>
         </div>
       </main>
