@@ -12,6 +12,7 @@ import { Route as rootRouteImport } from './routes/__root'
 import { Route as TermsRouteImport } from './routes/terms'
 import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
 import { Route as SearchRouteImport } from './routes/search'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
 import { Route as RankingRouteImport } from './routes/ranking'
 import { Route as PrivacyRouteImport } from './routes/privacy'
 import { Route as DmcaRouteImport } from './routes/dmca'
@@ -65,6 +66,11 @@ const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
 const SearchRoute = SearchRouteImport.update({
   id: '/search',
   path: '/search',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
 const RankingRoute = RankingRouteImport.update({
@@ -275,6 +281,7 @@ export interface FileRoutesByFullPath {
   '/dmca': typeof DmcaRoute
   '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -318,6 +325,7 @@ export interface FileRoutesByTo {
   '/dmca': typeof DmcaRoute
   '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -363,6 +371,7 @@ export interface FileRoutesById {
   '/dmca': typeof DmcaRoute
   '/privacy': typeof PrivacyRoute
   '/ranking': typeof RankingRoute
+  '/rss.xml': typeof RssDotxmlRoute
   '/search': typeof SearchRoute
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
@@ -408,6 +417,7 @@ export interface FileRouteTypes {
     | '/dmca'
     | '/privacy'
     | '/ranking'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -451,6 +461,7 @@ export interface FileRouteTypes {
     | '/dmca'
     | '/privacy'
     | '/ranking'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -495,6 +506,7 @@ export interface FileRouteTypes {
     | '/dmca'
     | '/privacy'
     | '/ranking'
+    | '/rss.xml'
     | '/search'
     | '/sitemap.xml'
     | '/terms'
@@ -540,6 +552,7 @@ export interface RootRouteChildren {
   DmcaRoute: typeof DmcaRoute
   PrivacyRoute: typeof PrivacyRoute
   RankingRoute: typeof RankingRoute
+  RssDotxmlRoute: typeof RssDotxmlRoute
   SearchRoute: typeof SearchRoute
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
@@ -582,6 +595,13 @@ declare module '@tanstack/react-router' {
       path: '/search'
       fullPath: '/search'
       preLoaderRoute: typeof SearchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/ranking': {
@@ -902,6 +922,7 @@ const rootRouteChildren: RootRouteChildren = {
   DmcaRoute: DmcaRoute,
   PrivacyRoute: PrivacyRoute,
   RankingRoute: RankingRoute,
+  RssDotxmlRoute: RssDotxmlRoute,
   SearchRoute: SearchRoute,
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
