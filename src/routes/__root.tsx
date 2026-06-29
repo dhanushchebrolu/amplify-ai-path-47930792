@@ -102,6 +102,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "icon", href: "/favicon-64.png", type: "image/png", sizes: "64x64" },
       { rel: "icon", href: "/logo.png", type: "image/png", sizes: "512x512" },
       { rel: "apple-touch-icon", href: "/apple-touch-icon.png", sizes: "180x180" },
+      { rel: "alternate", type: "application/rss+xml", href: "https://aiblaze.io/rss.xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
       { rel: "dns-prefetch", href: "https://kcjsfwnzlwcnucfkesgh.supabase.co" },
@@ -121,6 +122,12 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
           url: "https://aiblaze.io",
           email: "aiblaze.io@gmail.com",
           description: "The curated directory of AI tools, prompts, and tutorials.",
+          logo: {
+            "@type": "ImageObject",
+            url: "https://aiblaze.io/logo.png",
+            width: 512,
+            height: 512,
+          },
         }),
       },
       {

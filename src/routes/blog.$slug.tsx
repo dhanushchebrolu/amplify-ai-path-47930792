@@ -52,14 +52,44 @@ export const Route = createFileRoute("/blog/$slug")({
               type: "application/ld+json",
               children: JSON.stringify({
                 "@context": "https://schema.org",
-                "@type": "Article",
+                "@type": "BlogPosting",
                 headline: title,
                 description: description || undefined,
-                image: ogImage || undefined,
+                image: ogImage
+                  ? { "@type": "ImageObject", url: ogImage, width: 1200, height: 630 }
+                  : undefined,
                 datePublished: d.published_at ?? undefined,
-                author: { "@type": "Organization", name: "AI Blaze" },
-                publisher: { "@type": "Organization", name: "AI Blaze" },
-                mainEntityOfPage: url,
+                dateModified: d.updated_at ?? d.published_at ?? undefined,
+                author: {
+                  "@type": "Organization",
+                  name: "AI Blaze",
+                  url: "https://aiblaze.io",
+                },
+                publisher: {
+                  "@type": "Organization",
+                  name: "AI Blaze",
+                  url: "https://aiblaze.io",
+                  logo: {
+                    "@type": "ImageObject",
+                    url: "https://aiblaze.io/logo.png",
+                    width: 512,
+                    height: 512,
+                  },
+                },
+                mainEntityOfPage: { "@type": "WebPage", "@id": url },
+                ...(d.focus_keyword ? { keywords: d.focus_keyword } : {}),
+              }),
+            },
+            {
+              type: "application/ld+json",
+              children: JSON.stringify({
+                "@context": "https://schema.org",
+                "@type": "BreadcrumbList",
+                itemListElement: [
+                  { "@type": "ListItem", position: 1, name: "Home", item: "https://aiblaze.io/" },
+                  { "@type": "ListItem", position: 2, name: "Blog", item: "https://aiblaze.io/blog" },
+                  { "@type": "ListItem", position: 3, name: title, item: url },
+                ],
               }),
             },
           ]
