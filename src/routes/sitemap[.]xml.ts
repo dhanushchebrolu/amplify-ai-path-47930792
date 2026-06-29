@@ -69,6 +69,7 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         lastmod: s.updated_at?.slice(0, 10),
         changefreq: "weekly",
         priority: "0.7",
+        images: s.icon_url ? [s.icon_url] : undefined,
       });
     }
     for (const t of tools) {
