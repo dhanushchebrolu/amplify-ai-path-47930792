@@ -1,18 +1,22 @@
 import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
-import { useState } from "react";
+import { useState, lazy, Suspense } from "react";
 import { toast } from "sonner";
 import { Plus, Pencil, Trash2, Eye, Pencil as PencilIcon } from "lucide-react";
 import { useServerFn } from "@tanstack/react-start";
 import { ImageField } from "./ImageField";
+import { CharCounterInput } from "./CharCounterInput";
 import { BlogContent } from "@/components/BlogContent";
+
+const HtmlEditor = lazy(() => import("./HtmlEditor").then((m) => ({ default: m.HtmlEditor })));
 
 export interface FieldDef {
   name: string;
   label: string;
-  type?: "text" | "textarea" | "markdown" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean";
+  type?: "text" | "textarea" | "markdown" | "html" | "url" | "number" | "tags" | "select" | "steps" | "image" | "boolean" | "seo-title" | "seo-description";
   options?: string[];
   required?: boolean;
   imageFolder?: string;
+  hint?: string;
 }
 
 export function CrudPage<T extends { id?: string }>({
@@ -106,6 +110,14 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
               ) : f.type === "markdown" ? (
                 <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
+              ) : f.type === "html" ? (
+                <Suspense fallback={<div className="text-xs text-muted-foreground p-3">Loading editor…</div>}>
+                  <HtmlEditor value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
+                </Suspense>
+              ) : f.type === "seo-title" ? (
+                <CharCounterInput value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} recommendedMin={50} recommendedMax={60} />
+              ) : f.type === "seo-description" ? (
+                <CharCounterInput value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} recommendedMin={150} recommendedMax={160} multiline />
               ) : f.type === "select" ? (
                 <select value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
                   className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm">
