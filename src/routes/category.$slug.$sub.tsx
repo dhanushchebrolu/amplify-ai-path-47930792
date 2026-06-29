@@ -179,6 +179,17 @@ function SubPage() {
             </div>
 
             <SeoLongForm longForm={seo?.long_form} position="below" />
+
+            {!seo?.long_form && (
+              <RichSeoBlock
+                content={buildSubcategoryFallback(category, sub)}
+                related={otherSubs.slice(0, 12).map((s) => ({
+                  label: s.name,
+                  to: "/category/$slug/$sub",
+                  params: { slug: category.slug, sub: s.slug },
+                }))}
+              />
+            )}
           </section>
         </div>
       </main>
