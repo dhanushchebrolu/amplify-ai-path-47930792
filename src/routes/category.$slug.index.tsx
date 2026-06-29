@@ -3,6 +3,8 @@ import { catalog, getCatalogCategory, type CatalogCategory } from "@/data/catalo
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { SubcategoryCard } from "@/components/SubcategoryCard";
 import { SeoLongForm } from "@/components/SeoLongForm";
+import { RichSeoBlock } from "@/components/RichSeoBlock";
+import { buildCategoryFallback } from "@/lib/category-seo-content";
 import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
 
 export const Route = createFileRoute("/category/$slug/")({
