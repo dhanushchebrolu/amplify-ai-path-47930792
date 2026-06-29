@@ -34,6 +34,7 @@ export const Route = createFileRoute("/blog/$slug")({
       meta: [
         { title: `${title} — AI Blaze Blog` },
         { name: "description", content: description },
+        ...(d.noindex ? [{ name: "robots", content: "noindex, follow" }] : []),
         ...(d.focus_keyword ? [{ name: "keywords", content: d.focus_keyword }] : []),
         { property: "og:type", content: "article" },
         { property: "og:title", content: ogTitle },

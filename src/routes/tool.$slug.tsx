@@ -78,7 +78,7 @@ export const Route = createFileRoute("/tool/$slug")({
       meta: [
         { title },
         { name: "description", content: desc },
-        { name: "robots", content: "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
+        { name: "robots", content: tool.noindex ? "noindex, follow" : "index,follow,max-image-preview:large,max-snippet:-1,max-video-preview:-1" },
         { property: "og:title", content: ogTitle },
         { property: "og:description", content: ogDesc },
         { property: "og:url", content: url },
