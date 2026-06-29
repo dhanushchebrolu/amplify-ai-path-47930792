@@ -78,6 +78,7 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         lastmod: t.updated_at?.slice(0, 10),
         changefreq: "weekly",
         priority: "0.6",
+        images: t.logo_url ? [t.logo_url] : undefined,
       });
     }
     for (const p of blog) {
@@ -87,6 +88,7 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         lastmod: p.updated_at?.slice(0, 10),
         changefreq: "weekly",
         priority: "0.7",
+        images: p.cover_url ? [p.cover_url] : undefined,
       });
     }
     for (const p of prompts) {
@@ -151,13 +153,19 @@ export const Route = createFileRoute("/sitemap.xml")({
             e.lastmod ? `    <lastmod>${e.lastmod}</lastmod>` : null,
             e.changefreq ? `    <changefreq>${e.changefreq}</changefreq>` : null,
             e.priority ? `    <priority>${e.priority}</priority>` : null,
+            ...(e.images?.length
+              ? e.images.map(
+                  (img) =>
+                    `    <image:image><image:loc>${escXml(img)}</image:loc></image:image>`,
+                )
+              : []),
             `  </url>`,
           ].filter(Boolean).join("\n"),
         );
 
         const xml = [
           `<?xml version="1.0" encoding="UTF-8"?>`,
-          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">`,
+          `<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">`,
           ...urls,
           `</urlset>`,
         ].join("\n");
