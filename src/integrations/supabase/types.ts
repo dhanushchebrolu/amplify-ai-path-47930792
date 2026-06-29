@@ -93,6 +93,7 @@ export type Database = {
           excerpt: string | null
           focus_keyword: string | null
           id: string
+          noindex: boolean
           og_description: string | null
           og_image: string | null
           og_title: string | null
@@ -118,6 +119,7 @@ export type Database = {
           excerpt?: string | null
           focus_keyword?: string | null
           id?: string
+          noindex?: boolean
           og_description?: string | null
           og_image?: string | null
           og_title?: string | null
@@ -143,6 +145,7 @@ export type Database = {
           excerpt?: string | null
           focus_keyword?: string | null
           id?: string
+          noindex?: boolean
           og_description?: string | null
           og_image?: string | null
           og_title?: string | null
@@ -252,6 +255,7 @@ export type Database = {
           id: string
           long_form: Json | null
           name: string
+          noindex: boolean
           og_description: string | null
           og_title: string | null
           seo_description: string | null
@@ -271,6 +275,7 @@ export type Database = {
           id?: string
           long_form?: Json | null
           name: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           seo_description?: string | null
@@ -290,6 +295,7 @@ export type Database = {
           id?: string
           long_form?: Json | null
           name?: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           seo_description?: string | null
@@ -580,6 +586,7 @@ export type Database = {
           id: string
           long_form: Json | null
           name: string
+          noindex: boolean
           og_description: string | null
           og_title: string | null
           seo_description: string | null
@@ -600,6 +607,7 @@ export type Database = {
           id?: string
           long_form?: Json | null
           name: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           seo_description?: string | null
@@ -620,6 +628,7 @@ export type Database = {
           id?: string
           long_form?: Json | null
           name?: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           seo_description?: string | null
@@ -645,6 +654,7 @@ export type Database = {
           logo_url: string | null
           long_form: Json | null
           name: string
+          noindex: boolean
           og_description: string | null
           og_title: string | null
           pricing: string | null
@@ -672,6 +682,7 @@ export type Database = {
           logo_url?: string | null
           long_form?: Json | null
           name: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           pricing?: string | null
@@ -699,6 +710,7 @@ export type Database = {
           logo_url?: string | null
           long_form?: Json | null
           name?: string
+          noindex?: boolean
           og_description?: string | null
           og_title?: string | null
           pricing?: string | null
