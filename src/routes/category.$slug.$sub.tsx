@@ -48,9 +48,10 @@ export const Route = createFileRoute("/category/$slug/$sub")({
       seo?.structured_data && Array.isArray(seo.structured_data) && seo.structured_data.length > 0
         ? (seo.structured_data as unknown[])
         : [fallbackLd];
-    // Auto FAQPage from long_form.faqs
-    const faqs = seo?.long_form?.faqs;
-    if (faqs && Array.isArray(faqs) && faqs.length > 0) {
+    // FAQPage — DB-authored FAQs preferred, else deterministic fallback.
+    const dbFaqs = seo?.long_form?.faqs;
+    const faqs = dbFaqs?.length ? dbFaqs : buildSubcategoryFallback(category, sub).faqs;
+    if (faqs.length > 0) {
       ldBlocks.push({
         "@context": "https://schema.org",
         "@type": "FAQPage",
@@ -61,6 +62,15 @@ export const Route = createFileRoute("/category/$slug/$sub")({
         })),
       });
     }
+    // CollectionPage wrapper around the existing ItemList.
+    ldBlocks.push({
+      "@context": "https://schema.org",
+      "@type": "CollectionPage",
+      name: title,
+      description: desc,
+      url,
+      isPartOf: { "@type": "WebSite", name: "AI Blaze", url: "https://aiblaze.io" },
+    });
     // Breadcrumbs
     ldBlocks.push({
       "@context": "https://schema.org",
