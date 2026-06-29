@@ -86,44 +86,77 @@ export type Database = {
       blog_posts: {
         Row: {
           body: string
+          canonical_url: string | null
+          content_html: string | null
           cover_url: string | null
           created_at: string
           excerpt: string | null
+          focus_keyword: string | null
           id: string
+          og_description: string | null
+          og_image: string | null
+          og_title: string | null
           published: boolean
           published_at: string | null
+          seo_description: string | null
+          seo_title: string | null
           slug: string
           sort_order: number
           tags: string[]
           title: string
+          twitter_description: string | null
+          twitter_image: string | null
+          twitter_title: string | null
           updated_at: string
         }
         Insert: {
           body?: string
+          canonical_url?: string | null
+          content_html?: string | null
           cover_url?: string | null
           created_at?: string
           excerpt?: string | null
+          focus_keyword?: string | null
           id?: string
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           published?: boolean
           published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug: string
           sort_order?: number
           tags?: string[]
           title: string
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Update: {
           body?: string
+          canonical_url?: string | null
+          content_html?: string | null
           cover_url?: string | null
           created_at?: string
           excerpt?: string | null
+          focus_keyword?: string | null
           id?: string
+          og_description?: string | null
+          og_image?: string | null
+          og_title?: string | null
           published?: boolean
           published_at?: string | null
+          seo_description?: string | null
+          seo_title?: string | null
           slug?: string
           sort_order?: number
           tags?: string[]
           title?: string
+          twitter_description?: string | null
+          twitter_image?: string | null
+          twitter_title?: string | null
           updated_at?: string
         }
         Relationships: []
