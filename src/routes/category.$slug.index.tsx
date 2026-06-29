@@ -47,8 +47,11 @@ export const Route = createFileRoute("/category/$slug/")({
           seo?.structured_data && Array.isArray(seo.structured_data)
             ? (seo.structured_data as unknown[]).slice()
             : [];
-        const faqs = seo?.long_form?.faqs;
-        if (faqs && Array.isArray(faqs) && faqs.length > 0) {
+        // FAQPage — prefer DB FAQs, fall back to deterministic generator.
+        const dbFaqs = seo?.long_form?.faqs;
+        const fallback = !dbFaqs?.length ? buildCategoryFallback(c) : null;
+        const faqs = dbFaqs?.length ? dbFaqs : fallback?.faqs ?? [];
+        if (faqs.length > 0) {
           blocks.push({
             "@context": "https://schema.org",
             "@type": "FAQPage",
@@ -59,9 +62,36 @@ export const Route = createFileRoute("/category/$slug/")({
             })),
           });
         }
-        return blocks.length
-          ? blocks.map((b) => ({ type: "application/ld+json", children: JSON.stringify(b) }))
-          : undefined;
+        // CollectionPage + ItemList — every sub-category as an item.
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "CollectionPage",
+          name: title,
+          description: desc,
+          url,
+          isPartOf: { "@type": "WebSite", name: "AI Blaze", url: "https://aiblaze.io" },
+          mainEntity: {
+            "@type": "ItemList",
+            numberOfItems: c.subs.length,
+            itemListElement: c.subs.map((s, i) => ({
+              "@type": "ListItem",
+              position: i + 1,
+              url: `https://aiblaze.io/category/${c.slug}/${s.slug}`,
+              name: s.name,
+            })),
+          },
+        });
+        // BreadcrumbList
+        blocks.push({
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          itemListElement: [
+            { "@type": "ListItem", position: 1, name: "Home", item: "https://aiblaze.io/" },
+            { "@type": "ListItem", position: 2, name: "Browse", item: "https://aiblaze.io/browse" },
+            { "@type": "ListItem", position: 3, name: c.name, item: url },
+          ],
+        });
+        return blocks.map((b) => ({ type: "application/ld+json", children: JSON.stringify(b) }));
       })(),
     };
   },
