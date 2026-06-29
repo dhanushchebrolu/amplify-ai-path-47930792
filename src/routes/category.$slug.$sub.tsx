@@ -5,6 +5,8 @@ import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { CatalogToolCard } from "@/components/CatalogToolCard";
 import { Search } from "lucide-react";
 import { SeoLongForm } from "@/components/SeoLongForm";
+import { RichSeoBlock } from "@/components/RichSeoBlock";
+import { buildSubcategoryFallback } from "@/lib/category-seo-content";
 import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
 
 export const Route = createFileRoute("/category/$slug/$sub")({
