@@ -17,6 +17,7 @@ const toolSchema = z.object({
   pricing: z.string().max(60).nullable().optional(),
   featured: z.boolean().default(false),
   sort_order: z.number().int().default(0),
+  noindex: z.boolean().default(false),
 });
 
 const promptSchema = z.object({
@@ -77,6 +78,7 @@ const blogSchema = z.object({
   cover_url: z.string().url().max(500).nullable().optional(),
   tags: z.array(z.string().max(60)).max(20).default([]),
   published: z.boolean().default(false),
+  noindex: z.boolean().default(false),
   published_at: z.string().nullable().optional(),
   sort_order: z.number().int().default(0),
   // SEO
