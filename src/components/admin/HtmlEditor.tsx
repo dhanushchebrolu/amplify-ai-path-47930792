@@ -16,20 +16,24 @@ import {
   Bold, Italic, Underline as UIcon, Strikethrough, Code, Code2,
   Heading1, Heading2, Heading3, Heading4,
   List, ListOrdered, ListChecks, Quote, Minus, Link as LinkIcon, Image as ImgIcon,
-  Table as TableIcon, Eye, FileCode, PencilLine, Undo2, Redo2,
+  Table as TableIcon, Eye, FileCode, PencilLine, Undo2, Redo2, Wand2,
 } from "lucide-react";
 import { sanitizeHtml, htmlStats } from "@/lib/html-sanitize";
+import { BlogImportDialog } from "./BlogImportDialog";
 
 type Mode = "visual" | "raw" | "preview";
 
 interface Props {
   value: string;
   onChange: (v: string) => void;
+  /** Optional: receive a multi-field patch (title, slug, seo_*, etc.) from the HTML importer. */
+  onBulkImport?: (patch: Record<string, unknown>) => void;
 }
 
-export function HtmlEditor({ value, onChange }: Props) {
+export function HtmlEditor({ value, onChange, onBulkImport }: Props) {
   const [mode, setMode] = useState<Mode>("visual");
   const [raw, setRaw] = useState(value || "");
+  const [importOpen, setImportOpen] = useState(false);
 
   const editor = useEditor({
     extensions: [
@@ -88,10 +92,29 @@ export function HtmlEditor({ value, onChange }: Props) {
         <TabBtn active={mode === "visual"} onClick={() => { if (mode === "raw") syncFromRaw(); setMode("visual"); }} icon={<PencilLine className="w-3 h-3" />} label="Visual" />
         <TabBtn active={mode === "raw"} onClick={() => setMode("raw")} icon={<FileCode className="w-3 h-3" />} label="Raw HTML" />
         <TabBtn active={mode === "preview"} onClick={() => { if (mode === "raw") syncFromRaw(); setMode("preview"); }} icon={<Eye className="w-3 h-3" />} label="Preview" />
+        <button type="button" onClick={() => setImportOpen(true)}
+          className="ml-1 px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 bg-primary/15 text-primary hover:bg-primary/25"
+          title="Paste HTML from ChatGPT / Claude / Gemini — auto-extracts title, slug, SEO, FAQs, etc.">
+          <Wand2 className="w-3 h-3" /> Import HTML
+        </button>
         <span className="ml-auto text-[10px] text-muted-foreground pr-1">
           {stats.words} words · {stats.readingTime} min · {stats.headings} H · {stats.images} img · {stats.tables} tbl
         </span>
       </div>
+
+      <BlogImportDialog
+        open={importOpen}
+        onClose={() => setImportOpen(false)}
+        onApply={(patch) => {
+          if (typeof patch.content_html === "string") {
+            const html = patch.content_html;
+            editor.commands.setContent(html, { emitUpdate: false });
+            setRaw(html);
+            onChange(html);
+          }
+          onBulkImport?.(patch);
+        }}
+      />
 
       {/* Toolbar — only in visual mode */}
       {mode === "visual" && (

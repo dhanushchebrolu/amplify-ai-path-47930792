@@ -112,7 +112,11 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
                 <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
               ) : f.type === "html" ? (
                 <Suspense fallback={<div className="text-xs text-muted-foreground p-3">Loading editor…</div>}>
-                  <HtmlEditor value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
+                  <HtmlEditor
+                    value={form[f.name] ?? ""}
+                    onChange={(v) => set(f.name, v)}
+                    onBulkImport={(patch) => setForm((prev: any) => ({ ...prev, ...patch }))}
+                  />
                 </Suspense>
               ) : f.type === "seo-title" ? (
                 <CharCounterInput value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} recommendedMin={50} recommendedMax={60} />
