@@ -6,7 +6,14 @@ import { BlogPostPending } from "@/components/skeletons";
 import { BlogContent } from "@/components/BlogContent";
 import { sanitizeHtml, addHeadingIds } from "@/lib/html-sanitize";
 import { injectInternalLinks } from "@/lib/internal-links";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import {
+  ReadingProgress,
+  TableOfContents,
+  extractToc,
+  useArticleEnhancements,
+  Lightbox,
+} from "@/components/BlogReading";
 
 const postQuery = (slug: string) =>
   queryOptions({
