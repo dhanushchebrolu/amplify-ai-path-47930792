@@ -6,7 +6,14 @@ import { BlogPostPending } from "@/components/skeletons";
 import { BlogContent } from "@/components/BlogContent";
 import { sanitizeHtml, addHeadingIds } from "@/lib/html-sanitize";
 import { injectInternalLinks } from "@/lib/internal-links";
-import { useMemo } from "react";
+import { useMemo, useRef } from "react";
+import {
+  ReadingProgress,
+  TableOfContents,
+  extractToc,
+  useArticleEnhancements,
+  Lightbox,
+} from "@/components/BlogReading";
 
 const postQuery = (slug: string) =>
   queryOptions({
@@ -117,22 +124,30 @@ function BlogPost() {
     () => (html ? injectInternalLinks(addHeadingIds(sanitizeHtml(html))) : ""),
     [html],
   );
+  const toc = useMemo(() => extractToc(cleanHtml), [cleanHtml]);
+
+  const articleRef = useRef<HTMLDivElement>(null);
+  const progressRef = useRef<HTMLElement>(null);
+  const { lightbox, closeLightbox } = useArticleEnhancements(articleRef, [cleanHtml, p?.body]);
 
   return (
     <div className="min-h-screen flex flex-col">
+      <ReadingProgress targetRef={progressRef} />
       <SiteHeader />
-      <main className="mx-auto max-w-3xl px-6 pt-12 pb-24 w-full">
+      <main ref={progressRef} className="mx-auto max-w-3xl px-6 pt-12 pb-24 w-full">
         <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">← Back to blog</Link>
         <h1 className="font-display text-4xl md:text-5xl mt-4">{p.title}</h1>
         {p.published_at && <div className="text-xs text-muted-foreground mt-3">{new Date(p.published_at).toLocaleDateString()}</div>}
         {p.cover_url && <img src={p.cover_url} alt="" className="w-full rounded-2xl mt-6 object-cover" />}
         {p.excerpt && <p className="text-lg text-muted-foreground mt-6">{p.excerpt}</p>}
-        <div className="mt-8">
+        <div ref={articleRef} className="mt-8">
           {cleanHtml
             ? <article className="blog-content" dangerouslySetInnerHTML={{ __html: cleanHtml }} />
             : <BlogContent content={p.body ?? ""} />}
         </div>
       </main>
+      <TableOfContents items={toc} />
+      {lightbox && <Lightbox src={lightbox.src} alt={lightbox.alt} onClose={closeLightbox} />}
       <SiteFooter />
     </div>
   );
