@@ -5,6 +5,7 @@ import { getBlogPost } from "@/lib/content.functions";
 import { BlogPostPending } from "@/components/skeletons";
 import { BlogContent } from "@/components/BlogContent";
 import { sanitizeHtml, addHeadingIds } from "@/lib/html-sanitize";
+import { injectInternalLinks } from "@/lib/internal-links";
 import { useMemo } from "react";
 
 const postQuery = (slug: string) =>
@@ -112,7 +113,10 @@ function BlogPost() {
   if (!p) throw notFound();
 
   const html = (p as any).content_html as string | null | undefined;
-  const cleanHtml = useMemo(() => (html ? addHeadingIds(sanitizeHtml(html)) : ""), [html]);
+  const cleanHtml = useMemo(
+    () => (html ? injectInternalLinks(addHeadingIds(sanitizeHtml(html))) : ""),
+    [html],
+  );
 
   return (
     <div className="min-h-screen flex flex-col">
