@@ -30,9 +30,10 @@ interface Props {
   onBulkImport?: (patch: Record<string, unknown>) => void;
 }
 
-export function HtmlEditor({ value, onChange }: Props) {
+export function HtmlEditor({ value, onChange, onBulkImport }: Props) {
   const [mode, setMode] = useState<Mode>("visual");
   const [raw, setRaw] = useState(value || "");
+  const [importOpen, setImportOpen] = useState(false);
 
   const editor = useEditor({
     extensions: [
