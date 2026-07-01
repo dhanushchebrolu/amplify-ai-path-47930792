@@ -30,10 +30,21 @@ function AdminLogin() {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({ email, password });
+      const { error } = await supabase.auth.signInWithPassword({
+        email: email.trim().toLowerCase(),
+        password,
+      });
       if (error) throw error;
     } catch (err: any) {
-      toast.error(err.message ?? "Sign in failed");
+      const raw = (err?.message ?? "").toLowerCase();
+      let msg = "Sign in failed. Please try again.";
+      if (raw.includes("invalid login")) msg = "Incorrect email or password.";
+      else if (raw.includes("email not confirmed")) msg = "Please confirm your email before signing in.";
+      else if (raw.includes("rate")) msg = "Too many attempts. Please wait a moment and try again.";
+      else if (raw.includes("network") || raw.includes("fetch")) msg = "Network error. Check your connection.";
+      else if (raw.includes("disabled")) msg = "This account has been disabled.";
+      else if (err?.message) msg = err.message;
+      toast.error(msg);
     } finally {
       setLoading(false);
     }

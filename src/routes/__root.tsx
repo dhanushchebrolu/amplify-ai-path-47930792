@@ -170,21 +170,36 @@ function AuthSync() {
   const router = useRouter();
   const qc = useQueryClient();
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Password recovery link ALWAYS goes to the reset page, regardless of
+      // where Supabase's Site URL fallback dropped the browser.
+      if (event === "PASSWORD_RECOVERY") {
+        if (window.location.pathname !== "/admin/reset-password") {
+          window.location.replace("/admin/reset-password");
+        }
+        return;
+      }
+
+      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+
       router.invalidate();
-      qc.invalidateQueries();
-      // Honor a pending post-OAuth redirect (set before lovable.auth.signInWithOAuth)
-      // so Google sign-in from /admin/login lands on /admin even though the OAuth
-      // broker forces redirect_uri to the bare origin.
-      if (event === "SIGNED_IN") {
+      if (event !== "SIGNED_OUT") qc.invalidateQueries();
+
+      // Post-OAuth handoff: Google's broker returns to the bare origin,
+      // so /admin/login stashes the intended destination in sessionStorage
+      // and we forward here once SIGNED_IN fires.
+      if (event === "SIGNED_IN" && session) {
         try {
           const target = sessionStorage.getItem("post_oauth_redirect");
           if (target) {
             sessionStorage.removeItem("post_oauth_redirect");
             if (window.location.pathname !== target) {
               window.location.replace(target);
+              return;
             }
           }
+          // Fallback: if signed in and stranded on the homepage after a
+          // recovery/OAuth bounce with no explicit target, don't force any move.
         } catch {}
       }
     });
