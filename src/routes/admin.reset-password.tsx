@@ -17,10 +17,8 @@ function ResetPassword() {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
-    // Recovery hash present? mark ready immediately.
-    if (typeof window !== "undefined" && window.location.hash.includes("type=recovery")) {
-      setReady(true);
-    }
+    // Supabase fires PASSWORD_RECOVERY when arriving via the email link.
+    // Also accept any existing session (the link itself establishes one).
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       if (event === "PASSWORD_RECOVERY" || session) setReady(true);
     });

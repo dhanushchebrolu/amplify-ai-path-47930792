@@ -50,6 +50,7 @@ import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.
 import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
 import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
 import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
+import { Route as AdminAdminAuthDebugRouteImport } from './routes/_admin.admin.auth-debug'
 import { Route as AdminAdminAdminsRouteImport } from './routes/_admin.admin.admins'
 import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
@@ -257,6 +258,11 @@ const AdminAdminBlogRoute = AdminAdminBlogRouteImport.update({
   path: '/admin/blog',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminAuthDebugRoute = AdminAdminAuthDebugRouteImport.update({
+  id: '/admin/auth-debug',
+  path: '/admin/auth-debug',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminAdminsRoute = AdminAdminAdminsRouteImport.update({
   id: '/admin/admins',
   path: '/admin/admins',
@@ -298,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/blog/': typeof BlogIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
+  '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -342,6 +349,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/prompts': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
+  '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -388,6 +396,7 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/_admin/admin/admins': typeof AdminAdminAdminsRoute
+  '/_admin/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/_admin/admin/blog': typeof AdminAdminBlogRoute
   '/_admin/admin/books': typeof AdminAdminBooksRoute
   '/_admin/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -434,6 +443,7 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/prompts/'
     | '/admin/admins'
+    | '/admin/auth-debug'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/bug-reports'
@@ -478,6 +488,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/prompts'
     | '/admin/admins'
+    | '/admin/auth-debug'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/bug-reports'
@@ -523,6 +534,7 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/prompts/'
     | '/_admin/admin/admins'
+    | '/_admin/admin/auth-debug'
     | '/_admin/admin/blog'
     | '/_admin/admin/books'
     | '/_admin/admin/bug-reports'
@@ -863,6 +875,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminBlogRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/auth-debug': {
+      id: '/_admin/admin/auth-debug'
+      path: '/admin/auth-debug'
+      fullPath: '/admin/auth-debug'
+      preLoaderRoute: typeof AdminAdminAuthDebugRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/admin/admins': {
       id: '/_admin/admin/admins'
       path: '/admin/admins'
@@ -882,6 +901,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAdminAdminsRoute: typeof AdminAdminAdminsRoute
+  AdminAdminAuthDebugRoute: typeof AdminAdminAuthDebugRoute
   AdminAdminBlogRoute: typeof AdminAdminBlogRoute
   AdminAdminBooksRoute: typeof AdminAdminBooksRoute
   AdminAdminBugReportsRoute: typeof AdminAdminBugReportsRoute
@@ -895,6 +915,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminAdminsRoute: AdminAdminAdminsRoute,
+  AdminAdminAuthDebugRoute: AdminAdminAuthDebugRoute,
   AdminAdminBlogRoute: AdminAdminBlogRoute,
   AdminAdminBooksRoute: AdminAdminBooksRoute,
   AdminAdminBugReportsRoute: AdminAdminBugReportsRoute,
