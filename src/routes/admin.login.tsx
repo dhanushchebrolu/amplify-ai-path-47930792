@@ -4,6 +4,7 @@ import { supabase } from "@/integrations/supabase/client";
 import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
+import { devSignIn, getDevSession, isDevAuthEnabled, logDevAuthBanner } from "@/lib/dev-auth";
 
 export const Route = createFileRoute("/admin/login")({
   component: AdminLogin,
@@ -11,12 +12,18 @@ export const Route = createFileRoute("/admin/login")({
 
 function AdminLogin() {
   const navigate = useNavigate();
-  const [email, setEmail] = useState("");
+  const devMode = isDevAuthEnabled();
+  const [email, setEmail] = useState(devMode ? "admin@localhost" : "");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
+    if (devMode) {
+      logDevAuthBanner();
+      if (getDevSession()) navigate({ to: "/admin" });
+      return;
+    }
     const { data: { subscription } } = supabase.auth.onAuthStateChange((_e, session) => {
       if (session) navigate({ to: "/admin" });
     });
@@ -24,27 +31,26 @@ function AdminLogin() {
       if (data.session) navigate({ to: "/admin" });
     });
     return () => subscription.unsubscribe();
-  }, [navigate]);
+  }, [navigate, devMode]);
 
   async function onSubmit(e: React.FormEvent) {
     e.preventDefault();
     setLoading(true);
     try {
-      const { error } = await supabase.auth.signInWithPassword({
-        email: email.trim().toLowerCase(),
-        password,
-      });
+      if (devMode) {
+        devSignIn(email, password);
+        navigate({ to: "/admin" });
+        return;
+      }
+      const { error } = await supabase.auth.signInWithPassword({ email, password });
       if (error) throw error;
     } catch (err: any) {
-      const raw = (err?.message ?? "").toLowerCase();
-      let msg = "Sign in failed. Please try again.";
-      if (raw.includes("invalid login")) msg = "Incorrect email or password.";
-      else if (raw.includes("email not confirmed")) msg = "Please confirm your email before signing in.";
-      else if (raw.includes("rate")) msg = "Too many attempts. Please wait a moment and try again.";
-      else if (raw.includes("network") || raw.includes("fetch")) msg = "Network error. Check your connection.";
-      else if (raw.includes("disabled")) msg = "This account has been disabled.";
-      else if (err?.message) msg = err.message;
-      toast.error(msg);
+      if (devMode) {
+        toast.error("Incorrect email or password.");
+      } else {
+        const { friendlyAuthError } = await import("@/lib/auth-errors");
+        toast.error(friendlyAuthError(err, "signin"));
+      }
     } finally {
       setLoading(false);
     }
@@ -52,9 +58,6 @@ function AdminLogin() {
 
   async function onGoogle() {
     setLoading(true);
-    // The OAuth broker only allows the site origin as redirect_uri, so we
-    // land on `/` after Google. Persist the intended destination so the
-    // global AuthSync listener can forward to /admin once SIGNED_IN fires.
     try {
       sessionStorage.setItem("post_oauth_redirect", "/admin");
     } catch {}
@@ -62,7 +65,8 @@ function AdminLogin() {
       redirect_uri: window.location.origin,
     });
     if (res.error) {
-      toast.error(res.error.message ?? "Google sign-in failed");
+      const { friendlyAuthError } = await import("@/lib/auth-errors");
+      toast.error(friendlyAuthError(res.error, "oauth"));
       setLoading(false);
     }
   }
@@ -70,9 +74,17 @@ function AdminLogin() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
       <div className="w-full max-w-md card-surface rounded-2xl border border-white/10 p-8">
+        {devMode && (
+          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-yellow-400/40 bg-yellow-400/10 px-3 py-1 text-[11px] font-medium text-yellow-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-yellow-400" />
+            Development Mode
+          </div>
+        )}
         <h1 className="font-display text-3xl">Admin sign in</h1>
         <p className="text-sm text-muted-foreground mt-2">
-          Admin access is invitation-only. If you received an invitation link, open it directly to accept.
+          {devMode
+            ? "Local development login. Use the DEV_ADMIN_EMAIL / DEV_ADMIN_PASSWORD credentials."
+            : "Admin access is invitation-only. If you received an invitation link, open it directly to accept."}
         </p>
 
         <form onSubmit={onSubmit} className="mt-6 space-y-3">
@@ -105,20 +117,24 @@ function AdminLogin() {
           </button>
         </form>
 
-        <div className="mt-3 text-right">
-          <Link to="/admin/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
-            Forgot password?
-          </Link>
-        </div>
+        {!devMode && (
+          <>
+            <div className="mt-3 text-right">
+              <Link to="/admin/forgot-password" className="text-xs text-muted-foreground hover:text-foreground">
+                Forgot password?
+              </Link>
+            </div>
 
-        <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
-          <div className="h-px bg-white/10 flex-1" /> or <div className="h-px bg-white/10 flex-1" />
-        </div>
+            <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
+              <div className="h-px bg-white/10 flex-1" /> or <div className="h-px bg-white/10 flex-1" />
+            </div>
 
-        <button onClick={onGoogle} disabled={loading}
-          className="w-full py-2.5 rounded-lg border border-white/15 text-sm hover:bg-white/5 disabled:opacity-50">
-          Continue with Google
-        </button>
+            <button onClick={onGoogle} disabled={loading}
+              className="w-full py-2.5 rounded-lg border border-white/15 text-sm hover:bg-white/5 disabled:opacity-50">
+              Continue with Google
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
