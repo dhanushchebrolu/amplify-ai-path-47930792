@@ -92,7 +92,11 @@ function AdminLayout() {
           <LogOut className="w-4 h-4" /> Sign out
         </button>
       </aside>
-      <main className="flex-1 p-8 overflow-auto"><Outlet /></main>
+      <main className="flex-1 p-8 overflow-auto">
+        <AdminErrorBoundary area="admin-outlet">
+          <Outlet />
+        </AdminErrorBoundary>
+      </main>
     </div>
   );
 }
