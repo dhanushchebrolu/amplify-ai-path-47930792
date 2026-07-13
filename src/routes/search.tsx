@@ -73,7 +73,7 @@ function SearchPage() {
         {initialQ && hits.length === 0 && (
           <div className="mt-12 text-center text-muted-foreground">
             <p>No tools match "{initialQ}".</p>
-            <Link to="/browse" className="text-foreground underline mt-3 inline-block">Browse all categories</Link>
+            <Link to="/" className="text-foreground underline mt-3 inline-block">Explore all categories</Link>
           </div>
         )}
 

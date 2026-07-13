@@ -1,97 +1,38 @@
-// Central mapping from raw Supabase auth errors to user-friendly messages.
-// Never surface raw error strings — they leak backend details and confuse users.
+// Map Supabase auth errors to friendly user-facing messages.
+export function friendlyAuthError(err: unknown): string {
+  const raw = (err as any)?.message?.toString?.() ?? "";
+  const code = (err as any)?.code?.toString?.() ?? "";
+  const status = (err as any)?.status;
+  const m = raw.toLowerCase();
 
-export type AuthErrorContext =
-  | "signin"
-  | "signup"
-  | "oauth"
-  | "reset-request"
-  | "reset-update"
-  | "session";
+  if (!raw && !code) return "Something went wrong. Please try again.";
 
-export function friendlyAuthError(err: unknown, ctx: AuthErrorContext = "signin"): string {
-  const raw = String((err as any)?.message ?? err ?? "").toLowerCase();
-  const status = (err as any)?.status as number | undefined;
-
-  if (!raw) return defaultFor(ctx);
-
-  // Network / transport
-  if (raw.includes("failed to fetch") || raw.includes("network") || raw.includes("networkerror")) {
-    return "Network error. Check your connection and try again.";
+  if (code === "invalid_credentials" || m.includes("invalid login credentials")) {
+    return "Wrong email or password.";
   }
-  if (raw.includes("timeout") || raw.includes("timed out")) {
-    return "The request timed out. Please try again.";
+  if (code === "email_not_confirmed" || m.includes("email not confirmed")) {
+    return "Please verify your email address first. Check your inbox for the confirmation link.";
   }
-
-  // Rate limiting
-  if (status === 429 || raw.includes("rate limit") || raw.includes("too many")) {
-    return "Too many attempts. Please wait a minute and try again.";
+  if (code === "user_already_exists" || m.includes("already registered") || m.includes("user already registered")) {
+    return "An account with this email already exists. Try signing in instead.";
   }
-
-  // Credentials
-  if (raw.includes("invalid login credentials") || raw.includes("invalid credentials")) {
-    return "Incorrect email or password. If you were invited, open your invitation link first to set a password.";
-  }
-  if (raw.includes("user not found") || raw.includes("no user found")) {
-    return "No account found for that email address.";
-  }
-
-  // Email state
-  if (raw.includes("email not confirmed")) {
-    return "Please confirm your email address before signing in.";
-  }
-  if (raw.includes("email already registered") || raw.includes("already been registered") || raw.includes("user already registered")) {
-    return "That email is already registered. Try signing in instead.";
-  }
-
-  // Account state
-  if (raw.includes("user is disabled") || raw.includes("banned") || raw.includes("user is banned")) {
-    return "This account has been disabled. Contact the site owner.";
-  }
-
-  // Password rules
-  if (raw.includes("password should be at least") || raw.includes("weak password") || raw.includes("password is too short")) {
+  if (code === "weak_password" || m.includes("password should be at least")) {
     return "Password is too weak. Use at least 8 characters with a mix of letters and numbers.";
   }
-  if (raw.includes("same password") || raw.includes("new password should be different")) {
-    return "Your new password must be different from the current one.";
+  if (code === "over_email_send_rate_limit" || m.includes("rate limit")) {
+    return "Too many attempts. Please wait a minute and try again.";
   }
-
-  // Recovery / reset link
-  if (raw.includes("token has expired") || raw.includes("expired") && ctx === "reset-update") {
-    return "This reset link has expired. Request a new one.";
+  if (code === "signup_disabled" || m.includes("signups not allowed")) {
+    return "New account signups are currently disabled.";
   }
-  if (raw.includes("invalid token") || raw.includes("token is invalid") || (raw.includes("otp") && raw.includes("expired"))) {
-    return "This reset link is invalid or has already been used. Request a new one.";
+  if (m.includes("invalid email") || m.includes("email address is invalid")) {
+    return "That email address isn't valid.";
   }
-
-  // Session
-  if (raw.includes("jwt expired") || raw.includes("session_not_found") || raw.includes("session expired")) {
-    return "Your session has expired. Please sign in again.";
+  if (m.includes("network") || m.includes("failed to fetch")) {
+    return "Network error. Check your connection and try again.";
   }
-  if (raw.includes("no authorization") || raw.includes("unauthorized") || status === 401) {
-    return ctx === "session"
-      ? "Your session has expired. Please sign in again."
-      : "You aren't authorized to perform this action.";
+  if (status === 500 || m.includes("database error")) {
+    return "Server error. Please try again in a moment.";
   }
-
-  // OAuth
-  if (ctx === "oauth") {
-    if (raw.includes("popup") || raw.includes("closed")) return "Google sign-in was cancelled.";
-    if (raw.includes("redirect")) return "Google sign-in failed: redirect URL not allowed. Contact the site owner.";
-    return "Google sign-in failed. Please try again.";
-  }
-
-  return defaultFor(ctx);
-}
-
-function defaultFor(ctx: AuthErrorContext): string {
-  switch (ctx) {
-    case "signup": return "Could not create your account. Please try again.";
-    case "oauth": return "Google sign-in failed. Please try again.";
-    case "reset-request": return "Could not send the reset email. Please try again.";
-    case "reset-update": return "Could not update your password. Please try again.";
-    case "session": return "There was a problem with your session. Please sign in again.";
-    default: return "Sign in failed. Please try again.";
-  }
+  return raw || "Sign in failed. Please try again.";
 }

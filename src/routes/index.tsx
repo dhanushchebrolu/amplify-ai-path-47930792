@@ -1,4 +1,4 @@
-import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
+import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { useMemo, useState } from "react";
 import { catalog, catalogTotalTools } from "@/data/catalog";
 import { trendingTools } from "@/data/tools";
@@ -85,14 +85,6 @@ function Home() {
           ))}
         </div>
 
-        <div className="mt-8 flex justify-center">
-          <Link
-            to="/browse"
-            className="inline-flex items-center gap-2 text-sm font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 rounded-full px-5 py-2.5 transition-colors"
-          >
-            Explore all {catalog.length} categories →
-          </Link>
-        </div>
       </section>
 
       <section className="mx-auto max-w-7xl px-6 pb-24 pt-10">
