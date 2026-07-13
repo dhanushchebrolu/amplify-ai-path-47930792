@@ -4,6 +4,15 @@ import {
 } from "lucide-react";
 import { sanitizeHtml, htmlStats } from "@/lib/html-sanitize";
 import { BlogImportDialog } from "./BlogImportDialog";
+import { logImport } from "@/lib/admin-diagnostics";
+
+if (typeof window !== "undefined") {
+  logImport("sanitizeHtml", sanitizeHtml);
+  logImport("htmlStats", htmlStats);
+  logImport("BlogImportDialog", BlogImportDialog);
+  // eslint-disable-next-line no-console
+  console.log("%c[ADMIN-DIAG] ✓ HtmlEditor module loaded", "color:#4ade80");
+}
 
 type Mode = "raw" | "preview";
 
