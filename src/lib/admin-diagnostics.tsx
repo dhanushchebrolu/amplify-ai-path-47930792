@@ -174,7 +174,7 @@ export function withServerFnDiag<T extends (...args: unknown[]) => unknown>(
       });
       throw err;
     }
-  }) as T;
+  }) as unknown as T;
 }
 
 /** Error boundary that shows full diagnostic detail instead of a generic React error. */
