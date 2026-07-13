@@ -1,6 +1,14 @@
 import { useState, useMemo } from "react";
 import { Upload, Wand2, X, AlertTriangle, CheckCircle2, Info, FileText } from "lucide-react";
 import { parseBlogHtml, toBlogFormPatch, type ImportedBlog } from "@/lib/blog-import";
+import { logImport } from "@/lib/admin-diagnostics";
+
+if (typeof window !== "undefined") {
+  logImport("parseBlogHtml", parseBlogHtml);
+  logImport("toBlogFormPatch", toBlogFormPatch);
+  // eslint-disable-next-line no-console
+  console.log("%c[ADMIN-DIAG] ✓ BlogImportDialog module loaded", "color:#4ade80");
+}
 
 interface Props {
   open: boolean;
