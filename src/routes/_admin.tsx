@@ -5,6 +5,24 @@ import { supabase } from "@/integrations/supabase/client";
 import { checkAdmin } from "@/lib/content.functions";
 import { toast } from "sonner";
 import { Loader2, LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, Bug, ShieldCheck } from "lucide-react";
+import {
+  installAdminDiagnostics,
+  logImport,
+  withServerFnDiag,
+  AdminErrorBoundary,
+} from "@/lib/admin-diagnostics";
+
+// TEMPORARY module-load diagnostics — verifies every import used by admin subtree.
+if (typeof window !== "undefined") {
+  installAdminDiagnostics();
+  logImport("checkAdmin (server fn)", checkAdmin);
+  logImport("useServerFn", useServerFn);
+  logImport("supabase", supabase);
+  logImport("Outlet", Outlet);
+  logImport("Link", Link);
+  // eslint-disable-next-line no-console
+  console.log("%c[ADMIN-DIAG] ✓ _admin route module loaded", "color:#4ade80");
+}
 
 export const Route = createFileRoute("/_admin")({
   ssr: false,
@@ -17,11 +35,14 @@ export const Route = createFileRoute("/_admin")({
 
 function AdminLayout() {
   const navigate = useNavigate();
-  const check = useServerFn(checkAdmin);
+  const rawCheck = useServerFn(checkAdmin);
+  const check = withServerFnDiag("checkAdmin", rawCheck as unknown as (...a: unknown[]) => unknown);
   const [state, setState] = useState<"loading" | "ok" | "denied">("loading");
 
   useEffect(() => {
-    check().then((r) => setState(r.isAdmin ? "ok" : "denied")).catch(() => setState("denied"));
+    (check() as Promise<{ isAdmin: boolean }>)
+      .then((r) => setState(r.isAdmin ? "ok" : "denied"))
+      .catch(() => setState("denied"));
   }, [check]);
 
   useEffect(() => {
