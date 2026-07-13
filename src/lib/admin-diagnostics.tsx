@@ -131,7 +131,7 @@ export function withServerFnDiag<T extends (...args: unknown[]) => unknown>(
         `[ADMIN-DIAG] Server function "${name}" is undefined at call time (typeof=${typeof fn}). ` +
           `This is almost certainly the source of the ".bind of undefined" crash.`,
       );
-    }) as T;
+    }) as unknown as T;
   }
   return ((...args: unknown[]) => {
     // eslint-disable-next-line no-console
