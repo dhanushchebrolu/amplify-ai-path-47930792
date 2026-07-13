@@ -76,7 +76,7 @@ export const Route = createFileRoute("/category/$slug/$sub")({
       "@context": "https://schema.org",
       "@type": "BreadcrumbList",
       itemListElement: [
-        { "@type": "ListItem", position: 1, name: "Browse", item: "https://aiblaze.io/browse" },
+        { "@type": "ListItem", position: 1, name: "Home", item: "https://aiblaze.io/" },
         { "@type": "ListItem", position: 2, name: category.name, item: `https://aiblaze.io/category/${category.slug}` },
         { "@type": "ListItem", position: 3, name: sub.name, item: url },
       ],
@@ -132,7 +132,7 @@ function SubPage() {
       <SiteHeader />
       <main className="mx-auto max-w-7xl px-6 pt-10 pb-16 w-full">
         <nav className="text-sm text-muted-foreground flex items-center gap-2 flex-wrap">
-          <Link to="/browse" className="hover:text-foreground">Browse</Link>
+          <Link to="/" className="hover:text-foreground">Home</Link>
           <span>/</span>
           <Link to="/category/$slug" params={{ slug: category.slug }} className="hover:text-foreground">{category.short}</Link>
           <span>/</span>

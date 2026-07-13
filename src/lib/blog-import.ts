@@ -123,10 +123,22 @@ function getMeta(doc: Document, names: string[]): string | undefined {
   return undefined;
 }
 
+function repairMalformedHtml(raw: string): string {
+  return raw.replace(
+    /<script\b([^>]*)type=["']application\/ld\+json["']([^>]*)>([\s\S]*?)(?=\n\s*(?:[A-Z][^<\n]{20,}|<\/head>|<body\b|$))/gi,
+    (match, before, after, body) => {
+      if (/<\/script\s*>/i.test(match)) return match;
+      const end = Math.max(body.lastIndexOf("}"), body.lastIndexOf("]"));
+      if (end === -1) return "";
+      return `<script${before}type="application/ld+json"${after}>${body.slice(0, end + 1)}</script>\n${body.slice(end + 1)}`;
+    },
+  );
+}
+
 // ---------- core parser ----------
 
 export function parseBlogHtml(raw: string): ImportedBlog {
-  const input = (raw || "").trim();
+  const input = repairMalformedHtml(raw || "").trim();
   if (!input) return emptyResult();
 
   // Wrap fragments so DOMParser builds a usable tree.

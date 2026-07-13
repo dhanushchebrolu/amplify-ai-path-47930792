@@ -219,34 +219,6 @@ export const checkAdmin = createServerFn({ method: "GET" })
     return { isAdmin: !!data, userId };
   });
 
-// ─── ADMIN: diagnostics ───────────────────────────────────────────────
-// Returns server-verified auth/role information for the current caller.
-// Guarded by requireSupabaseAuth; only exposes data about the caller.
-export const getAuthDiagnostics = createServerFn({ method: "GET" })
-  .middleware([requireSupabaseAuth])
-  .handler(async ({ context }) => {
-    const { supabase, userId, claims } = context;
-    const [{ data: isAdminData }, { data: rolesData, error: rolesError }] = await Promise.all([
-      supabase.rpc("has_role", { _user_id: userId, _role: "admin" }),
-      supabase.from("user_roles").select("role, created_at").eq("user_id", userId),
-    ]);
-    return {
-      userId,
-      email: (claims as any)?.email ?? null,
-      provider: (claims as any)?.app_metadata?.provider ?? null,
-      providers: (claims as any)?.app_metadata?.providers ?? [],
-      aud: (claims as any)?.aud ?? null,
-      role: (claims as any)?.role ?? null,
-      emailConfirmed: !!(claims as any)?.email_verified || !!(claims as any)?.user_metadata?.email_verified,
-      isAdmin: !!isAdminData,
-      roles: rolesData ?? [],
-      rolesError: rolesError?.message ?? null,
-      serverTime: new Date().toISOString(),
-    };
-  });
-
-
-
 // ─── ADMIN write fns ──────────────────────────────────────────────────
 export const upsertTool = createServerFn({ method: "POST" })
   .middleware([requireSupabaseAuth])

@@ -28,40 +28,11 @@ export const requireSupabaseAuth = createMiddleware({ type: 'function' }).server
       throw new Error('Unauthorized: No request headers available');
     }
 
-    // ── Development-only bypass ───────────────────────────────────────────
-    // Enabled ONLY when NODE_ENV=development AND the request carries the
-    // shared dev token. In production builds NODE_ENV !== 'development', so
-    // this branch is never taken regardless of headers. The server returns
-    // the service-role admin client so local writes succeed against RLS.
-    if (process.env.NODE_ENV === 'development') {
-      const devToken = request.headers.get('x-dev-admin-bypass');
-      const expected = process.env.DEV_ADMIN_BYPASS_TOKEN || 'local-dev-bypass';
-      if (devToken && devToken === expected) {
-        const { supabaseAdmin } = await import('./client.server');
-        // eslint-disable-next-line no-console
-        console.warn('[auth] Dev bypass active — using service-role client for this request.');
-        return next({
-          context: {
-            supabase: supabaseAdmin as any,
-            userId: 'local-admin',
-            claims: {
-              sub: 'local-admin',
-              email: request.headers.get('x-dev-admin-email') || 'admin@localhost',
-              role: 'admin',
-              app_metadata: { provider: 'dev-local' },
-              email_verified: true,
-            } as any,
-          },
-        });
-      }
-    }
-
     const authHeader = request.headers.get('authorization');
 
     if (!authHeader) {
       throw new Error('Unauthorized: No authorization header provided');
     }
-
 
     if (!authHeader.startsWith('Bearer ')) {
       throw new Error('Unauthorized: Only Bearer tokens are supported');
