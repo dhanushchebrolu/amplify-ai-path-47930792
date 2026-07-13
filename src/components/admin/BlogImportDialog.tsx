@@ -26,18 +26,37 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
   if (!open) return null;
 
   async function handleFile(file: File) {
+    // eslint-disable-next-line no-console
+    console.log("[ADMIN-DIAG:blog-import] file selected", { name: file.name, size: file.size });
     const text = await file.text();
     setRaw(text);
-    setParsed(parseBlogHtml(text));
+    const p = parseBlogHtml(text);
+    // eslint-disable-next-line no-console
+    console.log("[ADMIN-DIAG:blog-import] parsed (from file)", { htmlLength: text.length, parsed: p });
+    setParsed(p);
   }
 
   function runParse() {
-    setParsed(parseBlogHtml(raw));
+    // eslint-disable-next-line no-console
+    console.log("[ADMIN-DIAG:blog-import] parse started", { htmlLength: raw.length });
+    try {
+      const p = parseBlogHtml(raw);
+      // eslint-disable-next-line no-console
+      console.log("[ADMIN-DIAG:blog-import] parse ok", { seo: { title: p.seo_title, desc: p.seo_description }, warnings: p.warnings.length, faqs: p.faqs.length });
+      setParsed(p);
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error("[ADMIN-DIAG:blog-import] parse threw", err);
+      throw err;
+    }
   }
 
   function apply() {
     if (!parsed) return;
-    onApply(toBlogFormPatch(parsed), parsed);
+    const patch = toBlogFormPatch(parsed);
+    // eslint-disable-next-line no-console
+    console.log("[ADMIN-DIAG:blog-import] apply → patch", { keys: Object.keys(patch), patch });
+    onApply(patch, parsed);
     onClose();
     setRaw("");
     setParsed(null);
