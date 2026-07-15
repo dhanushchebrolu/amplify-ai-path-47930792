@@ -17,8 +17,7 @@ export const Route = createFileRoute("/_admin")({
 
 function AdminLayout() {
   const navigate = useNavigate();
-  const rawCheck = useServerFn(checkAdmin);
-  const check = withServerFnDiag("checkAdmin", rawCheck as unknown as (...a: unknown[]) => unknown);
+  const check = useServerFn(checkAdmin);
   const [state, setState] = useState<"loading" | "ok" | "denied">("loading");
 
   useEffect(() => {
