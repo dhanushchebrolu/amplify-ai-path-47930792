@@ -74,9 +74,7 @@ function AdminLayout() {
         </button>
       </aside>
       <main className="flex-1 p-8 overflow-auto">
-        <AdminErrorBoundary area="admin-outlet">
-          <Outlet />
-        </AdminErrorBoundary>
+        <Outlet />
       </main>
     </div>
   );
