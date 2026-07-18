@@ -87,7 +87,8 @@ export const Route = createFileRoute("/category/$slug/")({
           "@type": "BreadcrumbList",
           itemListElement: [
             { "@type": "ListItem", position: 1, name: "Home", item: "https://aiblaze.io/" },
-            { "@type": "ListItem", position: 2, name: c.name, item: url },
+            { "@type": "ListItem", position: 2, name: "Browse", item: "https://aiblaze.io/browse" },
+            { "@type": "ListItem", position: 3, name: c.name, item: url },
           ],
         });
         return blocks.map((b) => ({ type: "application/ld+json", children: JSON.stringify(b) }));
@@ -113,7 +114,7 @@ function CategoryPage() {
       <SiteHeader />
 
       <main className="mx-auto max-w-7xl px-6 pt-10 pb-16 w-full">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+        <Link to="/browse" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
           ← All categories
         </Link>
 

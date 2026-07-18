@@ -170,9 +170,65 @@ function AuthSync() {
   const router = useRouter();
   const qc = useQueryClient();
   useEffect(() => {
-    const { data: { subscription } } = supabase.auth.onAuthStateChange((event) => {
-      if (event !== "SIGNED_IN" && event !== "SIGNED_OUT" && event !== "USER_UPDATED") return;
+    // Development-only environment sanity check.
+    import("@/lib/auth-health").then((m) => m.runAuthHealthCheck()).catch(() => {});
+
+    // On first mount, honor pending OAuth trampoline even if the session was
+    // already restored before we mounted (INITIAL_SESSION already fired).
+    try {
+      const target = sessionStorage.getItem("post_oauth_redirect");
+      if (target) {
+        supabase.auth.getSession().then(({ data }) => {
+          if (data.session) {
+            sessionStorage.removeItem("post_oauth_redirect");
+            if (window.location.pathname !== target) {
+              window.location.replace(target);
+            }
+          }
+        });
+      }
+    } catch {}
+
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
+      // Filter noisy events to avoid thrashing router/query cache.
+      if (
+        event !== "SIGNED_IN" &&
+        event !== "SIGNED_OUT" &&
+        event !== "USER_UPDATED" &&
+        event !== "PASSWORD_RECOVERY"
+      ) {
+        return;
+      }
+
+      // Password recovery: Supabase fires this after the reset link exchanges
+      // a session. Route the user to the dedicated reset page regardless of
+      // where the email link dropped them (Site URL fallback in dashboard).
+      if (event === "PASSWORD_RECOVERY") {
+        if (window.location.pathname !== "/admin/reset-password") {
+          window.location.replace("/admin/reset-password");
+        }
+        return;
+      }
+
+      // Post-OAuth trampoline: broker forces redirect_uri to the bare origin,
+      // so /admin/login stores the intended destination in sessionStorage and
+      // we forward once the SIGNED_IN event lands.
+      if (event === "SIGNED_IN" && session) {
+        try {
+          const target = sessionStorage.getItem("post_oauth_redirect");
+          if (target) {
+            sessionStorage.removeItem("post_oauth_redirect");
+            if (window.location.pathname !== target) {
+              window.location.replace(target);
+              return;
+            }
+          }
+        } catch {}
+      }
+
       router.invalidate();
+      // Do NOT invalidate queries on SIGNED_OUT — refetching against a cleared
+      // session storms the app with 401s. The sign-out handler clears the cache.
       if (event !== "SIGNED_OUT") qc.invalidateQueries();
     });
     return () => subscription.unsubscribe();
