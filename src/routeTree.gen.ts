@@ -34,9 +34,11 @@ import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as AdminSignupRouteImport } from './routes/admin.signup'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
+import { Route as AdminCallbackRouteImport } from './routes/admin.callback'
 import { Route as AdminAcceptInvitationRouteImport } from './routes/admin.accept-invitation'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
@@ -178,6 +180,11 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminSignupRoute = AdminSignupRouteImport.update({
+  id: '/admin/signup',
+  path: '/admin/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/admin/reset-password',
   path: '/admin/reset-password',
@@ -191,6 +198,11 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   id: '/admin/forgot-password',
   path: '/admin/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminCallbackRoute = AdminCallbackRouteImport.update({
+  id: '/admin/callback',
+  path: '/admin/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAcceptInvitationRoute = AdminAcceptInvitationRouteImport.update({
@@ -292,9 +304,11 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
+  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -337,9 +351,11 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
+  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -384,9 +400,11 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
+  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
+  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -431,9 +449,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
+    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
+    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -476,9 +496,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
+    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
+    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -522,9 +544,11 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
+    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
+    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -569,9 +593,11 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   AdminAcceptInvitationRoute: typeof AdminAcceptInvitationRoute
+  AdminCallbackRoute: typeof AdminCallbackRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
+  AdminSignupRoute: typeof AdminSignupRoute
   BlogSlugRoute: typeof BlogSlugRoute
   LearnScratchRoute: typeof LearnScratchRoute
   LearnSpinRoute: typeof LearnSpinRoute
@@ -763,6 +789,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/admin/signup': {
+      id: '/admin/signup'
+      path: '/admin/signup'
+      fullPath: '/admin/signup'
+      preLoaderRoute: typeof AdminSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/admin/reset-password': {
       id: '/admin/reset-password'
       path: '/admin/reset-password'
@@ -782,6 +815,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/forgot-password'
       fullPath: '/admin/forgot-password'
       preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/callback': {
+      id: '/admin/callback'
+      path: '/admin/callback'
+      fullPath: '/admin/callback'
+      preLoaderRoute: typeof AdminCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/accept-invitation': {
@@ -948,9 +988,11 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   AdminAcceptInvitationRoute: AdminAcceptInvitationRoute,
+  AdminCallbackRoute: AdminCallbackRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
+  AdminSignupRoute: AdminSignupRoute,
   BlogSlugRoute: BlogSlugRoute,
   LearnScratchRoute: LearnScratchRoute,
   LearnSpinRoute: LearnSpinRoute,
