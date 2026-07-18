@@ -34,11 +34,9 @@ import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as AdminSignupRouteImport } from './routes/admin.signup'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
 import { Route as AdminLoginRouteImport } from './routes/admin.login'
 import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
-import { Route as AdminCallbackRouteImport } from './routes/admin.callback'
 import { Route as AdminAcceptInvitationRouteImport } from './routes/admin.accept-invitation'
 import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
@@ -52,6 +50,7 @@ import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.
 import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
 import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
 import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
+import { Route as AdminAdminAuthDebugRouteImport } from './routes/_admin.admin.auth-debug'
 import { Route as AdminAdminAdminsRouteImport } from './routes/_admin.admin.admins'
 import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
@@ -179,11 +178,6 @@ const BlogSlugRoute = BlogSlugRouteImport.update({
   path: '/blog/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminSignupRoute = AdminSignupRouteImport.update({
-  id: '/admin/signup',
-  path: '/admin/signup',
-  getParentRoute: () => rootRouteImport,
-} as any)
 const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
   id: '/admin/reset-password',
   path: '/admin/reset-password',
@@ -197,11 +191,6 @@ const AdminLoginRoute = AdminLoginRouteImport.update({
 const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
   id: '/admin/forgot-password',
   path: '/admin/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCallbackRoute = AdminCallbackRouteImport.update({
-  id: '/admin/callback',
-  path: '/admin/callback',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAcceptInvitationRoute = AdminAcceptInvitationRouteImport.update({
@@ -269,6 +258,11 @@ const AdminAdminBlogRoute = AdminAdminBlogRouteImport.update({
   path: '/admin/blog',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminAuthDebugRoute = AdminAdminAuthDebugRouteImport.update({
+  id: '/admin/auth-debug',
+  path: '/admin/auth-debug',
+  getParentRoute: () => AdminRoute,
+} as any)
 const AdminAdminAdminsRoute = AdminAdminAdminsRouteImport.update({
   id: '/admin/admins',
   path: '/admin/admins',
@@ -298,11 +292,9 @@ export interface FileRoutesByFullPath {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
-  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -312,6 +304,7 @@ export interface FileRoutesByFullPath {
   '/blog/': typeof BlogIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
+  '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -344,11 +337,9 @@ export interface FileRoutesByTo {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
-  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -358,6 +349,7 @@ export interface FileRoutesByTo {
   '/blog': typeof BlogIndexRoute
   '/prompts': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
+  '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/admin/blog': typeof AdminAdminBlogRoute
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -392,11 +384,9 @@ export interface FileRoutesById {
   '/sitemap.xml': typeof SitemapDotxmlRoute
   '/terms': typeof TermsRoute
   '/admin/accept-invitation': typeof AdminAcceptInvitationRoute
-  '/admin/callback': typeof AdminCallbackRoute
   '/admin/forgot-password': typeof AdminForgotPasswordRoute
   '/admin/login': typeof AdminLoginRoute
   '/admin/reset-password': typeof AdminResetPasswordRoute
-  '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
@@ -406,6 +396,7 @@ export interface FileRoutesById {
   '/blog/': typeof BlogIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/_admin/admin/admins': typeof AdminAdminAdminsRoute
+  '/_admin/admin/auth-debug': typeof AdminAdminAuthDebugRoute
   '/_admin/admin/blog': typeof AdminAdminBlogRoute
   '/_admin/admin/books': typeof AdminAdminBooksRoute
   '/_admin/admin/bug-reports': typeof AdminAdminBugReportsRoute
@@ -440,11 +431,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
-    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -454,6 +443,7 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/prompts/'
     | '/admin/admins'
+    | '/admin/auth-debug'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/bug-reports'
@@ -486,11 +476,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
-    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -500,6 +488,7 @@ export interface FileRouteTypes {
     | '/blog'
     | '/prompts'
     | '/admin/admins'
+    | '/admin/auth-debug'
     | '/admin/blog'
     | '/admin/books'
     | '/admin/bug-reports'
@@ -533,11 +522,9 @@ export interface FileRouteTypes {
     | '/sitemap.xml'
     | '/terms'
     | '/admin/accept-invitation'
-    | '/admin/callback'
     | '/admin/forgot-password'
     | '/admin/login'
     | '/admin/reset-password'
-    | '/admin/signup'
     | '/blog/$slug'
     | '/learn/scratch'
     | '/learn/spin'
@@ -547,6 +534,7 @@ export interface FileRouteTypes {
     | '/blog/'
     | '/prompts/'
     | '/_admin/admin/admins'
+    | '/_admin/admin/auth-debug'
     | '/_admin/admin/blog'
     | '/_admin/admin/books'
     | '/_admin/admin/bug-reports'
@@ -581,11 +569,9 @@ export interface RootRouteChildren {
   SitemapDotxmlRoute: typeof SitemapDotxmlRoute
   TermsRoute: typeof TermsRoute
   AdminAcceptInvitationRoute: typeof AdminAcceptInvitationRoute
-  AdminCallbackRoute: typeof AdminCallbackRoute
   AdminForgotPasswordRoute: typeof AdminForgotPasswordRoute
   AdminLoginRoute: typeof AdminLoginRoute
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
-  AdminSignupRoute: typeof AdminSignupRoute
   BlogSlugRoute: typeof BlogSlugRoute
   LearnScratchRoute: typeof LearnScratchRoute
   LearnSpinRoute: typeof LearnSpinRoute
@@ -777,13 +763,6 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof BlogSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/signup': {
-      id: '/admin/signup'
-      path: '/admin/signup'
-      fullPath: '/admin/signup'
-      preLoaderRoute: typeof AdminSignupRouteImport
-      parentRoute: typeof rootRouteImport
-    }
     '/admin/reset-password': {
       id: '/admin/reset-password'
       path: '/admin/reset-password'
@@ -803,13 +782,6 @@ declare module '@tanstack/react-router' {
       path: '/admin/forgot-password'
       fullPath: '/admin/forgot-password'
       preLoaderRoute: typeof AdminForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/callback': {
-      id: '/admin/callback'
-      path: '/admin/callback'
-      fullPath: '/admin/callback'
-      preLoaderRoute: typeof AdminCallbackRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/accept-invitation': {
@@ -903,6 +875,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminBlogRouteImport
       parentRoute: typeof AdminRoute
     }
+    '/_admin/admin/auth-debug': {
+      id: '/_admin/admin/auth-debug'
+      path: '/admin/auth-debug'
+      fullPath: '/admin/auth-debug'
+      preLoaderRoute: typeof AdminAdminAuthDebugRouteImport
+      parentRoute: typeof AdminRoute
+    }
     '/_admin/admin/admins': {
       id: '/_admin/admin/admins'
       path: '/admin/admins'
@@ -922,6 +901,7 @@ declare module '@tanstack/react-router' {
 
 interface AdminRouteChildren {
   AdminAdminAdminsRoute: typeof AdminAdminAdminsRoute
+  AdminAdminAuthDebugRoute: typeof AdminAdminAuthDebugRoute
   AdminAdminBlogRoute: typeof AdminAdminBlogRoute
   AdminAdminBooksRoute: typeof AdminAdminBooksRoute
   AdminAdminBugReportsRoute: typeof AdminAdminBugReportsRoute
@@ -935,6 +915,7 @@ interface AdminRouteChildren {
 
 const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminAdminsRoute: AdminAdminAdminsRoute,
+  AdminAdminAuthDebugRoute: AdminAdminAuthDebugRoute,
   AdminAdminBlogRoute: AdminAdminBlogRoute,
   AdminAdminBooksRoute: AdminAdminBooksRoute,
   AdminAdminBugReportsRoute: AdminAdminBugReportsRoute,
@@ -967,11 +948,9 @@ const rootRouteChildren: RootRouteChildren = {
   SitemapDotxmlRoute: SitemapDotxmlRoute,
   TermsRoute: TermsRoute,
   AdminAcceptInvitationRoute: AdminAcceptInvitationRoute,
-  AdminCallbackRoute: AdminCallbackRoute,
   AdminForgotPasswordRoute: AdminForgotPasswordRoute,
   AdminLoginRoute: AdminLoginRoute,
   AdminResetPasswordRoute: AdminResetPasswordRoute,
-  AdminSignupRoute: AdminSignupRoute,
   BlogSlugRoute: BlogSlugRoute,
   LearnScratchRoute: LearnScratchRoute,
   LearnSpinRoute: LearnSpinRoute,

@@ -61,15 +61,16 @@ export const Route = createFileRoute("/tool/$slug")({
       "@type": "BreadcrumbList",
       itemListElement: [
         { "@type": "ListItem", position: 1, name: "Home", item: "https://aiblaze.io/" },
+        { "@type": "ListItem", position: 2, name: "Browse", item: "https://aiblaze.io/browse" },
         ...(tool.category
           ? [{
               "@type": "ListItem",
-              position: 2,
+              position: 3,
               name: String(tool.category).replace(/-/g, " "),
               item: `https://aiblaze.io/category/${tool.category}`,
             }]
           : []),
-        { "@type": "ListItem", position: tool.category ? 3 : 2, name: tool.name, item: url },
+        { "@type": "ListItem", position: tool.category ? 4 : 3, name: tool.name, item: url },
       ],
     });
 
@@ -125,15 +126,11 @@ function ToolPage() {
       <main className="mx-auto max-w-5xl px-6 pt-10 pb-20 w-full">
         <div className="text-sm text-muted-foreground mb-6 flex items-center gap-1.5">
           <Link to="/" className="hover:text-foreground">Home</Link>
+          <span>/</span>
+          <Link to="/browse" className="hover:text-foreground">Browse</Link>
           {tool.category && <>
             <span>/</span>
-            <Link
-              to="/category/$slug"
-              params={{ slug: String(tool.category) }}
-              className="hover:text-foreground capitalize"
-            >
-              {String(tool.category).replace(/-/g, " ")}
-            </Link>
+            <span className="text-foreground capitalize">{String(tool.category).replace(/-/g, " ")}</span>
           </>}
           <span>/</span>
           <span className="text-foreground">{tool.name}</span>

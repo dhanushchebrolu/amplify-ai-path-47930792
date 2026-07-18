@@ -114,7 +114,7 @@ function RankingPage() {
         </div>
 
         <div className="mt-10 text-center">
-          <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">
+          <Link to="/browse" className="text-sm text-muted-foreground hover:text-foreground">
             Explore all {catalog.length} categories →
           </Link>
         </div>
