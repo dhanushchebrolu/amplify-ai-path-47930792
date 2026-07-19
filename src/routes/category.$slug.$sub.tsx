@@ -141,17 +141,9 @@ function SubPage() {
         </nav>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
-          <aside className="lg:sticky lg:top-24 self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-0">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-              {category.short}
-            </div>
-            <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0 -webkit-overflow-scrolling-touch">
-              <div className="shrink-0"><SubLink catSlug={category.slug} subSlug={sub.slug} active>{sub.name}</SubLink></div>
-              {otherSubs.map((s) => (
-                <div key={s.slug} className="shrink-0"><SubLink catSlug={category.slug} subSlug={s.slug}>{s.name}</SubLink></div>
-              ))}
-            </nav>
-          </aside>
+          <SubSidebar category={category} activeSubSlug={sub.slug} />
+
+
 
           <section>
             <h1 className="font-display text-4xl md:text-5xl">{headline}</h1>
