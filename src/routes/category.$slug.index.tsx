@@ -120,15 +120,9 @@ function CategoryPage() {
         </Link>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
-          <aside className="lg:sticky lg:top-24 self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-0">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Categories</div>
-            <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
-              <div className="shrink-0"><CatLink slug={category.slug} active>{category.short}</CatLink></div>
-              {others.map((c) => (
-                <div key={c.slug} className="shrink-0"><CatLink slug={c.slug}>{c.short}</CatLink></div>
-              ))}
-            </nav>
-          </aside>
+          <CategorySidebar activeSlug={category.slug} />
+
+
 
           <section>
             <h1 className="font-display text-5xl md:text-6xl">{headline}</h1>
