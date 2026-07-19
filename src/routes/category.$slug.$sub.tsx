@@ -8,6 +8,7 @@ import { SeoLongForm } from "@/components/SeoLongForm";
 import { RichSeoBlock } from "@/components/RichSeoBlock";
 import { buildSubcategoryFallback } from "@/lib/category-seo-content";
 import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
+import { useStickyScroll } from "@/hooks/use-sticky-scroll";
 
 export const Route = createFileRoute("/category/$slug/$sub")({
   loader: async ({ params }): Promise<{ category: CatalogCategory; sub: CatalogSub; seo: SeoContentRow | null }> => {
