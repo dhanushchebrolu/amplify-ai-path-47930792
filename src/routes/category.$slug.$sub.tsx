@@ -8,6 +8,7 @@ import { SeoLongForm } from "@/components/SeoLongForm";
 import { RichSeoBlock } from "@/components/RichSeoBlock";
 import { buildSubcategoryFallback } from "@/lib/category-seo-content";
 import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
+import { useStickyScroll } from "@/hooks/use-sticky-scroll";
 
 export const Route = createFileRoute("/category/$slug/$sub")({
   loader: async ({ params }): Promise<{ category: CatalogCategory; sub: CatalogSub; seo: SeoContentRow | null }> => {
@@ -140,17 +141,9 @@ function SubPage() {
         </nav>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
-          <aside className="lg:sticky lg:top-24 self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-0">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-              {category.short}
-            </div>
-            <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0 -webkit-overflow-scrolling-touch">
-              <div className="shrink-0"><SubLink catSlug={category.slug} subSlug={sub.slug} active>{sub.name}</SubLink></div>
-              {otherSubs.map((s) => (
-                <div key={s.slug} className="shrink-0"><SubLink catSlug={category.slug} subSlug={s.slug}>{s.name}</SubLink></div>
-              ))}
-            </nav>
-          </aside>
+          <SubSidebar category={category} activeSubSlug={sub.slug} />
+
+
 
           <section>
             <h1 className="font-display text-4xl md:text-5xl">{headline}</h1>
@@ -195,6 +188,27 @@ function SubPage() {
       </main>
       <SiteFooter />
     </div>
+  );
+}
+
+function SubSidebar({ category, activeSubSlug }: { category: CatalogCategory; activeSubSlug: string }) {
+  const ref = useStickyScroll<HTMLElement>(`sub-sidebar-scroll:${category.slug}`);
+  return (
+    <aside
+      ref={ref}
+      className="self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
+    >
+      <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+        {category.short}
+      </div>
+      <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
+        {category.subs.map((s) => (
+          <div key={s.slug} className="shrink-0">
+            <SubLink catSlug={category.slug} subSlug={s.slug} active={s.slug === activeSubSlug}>{s.name}</SubLink>
+          </div>
+        ))}
+      </nav>
+    </aside>
   );
 }
 

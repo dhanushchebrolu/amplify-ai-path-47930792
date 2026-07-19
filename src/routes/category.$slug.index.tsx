@@ -6,6 +6,7 @@ import { SeoLongForm } from "@/components/SeoLongForm";
 import { RichSeoBlock } from "@/components/RichSeoBlock";
 import { buildCategoryFallback } from "@/lib/category-seo-content";
 import { getSeoContent, type SeoContentRow } from "@/lib/seo.functions";
+import { useStickyScroll } from "@/hooks/use-sticky-scroll";
 
 export const Route = createFileRoute("/category/$slug/")({
   loader: async ({ params }): Promise<{ category: CatalogCategory; seo: SeoContentRow | null }> => {
@@ -119,15 +120,9 @@ function CategoryPage() {
         </Link>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
-          <aside className="lg:sticky lg:top-24 self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-0">
-            <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Categories</div>
-            <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
-              <div className="shrink-0"><CatLink slug={category.slug} active>{category.short}</CatLink></div>
-              {others.map((c) => (
-                <div key={c.slug} className="shrink-0"><CatLink slug={c.slug}>{c.short}</CatLink></div>
-              ))}
-            </nav>
-          </aside>
+          <CategorySidebar activeSlug={category.slug} />
+
+
 
           <section>
             <h1 className="font-display text-5xl md:text-6xl">{headline}</h1>
@@ -161,6 +156,25 @@ function CategoryPage() {
   );
 }
 
+function CategorySidebar({ activeSlug }: { activeSlug: string }) {
+  const ref = useStickyScroll<HTMLElement>("categories-sidebar-scroll");
+  return (
+    <aside
+      ref={ref}
+      className="self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
+    >
+      <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Categories</div>
+      <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
+        {catalog.map((c) => (
+          <div key={c.slug} className="shrink-0">
+            <CatLink slug={c.slug} active={c.slug === activeSlug}>{c.short}</CatLink>
+          </div>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
 function CatLink({
   slug, active, children,
 }: { slug: string; active?: boolean; children: React.ReactNode }) {
@@ -168,6 +182,7 @@ function CatLink({
     <Link
       to="/category/$slug"
       params={{ slug }}
+      resetScroll={false}
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active
@@ -179,3 +194,4 @@ function CatLink({
     </Link>
   );
 }
+
