@@ -191,6 +191,27 @@ function SubPage() {
   );
 }
 
+function SubSidebar({ category, activeSubSlug }: { category: CatalogCategory; activeSubSlug: string }) {
+  const ref = useStickyScroll<HTMLElement>(`sub-sidebar-scroll:${category.slug}`);
+  return (
+    <aside
+      ref={ref}
+      className="self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
+    >
+      <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
+        {category.short}
+      </div>
+      <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
+        {category.subs.map((s) => (
+          <div key={s.slug} className="shrink-0">
+            <SubLink catSlug={category.slug} subSlug={s.slug} active={s.slug === activeSubSlug}>{s.name}</SubLink>
+          </div>
+        ))}
+      </nav>
+    </aside>
+  );
+}
+
 function SubLink({
   catSlug, subSlug, active, children,
 }: { catSlug: string; subSlug: string; active?: boolean; children: React.ReactNode }) {
