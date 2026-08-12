@@ -9,126 +9,65 @@
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
 import { Route as rootRouteImport } from './routes/__root'
-import { Route as TermsRouteImport } from './routes/terms'
-import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
-import { Route as SearchRouteImport } from './routes/search'
-import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
-import { Route as RankingRouteImport } from './routes/ranking'
-import { Route as PrivacyRouteImport } from './routes/privacy'
-import { Route as DmcaRouteImport } from './routes/dmca'
-import { Route as DisclaimerRouteImport } from './routes/disclaimer'
-import { Route as CoursesRouteImport } from './routes/courses'
-import { Route as CookiesRouteImport } from './routes/cookies'
-import { Route as ContactRouteImport } from './routes/contact'
-import { Route as BrowseRouteImport } from './routes/browse'
-import { Route as BooksRouteImport } from './routes/books'
-import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
-import { Route as AboutRouteImport } from './routes/about'
-import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
-import { Route as PromptsIndexRouteImport } from './routes/prompts.index'
-import { Route as CompareIndexRouteImport } from './routes/compare.index'
-import { Route as BlogIndexRouteImport } from './routes/blog.index'
-import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
-import { Route as PromptsIdRouteImport } from './routes/prompts.$id'
-import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
-import { Route as LearnSpinRouteImport } from './routes/learn.spin'
-import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
-import { Route as CompareMatchupRouteImport } from './routes/compare.$matchup'
-import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
-import { Route as AdminSignupRouteImport } from './routes/admin.signup'
-import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
-import { Route as AdminLoginRouteImport } from './routes/admin.login'
-import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
-import { Route as AdminCallbackRouteImport } from './routes/admin.callback'
+import { Route as AdminRouteImport } from './routes/_admin'
+import { Route as AboutRouteImport } from './routes/about'
+import { Route as AffiliateDisclosureRouteImport } from './routes/affiliate-disclosure'
+import { Route as BooksRouteImport } from './routes/books'
+import { Route as BrowseRouteImport } from './routes/browse'
+import { Route as ContactRouteImport } from './routes/contact'
+import { Route as CookiesRouteImport } from './routes/cookies'
+import { Route as CoursesRouteImport } from './routes/courses'
+import { Route as DisclaimerRouteImport } from './routes/disclaimer'
+import { Route as DmcaRouteImport } from './routes/dmca'
+import { Route as PrivacyRouteImport } from './routes/privacy'
+import { Route as RankingRouteImport } from './routes/ranking'
+import { Route as RssDotxmlRouteImport } from './routes/rss[.]xml'
+import { Route as SearchRouteImport } from './routes/search'
+import { Route as SitemapDotxmlRouteImport } from './routes/sitemap[.]xml'
+import { Route as TermsRouteImport } from './routes/terms'
 import { Route as AdminAcceptInvitationRouteImport } from './routes/admin.accept-invitation'
-import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
+import { Route as AdminCallbackRouteImport } from './routes/admin.callback'
+import { Route as AdminForgotPasswordRouteImport } from './routes/admin.forgot-password'
+import { Route as AdminLoginRouteImport } from './routes/admin.login'
+import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
+import { Route as AdminSignupRouteImport } from './routes/admin.signup'
+import { Route as BlogIndexRouteImport } from './routes/blog.index'
+import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
+import { Route as CompareIndexRouteImport } from './routes/compare.index'
+import { Route as CompareMatchupRouteImport } from './routes/compare.$matchup'
+import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
+import { Route as LearnSpinRouteImport } from './routes/learn.spin'
+import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
+import { Route as PromptsIndexRouteImport } from './routes/prompts.index'
+import { Route as PromptsIdRouteImport } from './routes/prompts.$id'
+import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
-import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
-import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
-import { Route as ApiPublicCompareHealthRouteImport } from './routes/api/public/compare-health'
-import { Route as AdminAdminToolsRouteImport } from './routes/_admin.admin.tools'
-import { Route as AdminAdminPromptsRouteImport } from './routes/_admin.admin.prompts'
-import { Route as AdminAdminLearnTasksRouteImport } from './routes/_admin.admin.learn-tasks'
-import { Route as AdminAdminCoursesRouteImport } from './routes/_admin.admin.courses'
-import { Route as AdminAdminComparisonDataRouteImport } from './routes/_admin.admin.comparison-data'
-import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
-import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
-import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
-import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
-import { Route as AdminAdminAuthDebugRouteImport } from './routes/_admin.admin.auth-debug'
 import { Route as AdminAdminAdminsRouteImport } from './routes/_admin.admin.admins'
-import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
+import { Route as AdminAdminAuthDebugRouteImport } from './routes/_admin.admin.auth-debug'
+import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
+import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
+import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
+import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
+import { Route as AdminAdminComparisonDataRouteImport } from './routes/_admin.admin.comparison-data'
+import { Route as AdminAdminCoursesRouteImport } from './routes/_admin.admin.courses'
+import { Route as AdminAdminLearnTasksRouteImport } from './routes/_admin.admin.learn-tasks'
+import { Route as AdminAdminPromptsRouteImport } from './routes/_admin.admin.prompts'
+import { Route as AdminAdminToolsRouteImport } from './routes/_admin.admin.tools'
+import { Route as ApiPublicCompareHealthRouteImport } from './routes/api/public/compare-health'
+import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.index'
+import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
+import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as AdminAdminComparisonDataToolIdRouteImport } from './routes/_admin.admin.comparison-data.$toolId'
+import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
 
-const TermsRoute = TermsRouteImport.update({
-  id: '/terms',
-  path: '/terms',
+const IndexRoute = IndexRouteImport.update({
+  id: '/',
+  path: '/',
   getParentRoute: () => rootRouteImport,
 } as any)
-const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
-  id: '/sitemap.xml',
-  path: '/sitemap.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const SearchRoute = SearchRouteImport.update({
-  id: '/search',
-  path: '/search',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RssDotxmlRoute = RssDotxmlRouteImport.update({
-  id: '/rss.xml',
-  path: '/rss.xml',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const RankingRoute = RankingRouteImport.update({
-  id: '/ranking',
-  path: '/ranking',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const PrivacyRoute = PrivacyRouteImport.update({
-  id: '/privacy',
-  path: '/privacy',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DmcaRoute = DmcaRouteImport.update({
-  id: '/dmca',
-  path: '/dmca',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const DisclaimerRoute = DisclaimerRouteImport.update({
-  id: '/disclaimer',
-  path: '/disclaimer',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CoursesRoute = CoursesRouteImport.update({
-  id: '/courses',
-  path: '/courses',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CookiesRoute = CookiesRouteImport.update({
-  id: '/cookies',
-  path: '/cookies',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ContactRoute = ContactRouteImport.update({
-  id: '/contact',
-  path: '/contact',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BrowseRoute = BrowseRouteImport.update({
-  id: '/browse',
-  path: '/browse',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const BooksRoute = BooksRouteImport.update({
-  id: '/books',
-  path: '/books',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
-  id: '/affiliate-disclosure',
-  path: '/affiliate-disclosure',
+const AdminRoute = AdminRouteImport.update({
+  id: '/_admin',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AboutRoute = AboutRouteImport.update({
@@ -136,88 +75,74 @@ const AboutRoute = AboutRouteImport.update({
   path: '/about',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminRoute = AdminRouteImport.update({
-  id: '/_admin',
+const AffiliateDisclosureRoute = AffiliateDisclosureRouteImport.update({
+  id: '/affiliate-disclosure',
+  path: '/affiliate-disclosure',
   getParentRoute: () => rootRouteImport,
 } as any)
-const IndexRoute = IndexRouteImport.update({
-  id: '/',
-  path: '/',
+const BooksRoute = BooksRouteImport.update({
+  id: '/books',
+  path: '/books',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PromptsIndexRoute = PromptsIndexRouteImport.update({
-  id: '/prompts/',
-  path: '/prompts/',
+const BrowseRoute = BrowseRouteImport.update({
+  id: '/browse',
+  path: '/browse',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CompareIndexRoute = CompareIndexRouteImport.update({
-  id: '/compare/',
-  path: '/compare/',
+const ContactRoute = ContactRouteImport.update({
+  id: '/contact',
+  path: '/contact',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogIndexRoute = BlogIndexRouteImport.update({
-  id: '/blog/',
-  path: '/blog/',
+const CookiesRoute = CookiesRouteImport.update({
+  id: '/cookies',
+  path: '/cookies',
   getParentRoute: () => rootRouteImport,
 } as any)
-const ToolSlugRoute = ToolSlugRouteImport.update({
-  id: '/tool/$slug',
-  path: '/tool/$slug',
+const CoursesRoute = CoursesRouteImport.update({
+  id: '/courses',
+  path: '/courses',
   getParentRoute: () => rootRouteImport,
 } as any)
-const PromptsIdRoute = PromptsIdRouteImport.update({
-  id: '/prompts/$id',
-  path: '/prompts/$id',
+const DisclaimerRoute = DisclaimerRouteImport.update({
+  id: '/disclaimer',
+  path: '/disclaimer',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LearnSwipeRoute = LearnSwipeRouteImport.update({
-  id: '/learn/swipe',
-  path: '/learn/swipe',
+const DmcaRoute = DmcaRouteImport.update({
+  id: '/dmca',
+  path: '/dmca',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LearnSpinRoute = LearnSpinRouteImport.update({
-  id: '/learn/spin',
-  path: '/learn/spin',
+const PrivacyRoute = PrivacyRouteImport.update({
+  id: '/privacy',
+  path: '/privacy',
   getParentRoute: () => rootRouteImport,
 } as any)
-const LearnScratchRoute = LearnScratchRouteImport.update({
-  id: '/learn/scratch',
-  path: '/learn/scratch',
+const RankingRoute = RankingRouteImport.update({
+  id: '/ranking',
+  path: '/ranking',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CompareMatchupRoute = CompareMatchupRouteImport.update({
-  id: '/compare/$matchup',
-  path: '/compare/$matchup',
+const RssDotxmlRoute = RssDotxmlRouteImport.update({
+  id: '/rss.xml',
+  path: '/rss.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const BlogSlugRoute = BlogSlugRouteImport.update({
-  id: '/blog/$slug',
-  path: '/blog/$slug',
+const SearchRoute = SearchRouteImport.update({
+  id: '/search',
+  path: '/search',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminSignupRoute = AdminSignupRouteImport.update({
-  id: '/admin/signup',
-  path: '/admin/signup',
+const SitemapDotxmlRoute = SitemapDotxmlRouteImport.update({
+  id: '/sitemap.xml',
+  path: '/sitemap.xml',
   getParentRoute: () => rootRouteImport,
 } as any)
-const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
-  id: '/admin/reset-password',
-  path: '/admin/reset-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminLoginRoute = AdminLoginRouteImport.update({
-  id: '/admin/login',
-  path: '/admin/login',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
-  id: '/admin/forgot-password',
-  path: '/admin/forgot-password',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminCallbackRoute = AdminCallbackRouteImport.update({
-  id: '/admin/callback',
-  path: '/admin/callback',
+const TermsRoute = TermsRouteImport.update({
+  id: '/terms',
+  path: '/terms',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAcceptInvitationRoute = AdminAcceptInvitationRouteImport.update({
@@ -225,9 +150,79 @@ const AdminAcceptInvitationRoute = AdminAcceptInvitationRouteImport.update({
   path: '/admin/accept-invitation',
   getParentRoute: () => rootRouteImport,
 } as any)
-const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
-  id: '/category/$slug/',
-  path: '/category/$slug/',
+const AdminCallbackRoute = AdminCallbackRouteImport.update({
+  id: '/admin/callback',
+  path: '/admin/callback',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminForgotPasswordRoute = AdminForgotPasswordRouteImport.update({
+  id: '/admin/forgot-password',
+  path: '/admin/forgot-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminLoginRoute = AdminLoginRouteImport.update({
+  id: '/admin/login',
+  path: '/admin/login',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminResetPasswordRoute = AdminResetPasswordRouteImport.update({
+  id: '/admin/reset-password',
+  path: '/admin/reset-password',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const AdminSignupRoute = AdminSignupRouteImport.update({
+  id: '/admin/signup',
+  path: '/admin/signup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogIndexRoute = BlogIndexRouteImport.update({
+  id: '/blog/',
+  path: '/blog/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const BlogSlugRoute = BlogSlugRouteImport.update({
+  id: '/blog/$slug',
+  path: '/blog/$slug',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareIndexRoute = CompareIndexRouteImport.update({
+  id: '/compare/',
+  path: '/compare/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareMatchupRoute = CompareMatchupRouteImport.update({
+  id: '/compare/$matchup',
+  path: '/compare/$matchup',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnScratchRoute = LearnScratchRouteImport.update({
+  id: '/learn/scratch',
+  path: '/learn/scratch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnSpinRoute = LearnSpinRouteImport.update({
+  id: '/learn/spin',
+  path: '/learn/spin',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnSwipeRoute = LearnSwipeRouteImport.update({
+  id: '/learn/swipe',
+  path: '/learn/swipe',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptsIndexRoute = PromptsIndexRouteImport.update({
+  id: '/prompts/',
+  path: '/prompts/',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const PromptsIdRoute = PromptsIdRouteImport.update({
+  id: '/prompts/$id',
+  path: '/prompts/$id',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const ToolSlugRoute = ToolSlugRouteImport.update({
+  id: '/tool/$slug',
+  path: '/tool/$slug',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
@@ -235,39 +230,34 @@ const AdminAdminIndexRoute = AdminAdminIndexRouteImport.update({
   path: '/admin/',
   getParentRoute: () => AdminRoute,
 } as any)
-const LearnTaskIdRoute = LearnTaskIdRouteImport.update({
-  id: '/learn/task/$id',
-  path: '/learn/task/$id',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
-  id: '/category/$slug/$sub',
-  path: '/category/$slug/$sub',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const ApiPublicCompareHealthRoute = ApiPublicCompareHealthRouteImport.update({
-  id: '/api/public/compare-health',
-  path: '/api/public/compare-health',
-  getParentRoute: () => rootRouteImport,
-} as any)
-const AdminAdminToolsRoute = AdminAdminToolsRouteImport.update({
-  id: '/admin/tools',
-  path: '/admin/tools',
+const AdminAdminAdminsRoute = AdminAdminAdminsRouteImport.update({
+  id: '/admin/admins',
+  path: '/admin/admins',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminPromptsRoute = AdminAdminPromptsRouteImport.update({
-  id: '/admin/prompts',
-  path: '/admin/prompts',
+const AdminAdminAuthDebugRoute = AdminAdminAuthDebugRouteImport.update({
+  id: '/admin/auth-debug',
+  path: '/admin/auth-debug',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminLearnTasksRoute = AdminAdminLearnTasksRouteImport.update({
-  id: '/admin/learn-tasks',
-  path: '/admin/learn-tasks',
+const AdminAdminBlogRoute = AdminAdminBlogRouteImport.update({
+  id: '/admin/blog',
+  path: '/admin/blog',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminCoursesRoute = AdminAdminCoursesRouteImport.update({
-  id: '/admin/courses',
-  path: '/admin/courses',
+const AdminAdminBooksRoute = AdminAdminBooksRouteImport.update({
+  id: '/admin/books',
+  path: '/admin/books',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminBugReportsRoute = AdminAdminBugReportsRouteImport.update({
+  id: '/admin/bug-reports',
+  path: '/admin/bug-reports',
+  getParentRoute: () => AdminRoute,
+} as any)
+const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
+  id: '/admin/categories',
+  path: '/admin/categories',
   getParentRoute: () => AdminRoute,
 } as any)
 const AdminAdminComparisonDataRoute =
@@ -276,39 +266,44 @@ const AdminAdminComparisonDataRoute =
     path: '/admin/comparison-data',
     getParentRoute: () => AdminRoute,
   } as any)
-const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
-  id: '/admin/categories',
-  path: '/admin/categories',
+const AdminAdminCoursesRoute = AdminAdminCoursesRouteImport.update({
+  id: '/admin/courses',
+  path: '/admin/courses',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminBugReportsRoute = AdminAdminBugReportsRouteImport.update({
-  id: '/admin/bug-reports',
-  path: '/admin/bug-reports',
+const AdminAdminLearnTasksRoute = AdminAdminLearnTasksRouteImport.update({
+  id: '/admin/learn-tasks',
+  path: '/admin/learn-tasks',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminBooksRoute = AdminAdminBooksRouteImport.update({
-  id: '/admin/books',
-  path: '/admin/books',
+const AdminAdminPromptsRoute = AdminAdminPromptsRouteImport.update({
+  id: '/admin/prompts',
+  path: '/admin/prompts',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminBlogRoute = AdminAdminBlogRouteImport.update({
-  id: '/admin/blog',
-  path: '/admin/blog',
+const AdminAdminToolsRoute = AdminAdminToolsRouteImport.update({
+  id: '/admin/tools',
+  path: '/admin/tools',
   getParentRoute: () => AdminRoute,
 } as any)
-const AdminAdminAuthDebugRoute = AdminAdminAuthDebugRouteImport.update({
-  id: '/admin/auth-debug',
-  path: '/admin/auth-debug',
-  getParentRoute: () => AdminRoute,
+const ApiPublicCompareHealthRoute = ApiPublicCompareHealthRouteImport.update({
+  id: '/api/public/compare-health',
+  path: '/api/public/compare-health',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const AdminAdminAdminsRoute = AdminAdminAdminsRouteImport.update({
-  id: '/admin/admins',
-  path: '/admin/admins',
-  getParentRoute: () => AdminRoute,
+const CategorySlugIndexRoute = CategorySlugIndexRouteImport.update({
+  id: '/category/$slug/',
+  path: '/category/$slug/',
+  getParentRoute: () => rootRouteImport,
 } as any)
-const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
-  id: '/howto/$category/$sub/$tool',
-  path: '/howto/$category/$sub/$tool',
+const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
+  id: '/category/$slug/$sub',
+  path: '/category/$slug/$sub',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const LearnTaskIdRoute = LearnTaskIdRouteImport.update({
+  id: '/learn/task/$id',
+  path: '/learn/task/$id',
   getParentRoute: () => rootRouteImport,
 } as any)
 const AdminAdminComparisonDataToolIdRoute =
@@ -317,6 +312,11 @@ const AdminAdminComparisonDataToolIdRoute =
     path: '/$toolId',
     getParentRoute: () => AdminAdminComparisonDataRoute,
   } as any)
+const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
+  id: '/howto/$category/$sub/$tool',
+  path: '/howto/$category/$sub/$tool',
+  getParentRoute: () => rootRouteImport,
+} as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -679,109 +679,11 @@ export interface RootRouteChildren {
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/terms': {
-      id: '/terms'
-      path: '/terms'
-      fullPath: '/terms'
-      preLoaderRoute: typeof TermsRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/sitemap.xml': {
-      id: '/sitemap.xml'
-      path: '/sitemap.xml'
-      fullPath: '/sitemap.xml'
-      preLoaderRoute: typeof SitemapDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/search': {
-      id: '/search'
-      path: '/search'
-      fullPath: '/search'
-      preLoaderRoute: typeof SearchRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/rss.xml': {
-      id: '/rss.xml'
-      path: '/rss.xml'
-      fullPath: '/rss.xml'
-      preLoaderRoute: typeof RssDotxmlRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/ranking': {
-      id: '/ranking'
-      path: '/ranking'
-      fullPath: '/ranking'
-      preLoaderRoute: typeof RankingRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/privacy': {
-      id: '/privacy'
-      path: '/privacy'
-      fullPath: '/privacy'
-      preLoaderRoute: typeof PrivacyRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/dmca': {
-      id: '/dmca'
-      path: '/dmca'
-      fullPath: '/dmca'
-      preLoaderRoute: typeof DmcaRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/disclaimer': {
-      id: '/disclaimer'
-      path: '/disclaimer'
-      fullPath: '/disclaimer'
-      preLoaderRoute: typeof DisclaimerRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/courses': {
-      id: '/courses'
-      path: '/courses'
-      fullPath: '/courses'
-      preLoaderRoute: typeof CoursesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/cookies': {
-      id: '/cookies'
-      path: '/cookies'
-      fullPath: '/cookies'
-      preLoaderRoute: typeof CookiesRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/contact': {
-      id: '/contact'
-      path: '/contact'
-      fullPath: '/contact'
-      preLoaderRoute: typeof ContactRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/browse': {
-      id: '/browse'
-      path: '/browse'
-      fullPath: '/browse'
-      preLoaderRoute: typeof BrowseRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/books': {
-      id: '/books'
-      path: '/books'
-      fullPath: '/books'
-      preLoaderRoute: typeof BooksRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/affiliate-disclosure': {
-      id: '/affiliate-disclosure'
-      path: '/affiliate-disclosure'
-      fullPath: '/affiliate-disclosure'
-      preLoaderRoute: typeof AffiliateDisclosureRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/about': {
-      id: '/about'
-      path: '/about'
-      fullPath: '/about'
-      preLoaderRoute: typeof AboutRouteImport
+    '/': {
+      id: '/'
+      path: '/'
+      fullPath: '/'
+      preLoaderRoute: typeof IndexRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin': {
@@ -791,116 +693,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/': {
-      id: '/'
-      path: '/'
-      fullPath: '/'
-      preLoaderRoute: typeof IndexRouteImport
+    '/about': {
+      id: '/about'
+      path: '/about'
+      fullPath: '/about'
+      preLoaderRoute: typeof AboutRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/prompts/': {
-      id: '/prompts/'
-      path: '/prompts'
-      fullPath: '/prompts/'
-      preLoaderRoute: typeof PromptsIndexRouteImport
+    '/affiliate-disclosure': {
+      id: '/affiliate-disclosure'
+      path: '/affiliate-disclosure'
+      fullPath: '/affiliate-disclosure'
+      preLoaderRoute: typeof AffiliateDisclosureRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/compare/': {
-      id: '/compare/'
-      path: '/compare'
-      fullPath: '/compare/'
-      preLoaderRoute: typeof CompareIndexRouteImport
+    '/books': {
+      id: '/books'
+      path: '/books'
+      fullPath: '/books'
+      preLoaderRoute: typeof BooksRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/': {
-      id: '/blog/'
-      path: '/blog'
-      fullPath: '/blog/'
-      preLoaderRoute: typeof BlogIndexRouteImport
+    '/browse': {
+      id: '/browse'
+      path: '/browse'
+      fullPath: '/browse'
+      preLoaderRoute: typeof BrowseRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/tool/$slug': {
-      id: '/tool/$slug'
-      path: '/tool/$slug'
-      fullPath: '/tool/$slug'
-      preLoaderRoute: typeof ToolSlugRouteImport
+    '/contact': {
+      id: '/contact'
+      path: '/contact'
+      fullPath: '/contact'
+      preLoaderRoute: typeof ContactRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/prompts/$id': {
-      id: '/prompts/$id'
-      path: '/prompts/$id'
-      fullPath: '/prompts/$id'
-      preLoaderRoute: typeof PromptsIdRouteImport
+    '/cookies': {
+      id: '/cookies'
+      path: '/cookies'
+      fullPath: '/cookies'
+      preLoaderRoute: typeof CookiesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/learn/swipe': {
-      id: '/learn/swipe'
-      path: '/learn/swipe'
-      fullPath: '/learn/swipe'
-      preLoaderRoute: typeof LearnSwipeRouteImport
+    '/courses': {
+      id: '/courses'
+      path: '/courses'
+      fullPath: '/courses'
+      preLoaderRoute: typeof CoursesRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/learn/spin': {
-      id: '/learn/spin'
-      path: '/learn/spin'
-      fullPath: '/learn/spin'
-      preLoaderRoute: typeof LearnSpinRouteImport
+    '/disclaimer': {
+      id: '/disclaimer'
+      path: '/disclaimer'
+      fullPath: '/disclaimer'
+      preLoaderRoute: typeof DisclaimerRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/learn/scratch': {
-      id: '/learn/scratch'
-      path: '/learn/scratch'
-      fullPath: '/learn/scratch'
-      preLoaderRoute: typeof LearnScratchRouteImport
+    '/dmca': {
+      id: '/dmca'
+      path: '/dmca'
+      fullPath: '/dmca'
+      preLoaderRoute: typeof DmcaRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/compare/$matchup': {
-      id: '/compare/$matchup'
-      path: '/compare/$matchup'
-      fullPath: '/compare/$matchup'
-      preLoaderRoute: typeof CompareMatchupRouteImport
+    '/privacy': {
+      id: '/privacy'
+      path: '/privacy'
+      fullPath: '/privacy'
+      preLoaderRoute: typeof PrivacyRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/blog/$slug': {
-      id: '/blog/$slug'
-      path: '/blog/$slug'
-      fullPath: '/blog/$slug'
-      preLoaderRoute: typeof BlogSlugRouteImport
+    '/ranking': {
+      id: '/ranking'
+      path: '/ranking'
+      fullPath: '/ranking'
+      preLoaderRoute: typeof RankingRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/signup': {
-      id: '/admin/signup'
-      path: '/admin/signup'
-      fullPath: '/admin/signup'
-      preLoaderRoute: typeof AdminSignupRouteImport
+    '/rss.xml': {
+      id: '/rss.xml'
+      path: '/rss.xml'
+      fullPath: '/rss.xml'
+      preLoaderRoute: typeof RssDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/reset-password': {
-      id: '/admin/reset-password'
-      path: '/admin/reset-password'
-      fullPath: '/admin/reset-password'
-      preLoaderRoute: typeof AdminResetPasswordRouteImport
+    '/search': {
+      id: '/search'
+      path: '/search'
+      fullPath: '/search'
+      preLoaderRoute: typeof SearchRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/login': {
-      id: '/admin/login'
-      path: '/admin/login'
-      fullPath: '/admin/login'
-      preLoaderRoute: typeof AdminLoginRouteImport
+    '/sitemap.xml': {
+      id: '/sitemap.xml'
+      path: '/sitemap.xml'
+      fullPath: '/sitemap.xml'
+      preLoaderRoute: typeof SitemapDotxmlRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/admin/forgot-password': {
-      id: '/admin/forgot-password'
-      path: '/admin/forgot-password'
-      fullPath: '/admin/forgot-password'
-      preLoaderRoute: typeof AdminForgotPasswordRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/admin/callback': {
-      id: '/admin/callback'
-      path: '/admin/callback'
-      fullPath: '/admin/callback'
-      preLoaderRoute: typeof AdminCallbackRouteImport
+    '/terms': {
+      id: '/terms'
+      path: '/terms'
+      fullPath: '/terms'
+      preLoaderRoute: typeof TermsRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/admin/accept-invitation': {
@@ -910,11 +805,109 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAcceptInvitationRouteImport
       parentRoute: typeof rootRouteImport
     }
-    '/category/$slug/': {
-      id: '/category/$slug/'
-      path: '/category/$slug'
-      fullPath: '/category/$slug/'
-      preLoaderRoute: typeof CategorySlugIndexRouteImport
+    '/admin/callback': {
+      id: '/admin/callback'
+      path: '/admin/callback'
+      fullPath: '/admin/callback'
+      preLoaderRoute: typeof AdminCallbackRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/forgot-password': {
+      id: '/admin/forgot-password'
+      path: '/admin/forgot-password'
+      fullPath: '/admin/forgot-password'
+      preLoaderRoute: typeof AdminForgotPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/login': {
+      id: '/admin/login'
+      path: '/admin/login'
+      fullPath: '/admin/login'
+      preLoaderRoute: typeof AdminLoginRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/reset-password': {
+      id: '/admin/reset-password'
+      path: '/admin/reset-password'
+      fullPath: '/admin/reset-password'
+      preLoaderRoute: typeof AdminResetPasswordRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/admin/signup': {
+      id: '/admin/signup'
+      path: '/admin/signup'
+      fullPath: '/admin/signup'
+      preLoaderRoute: typeof AdminSignupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/': {
+      id: '/blog/'
+      path: '/blog'
+      fullPath: '/blog/'
+      preLoaderRoute: typeof BlogIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/blog/$slug': {
+      id: '/blog/$slug'
+      path: '/blog/$slug'
+      fullPath: '/blog/$slug'
+      preLoaderRoute: typeof BlogSlugRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/': {
+      id: '/compare/'
+      path: '/compare'
+      fullPath: '/compare/'
+      preLoaderRoute: typeof CompareIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/$matchup': {
+      id: '/compare/$matchup'
+      path: '/compare/$matchup'
+      fullPath: '/compare/$matchup'
+      preLoaderRoute: typeof CompareMatchupRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/scratch': {
+      id: '/learn/scratch'
+      path: '/learn/scratch'
+      fullPath: '/learn/scratch'
+      preLoaderRoute: typeof LearnScratchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/spin': {
+      id: '/learn/spin'
+      path: '/learn/spin'
+      fullPath: '/learn/spin'
+      preLoaderRoute: typeof LearnSpinRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/swipe': {
+      id: '/learn/swipe'
+      path: '/learn/swipe'
+      fullPath: '/learn/swipe'
+      preLoaderRoute: typeof LearnSwipeRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompts/': {
+      id: '/prompts/'
+      path: '/prompts'
+      fullPath: '/prompts/'
+      preLoaderRoute: typeof PromptsIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/prompts/$id': {
+      id: '/prompts/$id'
+      path: '/prompts/$id'
+      fullPath: '/prompts/$id'
+      preLoaderRoute: typeof PromptsIdRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/tool/$slug': {
+      id: '/tool/$slug'
+      path: '/tool/$slug'
+      fullPath: '/tool/$slug'
+      preLoaderRoute: typeof ToolSlugRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin/admin/': {
@@ -924,88 +917,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminIndexRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/learn/task/$id': {
-      id: '/learn/task/$id'
-      path: '/learn/task/$id'
-      fullPath: '/learn/task/$id'
-      preLoaderRoute: typeof LearnTaskIdRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/category/$slug/$sub': {
-      id: '/category/$slug/$sub'
-      path: '/category/$slug/$sub'
-      fullPath: '/category/$slug/$sub'
-      preLoaderRoute: typeof CategorySlugSubRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/api/public/compare-health': {
-      id: '/api/public/compare-health'
-      path: '/api/public/compare-health'
-      fullPath: '/api/public/compare-health'
-      preLoaderRoute: typeof ApiPublicCompareHealthRouteImport
-      parentRoute: typeof rootRouteImport
-    }
-    '/_admin/admin/tools': {
-      id: '/_admin/admin/tools'
-      path: '/admin/tools'
-      fullPath: '/admin/tools'
-      preLoaderRoute: typeof AdminAdminToolsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/prompts': {
-      id: '/_admin/admin/prompts'
-      path: '/admin/prompts'
-      fullPath: '/admin/prompts'
-      preLoaderRoute: typeof AdminAdminPromptsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/learn-tasks': {
-      id: '/_admin/admin/learn-tasks'
-      path: '/admin/learn-tasks'
-      fullPath: '/admin/learn-tasks'
-      preLoaderRoute: typeof AdminAdminLearnTasksRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/courses': {
-      id: '/_admin/admin/courses'
-      path: '/admin/courses'
-      fullPath: '/admin/courses'
-      preLoaderRoute: typeof AdminAdminCoursesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/comparison-data': {
-      id: '/_admin/admin/comparison-data'
-      path: '/admin/comparison-data'
-      fullPath: '/admin/comparison-data'
-      preLoaderRoute: typeof AdminAdminComparisonDataRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/categories': {
-      id: '/_admin/admin/categories'
-      path: '/admin/categories'
-      fullPath: '/admin/categories'
-      preLoaderRoute: typeof AdminAdminCategoriesRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/bug-reports': {
-      id: '/_admin/admin/bug-reports'
-      path: '/admin/bug-reports'
-      fullPath: '/admin/bug-reports'
-      preLoaderRoute: typeof AdminAdminBugReportsRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/books': {
-      id: '/_admin/admin/books'
-      path: '/admin/books'
-      fullPath: '/admin/books'
-      preLoaderRoute: typeof AdminAdminBooksRouteImport
-      parentRoute: typeof AdminRoute
-    }
-    '/_admin/admin/blog': {
-      id: '/_admin/admin/blog'
-      path: '/admin/blog'
-      fullPath: '/admin/blog'
-      preLoaderRoute: typeof AdminAdminBlogRouteImport
+    '/_admin/admin/admins': {
+      id: '/_admin/admin/admins'
+      path: '/admin/admins'
+      fullPath: '/admin/admins'
+      preLoaderRoute: typeof AdminAdminAdminsRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_admin/admin/auth-debug': {
@@ -1015,18 +931,95 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AdminAdminAuthDebugRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/_admin/admin/admins': {
-      id: '/_admin/admin/admins'
-      path: '/admin/admins'
-      fullPath: '/admin/admins'
-      preLoaderRoute: typeof AdminAdminAdminsRouteImport
+    '/_admin/admin/blog': {
+      id: '/_admin/admin/blog'
+      path: '/admin/blog'
+      fullPath: '/admin/blog'
+      preLoaderRoute: typeof AdminAdminBlogRouteImport
       parentRoute: typeof AdminRoute
     }
-    '/howto/$category/$sub/$tool': {
-      id: '/howto/$category/$sub/$tool'
-      path: '/howto/$category/$sub/$tool'
-      fullPath: '/howto/$category/$sub/$tool'
-      preLoaderRoute: typeof HowtoCategorySubToolRouteImport
+    '/_admin/admin/books': {
+      id: '/_admin/admin/books'
+      path: '/admin/books'
+      fullPath: '/admin/books'
+      preLoaderRoute: typeof AdminAdminBooksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/bug-reports': {
+      id: '/_admin/admin/bug-reports'
+      path: '/admin/bug-reports'
+      fullPath: '/admin/bug-reports'
+      preLoaderRoute: typeof AdminAdminBugReportsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/categories': {
+      id: '/_admin/admin/categories'
+      path: '/admin/categories'
+      fullPath: '/admin/categories'
+      preLoaderRoute: typeof AdminAdminCategoriesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/comparison-data': {
+      id: '/_admin/admin/comparison-data'
+      path: '/admin/comparison-data'
+      fullPath: '/admin/comparison-data'
+      preLoaderRoute: typeof AdminAdminComparisonDataRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/courses': {
+      id: '/_admin/admin/courses'
+      path: '/admin/courses'
+      fullPath: '/admin/courses'
+      preLoaderRoute: typeof AdminAdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/learn-tasks': {
+      id: '/_admin/admin/learn-tasks'
+      path: '/admin/learn-tasks'
+      fullPath: '/admin/learn-tasks'
+      preLoaderRoute: typeof AdminAdminLearnTasksRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/prompts': {
+      id: '/_admin/admin/prompts'
+      path: '/admin/prompts'
+      fullPath: '/admin/prompts'
+      preLoaderRoute: typeof AdminAdminPromptsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/tools': {
+      id: '/_admin/admin/tools'
+      path: '/admin/tools'
+      fullPath: '/admin/tools'
+      preLoaderRoute: typeof AdminAdminToolsRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/api/public/compare-health': {
+      id: '/api/public/compare-health'
+      path: '/api/public/compare-health'
+      fullPath: '/api/public/compare-health'
+      preLoaderRoute: typeof ApiPublicCompareHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug/': {
+      id: '/category/$slug/'
+      path: '/category/$slug'
+      fullPath: '/category/$slug/'
+      preLoaderRoute: typeof CategorySlugIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/category/$slug/$sub': {
+      id: '/category/$slug/$sub'
+      path: '/category/$slug/$sub'
+      fullPath: '/category/$slug/$sub'
+      preLoaderRoute: typeof CategorySlugSubRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/learn/task/$id': {
+      id: '/learn/task/$id'
+      path: '/learn/task/$id'
+      fullPath: '/learn/task/$id'
+      preLoaderRoute: typeof LearnTaskIdRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/_admin/admin/comparison-data/$toolId': {
@@ -1035,6 +1028,13 @@ declare module '@tanstack/react-router' {
       fullPath: '/admin/comparison-data/$toolId'
       preLoaderRoute: typeof AdminAdminComparisonDataToolIdRouteImport
       parentRoute: typeof AdminAdminComparisonDataRoute
+    }
+    '/howto/$category/$sub/$tool': {
+      id: '/howto/$category/$sub/$tool'
+      path: '/howto/$category/$sub/$tool'
+      fullPath: '/howto/$category/$sub/$tool'
+      preLoaderRoute: typeof HowtoCategorySubToolRouteImport
+      parentRoute: typeof rootRouteImport
     }
   }
 }
