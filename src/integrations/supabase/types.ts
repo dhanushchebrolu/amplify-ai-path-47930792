@@ -644,6 +644,161 @@ export type Database = {
         }
         Relationships: []
       }
+      tool_comparison_data: {
+        Row: {
+          api_available: boolean
+          company: string | null
+          cons: string[]
+          created_at: string
+          features: Json
+          id: string
+          integrations: Json
+          languages: Json
+          launch_year: number | null
+          limitations: Json
+          media: Json
+          metadata: Json
+          models: Json
+          open_source: boolean
+          platforms: Json
+          pricing: Json
+          pros: string[]
+          seo: Json
+          source_url: string | null
+          status: string | null
+          tool_id: string
+          updated_at: string
+          use_cases: string[]
+          verification_note: string | null
+          verification_status: string
+          verified_at: string | null
+          verified_by: string | null
+          website: string | null
+        }
+        Insert: {
+          api_available?: boolean
+          company?: string | null
+          cons?: string[]
+          created_at?: string
+          features?: Json
+          id?: string
+          integrations?: Json
+          languages?: Json
+          launch_year?: number | null
+          limitations?: Json
+          media?: Json
+          metadata?: Json
+          models?: Json
+          open_source?: boolean
+          platforms?: Json
+          pricing?: Json
+          pros?: string[]
+          seo?: Json
+          source_url?: string | null
+          status?: string | null
+          tool_id: string
+          updated_at?: string
+          use_cases?: string[]
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+        }
+        Update: {
+          api_available?: boolean
+          company?: string | null
+          cons?: string[]
+          created_at?: string
+          features?: Json
+          id?: string
+          integrations?: Json
+          languages?: Json
+          launch_year?: number | null
+          limitations?: Json
+          media?: Json
+          metadata?: Json
+          models?: Json
+          open_source?: boolean
+          platforms?: Json
+          pricing?: Json
+          pros?: string[]
+          seo?: Json
+          source_url?: string | null
+          status?: string | null
+          tool_id?: string
+          updated_at?: string
+          use_cases?: string[]
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_comparison_data_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: true
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tool_comparisons: {
+        Row: {
+          category_winners: Json
+          created_at: string
+          faqs: Json
+          headline: string | null
+          id: string
+          intro: string | null
+          long_form: Json
+          matchup: string
+          published: boolean
+          quick_summary: Json
+          seo_description: string | null
+          seo_title: string | null
+          slugs: string[]
+          updated_at: string
+          verdicts: Json
+        }
+        Insert: {
+          category_winners?: Json
+          created_at?: string
+          faqs?: Json
+          headline?: string | null
+          id?: string
+          intro?: string | null
+          long_form?: Json
+          matchup: string
+          published?: boolean
+          quick_summary?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          slugs?: string[]
+          updated_at?: string
+          verdicts?: Json
+        }
+        Update: {
+          category_winners?: Json
+          created_at?: string
+          faqs?: Json
+          headline?: string | null
+          id?: string
+          intro?: string | null
+          long_form?: Json
+          matchup?: string
+          published?: boolean
+          quick_summary?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          slugs?: string[]
+          updated_at?: string
+          verdicts?: Json
+        }
+        Relationships: []
+      }
       tools: {
         Row: {
           category: string | null
