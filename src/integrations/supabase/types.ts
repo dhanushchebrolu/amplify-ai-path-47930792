@@ -56,6 +56,7 @@ export type Database = {
           expires_at: string
           id: string
           invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
           status: string
           token: string
         }
@@ -67,6 +68,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by: string
+          role?: Database["public"]["Enums"]["app_role"]
           status?: string
           token?: string
         }
@@ -78,6 +80,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by?: string
+          role?: Database["public"]["Enums"]["app_role"]
           status?: string
           token?: string
         }
@@ -446,6 +449,30 @@ export type Database = {
           tool_name?: string | null
           tool_url?: string | null
           updated_at?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          last_login_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          last_login_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          last_login_at?: string | null
+          updated_at?: string
+          user_id?: string
         }
         Relationships: []
       }
@@ -891,18 +918,24 @@ export type Database = {
           created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
+          status: string
+          updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           role: Database["public"]["Enums"]["app_role"]
+          status?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          status?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -913,6 +946,10 @@ export type Database = {
     }
     Functions: {
       accept_admin_invitation: { Args: { _token: string }; Returns: undefined }
+      assign_role: {
+        Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -930,6 +967,7 @@ export type Database = {
           expires_at: string
           id: string
           invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
           status: string
           token: string
         }
@@ -940,6 +978,19 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
+      list_admin_users: {
+        Args: never
+        Returns: {
+          email: string
+          granted_at: string
+          last_login_at: string
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+          user_created_at: string
+          user_id: string
+        }[]
+      }
       list_admins: {
         Args: never
         Returns: {
@@ -948,7 +999,50 @@ export type Database = {
           user_id: string
         }[]
       }
+      list_role_invitations: {
+        Args: never
+        Returns: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+          token: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "admin_invitations"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      remove_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: undefined
+      }
       revoke_admin: { Args: { _user_id: string }; Returns: undefined }
+      set_role_status: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _status: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      sync_my_account: {
+        Args: never
+        Returns: {
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+        }[]
+      }
     }
     Enums: {
       app_role: "admin" | "super_admin" | "editor" | "moderator"
