@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useRouter } from "@tanstack/react-router";
+import { env } from "@/config/env";
 
-const GA_ID = import.meta.env.VITE_GA_MEASUREMENT_ID as string | undefined;
+const GA_ID = env.GA_MEASUREMENT_ID;
 const ENABLED =
   typeof window !== "undefined" &&
-  import.meta.env.PROD &&
+  env.PROD &&
   !!GA_ID &&
   /^G-[A-Z0-9]+$/i.test(GA_ID);
 

@@ -1,3 +1,4 @@
+import { readServerEnv } from "@/config/env.server";
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
@@ -16,12 +17,9 @@ function escXml(s: string): string {
 }
 
 async function fetchDbEntries(): Promise<SitemapEntry[]> {
-  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY;
+  const { env: cfg } = readServerEnv();
+  const url = cfg.SUPABASE_URL;
+  const key = cfg.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return [];
   const out: SitemapEntry[] = [];
   const headers = { apikey: key, Authorization: `Bearer ${key}` };
@@ -43,14 +41,16 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
   };
 
   try {
-    const [categories, subcategories, tools, blog, prompts, learnTasks] = await Promise.all([
+    const [categories, subcategories, tools, blog, prompts, learnTasks, comparisons] = await Promise.all([
       fetchAll(`/rest/v1/categories?select=slug,updated_at,icon_url`),
       fetchAll(`/rest/v1/subcategories?select=category_slug,slug,updated_at,icon_url`),
-      fetchAll(`/rest/v1/tools?select=slug,updated_at,logo_url`),
+      fetchAll(`/rest/v1/tools?select=slug,updated_at,logo_url,featured,sort_order&order=featured.desc,sort_order.asc`),
       fetchAll(`/rest/v1/blog_posts?select=slug,updated_at,cover_url&published=eq.true`),
       fetchAll(`/rest/v1/prompts?select=id,updated_at`),
       fetchAll(`/rest/v1/learn_tasks?select=id,updated_at`),
+      fetchAll(`/rest/v1/tool_comparison_data?select=tool_id,updated_at,status,tools:tool_id(slug)&status=eq.published`),
     ]);
+
 
     for (const c of categories) {
       if (!c.slug) continue;
@@ -110,9 +110,30 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         priority: "0.5",
       });
     }
+
+    // Compare pairs: pair the top N published-comparison tools alphabetically, cap 500
+    const publishedSlugs = (comparisons ?? [])
+      .map((r: any) => ({ slug: r.tools?.slug as string | undefined, updated_at: r.updated_at as string }))
+      .filter((r: any): r is { slug: string; updated_at: string } => !!r.slug);
+    const cap = 500;
+    let added = 0;
+    outer: for (let i = 0; i < publishedSlugs.length; i++) {
+      for (let j = i + 1; j < publishedSlugs.length; j++) {
+        const [a, b] = [publishedSlugs[i], publishedSlugs[j]];
+        const pair = [a.slug, b.slug].sort((x, y) => x.localeCompare(y)).join("-vs-");
+        out.push({
+          path: `/compare/${pair}`,
+          lastmod: (a.updated_at > b.updated_at ? a.updated_at : b.updated_at)?.slice(0, 10),
+          changefreq: "weekly",
+          priority: "0.6",
+        });
+        if (++added >= cap) break outer;
+      }
+    }
   } catch {
     /* ignore — static routes still ship */
   }
+
   return out;
 }
 
@@ -124,6 +145,8 @@ export const Route = createFileRoute("/sitemap.xml")({
         const entries: SitemapEntry[] = [
           { path: "/", changefreq: "daily", priority: "1.0", lastmod: today },
           { path: "/browse", changefreq: "daily", priority: "0.9", lastmod: today },
+          { path: "/compare", changefreq: "weekly", priority: "0.8", lastmod: today },
+
           { path: "/prompts", changefreq: "daily", priority: "0.9", lastmod: today },
           { path: "/blog", changefreq: "daily", priority: "0.9", lastmod: today },
           { path: "/ranking", changefreq: "weekly", priority: "0.8", lastmod: today },

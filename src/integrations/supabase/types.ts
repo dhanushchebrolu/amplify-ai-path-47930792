@@ -56,6 +56,7 @@ export type Database = {
           expires_at: string
           id: string
           invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
           status: string
           token: string
         }
@@ -67,6 +68,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by: string
+          role?: Database["public"]["Enums"]["app_role"]
           status?: string
           token?: string
         }
@@ -78,6 +80,7 @@ export type Database = {
           expires_at?: string
           id?: string
           invited_by?: string
+          role?: Database["public"]["Enums"]["app_role"]
           status?: string
           token?: string
         }
@@ -449,6 +452,30 @@ export type Database = {
         }
         Relationships: []
       }
+      profiles: {
+        Row: {
+          created_at: string
+          email: string | null
+          last_login_at: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          email?: string | null
+          last_login_at?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          email?: string | null
+          last_login_at?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
       prompts: {
         Row: {
           body: string
@@ -644,6 +671,161 @@ export type Database = {
         }
         Relationships: []
       }
+      tool_comparison_data: {
+        Row: {
+          api_available: boolean
+          company: string | null
+          cons: string[]
+          created_at: string
+          features: Json
+          id: string
+          integrations: Json
+          languages: Json
+          launch_year: number | null
+          limitations: Json
+          media: Json
+          metadata: Json
+          models: Json
+          open_source: boolean
+          platforms: Json
+          pricing: Json
+          pros: string[]
+          seo: Json
+          source_url: string | null
+          status: string | null
+          tool_id: string
+          updated_at: string
+          use_cases: string[]
+          verification_note: string | null
+          verification_status: string
+          verified_at: string | null
+          verified_by: string | null
+          website: string | null
+        }
+        Insert: {
+          api_available?: boolean
+          company?: string | null
+          cons?: string[]
+          created_at?: string
+          features?: Json
+          id?: string
+          integrations?: Json
+          languages?: Json
+          launch_year?: number | null
+          limitations?: Json
+          media?: Json
+          metadata?: Json
+          models?: Json
+          open_source?: boolean
+          platforms?: Json
+          pricing?: Json
+          pros?: string[]
+          seo?: Json
+          source_url?: string | null
+          status?: string | null
+          tool_id: string
+          updated_at?: string
+          use_cases?: string[]
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+        }
+        Update: {
+          api_available?: boolean
+          company?: string | null
+          cons?: string[]
+          created_at?: string
+          features?: Json
+          id?: string
+          integrations?: Json
+          languages?: Json
+          launch_year?: number | null
+          limitations?: Json
+          media?: Json
+          metadata?: Json
+          models?: Json
+          open_source?: boolean
+          platforms?: Json
+          pricing?: Json
+          pros?: string[]
+          seo?: Json
+          source_url?: string | null
+          status?: string | null
+          tool_id?: string
+          updated_at?: string
+          use_cases?: string[]
+          verification_note?: string | null
+          verification_status?: string
+          verified_at?: string | null
+          verified_by?: string | null
+          website?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "tool_comparison_data_tool_id_fkey"
+            columns: ["tool_id"]
+            isOneToOne: true
+            referencedRelation: "tools"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      tool_comparisons: {
+        Row: {
+          category_winners: Json
+          created_at: string
+          faqs: Json
+          headline: string | null
+          id: string
+          intro: string | null
+          long_form: Json
+          matchup: string
+          published: boolean
+          quick_summary: Json
+          seo_description: string | null
+          seo_title: string | null
+          slugs: string[]
+          updated_at: string
+          verdicts: Json
+        }
+        Insert: {
+          category_winners?: Json
+          created_at?: string
+          faqs?: Json
+          headline?: string | null
+          id?: string
+          intro?: string | null
+          long_form?: Json
+          matchup: string
+          published?: boolean
+          quick_summary?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          slugs?: string[]
+          updated_at?: string
+          verdicts?: Json
+        }
+        Update: {
+          category_winners?: Json
+          created_at?: string
+          faqs?: Json
+          headline?: string | null
+          id?: string
+          intro?: string | null
+          long_form?: Json
+          matchup?: string
+          published?: boolean
+          quick_summary?: Json
+          seo_description?: string | null
+          seo_title?: string | null
+          slugs?: string[]
+          updated_at?: string
+          verdicts?: Json
+        }
+        Relationships: []
+      }
       tools: {
         Row: {
           category: string | null
@@ -736,18 +918,24 @@ export type Database = {
           created_at: string
           id: string
           role: Database["public"]["Enums"]["app_role"]
+          status: string
+          updated_at: string
           user_id: string
         }
         Insert: {
           created_at?: string
           id?: string
           role: Database["public"]["Enums"]["app_role"]
+          status?: string
+          updated_at?: string
           user_id: string
         }
         Update: {
           created_at?: string
           id?: string
           role?: Database["public"]["Enums"]["app_role"]
+          status?: string
+          updated_at?: string
           user_id?: string
         }
         Relationships: []
@@ -758,6 +946,10 @@ export type Database = {
     }
     Functions: {
       accept_admin_invitation: { Args: { _token: string }; Returns: undefined }
+      assign_role: {
+        Args: { _email: string; _role: Database["public"]["Enums"]["app_role"] }
+        Returns: string
+      }
       has_role: {
         Args: {
           _role: Database["public"]["Enums"]["app_role"]
@@ -775,6 +967,7 @@ export type Database = {
           expires_at: string
           id: string
           invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
           status: string
           token: string
         }
@@ -785,6 +978,19 @@ export type Database = {
           isSetofReturn: false
         }
       }
+      is_super_admin: { Args: { _user_id: string }; Returns: boolean }
+      list_admin_users: {
+        Args: never
+        Returns: {
+          email: string
+          granted_at: string
+          last_login_at: string
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+          user_created_at: string
+          user_id: string
+        }[]
+      }
       list_admins: {
         Args: never
         Returns: {
@@ -793,10 +999,53 @@ export type Database = {
           user_id: string
         }[]
       }
+      list_role_invitations: {
+        Args: never
+        Returns: {
+          accepted_at: string | null
+          accepted_by: string | null
+          created_at: string
+          email: string
+          expires_at: string
+          id: string
+          invited_by: string
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+          token: string
+        }[]
+        SetofOptions: {
+          from: "*"
+          to: "admin_invitations"
+          isOneToOne: false
+          isSetofReturn: true
+        }
+      }
+      remove_role: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _user_id: string
+        }
+        Returns: undefined
+      }
       revoke_admin: { Args: { _user_id: string }; Returns: undefined }
+      set_role_status: {
+        Args: {
+          _role: Database["public"]["Enums"]["app_role"]
+          _status: string
+          _user_id: string
+        }
+        Returns: undefined
+      }
+      sync_my_account: {
+        Args: never
+        Returns: {
+          role: Database["public"]["Enums"]["app_role"]
+          status: string
+        }[]
+      }
     }
     Enums: {
-      app_role: "admin"
+      app_role: "admin" | "super_admin" | "editor" | "moderator"
     }
     CompositeTypes: {
       [_ in never]: never
@@ -924,7 +1173,7 @@ export type CompositeTypes<
 export const Constants = {
   public: {
     Enums: {
-      app_role: ["admin"],
+      app_role: ["admin", "super_admin", "editor", "moderator"],
     },
   },
 } as const

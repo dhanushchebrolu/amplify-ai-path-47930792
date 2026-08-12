@@ -24,6 +24,7 @@ export function SiteHeader() {
     <>
       <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Home</Link>
       <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Browse</Link>
+      <Link to="/compare" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Compare</Link>
       <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Prompts</Link>
       <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Blog</Link>
       <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Ranking</Link>
