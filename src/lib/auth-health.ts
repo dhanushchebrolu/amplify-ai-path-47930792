@@ -1,17 +1,18 @@
+import { env, missingClientEnv } from "@/config/env";
+
 // Client-side startup health check for the auth subsystem.
 // Emits console warnings in development only. No user-visible UI, no network calls.
 
 export function runAuthHealthCheck() {
   if (typeof window === "undefined") return;
-  if (!import.meta.env.DEV) return;
+  if (!env.DEV) return;
 
   const issues: string[] = [];
 
-  const url = import.meta.env.VITE_SUPABASE_URL;
-  const key = import.meta.env.VITE_SUPABASE_PUBLISHABLE_KEY;
+  const url = env.SUPABASE_URL;
+  const key = env.SUPABASE_PUBLISHABLE_KEY;
 
-  if (!url) issues.push("VITE_SUPABASE_URL is not set");
-  if (!key) issues.push("VITE_SUPABASE_PUBLISHABLE_KEY is not set");
+  for (const name of missingClientEnv()) issues.push(`${name} is not set`);
 
   if (url && !/^https:\/\/[a-z0-9]+\.supabase\.co$/.test(url)) {
     issues.push(`VITE_SUPABASE_URL looks unusual: ${url}`);

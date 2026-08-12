@@ -3,8 +3,9 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
 import { checkAdmin } from "@/lib/content.functions";
+import { syncMyAccount } from "@/lib/admins.functions";
 import { devSignOut, getDevSession, isDevAuthEnabled } from "@/lib/dev-auth";
-import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, Bug, ShieldCheck } from "lucide-react";
+import { LayoutDashboard, Wrench, MessageSquare, Sparkles, LogOut, FolderTree, FileText, Bug, ShieldCheck, GitCompareArrows } from "lucide-react";
 
 export const Route = createFileRoute("/_admin")({
   // Supabase stores the session in localStorage which the server cannot read.
@@ -24,13 +25,20 @@ export const Route = createFileRoute("/_admin")({
 function AdminLayout() {
   const navigate = useNavigate();
   const check = useServerFn(checkAdmin);
+  const sync = useServerFn(syncMyAccount);
   const devMode = isDevAuthEnabled() && !!getDevSession();
   const [state, setState] = useState<"loading" | "ok" | "denied">(devMode ? "ok" : "loading");
 
   useEffect(() => {
     if (devMode) return;
-    check().then((r) => setState(r.isAdmin ? "ok" : "denied")).catch(() => setState("denied"));
-  }, [check, devMode]);
+    // Records last-login and applies any role invited for this email.
+    sync()
+      .catch(() => undefined)
+      .then(() => check())
+      .then((r: { isAdmin: boolean } | undefined) => setState(r?.isAdmin ? "ok" : "denied"))
+      .catch(() => setState("denied"));
+  }, [check, sync, devMode]);
+
 
   async function signOut() {
     if (devMode) {
@@ -71,6 +79,8 @@ function AdminLayout() {
           <NavItem to="/admin" icon={<LayoutDashboard className="w-4 h-4" />} label="Overview" />
           <NavItem to="/admin/categories" icon={<FolderTree className="w-4 h-4" />} label="Categories" />
           <NavItem to="/admin/tools" icon={<Wrench className="w-4 h-4" />} label="Tools" />
+          <NavItem to="/admin/comparison-data" icon={<GitCompareArrows className="w-4 h-4" />} label="Comparison data" />
+
           <NavItem to="/admin/prompts" icon={<MessageSquare className="w-4 h-4" />} label="Prompts" />
           <NavItem to="/admin/learn-tasks" icon={<Sparkles className="w-4 h-4" />} label="Learn tasks (all)" />
           <NavItem to="/admin/blog" icon={<FileText className="w-4 h-4" />} label="Blog" />

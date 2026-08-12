@@ -1,3 +1,4 @@
+import { env as appEnv } from "@/config/env";
 import { createFileRoute } from "@tanstack/react-router";
 import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useRef, useState } from "react";
@@ -46,8 +47,8 @@ function AuthDebug() {
 
   const origin = typeof window !== "undefined" ? window.location.origin : "";
   const env = classifyEnv(origin);
-  const supabaseUrl = import.meta.env.VITE_SUPABASE_URL ?? "";
-  const projectId = import.meta.env.VITE_SUPABASE_PROJECT_ID ?? "";
+  const supabaseUrl = appEnv.SUPABASE_URL;
+  const projectId = appEnv.SUPABASE_PROJECT_ID;
   const storageKey = projectId ? `sb-${projectId}-auth-token` : "";
 
   useEffect(() => {

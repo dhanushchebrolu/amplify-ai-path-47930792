@@ -63,3 +63,90 @@ export const acceptAdminInvitation = createServerFn({ method: "POST" })
     if (error) throw new Error(error.message);
     return { ok: true };
   });
+
+// ─── RBAC (roles, status, invitations) ────────────────────────────────
+export const ROLES = ["super_admin", "admin", "editor", "moderator"] as const;
+export type AppRole = (typeof ROLES)[number];
+
+const roleSchema = z.enum(ROLES);
+
+/** Records the profile / last-login and auto-applies any invited role. */
+export const syncMyAccount = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase.rpc("sync_my_account");
+    if (error) throw new Error(error.message);
+    return (data ?? []) as { role: AppRole; status: string }[];
+  });
+
+export const listAdminUsers = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase.rpc("list_admin_users");
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const listRoleInvitations = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data, error } = await context.supabase.rpc("list_role_invitations");
+    if (error) throw new Error(error.message);
+    return data ?? [];
+  });
+
+export const amISuperAdmin = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { data } = await context.supabase.rpc("is_super_admin", { _user_id: context.userId });
+    return { isSuperAdmin: !!data };
+  });
+
+export const assignRole = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ email: z.string().email().max(254), role: roleSchema }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { data: res, error } = await context.supabase.rpc("assign_role", {
+      _email: data.email,
+      _role: data.role,
+    });
+    if (error) throw new Error(error.message);
+    return { outcome: (res as string) ?? "assigned" };
+  });
+
+export const removeRole = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z.object({ user_id: z.string().uuid(), role: roleSchema }).parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("remove_role", {
+      _user_id: data.user_id,
+      _role: data.role,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });
+
+export const setRoleStatus = createServerFn({ method: "POST" })
+  .middleware([requireSupabaseAuth])
+  .inputValidator((d: unknown) =>
+    z
+      .object({
+        user_id: z.string().uuid(),
+        role: roleSchema,
+        status: z.enum(["active", "suspended"]),
+      })
+      .parse(d),
+  )
+  .handler(async ({ data, context }) => {
+    const { error } = await context.supabase.rpc("set_role_status", {
+      _user_id: data.user_id,
+      _role: data.role,
+      _status: data.status,
+    });
+    if (error) throw new Error(error.message);
+    return { ok: true };
+  });

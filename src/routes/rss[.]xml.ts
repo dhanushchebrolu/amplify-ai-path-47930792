@@ -1,6 +1,7 @@
 // RSS 2.0 feed for the AI Blaze blog. Listed in <head> of __root.tsx and
 // referenced from the sitemap; crawlable by Google News, feed readers and
 // LLM ingestion pipelines.
+import { readServerEnv } from "@/config/env.server";
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
 
@@ -16,12 +17,9 @@ function esc(s: string): string {
 }
 
 async function fetchPosts() {
-  const url = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL;
-  const key =
-    process.env.SUPABASE_PUBLISHABLE_KEY ||
-    process.env.VITE_SUPABASE_PUBLISHABLE_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY;
+  const { env: cfg } = readServerEnv();
+  const url = cfg.SUPABASE_URL;
+  const key = cfg.SUPABASE_PUBLISHABLE_KEY;
   if (!url || !key) return [];
   try {
     const res = await fetch(

@@ -27,12 +27,14 @@ import { Route as AboutRouteImport } from './routes/about'
 import { Route as AdminRouteImport } from './routes/_admin'
 import { Route as IndexRouteImport } from './routes/index'
 import { Route as PromptsIndexRouteImport } from './routes/prompts.index'
+import { Route as CompareIndexRouteImport } from './routes/compare.index'
 import { Route as BlogIndexRouteImport } from './routes/blog.index'
 import { Route as ToolSlugRouteImport } from './routes/tool.$slug'
 import { Route as PromptsIdRouteImport } from './routes/prompts.$id'
 import { Route as LearnSwipeRouteImport } from './routes/learn.swipe'
 import { Route as LearnSpinRouteImport } from './routes/learn.spin'
 import { Route as LearnScratchRouteImport } from './routes/learn.scratch'
+import { Route as CompareMatchupRouteImport } from './routes/compare.$matchup'
 import { Route as BlogSlugRouteImport } from './routes/blog.$slug'
 import { Route as AdminSignupRouteImport } from './routes/admin.signup'
 import { Route as AdminResetPasswordRouteImport } from './routes/admin.reset-password'
@@ -44,10 +46,12 @@ import { Route as CategorySlugIndexRouteImport } from './routes/category.$slug.i
 import { Route as AdminAdminIndexRouteImport } from './routes/_admin.admin.index'
 import { Route as LearnTaskIdRouteImport } from './routes/learn.task.$id'
 import { Route as CategorySlugSubRouteImport } from './routes/category.$slug.$sub'
+import { Route as ApiPublicCompareHealthRouteImport } from './routes/api/public/compare-health'
 import { Route as AdminAdminToolsRouteImport } from './routes/_admin.admin.tools'
 import { Route as AdminAdminPromptsRouteImport } from './routes/_admin.admin.prompts'
 import { Route as AdminAdminLearnTasksRouteImport } from './routes/_admin.admin.learn-tasks'
 import { Route as AdminAdminCoursesRouteImport } from './routes/_admin.admin.courses'
+import { Route as AdminAdminComparisonDataRouteImport } from './routes/_admin.admin.comparison-data'
 import { Route as AdminAdminCategoriesRouteImport } from './routes/_admin.admin.categories'
 import { Route as AdminAdminBugReportsRouteImport } from './routes/_admin.admin.bug-reports'
 import { Route as AdminAdminBooksRouteImport } from './routes/_admin.admin.books'
@@ -55,6 +59,7 @@ import { Route as AdminAdminBlogRouteImport } from './routes/_admin.admin.blog'
 import { Route as AdminAdminAuthDebugRouteImport } from './routes/_admin.admin.auth-debug'
 import { Route as AdminAdminAdminsRouteImport } from './routes/_admin.admin.admins'
 import { Route as HowtoCategorySubToolRouteImport } from './routes/howto.$category.$sub.$tool'
+import { Route as AdminAdminComparisonDataToolIdRouteImport } from './routes/_admin.admin.comparison-data.$toolId'
 
 const TermsRoute = TermsRouteImport.update({
   id: '/terms',
@@ -145,6 +150,11 @@ const PromptsIndexRoute = PromptsIndexRouteImport.update({
   path: '/prompts/',
   getParentRoute: () => rootRouteImport,
 } as any)
+const CompareIndexRoute = CompareIndexRouteImport.update({
+  id: '/compare/',
+  path: '/compare/',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const BlogIndexRoute = BlogIndexRouteImport.update({
   id: '/blog/',
   path: '/blog/',
@@ -173,6 +183,11 @@ const LearnSpinRoute = LearnSpinRouteImport.update({
 const LearnScratchRoute = LearnScratchRouteImport.update({
   id: '/learn/scratch',
   path: '/learn/scratch',
+  getParentRoute: () => rootRouteImport,
+} as any)
+const CompareMatchupRoute = CompareMatchupRouteImport.update({
+  id: '/compare/$matchup',
+  path: '/compare/$matchup',
   getParentRoute: () => rootRouteImport,
 } as any)
 const BlogSlugRoute = BlogSlugRouteImport.update({
@@ -230,6 +245,11 @@ const CategorySlugSubRoute = CategorySlugSubRouteImport.update({
   path: '/category/$slug/$sub',
   getParentRoute: () => rootRouteImport,
 } as any)
+const ApiPublicCompareHealthRoute = ApiPublicCompareHealthRouteImport.update({
+  id: '/api/public/compare-health',
+  path: '/api/public/compare-health',
+  getParentRoute: () => rootRouteImport,
+} as any)
 const AdminAdminToolsRoute = AdminAdminToolsRouteImport.update({
   id: '/admin/tools',
   path: '/admin/tools',
@@ -250,6 +270,12 @@ const AdminAdminCoursesRoute = AdminAdminCoursesRouteImport.update({
   path: '/admin/courses',
   getParentRoute: () => AdminRoute,
 } as any)
+const AdminAdminComparisonDataRoute =
+  AdminAdminComparisonDataRouteImport.update({
+    id: '/admin/comparison-data',
+    path: '/admin/comparison-data',
+    getParentRoute: () => AdminRoute,
+  } as any)
 const AdminAdminCategoriesRoute = AdminAdminCategoriesRouteImport.update({
   id: '/admin/categories',
   path: '/admin/categories',
@@ -285,6 +311,12 @@ const HowtoCategorySubToolRoute = HowtoCategorySubToolRouteImport.update({
   path: '/howto/$category/$sub/$tool',
   getParentRoute: () => rootRouteImport,
 } as any)
+const AdminAdminComparisonDataToolIdRoute =
+  AdminAdminComparisonDataToolIdRouteImport.update({
+    id: '/$toolId',
+    path: '/$toolId',
+    getParentRoute: () => AdminAdminComparisonDataRoute,
+  } as any)
 
 export interface FileRoutesByFullPath {
   '/': typeof IndexRoute
@@ -310,12 +342,14 @@ export interface FileRoutesByFullPath {
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$matchup': typeof CompareMatchupRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/compare/': typeof CompareIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
   '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
@@ -323,14 +357,17 @@ export interface FileRoutesByFullPath {
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/comparison-data': typeof AdminAdminComparisonDataRouteWithChildren
   '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/admin/prompts': typeof AdminAdminPromptsRoute
   '/admin/tools': typeof AdminAdminToolsRoute
+  '/api/public/compare-health': typeof ApiPublicCompareHealthRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/admin/': typeof AdminAdminIndexRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
+  '/admin/comparison-data/$toolId': typeof AdminAdminComparisonDataToolIdRoute
   '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRoutesByTo {
@@ -357,12 +394,14 @@ export interface FileRoutesByTo {
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$matchup': typeof CompareMatchupRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/blog': typeof BlogIndexRoute
+  '/compare': typeof CompareIndexRoute
   '/prompts': typeof PromptsIndexRoute
   '/admin/admins': typeof AdminAdminAdminsRoute
   '/admin/auth-debug': typeof AdminAdminAuthDebugRoute
@@ -370,14 +409,17 @@ export interface FileRoutesByTo {
   '/admin/books': typeof AdminAdminBooksRoute
   '/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/admin/categories': typeof AdminAdminCategoriesRoute
+  '/admin/comparison-data': typeof AdminAdminComparisonDataRouteWithChildren
   '/admin/courses': typeof AdminAdminCoursesRoute
   '/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/admin/prompts': typeof AdminAdminPromptsRoute
   '/admin/tools': typeof AdminAdminToolsRoute
+  '/api/public/compare-health': typeof ApiPublicCompareHealthRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/admin': typeof AdminAdminIndexRoute
   '/category/$slug': typeof CategorySlugIndexRoute
+  '/admin/comparison-data/$toolId': typeof AdminAdminComparisonDataToolIdRoute
   '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRoutesById {
@@ -406,12 +448,14 @@ export interface FileRoutesById {
   '/admin/reset-password': typeof AdminResetPasswordRoute
   '/admin/signup': typeof AdminSignupRoute
   '/blog/$slug': typeof BlogSlugRoute
+  '/compare/$matchup': typeof CompareMatchupRoute
   '/learn/scratch': typeof LearnScratchRoute
   '/learn/spin': typeof LearnSpinRoute
   '/learn/swipe': typeof LearnSwipeRoute
   '/prompts/$id': typeof PromptsIdRoute
   '/tool/$slug': typeof ToolSlugRoute
   '/blog/': typeof BlogIndexRoute
+  '/compare/': typeof CompareIndexRoute
   '/prompts/': typeof PromptsIndexRoute
   '/_admin/admin/admins': typeof AdminAdminAdminsRoute
   '/_admin/admin/auth-debug': typeof AdminAdminAuthDebugRoute
@@ -419,14 +463,17 @@ export interface FileRoutesById {
   '/_admin/admin/books': typeof AdminAdminBooksRoute
   '/_admin/admin/bug-reports': typeof AdminAdminBugReportsRoute
   '/_admin/admin/categories': typeof AdminAdminCategoriesRoute
+  '/_admin/admin/comparison-data': typeof AdminAdminComparisonDataRouteWithChildren
   '/_admin/admin/courses': typeof AdminAdminCoursesRoute
   '/_admin/admin/learn-tasks': typeof AdminAdminLearnTasksRoute
   '/_admin/admin/prompts': typeof AdminAdminPromptsRoute
   '/_admin/admin/tools': typeof AdminAdminToolsRoute
+  '/api/public/compare-health': typeof ApiPublicCompareHealthRoute
   '/category/$slug/$sub': typeof CategorySlugSubRoute
   '/learn/task/$id': typeof LearnTaskIdRoute
   '/_admin/admin/': typeof AdminAdminIndexRoute
   '/category/$slug/': typeof CategorySlugIndexRoute
+  '/_admin/admin/comparison-data/$toolId': typeof AdminAdminComparisonDataToolIdRoute
   '/howto/$category/$sub/$tool': typeof HowtoCategorySubToolRoute
 }
 export interface FileRouteTypes {
@@ -455,12 +502,14 @@ export interface FileRouteTypes {
     | '/admin/reset-password'
     | '/admin/signup'
     | '/blog/$slug'
+    | '/compare/$matchup'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
     | '/blog/'
+    | '/compare/'
     | '/prompts/'
     | '/admin/admins'
     | '/admin/auth-debug'
@@ -468,14 +517,17 @@ export interface FileRouteTypes {
     | '/admin/books'
     | '/admin/bug-reports'
     | '/admin/categories'
+    | '/admin/comparison-data'
     | '/admin/courses'
     | '/admin/learn-tasks'
     | '/admin/prompts'
     | '/admin/tools'
+    | '/api/public/compare-health'
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/admin/'
     | '/category/$slug/'
+    | '/admin/comparison-data/$toolId'
     | '/howto/$category/$sub/$tool'
   fileRoutesByTo: FileRoutesByTo
   to:
@@ -502,12 +554,14 @@ export interface FileRouteTypes {
     | '/admin/reset-password'
     | '/admin/signup'
     | '/blog/$slug'
+    | '/compare/$matchup'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
     | '/blog'
+    | '/compare'
     | '/prompts'
     | '/admin/admins'
     | '/admin/auth-debug'
@@ -515,14 +569,17 @@ export interface FileRouteTypes {
     | '/admin/books'
     | '/admin/bug-reports'
     | '/admin/categories'
+    | '/admin/comparison-data'
     | '/admin/courses'
     | '/admin/learn-tasks'
     | '/admin/prompts'
     | '/admin/tools'
+    | '/api/public/compare-health'
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/admin'
     | '/category/$slug'
+    | '/admin/comparison-data/$toolId'
     | '/howto/$category/$sub/$tool'
   id:
     | '__root__'
@@ -550,12 +607,14 @@ export interface FileRouteTypes {
     | '/admin/reset-password'
     | '/admin/signup'
     | '/blog/$slug'
+    | '/compare/$matchup'
     | '/learn/scratch'
     | '/learn/spin'
     | '/learn/swipe'
     | '/prompts/$id'
     | '/tool/$slug'
     | '/blog/'
+    | '/compare/'
     | '/prompts/'
     | '/_admin/admin/admins'
     | '/_admin/admin/auth-debug'
@@ -563,14 +622,17 @@ export interface FileRouteTypes {
     | '/_admin/admin/books'
     | '/_admin/admin/bug-reports'
     | '/_admin/admin/categories'
+    | '/_admin/admin/comparison-data'
     | '/_admin/admin/courses'
     | '/_admin/admin/learn-tasks'
     | '/_admin/admin/prompts'
     | '/_admin/admin/tools'
+    | '/api/public/compare-health'
     | '/category/$slug/$sub'
     | '/learn/task/$id'
     | '/_admin/admin/'
     | '/category/$slug/'
+    | '/_admin/admin/comparison-data/$toolId'
     | '/howto/$category/$sub/$tool'
   fileRoutesById: FileRoutesById
 }
@@ -599,13 +661,16 @@ export interface RootRouteChildren {
   AdminResetPasswordRoute: typeof AdminResetPasswordRoute
   AdminSignupRoute: typeof AdminSignupRoute
   BlogSlugRoute: typeof BlogSlugRoute
+  CompareMatchupRoute: typeof CompareMatchupRoute
   LearnScratchRoute: typeof LearnScratchRoute
   LearnSpinRoute: typeof LearnSpinRoute
   LearnSwipeRoute: typeof LearnSwipeRoute
   PromptsIdRoute: typeof PromptsIdRoute
   ToolSlugRoute: typeof ToolSlugRoute
   BlogIndexRoute: typeof BlogIndexRoute
+  CompareIndexRoute: typeof CompareIndexRoute
   PromptsIndexRoute: typeof PromptsIndexRoute
+  ApiPublicCompareHealthRoute: typeof ApiPublicCompareHealthRoute
   CategorySlugSubRoute: typeof CategorySlugSubRoute
   LearnTaskIdRoute: typeof LearnTaskIdRoute
   CategorySlugIndexRoute: typeof CategorySlugIndexRoute
@@ -740,6 +805,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof PromptsIndexRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/compare/': {
+      id: '/compare/'
+      path: '/compare'
+      fullPath: '/compare/'
+      preLoaderRoute: typeof CompareIndexRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/blog/': {
       id: '/blog/'
       path: '/blog'
@@ -780,6 +852,13 @@ declare module '@tanstack/react-router' {
       path: '/learn/scratch'
       fullPath: '/learn/scratch'
       preLoaderRoute: typeof LearnScratchRouteImport
+      parentRoute: typeof rootRouteImport
+    }
+    '/compare/$matchup': {
+      id: '/compare/$matchup'
+      path: '/compare/$matchup'
+      fullPath: '/compare/$matchup'
+      preLoaderRoute: typeof CompareMatchupRouteImport
       parentRoute: typeof rootRouteImport
     }
     '/blog/$slug': {
@@ -859,6 +938,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof CategorySlugSubRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/api/public/compare-health': {
+      id: '/api/public/compare-health'
+      path: '/api/public/compare-health'
+      fullPath: '/api/public/compare-health'
+      preLoaderRoute: typeof ApiPublicCompareHealthRouteImport
+      parentRoute: typeof rootRouteImport
+    }
     '/_admin/admin/tools': {
       id: '/_admin/admin/tools'
       path: '/admin/tools'
@@ -885,6 +971,13 @@ declare module '@tanstack/react-router' {
       path: '/admin/courses'
       fullPath: '/admin/courses'
       preLoaderRoute: typeof AdminAdminCoursesRouteImport
+      parentRoute: typeof AdminRoute
+    }
+    '/_admin/admin/comparison-data': {
+      id: '/_admin/admin/comparison-data'
+      path: '/admin/comparison-data'
+      fullPath: '/admin/comparison-data'
+      preLoaderRoute: typeof AdminAdminComparisonDataRouteImport
       parentRoute: typeof AdminRoute
     }
     '/_admin/admin/categories': {
@@ -936,8 +1029,29 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof HowtoCategorySubToolRouteImport
       parentRoute: typeof rootRouteImport
     }
+    '/_admin/admin/comparison-data/$toolId': {
+      id: '/_admin/admin/comparison-data/$toolId'
+      path: '/$toolId'
+      fullPath: '/admin/comparison-data/$toolId'
+      preLoaderRoute: typeof AdminAdminComparisonDataToolIdRouteImport
+      parentRoute: typeof AdminAdminComparisonDataRoute
+    }
   }
 }
+
+interface AdminAdminComparisonDataRouteChildren {
+  AdminAdminComparisonDataToolIdRoute: typeof AdminAdminComparisonDataToolIdRoute
+}
+
+const AdminAdminComparisonDataRouteChildren: AdminAdminComparisonDataRouteChildren =
+  {
+    AdminAdminComparisonDataToolIdRoute: AdminAdminComparisonDataToolIdRoute,
+  }
+
+const AdminAdminComparisonDataRouteWithChildren =
+  AdminAdminComparisonDataRoute._addFileChildren(
+    AdminAdminComparisonDataRouteChildren,
+  )
 
 interface AdminRouteChildren {
   AdminAdminAdminsRoute: typeof AdminAdminAdminsRoute
@@ -946,6 +1060,7 @@ interface AdminRouteChildren {
   AdminAdminBooksRoute: typeof AdminAdminBooksRoute
   AdminAdminBugReportsRoute: typeof AdminAdminBugReportsRoute
   AdminAdminCategoriesRoute: typeof AdminAdminCategoriesRoute
+  AdminAdminComparisonDataRoute: typeof AdminAdminComparisonDataRouteWithChildren
   AdminAdminCoursesRoute: typeof AdminAdminCoursesRoute
   AdminAdminLearnTasksRoute: typeof AdminAdminLearnTasksRoute
   AdminAdminPromptsRoute: typeof AdminAdminPromptsRoute
@@ -960,6 +1075,7 @@ const AdminRouteChildren: AdminRouteChildren = {
   AdminAdminBooksRoute: AdminAdminBooksRoute,
   AdminAdminBugReportsRoute: AdminAdminBugReportsRoute,
   AdminAdminCategoriesRoute: AdminAdminCategoriesRoute,
+  AdminAdminComparisonDataRoute: AdminAdminComparisonDataRouteWithChildren,
   AdminAdminCoursesRoute: AdminAdminCoursesRoute,
   AdminAdminLearnTasksRoute: AdminAdminLearnTasksRoute,
   AdminAdminPromptsRoute: AdminAdminPromptsRoute,
@@ -994,13 +1110,16 @@ const rootRouteChildren: RootRouteChildren = {
   AdminResetPasswordRoute: AdminResetPasswordRoute,
   AdminSignupRoute: AdminSignupRoute,
   BlogSlugRoute: BlogSlugRoute,
+  CompareMatchupRoute: CompareMatchupRoute,
   LearnScratchRoute: LearnScratchRoute,
   LearnSpinRoute: LearnSpinRoute,
   LearnSwipeRoute: LearnSwipeRoute,
   PromptsIdRoute: PromptsIdRoute,
   ToolSlugRoute: ToolSlugRoute,
   BlogIndexRoute: BlogIndexRoute,
+  CompareIndexRoute: CompareIndexRoute,
   PromptsIndexRoute: PromptsIndexRoute,
+  ApiPublicCompareHealthRoute: ApiPublicCompareHealthRoute,
   CategorySlugSubRoute: CategorySlugSubRoute,
   LearnTaskIdRoute: LearnTaskIdRoute,
   CategorySlugIndexRoute: CategorySlugIndexRoute,
