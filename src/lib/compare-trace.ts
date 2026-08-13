@@ -26,19 +26,31 @@ export class CompareError extends Error {
   }
 }
 
-/** Normalizes a PostgREST error into a CompareError with full query context. */
+const IS_DEV = process.env.NODE_ENV === "development";
+
+/**
+ * Normalizes a PostgREST error. Full query context (code, details, hint) is
+ * logged server-side only; the thrown message stays generic in production so
+ * public visitors never receive raw database internals.
+ */
 export function throwQueryError(
   step: string,
   err: { message: string; code?: string; details?: string | null; hint?: string | null },
   context: Record<string, unknown>,
 ): never {
-  throw new CompareError(step, err.message, {
+  console.error(`[compare] query failed at step "${step}"`, {
     ...context,
+    message: err.message,
     pgCode: err.code ?? null,
     pgDetails: err.details ?? null,
     pgHint: err.hint ?? null,
   });
+  throw new CompareError(step, IS_DEV ? err.message : "Database query failed", {
+    ...context,
+    pgCode: IS_DEV ? (err.code ?? null) : null,
+  });
 }
+
 
 export function describeError(error: unknown): {
   name: string;
