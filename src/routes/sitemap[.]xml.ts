@@ -1,6 +1,8 @@
 import { readServerEnv } from "@/config/env.server";
 import { createFileRoute } from "@tanstack/react-router";
 import type {} from "@tanstack/react-start";
+import { catalog } from "@/data/catalog";
+import { getTask, learnTasks } from "@/data/learnTasks";
 
 const BASE_URL = "https://aiblaze.io";
 
@@ -28,10 +30,12 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
     let from = 0;
     const pageSize = 1000;
     while (true) {
+      // A network failure is treated like a non-OK response so the
+      // catalog-derived entries below are still emitted.
       const res = await fetch(`${url}${path}`, {
         headers: { ...headers, Range: `${from}-${from + pageSize - 1}` },
-      });
-      if (!res.ok) break;
+      }).catch(() => null);
+      if (!res?.ok) break;
       const batch = await res.json();
       rows.push(...batch);
       if (!batch.length || batch.length < pageSize) break;
@@ -41,39 +45,47 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
   };
 
   try {
-    const [categories, subcategories, tools, blog, prompts, learnTasks, comparisons] = await Promise.all([
+    const [categories, subcategories, tools, blog, prompts, learnRows, comparisons] = await Promise.all([
       fetchAll(`/rest/v1/categories?select=slug,updated_at,icon_url`),
       fetchAll(`/rest/v1/subcategories?select=category_slug,slug,updated_at,icon_url`),
-      fetchAll(`/rest/v1/tools?select=slug,updated_at,logo_url,featured,sort_order&order=featured.desc,sort_order.asc`),
-      fetchAll(`/rest/v1/blog_posts?select=slug,updated_at,cover_url&published=eq.true`),
+      fetchAll(`/rest/v1/tools?select=slug,updated_at,logo_url,featured,sort_order,noindex&order=featured.desc,sort_order.asc`),
+      fetchAll(`/rest/v1/blog_posts?select=slug,updated_at,cover_url,noindex&published=eq.true`),
       fetchAll(`/rest/v1/prompts?select=id,updated_at`),
-      fetchAll(`/rest/v1/learn_tasks?select=id,updated_at`),
+      fetchAll(`/rest/v1/learn_tasks?select=slug,updated_at`),
       fetchAll(`/rest/v1/tool_comparison_data?select=tool_id,updated_at,status,tools:tool_id(slug)&status=eq.published`),
     ]);
 
 
-    for (const c of categories) {
-      if (!c.slug) continue;
+    // /category routes resolve against the static catalog, so emit catalog
+    // slugs (DB rows only contribute lastmod/images when their slug matches).
+    const catRows = new Map(categories.filter((c) => c.slug).map((c) => [c.slug, c]));
+    const subRows = new Map(
+      subcategories
+        .filter((s) => s.slug && s.category_slug)
+        .map((s) => [`${s.category_slug}/${s.slug}`, s]),
+    );
+    for (const c of catalog) {
+      const row = catRows.get(c.slug);
       out.push({
         path: `/category/${c.slug}`,
-        lastmod: c.updated_at?.slice(0, 10),
+        lastmod: row?.updated_at?.slice(0, 10),
         changefreq: "weekly",
         priority: "0.8",
-        images: c.icon_url ? [c.icon_url] : undefined,
+        images: row?.icon_url ? [row.icon_url] : undefined,
       });
-    }
-    for (const s of subcategories) {
-      if (!s.slug || !s.category_slug) continue;
-      out.push({
-        path: `/category/${s.category_slug}/${s.slug}`,
-        lastmod: s.updated_at?.slice(0, 10),
-        changefreq: "weekly",
-        priority: "0.7",
-        images: s.icon_url ? [s.icon_url] : undefined,
-      });
+      for (const sub of c.subs) {
+        const subRow = subRows.get(`${c.slug}/${sub.slug}`);
+        out.push({
+          path: `/category/${c.slug}/${sub.slug}`,
+          lastmod: subRow?.updated_at?.slice(0, 10),
+          changefreq: "weekly",
+          priority: "0.7",
+          images: subRow?.icon_url ? [subRow.icon_url] : undefined,
+        });
+      }
     }
     for (const t of tools) {
-      if (!t.slug) continue;
+      if (!t.slug || t.noindex) continue;
       out.push({
         path: `/tool/${t.slug}`,
         lastmod: t.updated_at?.slice(0, 10),
@@ -83,7 +95,7 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
       });
     }
     for (const p of blog) {
-      if (!p.slug) continue;
+      if (!p.slug || p.noindex) continue;
       out.push({
         path: `/blog/${p.slug}`,
         lastmod: p.updated_at?.slice(0, 10),
@@ -101,10 +113,11 @@ async function fetchDbEntries(): Promise<SitemapEntry[]> {
         priority: "0.6",
       });
     }
-    for (const l of learnTasks) {
-      if (!l.id) continue;
+    // /learn/task/$id only resolves static task ids; skip DB rows it can't serve.
+    for (const l of learnRows) {
+      if (!l.slug || !getTask(l.slug)) continue;
       out.push({
-        path: `/learn/task/${l.id}`,
+        path: `/learn/task/${l.slug}`,
         lastmod: l.updated_at?.slice(0, 10),
         changefreq: "monthly",
         priority: "0.5",
@@ -166,6 +179,11 @@ export const Route = createFileRoute("/sitemap.xml")({
 
         const dbEntries = await fetchDbEntries();
         for (const e of dbEntries) entries.push(e);
+
+        // Static learn tasks (served by /learn/task/$id) are always indexable.
+        for (const t of learnTasks) {
+          entries.push({ path: `/learn/task/${t.id}`, changefreq: "monthly", priority: "0.5" });
+        }
 
         const seen = new Set<string>();
         const unique = entries.filter((e) => (seen.has(e.path) ? false : (seen.add(e.path), true)));

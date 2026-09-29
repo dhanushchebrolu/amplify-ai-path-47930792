@@ -183,10 +183,15 @@ export const listBlogPosts = createServerFn({ method: "GET" }).handler(async () 
   return publicList("blog_posts", { filter: (q) => q.eq("published", true).order("published_at", { ascending: false }) });
 });
 
-export const listAllBlogPosts = createServerFn({ method: "GET" }).handler(async () => {
-  const { adminList } = await import("./content.server");
-  return adminList("blog_posts");
-});
+// Includes unpublished drafts and reads via the service role, so it must be
+// restricted to authenticated admins (verified server-side).
+export const listAllBlogPosts = createServerFn({ method: "GET" })
+  .middleware([requireSupabaseAuth])
+  .handler(async ({ context }) => {
+    const { ensureAdmin, adminList } = await import("./content.server");
+    await ensureAdmin(context.userId);
+    return adminList("blog_posts");
+  });
 
 export const getBlogPost = createServerFn({ method: "GET" })
   .inputValidator((d: unknown) => z.object({ slug: z.string() }).parse(d))

@@ -5,6 +5,7 @@ import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { listBlogPosts } from "@/lib/content.functions";
 import { LayoutGrid, List } from "lucide-react";
 import { BlogIndexPending } from "@/components/skeletons";
+import { formatDate } from "@/lib/utils";
 
 const blogPostsQuery = queryOptions({
   queryKey: ["blog-posts"],
@@ -79,7 +80,7 @@ function BlogIndex() {
                 <div className="p-5">
                   <h2 className="font-semibold text-lg">{p.title}</h2>
                   {p.excerpt && <p className="text-sm text-muted-foreground mt-2 line-clamp-3">{p.excerpt}</p>}
-                  <div className="text-xs text-muted-foreground mt-3">{p.published_at ? new Date(p.published_at).toLocaleDateString() : ""}</div>
+                  <div className="text-xs text-muted-foreground mt-3">{formatDate(p.published_at)}</div>
                 </div>
               </Link>
             ))}
@@ -95,7 +96,7 @@ function BlogIndex() {
                       {p.title}
                     </Link>
                   </h2>
-                  <div className="text-xs text-muted-foreground mt-2">{p.published_at ? new Date(p.published_at).toLocaleDateString() : ""}</div>
+                  <div className="text-xs text-muted-foreground mt-2">{formatDate(p.published_at)}</div>
                 </header>
                 {p.cover_url && <img src={p.cover_url} alt={p.title} className="w-full max-h-[420px] object-cover rounded-2xl mt-5" />}
                 {p.excerpt && <p className="text-lg text-muted-foreground mt-5">{p.excerpt}</p>}

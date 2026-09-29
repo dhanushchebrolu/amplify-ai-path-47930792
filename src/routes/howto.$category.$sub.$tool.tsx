@@ -30,7 +30,7 @@ export const Route = createFileRoute("/howto/$category/$sub/$tool")({
         { property: "og:title", content: title },
         { property: "og:description", content: desc.slice(0, 158) },
       ],
-      links: [{ rel: "canonical", href: `/howto/${category.slug}/${sub.slug}/${toToolSlug(tool.name)}` }],
+      links: [{ rel: "canonical", href: `https://aiblaze.io/howto/${category.slug}/${sub.slug}/${toToolSlug(tool.name)}` }],
     };
   },
   component: HowToPage,

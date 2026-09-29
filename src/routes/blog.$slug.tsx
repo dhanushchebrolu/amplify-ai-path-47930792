@@ -7,6 +7,7 @@ import { BlogContent } from "@/components/BlogContent";
 import { sanitizeHtml, addHeadingIds } from "@/lib/html-sanitize";
 import { injectInternalLinks } from "@/lib/internal-links";
 import { useMemo, useRef } from "react";
+import { formatDate } from "@/lib/utils";
 import {
   ReadingProgress,
   TableOfContents,
@@ -137,7 +138,9 @@ function BlogPost() {
       <main ref={progressRef} className="mx-auto max-w-3xl px-6 pt-12 pb-24 w-full">
         <Link to="/blog" className="text-sm text-muted-foreground hover:text-foreground">← Back to blog</Link>
         <h1 className="font-display text-4xl md:text-5xl mt-4">{p.title}</h1>
-        {p.published_at && <div className="text-xs text-muted-foreground mt-3">{new Date(p.published_at).toLocaleDateString()}</div>}
+        {p.published_at && (
+          <div className="text-xs text-muted-foreground mt-3">{formatDate(p.published_at)}</div>
+        )}
         {p.cover_url && <img src={p.cover_url} alt="" className="w-full rounded-2xl mt-6 object-cover" />}
         {p.excerpt && <p className="text-lg text-muted-foreground mt-6">{p.excerpt}</p>}
         <div ref={articleRef} className="mt-8">

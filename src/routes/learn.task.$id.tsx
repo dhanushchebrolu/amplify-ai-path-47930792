@@ -2,7 +2,7 @@ import { createFileRoute, Link, useNavigate } from "@tanstack/react-router";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { getTask, randomTaskId } from "@/data/learnTasks";
 import { ArrowLeft, ArrowRight, Clock, Copy, ExternalLink, Sparkles, Zap, Check } from "lucide-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export const Route = createFileRoute("/learn/task/$id")({
   head: ({ params }) => {
@@ -17,7 +17,7 @@ export const Route = createFileRoute("/learn/task/$id")({
         { property: "og:description", content: desc },
         ...(t ? [{ property: "og:image", content: t.reference.url }] : []),
       ],
-      links: [{ rel: "canonical", href: `/learn/task/${params.id}` }],
+      links: [{ rel: "canonical", href: `https://aiblaze.io/learn/task/${params.id}` }],
     };
   },
   component: TaskPage,
@@ -29,6 +29,12 @@ function TaskPage() {
   const task = getTask(id);
   const navigate = useNavigate();
   const [copied, setCopied] = useState(false);
+  // Referrer is browser-only; read it after hydration so SSR and the first
+  // client render agree on the breadcrumb.
+  const [fromPrompts, setFromPrompts] = useState(false);
+  useEffect(() => {
+    setFromPrompts(document.referrer.includes("/prompts"));
+  }, []);
 
   if (!task) {
     return (
@@ -56,7 +62,7 @@ function TaskPage() {
         <nav className="text-sm text-muted-foreground flex items-center gap-2">
           <Link to="/" className="hover:text-foreground">Home</Link>
           <span>/</span>
-          {typeof document !== "undefined" && document.referrer.includes("/prompts") ? (
+          {fromPrompts ? (
             <Link to="/prompts" className="hover:text-foreground">Prompts</Link>
           ) : (
             <Link to="/learn/spin" className="hover:text-foreground">Learn New</Link>

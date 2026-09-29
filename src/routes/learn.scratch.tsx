@@ -1,5 +1,5 @@
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { ScratchCard } from "@/components/learn/ScratchCard";
 import { learnTasks, randomTaskId, getTask } from "@/data/learnTasks";
@@ -12,14 +12,18 @@ export const Route = createFileRoute("/learn/scratch")({
       { property: "og:title", content: "Scratch — Reveal a New AI Task" },
       { property: "og:description", content: "Lottery-style discovery for new AI tools and prompts." },
     ],
-    links: [{ rel: "canonical", href: "/learn/scratch" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/learn/scratch" }],
   }),
   component: ScratchPage,
 });
 
 function ScratchPage() {
   const navigate = useNavigate();
-  const [currentId, setCurrentId] = useState(() => randomTaskId());
+  // Start from a fixed task so SSR and hydration match, then randomize.
+  const [currentId, setCurrentId] = useState(() => learnTasks[0].id);
+  useEffect(() => {
+    setCurrentId(randomTaskId());
+  }, []);
   const task = getTask(currentId)!;
 
   return (

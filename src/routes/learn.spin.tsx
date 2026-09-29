@@ -11,7 +11,7 @@ export const Route = createFileRoute("/learn/spin")({
       { property: "og:title", content: "Spin — Discover Your Next AI Task" },
       { property: "og:description", content: "Drag the sphere, land on a task, learn a new AI workflow in minutes." },
     ],
-    links: [{ rel: "canonical", href: "/learn/spin" }],
+    links: [{ rel: "canonical", href: "https://aiblaze.io/learn/spin" }],
   }),
   component: SpinPage,
 });
