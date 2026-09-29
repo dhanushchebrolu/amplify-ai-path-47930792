@@ -32,4 +32,5 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public GRANT ALL ON SEQUENCES TO anon, authen
 -- Minimal Supabase Storage stand-in (the baseline migration adds policies on it)
 CREATE SCHEMA storage;
 CREATE TABLE storage.objects (id UUID PRIMARY KEY DEFAULT gen_random_uuid(), bucket_id TEXT, name TEXT);
+CREATE TABLE storage.buckets (id TEXT PRIMARY KEY, name TEXT NOT NULL, public BOOLEAN DEFAULT false);
 ALTER TABLE storage.objects ENABLE ROW LEVEL SECURITY;

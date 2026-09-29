@@ -316,8 +316,7 @@ def main():
             if f.name < BASELINE or any(k in f.name for k in skip):
                 continue
             r = psql_file(db, f)
-            # 20260812053625 re-creates tool_comparison_data non-idempotently; it is unrelated to roles.
-            if r.returncode != 0 and "tool_comparison_data" not in r.stderr:
+            if r.returncode != 0:
                 sys.exit(f"migration {f.name} failed: {r.stderr}")
         psql(db, seed_sql(with_super))
         templates[scenario] = db
