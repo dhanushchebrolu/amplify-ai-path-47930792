@@ -51,15 +51,15 @@ function ComparisonDataList() {
         value={q}
         onChange={(e) => setQ(e.target.value)}
         placeholder="Search tools…"
-        className="w-full max-w-md mb-4 rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-sm outline-none"
+        className="w-full max-w-md mb-4 rounded-lg bg-foreground/[0.04] border border-foreground/10 px-3 py-2 text-sm outline-none"
       />
 
       {loading ? (
         <div className="text-muted-foreground text-sm">Loading…</div>
       ) : (
-        <div className="rounded-2xl border border-white/10 overflow-hidden">
+        <div className="rounded-2xl border border-foreground/10 overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-white/[0.04] text-xs text-muted-foreground">
+            <thead className="bg-foreground/[0.04] text-xs text-muted-foreground">
               <tr>
                 <th className="text-left px-4 py-2">Tool</th>
                 <th className="text-left px-4 py-2">Category</th>
@@ -70,13 +70,13 @@ function ComparisonDataList() {
             </thead>
             <tbody>
               {filtered.map((r) => (
-                <tr key={r.id} className="border-t border-white/5">
+                <tr key={r.id} className="border-t border-foreground/5">
                   <td className="px-4 py-2">
                     <div className="flex items-center gap-3">
                       {r.logo_url ? (
                         <img src={r.logo_url} alt="" className="w-6 h-6 rounded" />
                       ) : (
-                        <div className="w-6 h-6 rounded bg-white/10" />
+                        <div className="w-6 h-6 rounded bg-foreground/10" />
                       )}
                       <span className="font-medium">{r.name}</span>
                       <span className="text-muted-foreground text-xs">{r.slug}</span>
@@ -98,7 +98,7 @@ function ComparisonDataList() {
                     <Link
                       to="/admin/comparison-data/$toolId"
                       params={{ toolId: r.id }}
-                      className="text-primary hover:underline text-xs"
+                      className="text-primary-ink hover:underline text-xs"
                     >
                       Edit
                     </Link>

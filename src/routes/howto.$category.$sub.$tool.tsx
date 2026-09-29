@@ -81,10 +81,10 @@ function HowToPage() {
           <span className="text-foreground">{tool.name}</span>
         </nav>
 
-        <header className="mt-8 card-surface p-7 rounded-2xl border border-white/10 flex flex-col md:flex-row gap-6 md:items-center">
+        <header className="mt-8 card-surface p-7 rounded-2xl border border-foreground/10 flex flex-col md:flex-row gap-6 md:items-center">
           <CatalogLogo name={tool.name} website={tool.website} size={72} />
           <div className="flex-1 min-w-0">
-            <span className="text-xs uppercase tracking-wider text-primary">How to use</span>
+            <span className="text-xs uppercase tracking-wider text-primary-ink">How to use</span>
             <h1 className="font-display text-4xl md:text-5xl mt-2">{tool.name} for {sub.name}</h1>
             <p className="text-muted-foreground mt-2">{host || "Official tool"} · {category.short}</p>
           </div>
@@ -100,20 +100,20 @@ function HowToPage() {
 
         <div className="mt-10 grid lg:grid-cols-5 gap-8">
           <section className="lg:col-span-3 space-y-8">
-            <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <div className="card-surface p-6 rounded-2xl border border-foreground/10">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-lg font-semibold inline-flex items-center gap-2">
-                  <Sparkles className="w-4 h-4 text-primary" /> Ready-to-paste prompt
+                  <Sparkles className="w-4 h-4 text-primary-ink" /> Ready-to-paste prompt
                 </h2>
-                <button onClick={copyPrompt} className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
+                <button onClick={copyPrompt} className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/10 hover:border-foreground/25">
                   {copied ? <><Check className="w-3.5 h-3.5" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy</>}
                 </button>
               </div>
-              <pre className="text-sm whitespace-pre-wrap font-mono bg-black/30 rounded-xl p-5 border border-white/5 leading-relaxed">{prompt}</pre>
+              <pre className="text-sm whitespace-pre-wrap font-mono bg-muted rounded-xl p-5 border border-foreground/5 leading-relaxed">{prompt}</pre>
             </div>
 
-            <div className="card-surface p-6 rounded-2xl border border-white/10">
-              <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Zap className="w-4 h-4 text-primary" /> Step-by-step</h2>
+            <div className="card-surface p-6 rounded-2xl border border-foreground/10">
+              <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Zap className="w-4 h-4 text-primary-ink" /> Step-by-step</h2>
               <ol className="mt-4 space-y-3">
                 {[
                   `Open ${tool.name} (${host || "official site"}) and create a free account if needed.`,
@@ -123,26 +123,26 @@ function HowToPage() {
                   `Export or share the final result. Save your winning prompt for next time.`,
                 ].map((s, i) => (
                   <li key={i} className="flex gap-3">
-                    <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary grid place-items-center text-sm font-semibold">{i + 1}</span>
+                    <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary-ink grid place-items-center text-sm font-semibold">{i + 1}</span>
                     <span className="text-sm text-foreground/90 leading-relaxed pt-0.5">{s}</span>
                   </li>
                 ))}
               </ol>
             </div>
 
-            <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <div className="card-surface p-6 rounded-2xl border border-foreground/10">
               <h2 className="text-lg font-semibold">Tips for {sub.name.toLowerCase()}</h2>
               <ul className="mt-4 space-y-2 text-sm text-muted-foreground">
-                <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Be specific about audience, tone, and length in your prompt.</li>
-                <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Ask for 3 variants instead of 1 — pick the best.</li>
-                <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5 shrink-0" /> If results feel generic, give an example of what "good" looks like.</li>
-                <li className="flex gap-2"><Check className="w-4 h-4 text-primary mt-0.5 shrink-0" /> Save winning prompts to a personal library so you don't rewrite them.</li>
+                <li className="flex gap-2"><Check className="w-4 h-4 text-primary-ink mt-0.5 shrink-0" /> Be specific about audience, tone, and length in your prompt.</li>
+                <li className="flex gap-2"><Check className="w-4 h-4 text-primary-ink mt-0.5 shrink-0" /> Ask for 3 variants instead of 1 — pick the best.</li>
+                <li className="flex gap-2"><Check className="w-4 h-4 text-primary-ink mt-0.5 shrink-0" /> If results feel generic, give an example of what "good" looks like.</li>
+                <li className="flex gap-2"><Check className="w-4 h-4 text-primary-ink mt-0.5 shrink-0" /> Save winning prompts to a personal library so you don't rewrite them.</li>
               </ul>
             </div>
           </section>
 
           <aside className="lg:col-span-2 space-y-6">
-            <div className="card-surface p-5 rounded-2xl border border-white/10">
+            <div className="card-surface p-5 rounded-2xl border border-foreground/10">
               <h3 className="text-sm font-semibold mb-3">Other tools in {sub.name}</h3>
               <ul className="space-y-2">
                 {sub.tools.filter((t) => t.name !== tool.name).slice(0, 6).map((t) => (
@@ -150,7 +150,7 @@ function HowToPage() {
                     <Link
                       to="/howto/$category/$sub/$tool"
                       params={{ category: category.slug, sub: sub.slug, tool: toToolSlug(t.name) }}
-                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-white/[0.04] text-sm"
+                      className="flex items-center gap-3 p-2 rounded-lg hover:bg-foreground/[0.04] text-sm"
                     >
                       <CatalogLogo name={t.name} website={t.website} size={28} />
                       <span className="truncate flex-1">{t.name}</span>
@@ -161,7 +161,7 @@ function HowToPage() {
               </ul>
               <Link
                 to="/category/$slug/$sub" params={{ slug: category.slug, sub: sub.slug }}
-                className="mt-4 block text-xs text-primary hover:underline text-center"
+                className="mt-4 block text-xs text-primary-ink hover:underline text-center"
               >
                 See all {sub.tools.length} tools →
               </Link>

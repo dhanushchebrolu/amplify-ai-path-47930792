@@ -23,7 +23,7 @@ function SwipePage() {
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-6 pt-12 pb-24 w-full">
         <header className="text-center max-w-2xl mx-auto">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary">Learn New · Swipe</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Learn New · Swipe</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">Swipe your way</h1>
           <p className="text-muted-foreground mt-4">
             Swipe right on a card to open the full task — prompt, guide and reference output. Left to skip and keep exploring.

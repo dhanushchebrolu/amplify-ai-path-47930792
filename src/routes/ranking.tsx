@@ -49,7 +49,7 @@ function RankingPage() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 pt-12 pb-24 w-full">
         <header className="max-w-2xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary inline-flex items-center gap-2">
+          <span className="text-xs uppercase tracking-[0.2em] text-primary-ink inline-flex items-center gap-2">
             <Trophy className="w-3.5 h-3.5" /> Ranking
           </span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">The Top 100</h1>
@@ -62,7 +62,7 @@ function RankingPage() {
           {top3.map((t, i) => {
             const medals = ["bg-yellow-400/15 text-yellow-300 border-yellow-300/30", "bg-zinc-300/15 text-zinc-200 border-zinc-300/30", "bg-amber-700/15 text-amber-500 border-amber-500/30"];
             return (
-              <div key={t.name} className="relative card-surface rounded-2xl p-6 border border-white/10 overflow-hidden">
+              <div key={t.name} className="relative card-surface rounded-2xl p-6 border border-foreground/10 overflow-hidden">
                 <div className={`absolute top-4 right-4 text-xs font-bold w-9 h-9 rounded-full grid place-items-center border ${medals[i]}`}>#{i + 1}</div>
                 <CatalogLogo name={t.name} website={t.website} size={56} />
                 <h3 className="mt-4 text-xl font-semibold">{t.name}</h3>
@@ -75,9 +75,9 @@ function RankingPage() {
           })}
         </div>
 
-        <div className="mt-10 rounded-2xl border border-white/10 overflow-hidden">
+        <div className="mt-10 rounded-2xl border border-foreground/10 overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-white/[0.03] text-muted-foreground text-xs uppercase tracking-wider">
+            <thead className="bg-foreground/[0.03] text-muted-foreground text-xs uppercase tracking-wider">
               <tr>
                 <th className="text-left px-5 py-3 w-16">Rank</th>
                 <th className="text-left px-5 py-3">Tool</th>
@@ -88,7 +88,7 @@ function RankingPage() {
             </thead>
             <tbody>
               {rest.map((t, idx) => (
-                <tr key={t.name} className="border-t border-white/5 hover:bg-white/[0.02] transition-colors">
+                <tr key={t.name} className="border-t border-foreground/5 hover:bg-foreground/[0.02] transition-colors">
                   <td className="px-5 py-3 text-muted-foreground">#{idx + 4}</td>
                   <td className="px-5 py-3">
                     <div className="flex items-center gap-3">
@@ -103,7 +103,7 @@ function RankingPage() {
                     </span>
                   </td>
                   <td className="px-5 py-3 text-right">
-                    <a href={t.website} target="_blank" rel="noopener sponsored" className="text-xs px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
+                    <a href={t.website} target="_blank" rel="noopener sponsored" className="text-xs px-3 py-1.5 rounded-full border border-foreground/10 hover:border-foreground/25">
                       Visit ↗
                     </a>
                   </td>

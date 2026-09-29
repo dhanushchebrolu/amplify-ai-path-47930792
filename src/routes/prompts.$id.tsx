@@ -46,7 +46,7 @@ function PromptGuidePage() {
         <main className="mx-auto max-w-3xl px-6 py-24 text-center w-full">
           <h1 className="font-display text-4xl">Prompt not found</h1>
           <p className="text-muted-foreground mt-3">This prompt may have been removed.</p>
-          <Link to="/prompts" className="inline-flex items-center gap-2 mt-6 text-primary">
+          <Link to="/prompts" className="inline-flex items-center gap-2 mt-6 text-primary-ink">
             <ArrowLeft className="w-4 h-4" /> Back to prompts
           </Link>
         </main>
@@ -84,8 +84,8 @@ function PromptGuidePage() {
         <header className="mt-8 flex flex-wrap items-end justify-between gap-6">
           <div className="max-w-3xl">
             <div className="flex items-center gap-2 text-xs text-muted-foreground flex-wrap">
-              {prompt.category && <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10">{prompt.category}</span>}
-              {prompt.tool_name && <span className="px-2 py-0.5 rounded-full bg-white/[0.06] border border-white/10">{prompt.tool_name}</span>}
+              {prompt.category && <span className="px-2 py-0.5 rounded-full bg-foreground/[0.06] border border-foreground/10">{prompt.category}</span>}
+              {prompt.tool_name && <span className="px-2 py-0.5 rounded-full bg-foreground/[0.06] border border-foreground/10">{prompt.tool_name}</span>}
             </div>
             <h1 className="font-display text-5xl md:text-6xl mt-3 leading-tight">{prompt.title}</h1>
             <p className="text-lg text-muted-foreground mt-3 max-w-2xl">A full guide with the prompt, suggested tool, and a clean step-by-step workflow.</p>
@@ -104,22 +104,22 @@ function PromptGuidePage() {
 
         <div className="mt-10 grid lg:grid-cols-5 gap-8">
           <section className="lg:col-span-3 space-y-8">
-            <div className="card-surface p-6 rounded-2xl border border-white/10">
+            <div className="card-surface p-6 rounded-2xl border border-foreground/10">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary" /> Ready-to-paste prompt</h2>
-                <button onClick={copyPrompt} className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
+                <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Sparkles className="w-4 h-4 text-primary-ink" /> Ready-to-paste prompt</h2>
+                <button onClick={copyPrompt} className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/10 hover:border-foreground/25">
                   {copied ? <><Check className="w-3.5 h-3.5" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy</>}
                 </button>
               </div>
-              <pre className="text-sm whitespace-pre-wrap font-mono bg-black/30 rounded-xl p-5 border border-white/5 leading-relaxed">{prompt.body}</pre>
+              <pre className="text-sm whitespace-pre-wrap font-mono bg-muted rounded-xl p-5 border border-foreground/5 leading-relaxed">{prompt.body}</pre>
             </div>
 
-            <div className="card-surface p-6 rounded-2xl border border-white/10">
-              <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Zap className="w-4 h-4 text-primary" /> Step-by-step guide</h2>
+            <div className="card-surface p-6 rounded-2xl border border-foreground/10">
+              <h2 className="text-lg font-semibold inline-flex items-center gap-2"><Zap className="w-4 h-4 text-primary-ink" /> Step-by-step guide</h2>
               <ol className="mt-4 space-y-3">
                 {steps.map((step, index) => (
                   <li key={index} className="flex gap-3">
-                    <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary grid place-items-center text-sm font-semibold">{index + 1}</span>
+                    <span className="shrink-0 w-7 h-7 rounded-full bg-primary/15 text-primary-ink grid place-items-center text-sm font-semibold">{index + 1}</span>
                     <span className="text-sm text-foreground/90 leading-relaxed pt-0.5">{step}</span>
                   </li>
                 ))}
@@ -129,13 +129,13 @@ function PromptGuidePage() {
 
           <aside className="lg:col-span-2 space-y-6">
             {prompt.image_url && (
-              <figure className="rounded-2xl overflow-hidden border border-white/10 bg-card">
+              <figure className="rounded-2xl overflow-hidden border border-foreground/10 bg-card">
                 <img src={prompt.image_url} alt={prompt.title} className="w-full aspect-[3/2] object-cover" />
-                <figcaption className="text-xs text-muted-foreground p-4 border-t border-white/5">Reference image for this prompt.</figcaption>
+                <figcaption className="text-xs text-muted-foreground p-4 border-t border-foreground/5">Reference image for this prompt.</figcaption>
               </figure>
             )}
 
-            <div className="card-surface p-5 rounded-2xl border border-white/10">
+            <div className="card-surface p-5 rounded-2xl border border-foreground/10">
               <h3 className="text-sm font-semibold mb-3">Prompt details</h3>
               <div className="space-y-2 text-sm text-muted-foreground">
                 {prompt.category && <p><span className="text-foreground">Category:</span> {prompt.category}</p>}

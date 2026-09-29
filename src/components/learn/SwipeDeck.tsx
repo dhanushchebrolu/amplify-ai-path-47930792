@@ -10,7 +10,7 @@ export function SwipeDeck({ tasks, onPick }: { tasks: LearnTask[]; onPick: (t: L
   if (stack.length === 0) {
     return (
       <div className="text-center py-20">
-        <Sparkles className="w-10 h-10 mx-auto text-primary mb-4" />
+        <Sparkles className="w-10 h-10 mx-auto text-primary-ink mb-4" />
         <h3 className="text-xl font-semibold">You've seen them all!</h3>
         <button onClick={() => setStack(tasks)} className="mt-4 px-5 py-2 rounded-full bg-primary text-primary-foreground text-sm font-medium">
           Reshuffle
@@ -55,7 +55,7 @@ export function SwipeDeck({ tasks, onPick }: { tasks: LearnTask[]; onPick: (t: L
             onPointerDown={isTop ? pointerDown : undefined}
             onPointerMove={isTop ? pointerMove : undefined}
             onPointerUp={isTop ? pointerUp : undefined}
-            className="absolute inset-0 rounded-3xl overflow-hidden border border-white/10 bg-card shadow-2xl select-none touch-none"
+            className="absolute inset-0 rounded-3xl overflow-hidden border border-foreground/10 bg-card shadow-2xl select-none touch-none"
             style={{
               transform: isTop
                 ? `translate(${drag.x}px, ${drag.y}px) rotate(${rotate}deg)`
@@ -78,7 +78,7 @@ export function SwipeDeck({ tasks, onPick }: { tasks: LearnTask[]; onPick: (t: L
               </>
             )}
             <div className="absolute bottom-0 left-0 right-0 p-6">
-              <span className="inline-block text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-white/80 mb-3">
+              <span className="inline-block text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-foreground/10 text-white/80 mb-3">
                 {t.category} · {t.difficulty} · {t.minutes} min
               </span>
               <h3 className="text-2xl font-semibold leading-tight">{t.title}</h3>
@@ -90,13 +90,13 @@ export function SwipeDeck({ tasks, onPick }: { tasks: LearnTask[]; onPick: (t: L
       })}
 
       <div className="absolute -bottom-20 left-0 right-0 flex justify-center gap-6">
-        <button onClick={() => setStack((s) => s.slice(1))} className="w-14 h-14 rounded-full border border-white/10 bg-card grid place-items-center hover:border-rose-400 hover:text-rose-400 transition-colors">
+        <button onClick={() => setStack((s) => s.slice(1))} className="w-14 h-14 rounded-full border border-foreground/10 bg-card grid place-items-center hover:border-rose-400 hover:text-rose-400 transition-colors">
           <X className="w-5 h-5" />
         </button>
         <button onClick={() => { setStack((s) => s.slice(1)); onPick(top); }} className="w-14 h-14 rounded-full bg-primary text-primary-foreground grid place-items-center hover:scale-105 transition-transform">
           <Heart className="w-5 h-5 fill-current" />
         </button>
-        <button onClick={() => { setStack((s) => s.slice(1)); onPick(top); }} className="w-14 h-14 rounded-full border border-white/10 bg-card grid place-items-center hover:border-primary hover:text-primary transition-colors">
+        <button onClick={() => { setStack((s) => s.slice(1)); onPick(top); }} className="w-14 h-14 rounded-full border border-foreground/10 bg-card grid place-items-center hover:border-primary hover:text-primary-ink transition-colors">
           <ArrowRight className="w-5 h-5" />
         </button>
       </div>

@@ -54,7 +54,7 @@ function ResetPassword() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md card-surface rounded-2xl border border-white/10 p-8">
+      <div className="w-full max-w-md card-surface rounded-2xl border border-foreground/10 p-8">
         <h1 className="font-display text-3xl">Set new password</h1>
         <p className="text-sm text-muted-foreground mt-2">
           Choose a strong password (at least 8 characters).
@@ -78,14 +78,14 @@ function ResetPassword() {
                 required minLength={8} placeholder="new password"
                 autoComplete="new-password"
                 value={password} onChange={(e) => setPassword(e.target.value)}
-                className="w-full pl-3 pr-10 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25"
+                className="w-full pl-3 pr-10 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25"
               />
               <button
                 type="button"
                 onClick={() => setShowPassword((v) => !v)}
                 aria-label={showPassword ? "Hide password" : "Show password"}
                 tabIndex={-1}
-                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-white/5"
+                className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-foreground/5"
               >
                 {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
               </button>
@@ -95,7 +95,7 @@ function ResetPassword() {
               required minLength={8} placeholder="confirm new password"
               autoComplete="new-password"
               value={confirm} onChange={(e) => setConfirm(e.target.value)}
-              className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25"
+              className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25"
             />
             <button disabled={loading} type="submit"
               className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium hover:opacity-90 disabled:opacity-50">

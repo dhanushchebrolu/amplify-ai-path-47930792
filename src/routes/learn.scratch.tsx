@@ -27,7 +27,7 @@ function ScratchPage() {
       <SiteHeader />
       <main className="mx-auto max-w-4xl px-6 pt-12 pb-24 w-full">
         <header className="text-center max-w-2xl mx-auto">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary">Learn New · Scratch</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Learn New · Scratch</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">Scratch & reveal</h1>
           <p className="text-muted-foreground mt-4">
             Drag your cursor across the foil to uncover today's AI task. Each card pairs a tool with a guided prompt and a reference output.

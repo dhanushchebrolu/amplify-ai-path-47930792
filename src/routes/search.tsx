@@ -49,7 +49,7 @@ function SearchPage() {
       <main className="mx-auto max-w-7xl px-6 pt-10 pb-20 w-full">
         <h1 className="font-display text-4xl md:text-5xl">Search AI tools</h1>
 
-        <form onSubmit={submit} className="mt-6 mx-auto w-full max-w-2xl flex items-center gap-1 p-1.5 rounded-full bg-white/[0.04] border border-white/10 focus-within:border-white/25 transition-colors">
+        <form onSubmit={submit} className="mt-6 mx-auto w-full max-w-2xl flex items-center gap-1 p-1.5 rounded-full bg-foreground/[0.04] border border-foreground/10 focus-within:border-foreground/25 transition-colors">
           <Search className="w-4 h-4 text-muted-foreground ml-3 sm:ml-4 shrink-0" />
           <input
             value={q}

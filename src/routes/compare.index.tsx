@@ -91,7 +91,7 @@ function ComparePage() {
       <SiteHeader />
       <main className="flex-1">
         <section className="mx-auto max-w-5xl px-6 pt-16 pb-10 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs text-muted-foreground">
+          <div className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/[0.04] px-3 py-1 text-xs text-muted-foreground">
             <GitCompareArrows className="w-3.5 h-3.5" /> Compare up to 4 AI tools
           </div>
           <h1 className="font-display text-5xl md:text-6xl mt-5">Which AI tool is right for you?</h1>
@@ -107,11 +107,11 @@ function ComparePage() {
               const t = selected[i];
               if (t) {
                 return (
-                  <div key={t.id} className="relative rounded-2xl border border-white/10 bg-white/[0.04] p-4 flex flex-col items-center text-center">
+                  <div key={t.id} className="relative rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-4 flex flex-col items-center text-center">
                     <button
                       onClick={() => removeTool(t.id)}
                       aria-label={`Remove ${t.name}`}
-                      className="absolute top-2 right-2 rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-white/10"
+                      className="absolute top-2 right-2 rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-foreground/10"
                     >
                       <X className="w-3.5 h-3.5" />
                     </button>
@@ -119,7 +119,7 @@ function ComparePage() {
                       <button
                         onClick={() => swap(i - 1, i)}
                         aria-label={`Swap with tool ${i}`}
-                        className="absolute top-2 left-2 rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-white/10"
+                        className="absolute top-2 left-2 rounded-full p-1 text-muted-foreground hover:text-foreground hover:bg-foreground/10"
                         title="Swap position"
                       >
                         <ArrowLeftRight className="w-3.5 h-3.5" />
@@ -128,7 +128,7 @@ function ComparePage() {
                     {t.logo_url ? (
                       <img src={t.logo_url} alt="" className="w-10 h-10 rounded-lg object-cover" loading="lazy" />
                     ) : (
-                      <div className="w-10 h-10 rounded-lg bg-white/10 grid place-items-center text-sm font-semibold">
+                      <div className="w-10 h-10 rounded-lg bg-foreground/10 grid place-items-center text-sm font-semibold">
                         {t.name.charAt(0)}
                       </div>
                     )}
@@ -138,7 +138,7 @@ function ComparePage() {
                     )}
                     <button
                       onClick={() => setPickerSlot(i)}
-                      className="mt-3 text-[11px] text-primary hover:underline"
+                      className="mt-3 text-[11px] text-primary-ink hover:underline"
                     >
                       Replace
                     </button>
@@ -151,10 +151,10 @@ function ComparePage() {
                   key={i}
                   onClick={() => !disabled && setPickerSlot(i)}
                   disabled={disabled}
-                  className="rounded-2xl border border-dashed border-white/10 bg-white/[0.02] p-4 h-[140px] flex flex-col items-center justify-center text-xs text-muted-foreground hover:bg-white/[0.05] hover:border-white/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
+                  className="rounded-2xl border border-dashed border-foreground/10 bg-foreground/[0.02] p-4 h-[140px] flex flex-col items-center justify-center text-xs text-muted-foreground hover:bg-foreground/[0.05] hover:border-foreground/20 transition-colors disabled:opacity-40 disabled:cursor-not-allowed"
                   aria-label={`Add tool ${i + 1}`}
                 >
-                  <div className="w-10 h-10 rounded-full bg-white/[0.06] grid place-items-center mb-2">
+                  <div className="w-10 h-10 rounded-full bg-foreground/[0.06] grid place-items-center mb-2">
                     <Plus className="w-4 h-4" />
                   </div>
                   Add tool {i + 1}
@@ -178,9 +178,9 @@ function ComparePage() {
           </div>
 
           {error && !loading && (
-            <div className="mt-6 rounded-2xl border border-white/10 bg-white/[0.04] p-4 text-sm text-center">
+            <div className="mt-6 rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-4 text-sm text-center">
               Unable to load tools.{" "}
-              <button onClick={fetchAll} className="text-primary hover:underline ml-2">Retry</button>
+              <button onClick={fetchAll} className="text-primary-ink hover:underline ml-2">Retry</button>
             </div>
           )}
         </section>
@@ -193,7 +193,7 @@ function ComparePage() {
               { t: "Select 2–4", d: "Add tools to your comparison lineup." },
               { t: "Compare", d: "Get a full side-by-side breakdown with a shareable URL." },
             ].map((s) => (
-              <div key={s.t} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+              <div key={s.t} className="rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-5">
                 <div className="text-sm font-semibold">{s.t}</div>
                 <div className="text-sm text-muted-foreground mt-1">{s.d}</div>
               </div>

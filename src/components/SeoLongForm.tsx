@@ -62,9 +62,9 @@ export function SeoLongForm({ longForm, position }: Props) {
       {comparison && comparison.length > 0 && (
         <section>
           <h2 className="font-display text-2xl md:text-3xl mb-4">At-a-glance comparison</h2>
-          <div className="overflow-x-auto rounded-2xl border border-white/10">
+          <div className="overflow-x-auto rounded-2xl border border-foreground/10">
             <table className="w-full text-sm text-left">
-              <thead className="bg-white/[0.04] text-muted-foreground">
+              <thead className="bg-foreground/[0.04] text-muted-foreground">
                 <tr>
                   <th className="px-4 py-3 font-medium">Tool</th>
                   <th className="px-4 py-3 font-medium">Strengths</th>
@@ -75,7 +75,7 @@ export function SeoLongForm({ longForm, position }: Props) {
               </thead>
               <tbody>
                 {comparison.map((row, i) => (
-                  <tr key={i} className="border-t border-white/5">
+                  <tr key={i} className="border-t border-foreground/5">
                     <td className="px-4 py-3 font-medium text-foreground">{row.tool}</td>
                     <td className="px-4 py-3 text-muted-foreground">{row.strengths}</td>
                     <td className="px-4 py-3 text-muted-foreground">{row.weaknesses}</td>
@@ -96,11 +96,13 @@ export function SeoLongForm({ longForm, position }: Props) {
             {faqs.map((f, i) => (
               <details
                 key={i}
-                className="card-surface p-5 rounded-2xl border border-white/10 group"
+                className="card-surface p-5 rounded-2xl border border-foreground/10 group"
               >
                 <summary className="font-medium cursor-pointer list-none flex justify-between items-center">
                   <span>{f.q}</span>
-                  <span className="text-primary group-open:rotate-45 transition-transform">+</span>
+                  <span className="text-primary-ink group-open:rotate-45 transition-transform">
+                    +
+                  </span>
                 </summary>
                 <p className="mt-3 text-sm text-muted-foreground whitespace-pre-wrap">{f.a}</p>
               </details>
@@ -128,7 +130,7 @@ export function SeoLongForm({ longForm, position }: Props) {
               <li key={i}>
                 <a
                   href={r.href}
-                  className="text-xs px-3 py-1.5 rounded-full bg-white/[0.04] border border-white/10 text-muted-foreground hover:text-foreground hover:bg-white/[0.06]"
+                  className="text-xs px-3 py-1.5 rounded-full bg-foreground/[0.04] border border-foreground/10 text-muted-foreground hover:text-foreground hover:bg-foreground/[0.06]"
                 >
                   {r.label}
                 </a>

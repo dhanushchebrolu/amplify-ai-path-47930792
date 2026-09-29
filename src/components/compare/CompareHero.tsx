@@ -34,8 +34,7 @@ export function CompareHero({ tools, subtitle }: { tools: ResolvedTool[]; subtit
   }
 
   return (
-    <section className="relative overflow-hidden rounded-3xl border border-white/10 bg-gradient-to-b from-white/[0.07] to-white/[0.02] px-5 py-8 md:px-10 md:py-12">
-      <div className="pointer-events-none absolute inset-x-0 -top-24 h-48 bg-primary/10 blur-3xl" aria-hidden />
+    <section className="relative overflow-hidden rounded-3xl border border-foreground/10 bg-card px-5 py-8 md:px-10 md:py-12">
       <div className="relative flex flex-wrap items-center justify-center gap-4 md:gap-8">
         {tools.map((t, i) => (
           <div key={t.tool.id} className="flex items-center gap-4 md:gap-8">
@@ -50,10 +49,10 @@ export function CompareHero({ tools, subtitle }: { tools: ResolvedTool[]; subtit
                   width={64}
                   height={64}
                   loading={i < 2 ? "eager" : "lazy"}
-                  className="w-14 h-14 md:w-16 md:h-16 rounded-2xl object-cover bg-white/5"
+                  className="w-14 h-14 md:w-16 md:h-16 rounded-2xl object-cover bg-foreground/5"
                 />
               ) : (
-                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-white/10 grid place-items-center font-display text-xl">
+                <div className="w-14 h-14 md:w-16 md:h-16 rounded-2xl bg-foreground/10 grid place-items-center font-display text-xl">
                   {t.tool.name.charAt(0)}
                 </div>
               )}
@@ -106,7 +105,7 @@ export function CompareHero({ tools, subtitle }: { tools: ResolvedTool[]; subtit
             key={t.tool.id}
             to="/tool/$slug"
             params={{ slug: t.tool.slug }}
-            className="rounded-full border border-white/10 px-3 py-1 text-muted-foreground hover:text-foreground hover:bg-white/[0.06] transition"
+            className="rounded-full border border-foreground/10 px-3 py-1 text-muted-foreground hover:text-foreground hover:bg-foreground/[0.06] transition"
           >
             {t.tool.name} profile
           </Link>
@@ -121,7 +120,7 @@ function HeroBtn({ onClick, icon, label }: { onClick: () => void; icon: React.Re
     <button
       type="button"
       onClick={onClick}
-      className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3.5 py-2 text-sm hover:bg-white/[0.09] transition print:hidden"
+      className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.04] px-3.5 py-2 text-sm hover:bg-foreground/[0.09] transition print:hidden"
     >
       {icon} {label}
     </button>

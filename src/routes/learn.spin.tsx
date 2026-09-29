@@ -30,14 +30,14 @@ function SpinPage() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 pt-12 pb-24 w-full">
         <header className="text-center max-w-2xl mx-auto">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary">Learn New · Spin</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Learn New · Spin</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">Spin the AI globe</h1>
           <p className="text-muted-foreground mt-4">
             Drag the sphere. When it stops, you'll get a task — a single AI workflow you can try right now with a ready-to-paste prompt and a reference output.
           </p>
         </header>
 
-        <div className="mt-10 rounded-3xl border border-white/10 bg-card/60 overflow-hidden" style={{ height: 560 }}>
+        <div className="mt-10 rounded-3xl border border-foreground/10 bg-card/60 overflow-hidden" style={{ height: 560 }}>
           <InfiniteMenu
             items={items}
             scale={1}

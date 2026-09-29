@@ -138,13 +138,13 @@ function AdminsPage() {
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             disabled={!canManage}
-            className="flex-1 min-w-[220px] px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 disabled:opacity-50"
+            className="flex-1 min-w-[220px] px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 disabled:opacity-50"
           />
           <select
             value={role}
             onChange={(e) => setRole(e.target.value as AppRole)}
             disabled={!canManage}
-            className="px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none disabled:opacity-50"
+            className="px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none disabled:opacity-50"
           >
             {ROLES.map((r) => (
               <option key={r} value={r} className="bg-background">
@@ -172,13 +172,13 @@ function AdminsPage() {
               value={q}
               onChange={(e) => setQ(e.target.value)}
               placeholder="Search email…"
-              className="pl-8 pr-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none"
+              className="pl-8 pr-3 py-1.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none"
             />
           </div>
           <select
             value={roleFilter}
             onChange={(e) => setRoleFilter(e.target.value as AppRole | "all")}
-            className="px-3 py-1.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none"
+            className="px-3 py-1.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none"
           >
             <option value="all" className="bg-background">All roles</option>
             {ROLES.map((r) => (
@@ -189,9 +189,9 @@ function AdminsPage() {
           </select>
         </div>
 
-        <div className="rounded-2xl border border-white/10 overflow-hidden">
+        <div className="rounded-2xl border border-foreground/10 overflow-hidden">
           <table className="w-full text-sm">
-            <thead className="bg-white/[0.04] text-xs text-muted-foreground">
+            <thead className="bg-foreground/[0.04] text-xs text-muted-foreground">
               <tr>
                 <th className="text-left px-4 py-2">Email</th>
                 <th className="text-left px-4 py-2">Role</th>
@@ -209,10 +209,10 @@ function AdminsPage() {
                 <tr><td colSpan={6} className="px-4 py-4 text-muted-foreground">No matching admins.</td></tr>
               )}
               {rows.map((r) => (
-                <tr key={`${r.user_id}-${r.role}`} className="border-t border-white/5">
+                <tr key={`${r.user_id}-${r.role}`} className="border-t border-foreground/5">
                   <td className="px-4 py-2">{r.email}</td>
                   <td className="px-4 py-2">
-                    <span className="text-xs rounded-full border border-white/10 bg-white/[0.05] px-2 py-0.5">
+                    <span className="text-xs rounded-full border border-foreground/10 bg-foreground/[0.05] px-2 py-0.5">
                       {ROLE_LABELS[r.role as AppRole] ?? r.role}
                     </span>
                   </td>
@@ -263,7 +263,7 @@ function AdminsPage() {
 
       <section>
         <h2 className="font-display text-xl mb-3">Pending invitations</h2>
-        <div className="rounded-xl border border-white/10 divide-y divide-white/10">
+        <div className="rounded-xl border border-foreground/10 divide-y divide-foreground/10">
           {invitations.isLoading && <div className="p-4 text-sm text-muted-foreground">Loading…</div>}
           {(invitations.data ?? []).filter((i: any) => i.status === "pending").length === 0 &&
             !invitations.isLoading && (
@@ -287,12 +287,12 @@ function AdminsPage() {
 
       <section>
         <h2 className="font-display text-xl mb-3">Audit log</h2>
-        <div className="rounded-xl border border-white/10 divide-y divide-white/10 text-sm">
+        <div className="rounded-xl border border-foreground/10 divide-y divide-foreground/10 text-sm">
           {log.isLoading && <div className="p-4 text-muted-foreground">Loading…</div>}
           {(log.data ?? []).map((row: any) => (
             <div key={row.id} className="p-3 flex justify-between gap-4">
               <div>
-                <span className="text-xs px-2 py-0.5 rounded bg-white/10 mr-2">{row.action}</span>
+                <span className="text-xs px-2 py-0.5 rounded bg-foreground/10 mr-2">{row.action}</span>
                 <span className="text-muted-foreground">{row.actor_email ?? "system"}</span>
                 {row.target_email && <span className="text-muted-foreground"> → {row.target_email}</span>}
                 {row.metadata?.role && (

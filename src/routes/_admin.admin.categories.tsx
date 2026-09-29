@@ -58,41 +58,41 @@ function CategoriesAdmin() {
         </button>
       </div>
 
-      <div className="mt-6 border border-white/10 rounded-2xl overflow-hidden divide-y divide-white/10">
+      <div className="mt-6 border border-foreground/10 rounded-2xl overflow-hidden divide-y divide-foreground/10">
         {(cats.data ?? []).map((c: any) => {
           const childSubs = (subs.data ?? []).filter((s: any) => s.category_slug === c.slug);
           const isOpen = expanded === c.slug;
           return (
             <div key={c.id}>
               <div className="p-4 flex items-center gap-3">
-                <button onClick={() => setExpanded(isOpen ? null : c.slug)} className="p-1 hover:bg-white/5 rounded">
+                <button onClick={() => setExpanded(isOpen ? null : c.slug)} className="p-1 hover:bg-foreground/5 rounded">
                   <ChevronRight className={`w-4 h-4 transition-transform ${isOpen ? "rotate-90" : ""}`} />
                 </button>
                 <div className="flex-1 min-w-0">
                   <div className="font-medium">{c.name} <span className="text-xs text-muted-foreground ml-2">({c.slug})</span></div>
                   <div className="text-xs text-muted-foreground truncate">{childSubs.length} subcategories</div>
                 </div>
-                <button onClick={() => setEditing(c)} className="p-2 hover:bg-white/5 rounded-lg"><Pencil className="w-4 h-4" /></button>
+                <button onClick={() => setEditing(c)} className="p-2 hover:bg-foreground/5 rounded-lg"><Pencil className="w-4 h-4" /></button>
                 <button onClick={() => { if (confirm("Delete category?")) delCat.mutate(c.id); }} className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg"><Trash2 className="w-4 h-4" /></button>
               </div>
               {isOpen && (
-                <div className="bg-white/[0.02] px-4 pb-4">
+                <div className="bg-foreground/[0.02] px-4 pb-4">
                   <div className="flex justify-end mb-2">
                     <button onClick={() => setEditingSub({ category_slug: c.slug, slug: "", name: "", description: "", sort_order: 0 })}
-                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-white/10 text-xs hover:border-white/25">
+                      className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg border border-foreground/10 text-xs hover:border-foreground/25">
                       <Plus className="w-3.5 h-3.5" /> Add subcategory
                     </button>
                   </div>
                   {childSubs.length === 0 ? (
                     <div className="text-xs text-muted-foreground py-2">No subcategories yet.</div>
                   ) : (
-                    <ul className="divide-y divide-white/5">
+                    <ul className="divide-y divide-foreground/5">
                       {childSubs.map((s: any) => (
                         <li key={s.id} className="py-2 flex items-center gap-3">
                           <div className="flex-1 min-w-0">
                             <div className="text-sm">{s.name} <span className="text-xs text-muted-foreground ml-2">({s.slug})</span></div>
                           </div>
-                          <button onClick={() => setEditingSub(s)} className="p-1.5 hover:bg-white/5 rounded"><Pencil className="w-3.5 h-3.5" /></button>
+                          <button onClick={() => setEditingSub(s)} className="p-1.5 hover:bg-foreground/5 rounded"><Pencil className="w-3.5 h-3.5" /></button>
                           <button onClick={() => { if (confirm("Delete subcategory?")) delSub.mutate(s.id); }} className="p-1.5 hover:bg-red-500/10 text-red-400 rounded"><Trash2 className="w-3.5 h-3.5" /></button>
                         </li>
                       ))}
@@ -133,11 +133,11 @@ function CategoriesAdmin() {
 function SimpleDialog({ title, children, onClose, onSave, saving }: any) {
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-lg p-6 space-y-3" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-background border border-foreground/10 rounded-2xl w-full max-w-lg p-6 space-y-3" onClick={(e) => e.stopPropagation()}>
         <h2 className="font-display text-2xl">{title}</h2>
         {children}
         <div className="flex justify-end gap-2 pt-2">
-          <button onClick={onClose} className="px-4 py-2 rounded-lg border border-white/10 text-sm">Cancel</button>
+          <button onClick={onClose} className="px-4 py-2 rounded-lg border border-foreground/10 text-sm">Cancel</button>
           <button disabled={saving} onClick={onSave} className="px-4 py-2 rounded-lg bg-primary text-primary-foreground text-sm disabled:opacity-50">
             {saving ? "Saving…" : "Save"}
           </button>
@@ -153,10 +153,10 @@ function Field({ label, value, onChange, textarea, type }: { label: string; valu
       <label className="text-xs text-muted-foreground">{label}</label>
       {textarea ? (
         <textarea rows={3} value={value} onChange={(e) => onChange(e.target.value)}
-          className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm" />
+          className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm" />
       ) : (
         <input type={type ?? "text"} value={value} onChange={(e) => onChange(e.target.value)}
-          className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm" />
+          className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm" />
       )}
     </div>
   );

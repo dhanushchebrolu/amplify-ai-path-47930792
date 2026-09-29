@@ -49,7 +49,7 @@ function BugReportsAdmin() {
         <div className="flex gap-2 text-sm">
           {["all", "new", "in_progress", "resolved"].map((s) => (
             <button key={s} onClick={() => setFilter(s)}
-              className={`px-3 py-1.5 rounded-full border ${filter === s ? "bg-primary text-primary-foreground border-primary" : "border-white/10 text-muted-foreground hover:text-foreground"}`}>
+              className={`px-3 py-1.5 rounded-full border ${filter === s ? "bg-primary text-primary-foreground border-primary" : "border-foreground/10 text-muted-foreground hover:text-foreground"}`}>
               {s.replace("_", " ")}
             </button>
           ))}
@@ -60,7 +60,7 @@ function BugReportsAdmin() {
         {isLoading && <p className="text-muted-foreground">Loading…</p>}
         {!isLoading && (data ?? []).length === 0 && <p className="text-muted-foreground">No reports yet.</p>}
         {(data ?? []).map((r: any) => (
-          <div key={r.id} className="card-surface rounded-2xl border border-white/10 p-5">
+          <div key={r.id} className="card-surface rounded-2xl border border-foreground/10 p-5">
             <div className="flex items-start justify-between gap-4 flex-wrap">
               <div className="flex-1 min-w-0">
                 <div className="flex items-center gap-2 flex-wrap">
@@ -71,8 +71,8 @@ function BugReportsAdmin() {
                 <h3 className="mt-2 font-semibold">{r.title}</h3>
                 <p className="mt-2 text-sm whitespace-pre-wrap text-foreground/90">{r.description}</p>
                 <div className="mt-3 text-xs text-muted-foreground space-y-1">
-                  {r.reporter_email && <div>From: <a href={`mailto:${r.reporter_email}`} className="text-primary hover:underline">{r.reporter_email}</a></div>}
-                  {r.page_url && <div>Page: <a href={r.page_url} target="_blank" rel="noreferrer" className="text-primary hover:underline break-all">{r.page_url}</a></div>}
+                  {r.reporter_email && <div>From: <a href={`mailto:${r.reporter_email}`} className="text-primary-ink hover:underline">{r.reporter_email}</a></div>}
+                  {r.page_url && <div>Page: <a href={r.page_url} target="_blank" rel="noreferrer" className="text-primary-ink hover:underline break-all">{r.page_url}</a></div>}
                 </div>
               </div>
               <div className="flex flex-col gap-2 shrink-0">
@@ -95,14 +95,14 @@ function badgeClass(sev: string) {
     case "medium": return "bg-yellow-500/20 text-yellow-300";
     case "low": return "bg-blue-500/20 text-blue-300";
     case "contact": return "bg-purple-500/20 text-purple-300";
-    default: return "bg-white/10 text-foreground";
+    default: return "bg-foreground/10 text-foreground";
   }
 }
 function statusClass(s: string) {
   switch (s) {
-    case "new": return "bg-primary/20 text-primary";
+    case "new": return "bg-primary/20 text-primary-ink";
     case "in_progress": return "bg-yellow-500/20 text-yellow-300";
     case "resolved": return "bg-green-500/20 text-green-300";
-    default: return "bg-white/10 text-foreground";
+    default: return "bg-foreground/10 text-foreground";
   }
 }

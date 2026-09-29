@@ -58,14 +58,14 @@ export function CrudPage<T extends { id?: string }>({
         </button>
       </div>
 
-      <div className="mt-6 border border-white/10 rounded-2xl overflow-hidden">
+      <div className="mt-6 border border-foreground/10 rounded-2xl overflow-hidden">
         {isLoading ? <div className="p-6 text-muted-foreground text-sm">Loading…</div>
           : (data?.length ?? 0) === 0 ? <div className="p-6 text-muted-foreground text-sm">No entries yet. Click "New" to add one.</div>
-          : <ul className="divide-y divide-white/10">
+          : <ul className="divide-y divide-foreground/10">
               {data!.map((it: any) => (
                 <li key={it.id} className="p-4 flex items-center gap-4">
                   <div className="flex-1 min-w-0">{renderRow(it)}</div>
-                  <button onClick={() => setEditing(it)} className="p-2 hover:bg-white/5 rounded-lg" aria-label="Edit"><Pencil className="w-4 h-4" /></button>
+                  <button onClick={() => setEditing(it)} className="p-2 hover:bg-foreground/5 rounded-lg" aria-label="Edit"><Pencil className="w-4 h-4" /></button>
                   <button onClick={() => { if (confirm("Delete this entry?")) del.mutate(it.id); }} className="p-2 hover:bg-red-500/10 text-red-400 rounded-lg" aria-label="Delete"><Trash2 className="w-4 h-4" /></button>
                 </li>
               ))}
@@ -90,7 +90,7 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
 
   return (
     <div className="fixed inset-0 z-50 bg-black/70 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
+      <div className="bg-background border border-foreground/10 rounded-2xl w-full max-w-5xl max-h-[92vh] overflow-auto p-6" onClick={(e) => e.stopPropagation()}>
         <h2 className="font-display text-2xl mb-4">{form.id ? "Edit" : "Create"}</h2>
         <div className="space-y-3">
           {fields.map((f) => (
@@ -107,7 +107,7 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
                 </label>
               ) : f.type === "textarea" ? (
                 <textarea rows={4} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 font-mono" />
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 font-mono" />
               ) : f.type === "markdown" ? (
                 <MarkdownField value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} />
               ) : f.type === "html" ? (
@@ -124,29 +124,29 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
                 <CharCounterInput value={form[f.name] ?? ""} onChange={(v) => set(f.name, v)} recommendedMin={150} recommendedMax={160} multiline />
               ) : f.type === "select" ? (
                 <select value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm">
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm">
                   {f.options!.map((o) => <option key={o} value={o}>{o}</option>)}
                 </select>
               ) : f.type === "tags" ? (
                 <input value={(form[f.name] ?? []).join(", ")} onChange={(e) => set(f.name, e.target.value.split(",").map((s) => s.trim()).filter(Boolean))}
                   placeholder="comma, separated, tags"
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25" />
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25" />
               ) : f.type === "steps" ? (
                 <textarea rows={4} value={(form[f.name] ?? []).join("\n")} onChange={(e) => set(f.name, e.target.value.split("\n").map((s) => s.trim()).filter(Boolean))}
                   placeholder="one step per line"
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25" />
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25" />
               ) : f.type === "number" ? (
                 <input type="number" value={form[f.name] ?? 0} onChange={(e) => set(f.name, Number(e.target.value))}
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25" />
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25" />
               ) : (
                 <input type={f.type === "url" ? "url" : "text"} value={form[f.name] ?? ""} onChange={(e) => set(f.name, e.target.value)}
-                  className="mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25" />
+                  className="mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25" />
               )}
             </div>
           ))}
         </div>
         <div className="mt-6 flex justify-end gap-2">
-          <button onClick={onClose} className="px-4 py-2 rounded-lg border border-white/10 text-sm">Cancel</button>
+          <button onClick={onClose} className="px-4 py-2 rounded-lg border border-foreground/10 text-sm">Cancel</button>
           <button onClick={() => {
             const cleaned: any = {};
             const urlFields = new Set(fields.filter((f) => f.type === "url" || f.type === "image").map((f) => f.name));
@@ -172,14 +172,14 @@ function EditDialog({ values, fields, onClose, onSubmit, saving }: {
 function MarkdownField({ value, onChange }: { value: string; onChange: (v: string) => void }) {
   const [tab, setTab] = useState<"write" | "preview">("write");
   return (
-    <div className="mt-1 rounded-xl border border-white/10 overflow-hidden">
-      <div className="flex items-center gap-1 bg-white/[0.03] border-b border-white/10 px-2 py-1.5">
+    <div className="mt-1 rounded-xl border border-foreground/10 overflow-hidden">
+      <div className="flex items-center gap-1 bg-foreground/[0.03] border-b border-foreground/10 px-2 py-1.5">
         <button type="button" onClick={() => setTab("write")}
-          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "write" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "write" ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
           <PencilIcon className="w-3 h-3" /> Write
         </button>
         <button type="button" onClick={() => setTab("preview")}
-          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "preview" ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+          className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (tab === "preview" ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
           <Eye className="w-3 h-3" /> Preview
         </button>
         <span className="ml-auto text-[10px] text-muted-foreground pr-1">Markdown supported</span>

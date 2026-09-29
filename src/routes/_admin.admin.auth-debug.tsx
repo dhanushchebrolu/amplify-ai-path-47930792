@@ -191,7 +191,7 @@ function AuthDebug() {
         <Row k="Providers" v={diag ? JSON.stringify(diag.providers) : null} />
         <div className="mt-3">
           <div className="text-xs uppercase text-muted-foreground mb-1">user_roles rows</div>
-          <pre className="text-xs bg-white/[0.03] border border-white/10 rounded-lg p-3 overflow-auto">
+          <pre className="text-xs bg-foreground/[0.03] border border-foreground/10 rounded-lg p-3 overflow-auto">
 {JSON.stringify(diag?.roles ?? [], null, 2)}
           </pre>
         </div>
@@ -229,7 +229,7 @@ function AuthDebug() {
 
 function Section({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <section className="rounded-xl border border-white/10 p-4 bg-white/[0.02]">
+    <section className="rounded-xl border border-foreground/10 p-4 bg-foreground/[0.02]">
       <h2 className="font-display text-lg mb-3">{title}</h2>
       <div className="space-y-1">{children}</div>
     </section>

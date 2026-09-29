@@ -86,14 +86,14 @@ export function HtmlEditor({ value, onChange, onBulkImport }: Props) {
   if (!editor) return <div className="text-xs text-muted-foreground p-3">Loading editor…</div>;
 
   return (
-    <div className="mt-1 rounded-xl border border-white/10 overflow-hidden bg-white/[0.02]">
+    <div className="mt-1 rounded-xl border border-foreground/10 overflow-hidden bg-foreground/[0.02]">
       {/* Mode tabs */}
-      <div className="flex items-center gap-1 bg-white/[0.03] border-b border-white/10 px-2 py-1.5">
+      <div className="flex items-center gap-1 bg-foreground/[0.03] border-b border-foreground/10 px-2 py-1.5">
         <TabBtn active={mode === "visual"} onClick={() => { if (mode === "raw") syncFromRaw(); setMode("visual"); }} icon={<PencilLine className="w-3 h-3" />} label="Visual" />
         <TabBtn active={mode === "raw"} onClick={() => setMode("raw")} icon={<FileCode className="w-3 h-3" />} label="Raw HTML" />
         <TabBtn active={mode === "preview"} onClick={() => { if (mode === "raw") syncFromRaw(); setMode("preview"); }} icon={<Eye className="w-3 h-3" />} label="Preview" />
         <button type="button" onClick={() => setImportOpen(true)}
-          className="ml-1 px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 bg-primary/15 text-primary hover:bg-primary/25"
+          className="ml-1 px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 bg-primary/15 text-primary-ink hover:bg-primary/25"
           title="Paste HTML from ChatGPT / Claude / Gemini — auto-extracts title, slug, SEO, FAQs, etc.">
           <Wand2 className="w-3 h-3" /> Import HTML
         </button>
@@ -118,7 +118,7 @@ export function HtmlEditor({ value, onChange, onBulkImport }: Props) {
 
       {/* Toolbar — only in visual mode */}
       {mode === "visual" && (
-        <div className="flex flex-wrap items-center gap-0.5 border-b border-white/10 px-1.5 py-1 bg-white/[0.02]">
+        <div className="flex flex-wrap items-center gap-0.5 border-b border-foreground/10 px-1.5 py-1 bg-foreground/[0.02]">
           <TBtn onClick={() => editor.chain().focus().undo().run()} title="Undo"><Undo2 className="w-3.5 h-3.5" /></TBtn>
           <TBtn onClick={() => editor.chain().focus().redo().run()} title="Redo"><Redo2 className="w-3.5 h-3.5" /></TBtn>
           <Sep />
@@ -185,7 +185,7 @@ export function HtmlEditor({ value, onChange, onBulkImport }: Props) {
 function TabBtn({ active, onClick, icon, label }: { active: boolean; onClick: () => void; icon: React.ReactNode; label: string }) {
   return (
     <button type="button" onClick={onClick}
-      className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (active ? "bg-white/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
+      className={"px-2.5 py-1 rounded-md text-xs inline-flex items-center gap-1.5 " + (active ? "bg-foreground/10 text-foreground" : "text-muted-foreground hover:text-foreground")}>
       {icon} {label}
     </button>
   );
@@ -194,12 +194,12 @@ function TabBtn({ active, onClick, icon, label }: { active: boolean; onClick: ()
 function TBtn({ active, onClick, title, children }: { active?: boolean; onClick: () => void; title: string; children: React.ReactNode }) {
   return (
     <button type="button" onClick={onClick} title={title}
-      className={"p-1.5 rounded-md " + (active ? "bg-white/15 text-foreground" : "text-muted-foreground hover:bg-white/5 hover:text-foreground")}>
+      className={"p-1.5 rounded-md " + (active ? "bg-foreground/15 text-foreground" : "text-muted-foreground hover:bg-foreground/5 hover:text-foreground")}>
       {children}
     </button>
   );
 }
 
 function Sep() {
-  return <span className="mx-0.5 h-4 w-px bg-white/10" />;
+  return <span className="mx-0.5 h-4 w-px bg-foreground/10" />;
 }

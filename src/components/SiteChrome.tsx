@@ -32,7 +32,7 @@ export function SiteHeader() {
   );
 
   return (
-    <header className="sticky top-0 z-40 backdrop-blur-md bg-background/70 border-b border-border/60">
+    <header className="sticky top-0 z-40 bg-background/95 border-b border-border">
       <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group min-w-0">
           <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11 shrink-0" />
@@ -52,7 +52,7 @@ export function SiteHeader() {
               Learn New <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
             </button>
             {open && (
-              <div className="absolute right-0 mt-3 w-64 rounded-2xl border border-white/10 bg-background/95 backdrop-blur-xl shadow-2xl p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute right-0 mt-3 w-64 rounded-2xl border border-border bg-popover shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                 <DropdownItem to="/learn/spin" icon={<Compass className="w-4 h-4" />} title="Spin" desc="Drag the AI globe, land on a task." onClick={() => setOpen(false)} />
                 <DropdownItem to="/learn/scratch" icon={<ScratchIcon className="w-4 h-4" />} title="Scratch" desc="Reveal a hidden challenge." onClick={() => setOpen(false)} />
                 <DropdownItem to="/learn/swipe" icon={<Sparkles className="w-4 h-4" />} title="Swipe" desc="Tinder-style discovery." onClick={() => setOpen(false)} />
@@ -64,7 +64,7 @@ export function SiteHeader() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-white/[0.06] text-foreground"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-foreground/[0.06] text-foreground"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -74,7 +74,7 @@ export function SiteHeader() {
 
       {/* Mobile menu panel */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-xl">
+        <div className="md:hidden border-t border-border bg-background">
           <nav className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-3 text-sm text-muted-foreground">
             {navLinks}
             <div className="pt-2 border-t border-border/60">
@@ -97,9 +97,9 @@ function DropdownItem({ to, icon, title, desc, onClick }: { to: string; icon: Re
     <Link
       to={to}
       onClick={onClick}
-      className="flex items-start gap-3 p-3 rounded-xl hover:bg-white/[0.05] transition-colors group"
+      className="flex items-start gap-3 p-3 rounded-xl hover:bg-foreground/[0.05] transition-colors group"
     >
-      <span className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary grid place-items-center">{icon}</span>
+      <span className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary-ink grid place-items-center">{icon}</span>
       <span className="flex-1 min-w-0">
         <span className="block text-sm font-medium text-foreground">{title}</span>
         <span className="block text-xs text-muted-foreground mt-0.5">{desc}</span>
@@ -122,7 +122,7 @@ export function SiteFooter() {
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
             Every AI tool in one platform. Discover, compare, and learn the best AI tools for writing, video, image, audio, coding, marketing and more.
           </p>
-          <a href="mailto:aiblaze.io@gmail.com" className="mt-4 inline-flex items-center gap-2 text-sm text-foreground hover:text-primary">
+          <a href="mailto:aiblaze.io@gmail.com" className="mt-4 inline-flex items-center gap-2 text-sm text-foreground hover:text-primary-ink">
             <Mail className="w-4 h-4" /> aiblaze.io@gmail.com
           </a>
         </div>

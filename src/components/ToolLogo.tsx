@@ -63,7 +63,7 @@ export function ToolLogo({ tool, size = 40, className, rounded = "lg" }: ToolLog
   return (
     <div
       className={cn(
-        "flex items-center justify-center shrink-0 ring-1 ring-white/10 shadow-md overflow-hidden",
+        "flex items-center justify-center shrink-0 ring-1 ring-foreground/10 shadow-md overflow-hidden",
         radius,
         className,
       )}

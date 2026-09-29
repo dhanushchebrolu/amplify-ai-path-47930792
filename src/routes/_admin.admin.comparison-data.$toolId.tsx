@@ -226,7 +226,7 @@ function ComparisonEditor() {
         <div className="flex gap-2">
           <button
             onClick={() => generateFromInference(false)}
-            className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary px-3 py-1.5 text-xs hover:bg-primary/20"
+            className="inline-flex items-center gap-1.5 rounded-full border border-primary/40 bg-primary/10 text-primary-ink px-3 py-1.5 text-xs hover:bg-primary/20"
             title="Fill empty fields with editable draft suggestions — nothing is published"
           >
             <Sparkles className="w-3.5 h-3.5" /> Autofill from directory
@@ -235,14 +235,14 @@ function ComparisonEditor() {
             onClick={() => {
               if (confirm("Refill empty fields suggestions for empty fields? Filled fields are kept.")) generateFromInference(false);
             }}
-            className="inline-flex items-center gap-1.5 rounded-full border border-white/10 bg-white/[0.04] px-3 py-1.5 text-xs hover:bg-white/[0.08]"
+            className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 bg-foreground/[0.04] px-3 py-1.5 text-xs hover:bg-foreground/[0.08]"
           >
             Refill empty fields
           </button>
 
         </div>
       </div>
-      <div className="mb-6 rounded-2xl border border-white/10 bg-white/[0.03] p-4">
+      <div className="mb-6 rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-4">
         <h2 className="text-sm font-semibold mb-2">Editorial notes</h2>
         <p className="text-xs text-muted-foreground mb-3">
           Everything you save here is published immediately and overrides the auto-generated profile.
@@ -316,7 +316,7 @@ function ComparisonEditor() {
         <JsonArea value={form.media} onChange={(v) => setForm((f) => ({ ...f, media: v }))} />
       </Section>
 
-      <div className="sticky bottom-4 mt-8 flex items-center gap-3 justify-end bg-background/80 backdrop-blur border border-white/10 rounded-2xl p-3">
+      <div className="sticky bottom-4 mt-8 flex items-center gap-3 justify-end bg-background/80 backdrop-blur border border-foreground/10 rounded-2xl p-3">
         {msg && <span className="text-xs text-muted-foreground mr-auto">{msg}</span>}
         <button
           onClick={() => save()}
@@ -348,7 +348,7 @@ function Text({ label, value, onChange }: { label: string; value: string; onChan
       <input
         value={value}
         onChange={(e) => onChange(e.target.value)}
-        className="mt-1 w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-sm outline-none"
+        className="mt-1 w-full rounded-lg bg-foreground/[0.04] border border-foreground/10 px-3 py-2 text-sm outline-none"
       />
     </div>
   );
@@ -367,7 +367,7 @@ function TextArea({ value, onChange }: { value: string; onChange: (v: string) =>
       value={value}
       onChange={(e) => onChange(e.target.value)}
       rows={5}
-      className="w-full rounded-lg bg-white/[0.04] border border-white/10 px-3 py-2 text-sm outline-none font-mono"
+      className="w-full rounded-lg bg-foreground/[0.04] border border-foreground/10 px-3 py-2 text-sm outline-none font-mono"
     />
   );
 }
@@ -386,8 +386,8 @@ function JsonArea({ value, onChange }: { value: string; onChange: (v: string) =>
         value={value}
         onChange={(e) => onChange(e.target.value)}
         rows={6}
-        className={`w-full rounded-lg bg-white/[0.04] border px-3 py-2 text-xs outline-none font-mono ${
-          valid ? "border-white/10" : "border-rose-400/50"
+        className={`w-full rounded-lg bg-foreground/[0.04] border px-3 py-2 text-xs outline-none font-mono ${
+          valid ? "border-foreground/10" : "border-rose-400/50"
         }`}
       />
       {!valid && <div className="text-[10px] text-rose-400 mt-1">Invalid JSON</div>}

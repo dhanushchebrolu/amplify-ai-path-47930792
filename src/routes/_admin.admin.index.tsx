@@ -64,19 +64,19 @@ function AdminHome() {
       <div className="mt-8 grid grid-cols-2 lg:grid-cols-3 gap-4">
         {cards.map((c) => (
           <Link key={c.label} to={c.to}
-            className="card-surface rounded-2xl border border-white/10 p-5 hover:border-white/25 transition-colors group">
+            className="card-surface rounded-2xl border border-foreground/10 p-5 hover:border-foreground/25 transition-colors group">
             <div className="flex items-center justify-between">
-              <div className="p-2 rounded-lg bg-white/5 text-primary">{c.icon}</div>
+              <div className="p-2 rounded-lg bg-foreground/5 text-primary-ink">{c.icon}</div>
               <div className="font-display text-3xl">{c.count}</div>
             </div>
             <div className="mt-4 font-medium">{c.label}</div>
             <div className="text-xs text-muted-foreground mt-1">{c.hint}</div>
-            <div className="text-xs text-primary mt-3 opacity-60 group-hover:opacity-100">Manage →</div>
+            <div className="text-xs text-primary-ink mt-3 opacity-60 group-hover:opacity-100">Manage →</div>
           </Link>
         ))}
       </div>
 
-      <div className="mt-10 rounded-2xl border border-white/10 p-6 bg-white/[0.02]">
+      <div className="mt-10 rounded-2xl border border-foreground/10 p-6 bg-foreground/[0.02]">
         <h2 className="font-display text-xl">Tips</h2>
         <ul className="mt-3 text-sm text-muted-foreground space-y-2 list-disc list-inside">
           <li>Required fields show a red asterisk. If a save fails, the error toast says exactly what's wrong.</li>

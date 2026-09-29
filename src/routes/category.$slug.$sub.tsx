@@ -151,7 +151,7 @@ function SubPage() {
               {sub.tools.length} curated tools in {category.name}.
             </p>
 
-            <div className="mt-6 flex items-center gap-2 p-1.5 rounded-2xl bg-white/[0.04] border border-white/10 max-w-xl">
+            <div className="mt-6 flex items-center gap-2 p-1.5 rounded-2xl bg-foreground/[0.04] border border-foreground/10 max-w-xl">
               <Search className="w-4 h-4 text-muted-foreground ml-3" />
               <input
                 value={q}
@@ -223,8 +223,8 @@ function SubLink({
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active
-          ? "bg-white/[0.06] text-foreground border border-white/10"
-          : "text-muted-foreground hover:text-foreground hover:bg-white/[0.03]")
+          ? "bg-foreground/[0.06] text-foreground border border-foreground/10"
+          : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.03]")
       }
     >
       {children}

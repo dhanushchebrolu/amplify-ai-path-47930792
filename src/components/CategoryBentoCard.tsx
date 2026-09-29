@@ -32,13 +32,13 @@ export function CategoryBentoCard({ category }: { category: CatalogCategory }) {
       onMouseMove={handleMove}
       aria-label={`Browse AI ${category.short} tools`}
       style={{ display: "block", width: "100%" }}
-      className="bento-card group relative h-[360px] overflow-hidden rounded-2xl border border-white/10 transition-colors hover:border-white/25"
+      className="bento-card group relative h-[360px] overflow-hidden rounded-2xl border border-foreground/10 transition-colors hover:border-foreground/25"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="absolute top-5 left-6 right-6 flex items-center justify-between z-20">
         <span className="text-[13px] font-medium text-foreground/90">{category.short}</span>
-        <span className="text-[11px] text-muted-foreground bg-white/[0.04] border border-white/10 rounded-full px-2 py-0.5">
+        <span className="text-[11px] text-muted-foreground bg-foreground/[0.04] border border-foreground/10 rounded-full px-2 py-0.5">
           {total}+
         </span>
       </div>

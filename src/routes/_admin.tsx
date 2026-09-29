@@ -68,7 +68,7 @@ function AdminLayout() {
 
   return (
     <div className="min-h-screen flex">
-      <aside className="w-60 border-r border-white/10 p-4 flex flex-col">
+      <aside className="w-60 border-r border-foreground/10 p-4 flex flex-col">
         <Link to="/" className="font-display text-xl mb-6">AI Blaze admin</Link>
         {devMode && (
           <div className="mb-3 inline-flex items-center gap-1.5 self-start rounded-full border border-yellow-400/40 bg-yellow-400/10 px-2 py-0.5 text-[10px] font-medium text-yellow-300">
@@ -103,8 +103,8 @@ function AdminLayout() {
 function NavItem({ to, icon, label }: { to: string; icon: React.ReactNode; label: string }) {
   return (
     <Link to={to} activeOptions={{ exact: true }}
-      activeProps={{ className: "bg-white/10 text-foreground" }}
-      className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-white/5 hover:text-foreground">
+      activeProps={{ className: "bg-foreground/10 text-foreground" }}
+      className="flex items-center gap-2 px-3 py-2 rounded-lg text-muted-foreground hover:bg-foreground/5 hover:text-foreground">
       {icon} {label}
     </Link>
   );

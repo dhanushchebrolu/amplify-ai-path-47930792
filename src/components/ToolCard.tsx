@@ -18,7 +18,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
     <div
       ref={ref}
       onMouseMove={handleMove}
-      className="bento-card group relative card-surface p-5 flex flex-col gap-4 hover:border-white/20 transition-colors h-full overflow-hidden"
+      className="bento-card group relative card-surface p-5 flex flex-col gap-4 hover:border-foreground/20 transition-colors h-full overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -38,7 +38,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
               {tool.trending && (
                 <>
                   <span>·</span>
-                  <span className="inline-flex items-center gap-1 text-primary/90">
+                  <span className="inline-flex items-center gap-1 text-primary-ink/90">
                     <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
                     Trending
                   </span>
@@ -53,7 +53,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
         {tool.tags.slice(0, 2).map((t) => (
           <span
             key={t}
-            className="text-[11px] px-2 py-0.5 rounded-full bg-white/[0.04] border border-white/[0.06] text-muted-foreground"
+            className="text-[11px] px-2 py-0.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.06] text-muted-foreground"
           >
             {t}
           </span>
@@ -70,7 +70,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
           href={tool.website}
           target="_blank"
           rel="noopener sponsored"
-          className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 rounded-full px-3 py-1.5 transition-colors"
+          className="inline-flex items-center gap-1 text-xs font-medium bg-foreground/[0.06] hover:bg-foreground/[0.12] border border-foreground/10 rounded-full px-3 py-1.5 transition-colors"
         >
           Visit <ArrowUpRight className="w-3 h-3" />
         </a>

@@ -130,11 +130,11 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
 
   return (
     <div className="max-w-md mx-auto">
-      <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border border-white/10 bg-card shadow-2xl">
+      <div className="relative aspect-[3/4] rounded-3xl overflow-hidden border border-foreground/10 bg-card shadow-2xl">
         <img src={task.cover} alt="" className="absolute inset-0 w-full h-full object-cover" />
         <div className="absolute inset-0 bg-gradient-to-t from-background via-background/40 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 p-6">
-          <span className="inline-block text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-white/10 text-white/80 mb-2">
+          <span className="inline-block text-[10px] uppercase tracking-wider px-2 py-0.5 rounded-full bg-foreground/10 text-white/80 mb-2">
             {task.category} · {task.difficulty}
           </span>
           <h3 className="text-2xl font-semibold leading-tight">{task.title}</h3>
@@ -151,11 +151,11 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
           onPointerMove={scratch}
         />
       </div>
-      <div className="mt-4 h-1.5 rounded-full bg-white/5 overflow-hidden">
+      <div className="mt-4 h-1.5 rounded-full bg-foreground/5 overflow-hidden">
         <div className="h-full bg-primary transition-all" style={{ width: `${Math.min(100, progress * 200)}%` }} />
       </div>
       <div className="mt-6 flex gap-3 justify-center flex-wrap">
-        <button onClick={onNext} className="px-5 py-2.5 rounded-full border border-white/10 text-sm hover:border-white/25">
+        <button onClick={onNext} className="px-5 py-2.5 rounded-full border border-foreground/10 text-sm hover:border-foreground/25">
           New card
         </button>
         {!revealed && (
@@ -164,7 +164,7 @@ export function ScratchCard({ task, onReveal, onNext }: { task: LearnTask; onRev
               const c = canvasRef.current; if (c) c.getContext("2d")!.clearRect(0, 0, c.width, c.height);
               setRevealed(true);
             }}
-            className="px-5 py-2.5 rounded-full bg-white/10 hover:bg-white/20 text-sm font-medium"
+            className="px-5 py-2.5 rounded-full bg-foreground/10 hover:bg-foreground/20 text-sm font-medium"
           >
             Reveal now
           </button>

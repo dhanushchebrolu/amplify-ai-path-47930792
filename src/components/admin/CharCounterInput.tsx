@@ -14,7 +14,7 @@ export function CharCounterInput({ value, onChange, placeholder, recommendedMin,
       ? len >= recommendedMin && len <= recommendedMax
       : true;
 
-  const cls = "mt-1 w-full px-3 py-2 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25";
+  const cls = "mt-1 w-full px-3 py-2 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25";
   return (
     <div>
       {multiline ? (

@@ -39,7 +39,7 @@ export function ToolCardSkeleton() {
 
 export function CatalogToolCardSkeleton() {
   return (
-    <div className="rounded-2xl border border-white/10 p-5 flex flex-col gap-4 bg-[var(--surface)]">
+    <div className="rounded-2xl border border-foreground/10 p-5 flex flex-col gap-4 bg-[var(--surface)]">
       <div className="flex items-start gap-3">
         <Skeleton className="h-11 w-11 rounded-xl" />
         <div className="flex-1 space-y-2">
@@ -75,7 +75,7 @@ export function CategoryBentoSkeleton() {
 
 export function PromptCardSkeleton() {
   return (
-    <div className="card-surface rounded-2xl border border-white/10 p-5 flex flex-col gap-4">
+    <div className="card-surface rounded-2xl border border-foreground/10 p-5 flex flex-col gap-4">
       <div className="flex items-center justify-between gap-3">
         <div className="flex-1 space-y-2">
           <Skeleton className="h-5 w-3/4" />
@@ -93,7 +93,7 @@ export function PromptCardSkeleton() {
 
 export function BlogCardSkeleton() {
   return (
-    <div className="card-surface rounded-2xl border border-white/10 overflow-hidden">
+    <div className="card-surface rounded-2xl border border-foreground/10 overflow-hidden">
       <Skeleton className="w-full aspect-[16/9] rounded-none" />
       <div className="p-5 space-y-3">
         <Skeleton className="h-5 w-3/4" />
@@ -172,7 +172,7 @@ export function ToolPagePending() {
   return (
     <PageShell>
       <Skeleton className="h-3 w-40 mb-6" />
-      <div className="card-surface p-7 flex flex-col md:flex-row gap-6 md:items-center rounded-2xl border border-white/10">
+      <div className="card-surface p-7 flex flex-col md:flex-row gap-6 md:items-center rounded-2xl border border-foreground/10">
         <Skeleton className="h-20 w-20 rounded-2xl" />
         <div className="flex-1 space-y-3">
           <Skeleton className="h-10 w-2/3" />

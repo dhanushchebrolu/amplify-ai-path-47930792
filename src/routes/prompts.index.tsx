@@ -51,7 +51,7 @@ function PromptsPage() {
       <SiteHeader />
       <main className="mx-auto max-w-6xl px-6 pt-12 pb-24 w-full">
         <header className="max-w-2xl">
-          <span className="text-xs uppercase tracking-[0.2em] text-primary">Prompts</span>
+          <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Prompts</span>
           <h1 className="font-display text-5xl md:text-6xl mt-3">The prompt library</h1>
           <p className="text-muted-foreground mt-4">Battle-tested prompts paired with the right tool. Click Copy — then ship.</p>
           <p className="text-xs text-muted-foreground/70 mt-2">{(data ?? []).length} prompts in the library</p>
@@ -62,12 +62,12 @@ function PromptsPage() {
           <div className="relative md:w-80">
             <Search className="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
             <input value={q} onChange={(e) => setQ(e.target.value)} placeholder="Search prompts, tools…"
-              className="w-full pl-9 pr-3 py-2.5 rounded-full bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25" />
+              className="w-full pl-9 pr-3 py-2.5 rounded-full bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25" />
           </div>
           <div className="flex flex-wrap gap-2">
             {CATS.map((c) => (
               <button key={c} onClick={() => setCat(c)}
-                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${cat === c ? "bg-primary text-primary-foreground border-primary" : "border-white/10 text-muted-foreground hover:border-white/25 hover:text-foreground"}`}>
+                className={`text-xs px-3 py-1.5 rounded-full border transition-colors ${cat === c ? "bg-primary text-primary-foreground border-primary" : "border-foreground/10 text-muted-foreground hover:border-foreground/25 hover:text-foreground"}`}>
                 {c}
               </button>
             ))}
@@ -77,7 +77,7 @@ function PromptsPage() {
         <div className="mt-8 grid md:grid-cols-2 gap-5">
           {isPending && Array.from({ length: 6 }).map((_, i) => <PromptCardSkeleton key={`s-${i}`} />)}
           {!isPending && filtered.map((t: any) => (
-            <article key={t.id} className="card-surface fade-in-soft rounded-2xl border border-white/10 p-5 flex flex-col">
+            <article key={t.id} className="card-surface fade-in-soft rounded-2xl border border-foreground/10 p-5 flex flex-col">
               <div className="flex items-center justify-between gap-3">
                 <div>
                   <h3 className="font-semibold leading-tight">{t.title}</h3>
@@ -89,7 +89,7 @@ function PromptsPage() {
                 </div>
                 <div className="shrink-0 flex items-center gap-2">
                   <button onClick={() => copy(t.id, t.body)}
-                    className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-white/10 hover:border-white/25">
+                    className="text-xs inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full border border-foreground/10 hover:border-foreground/25">
                     {copiedId === t.id ? <><Check className="w-3.5 h-3.5" /> Copied</> : <><Copy className="w-3.5 h-3.5" /> Copy</>}
                   </button>
                   <Link
@@ -102,9 +102,9 @@ function PromptsPage() {
                 </div>
               </div>
               {t.image_url && (
-                <img src={t.image_url} alt="" className="mt-4 w-full rounded-xl border border-white/10 object-cover max-h-56" />
+                <img src={t.image_url} alt="" className="mt-4 w-full rounded-xl border border-foreground/10 object-cover max-h-56" />
               )}
-              <pre className="mt-4 text-xs whitespace-pre-wrap font-mono bg-black/30 rounded-xl p-4 border border-white/5 leading-relaxed line-clamp-6 flex-1">{t.body}</pre>
+              <pre className="mt-4 text-xs whitespace-pre-wrap font-mono bg-muted rounded-xl p-4 border border-foreground/5 leading-relaxed line-clamp-6 flex-1">{t.body}</pre>
               {t.tool_url && (
                 <div className="mt-4">
                   <a href={t.tool_url} target="_blank" rel="noopener sponsored" className="text-xs text-muted-foreground hover:text-foreground">

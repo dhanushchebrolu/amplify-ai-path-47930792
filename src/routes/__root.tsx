@@ -79,7 +79,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { title: "AI Blaze – Discover & Compare the Best AI Tools, Prompts & AI Blogs" },
       { name: "description", content: "Discover the world's leading AI tools, curated prompts, and expert AI blogs in one trusted platform. Compare features, explore the latest innovations, and stay ahead with AI Blaze." },
       { name: "author", content: "AI Blaze" },
-      { name: "theme-color", content: "#0a0a0a" },
+      { name: "theme-color", content: "#ffffff" },
       { property: "og:site_name", content: "AI Blaze" },
       { property: "og:type", content: "website" },
       { property: "og:locale", content: "en_US" },

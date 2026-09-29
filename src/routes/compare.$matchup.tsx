@@ -259,7 +259,7 @@ function CompareResult() {
                 </details>
               )}
               <div className="mt-4">
-                <Link to="/compare" className="text-primary underline text-sm">
+                <Link to="/compare" className="text-primary-ink underline text-sm">
                   Start over
                 </Link>
               </div>
@@ -269,7 +269,7 @@ function CompareResult() {
         {!isLoading && !error && items.length === 0 && (
           <div className="py-24 text-center">
             <div className="text-muted-foreground">No matching tools found.</div>
-            <Link to="/compare" className="mt-4 inline-block text-primary underline">
+            <Link to="/compare" className="mt-4 inline-block text-primary-ink underline">
               Pick different tools
             </Link>
           </div>
@@ -291,7 +291,7 @@ function CompareResult() {
                   <button
                     key={it.tool.id}
                     onClick={() => removeSlug(it.tool.slug)}
-                    className="inline-flex items-center gap-1.5 rounded-full border border-white/10 px-3 py-1 text-xs text-muted-foreground hover:text-foreground"
+                    className="inline-flex items-center gap-1.5 rounded-full border border-foreground/10 px-3 py-1 text-xs text-muted-foreground hover:text-foreground"
                   >
                     <X className="w-3 h-3" /> Remove {it.tool.name}
                   </button>
@@ -349,7 +349,7 @@ function CompareResult() {
             <div className="mt-8 text-center print:hidden">
               <Link
                 to="/compare"
-                className="inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-sm hover:bg-white/[0.08]"
+                className="inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/[0.04] px-4 py-2 text-sm hover:bg-foreground/[0.08]"
               >
                 <GitCompareArrows className="w-4 h-4" /> Start a new comparison
               </Link>

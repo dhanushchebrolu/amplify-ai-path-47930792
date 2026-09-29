@@ -186,8 +186,8 @@ function CatLink({
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active
-          ? "bg-white/[0.06] text-foreground border border-white/10"
-          : "text-muted-foreground hover:text-foreground hover:bg-white/[0.03]")
+          ? "bg-foreground/[0.06] text-foreground border border-foreground/10"
+          : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.03]")
       }
     >
       {children}

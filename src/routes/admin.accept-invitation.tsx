@@ -108,7 +108,7 @@ function AcceptInvitation() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4">
-      <div className="w-full max-w-md card-surface rounded-2xl border border-white/10 p-8">
+      <div className="w-full max-w-md card-surface rounded-2xl border border-foreground/10 p-8">
         <h1 className="font-display text-3xl">You're invited</h1>
         <p className="text-sm text-muted-foreground mt-2">
           Sign in or create an account with the email address that received this invitation to gain admin access.
@@ -118,13 +118,13 @@ function AcceptInvitation() {
           <input
             type="email" required placeholder="email" autoComplete="email"
             value={email} onChange={(e) => setEmail(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25"
+            className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25"
           />
           <input
             type="password" required minLength={8} placeholder="password (min 8 chars)"
             autoComplete={mode === "signin" ? "current-password" : "new-password"}
             value={password} onChange={(e) => setPassword(e.target.value)}
-            className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25"
+            className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25"
           />
           <button disabled={loading} type="submit"
             className="w-full py-2.5 rounded-lg bg-primary text-primary-foreground text-sm font-medium disabled:opacity-50">
@@ -133,11 +133,11 @@ function AcceptInvitation() {
         </form>
 
         <div className="my-4 flex items-center gap-3 text-xs text-muted-foreground">
-          <div className="h-px bg-white/10 flex-1" /> or <div className="h-px bg-white/10 flex-1" />
+          <div className="h-px bg-foreground/10 flex-1" /> or <div className="h-px bg-foreground/10 flex-1" />
         </div>
 
         <button onClick={onGoogle} disabled={loading}
-          className="w-full py-2.5 rounded-lg border border-white/15 text-sm hover:bg-white/5 disabled:opacity-50">
+          className="w-full py-2.5 rounded-lg border border-foreground/15 text-sm hover:bg-foreground/5 disabled:opacity-50">
           Continue with Google
         </button>
 

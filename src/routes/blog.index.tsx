@@ -42,13 +42,13 @@ function BlogIndex() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <main className="mx-auto max-w-5xl px-6 pt-12 pb-24 w-full">
-        <span className="text-xs uppercase tracking-[0.2em] text-primary">Blog</span>
+        <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Blog</span>
         <h1 className="font-display text-5xl md:text-6xl mt-3">Notes & tutorials</h1>
         <p className="text-muted-foreground mt-4 max-w-2xl">Fresh writing on AI tools, prompts, and what's working right now.</p>
 
         <div className="mt-10 flex items-center justify-between gap-4 flex-wrap">
           <p className="text-sm text-muted-foreground">{posts.length} published posts</p>
-          <div className="inline-flex items-center rounded-full border border-white/10 bg-white/[0.03] p-1">
+          <div className="inline-flex items-center rounded-full border border-foreground/10 bg-foreground/[0.03] p-1">
             <button
               type="button"
               onClick={() => setView("grid")}
@@ -73,7 +73,7 @@ function BlogIndex() {
                 key={p.id}
                 to="/blog/$slug"
                 params={{ slug: p.slug }}
-                className="card-surface rounded-2xl border border-white/10 overflow-hidden hover:border-white/25 transition-colors"
+                className="card-surface rounded-2xl border border-foreground/10 overflow-hidden hover:border-foreground/25 transition-colors"
               >
                 {p.cover_url && <img src={p.cover_url} alt={p.title} className="w-full aspect-[16/9] object-cover" />}
                 <div className="p-5">
@@ -86,12 +86,12 @@ function BlogIndex() {
             {posts.length === 0 && <p className="text-muted-foreground col-span-2">No posts yet — check back soon.</p>}
           </div>
         ) : (
-          <div className="mt-8 flex flex-col gap-12 divide-y divide-white/10">
+          <div className="mt-8 flex flex-col gap-12 divide-y divide-foreground/10">
             {posts.map((p: any) => (
               <article key={p.id} className="pt-12 first:pt-0">
                 <header>
                   <h2 className="font-display text-3xl md:text-4xl leading-tight">
-                    <Link to="/blog/$slug" params={{ slug: p.slug }} className="hover:text-primary transition-colors">
+                    <Link to="/blog/$slug" params={{ slug: p.slug }} className="hover:text-primary-ink transition-colors">
                       {p.title}
                     </Link>
                   </h2>
@@ -104,7 +104,7 @@ function BlogIndex() {
                     {p.body}
                   </div>
                 )}
-                <Link to="/blog/$slug" params={{ slug: p.slug }} className="inline-flex items-center gap-1 mt-6 text-sm text-primary hover:underline">
+                <Link to="/blog/$slug" params={{ slug: p.slug }} className="inline-flex items-center gap-1 mt-6 text-sm text-primary-ink hover:underline">
                   Open full post →
                 </Link>
               </article>

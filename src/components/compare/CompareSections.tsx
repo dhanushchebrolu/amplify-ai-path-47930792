@@ -7,14 +7,14 @@ export function SectionNav({ items }: { items: Array<{ id: string; label: string
   return (
     <nav
       aria-label="Comparison sections"
-      className="sticky top-[var(--compare-sticky,96px)] z-[6] -mx-4 md:-mx-6 px-4 md:px-6 py-2 bg-background/85 backdrop-blur border-b border-white/10 print:hidden"
+      className="sticky top-[var(--compare-sticky,96px)] z-[6] -mx-4 md:-mx-6 px-4 md:px-6 py-2 bg-background/85 backdrop-blur border-b border-foreground/10 print:hidden"
     >
       <div className="flex gap-1.5 overflow-x-auto no-scrollbar">
         {items.map((i) => (
           <a
             key={i.id}
             href={`#${i.id}`}
-            className="whitespace-nowrap rounded-full border border-white/10 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-white/[0.07] transition"
+            className="whitespace-nowrap rounded-full border border-foreground/10 px-3 py-1.5 text-xs text-muted-foreground hover:text-foreground hover:bg-foreground/[0.07] transition"
           >
             {i.label}
           </a>
@@ -31,11 +31,11 @@ export function QuickSummary({ picks }: { picks: Array<{ label: string; tool: st
       <h2 className="font-display text-2xl mb-3">Quick summary</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {picks.map((p) => (
-          <div key={p.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+          <div key={p.label} className="rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-4">
             <div className="text-[11px] uppercase tracking-wide text-muted-foreground">{p.label}</div>
             <div className="mt-1.5 font-display text-lg">
               {p.slug ? (
-                <Link to="/tool/$slug" params={{ slug: p.slug }} className="hover:text-primary transition">
+                <Link to="/tool/$slug" params={{ slug: p.slug }} className="hover:text-primary-ink transition">
                   {p.tool}
                 </Link>
               ) : (
@@ -82,8 +82,8 @@ export function KeyDifferences({ diffs }: { diffs: Array<{ group: string; label:
       <h2 className="font-display text-2xl mb-3">Key differences</h2>
       <ul className="grid md:grid-cols-2 gap-2.5">
         {diffs.map((d) => (
-          <li key={`${d.group}-${d.label}`} className="rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-sm">
-            <Sparkle className="inline w-3.5 h-3.5 text-primary mr-2 -mt-0.5" />
+          <li key={`${d.group}-${d.label}`} className="rounded-xl border border-foreground/10 bg-foreground/[0.03] px-4 py-3 text-sm">
+            <Sparkle className="inline w-3.5 h-3.5 text-primary-ink mr-2 -mt-0.5" />
             <span className="font-medium">{d.label}</span>
             <span className="text-muted-foreground"> — only </span>
             <span className="text-emerald-300">{d.winners.join(", ")}</span>
@@ -105,11 +105,11 @@ export function BestForGrid({
       <h2 className="font-display text-2xl mb-3">Best for</h2>
       <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
         {cards.map((c) => (
-          <div key={c.label} className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+          <div key={c.label} className="rounded-2xl border border-foreground/10 bg-foreground/[0.04] p-4">
             <div className="text-[11px] uppercase tracking-wide text-muted-foreground">Best for {c.label}</div>
             <div className="mt-1.5 font-display text-lg">
               {c.winner ? (
-                <Link to="/tool/$slug" params={{ slug: c.winner.slug }} className="hover:text-primary transition">
+                <Link to="/tool/$slug" params={{ slug: c.winner.slug }} className="hover:text-primary-ink transition">
                   {c.winner.name}
                 </Link>
               ) : (
@@ -131,7 +131,7 @@ export function ProsCons({ tools }: { tools: ResolvedTool[] }) {
       <h2 className="font-display text-2xl mb-3">Pros vs cons</h2>
       <div className={`grid gap-4 ${tools.length > 2 ? "md:grid-cols-3" : "md:grid-cols-2"}`}>
         {tools.map((t) => (
-          <div key={t.tool.id} className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+          <div key={t.tool.id} className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-5">
             <div className="font-display text-lg mb-3">{t.tool.name}</div>
             <div className="grid grid-cols-2 gap-4">
               <div>
@@ -193,7 +193,7 @@ export function Screenshots({ tools }: { tools: ResolvedTool[] }) {
                   src={src}
                   alt={`${s.tool.name} screenshot ${i + 1}`}
                   loading="lazy"
-                  className="h-44 rounded-xl border border-white/10 object-cover snap-start"
+                  className="h-44 rounded-xl border border-foreground/10 object-cover snap-start"
                 />
               ))}
             </div>
@@ -220,7 +220,7 @@ export function Videos({ tools }: { tools: ResolvedTool[] }) {
         {vids.map((v) => (
           <div key={v.tool.id}>
             <div className="text-sm font-medium mb-2">{v.tool.name}</div>
-            <div className="aspect-video rounded-xl overflow-hidden border border-white/10">
+            <div className="aspect-video rounded-xl overflow-hidden border border-foreground/10">
               <iframe
                 src={v.url}
                 title={`${v.tool.name} demo video`}
@@ -241,7 +241,7 @@ export function FaqList({ faqs }: { faqs: Faq[] }) {
   return (
     <section id="faq" className="scroll-mt-36">
       <h2 className="font-display text-2xl mb-3">Frequently asked questions</h2>
-      <div className="divide-y divide-white/10 rounded-2xl border border-white/10 bg-white/[0.03]">
+      <div className="divide-y divide-foreground/10 rounded-2xl border border-foreground/10 bg-foreground/[0.03]">
         {faqs.map((f, i) => (
           <details key={i} className="group px-5 py-4" open={i === 0}>
             <summary className="cursor-pointer list-none font-medium text-sm flex items-center justify-between gap-4">
@@ -316,7 +316,7 @@ export function RelatedRail({
                 key={c.matchup}
                 to="/compare/$matchup"
                 params={{ matchup: c.matchup }}
-                className="block text-sm hover:text-primary transition py-1"
+                className="block text-sm hover:text-primary-ink transition py-1"
               >
                 {c.headline ?? c.matchup.split("-vs-").join(" vs ")}
               </Link>
@@ -330,12 +330,12 @@ export function RelatedRail({
                 key={t.slug}
                 to="/tool/$slug"
                 params={{ slug: t.slug }}
-                className="flex items-center gap-2.5 py-1 text-sm hover:text-primary transition"
+                className="flex items-center gap-2.5 py-1 text-sm hover:text-primary-ink transition"
               >
                 {t.logo_url ? (
                   <img src={t.logo_url} alt="" loading="lazy" className="w-5 h-5 rounded" />
                 ) : (
-                  <span className="w-5 h-5 rounded bg-white/10" />
+                  <span className="w-5 h-5 rounded bg-foreground/10" />
                 )}
                 {t.name}
               </Link>
@@ -349,7 +349,7 @@ export function RelatedRail({
                 key={p.slug}
                 to="/blog/$slug"
                 params={{ slug: p.slug }}
-                className="block text-sm hover:text-primary transition py-1"
+                className="block text-sm hover:text-primary-ink transition py-1"
               >
                 {p.title}
               </Link>
@@ -363,7 +363,7 @@ export function RelatedRail({
                 key={p.id}
                 to="/prompts/$id"
                 params={{ id: p.id }}
-                className="block text-sm hover:text-primary transition py-1"
+                className="block text-sm hover:text-primary-ink transition py-1"
               >
                 {p.title}
               </Link>
@@ -377,9 +377,9 @@ export function RelatedRail({
 
 function Card({ title, children }: { title: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.03] p-5">
+    <div className="rounded-2xl border border-foreground/10 bg-foreground/[0.03] p-5">
       <div className="text-[11px] uppercase tracking-wide text-muted-foreground mb-2">{title}</div>
-      <div className="divide-y divide-white/5">{children}</div>
+      <div className="divide-y divide-foreground/5">{children}</div>
     </div>
   );
 }

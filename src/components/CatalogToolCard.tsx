@@ -30,7 +30,7 @@ export function CatalogToolCard({
     <div
       ref={ref}
       onMouseMove={handleMove}
-      className="bento-card group relative rounded-2xl border border-white/10 hover:border-white/25 transition-colors p-5 flex flex-col gap-4 overflow-hidden"
+      className="bento-card group relative rounded-2xl border border-foreground/10 hover:border-foreground/25 transition-colors p-5 flex flex-col gap-4 overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -47,7 +47,7 @@ export function CatalogToolCard({
           <Link
             to="/howto/$category/$sub/$tool"
             params={{ category: categorySlug, sub: subSlug, tool: toolSlug }}
-            className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.03] hover:bg-white/[0.08] border border-white/10 hover:border-white/25 rounded-full px-3 py-1.5 transition-colors text-muted-foreground hover:text-foreground"
+            className="inline-flex items-center gap-1 text-xs font-medium bg-foreground/[0.03] hover:bg-foreground/[0.08] border border-foreground/10 hover:border-foreground/25 rounded-full px-3 py-1.5 transition-colors text-muted-foreground hover:text-foreground"
             aria-label={`How to use ${tool.name}`}
           >
             <Info className="w-3.5 h-3.5" /> Full guide
@@ -58,7 +58,7 @@ export function CatalogToolCard({
             href={tool.website}
             target="_blank"
             rel="noopener noreferrer sponsored"
-            className="inline-flex items-center gap-1 text-xs font-medium bg-white/[0.06] hover:bg-white/[0.12] border border-white/10 rounded-full px-3 py-1.5 transition-colors"
+            className="inline-flex items-center gap-1 text-xs font-medium bg-foreground/[0.06] hover:bg-foreground/[0.12] border border-foreground/10 rounded-full px-3 py-1.5 transition-colors"
           >
             Visit <ArrowUpRight className="w-3 h-3" />
           </a>

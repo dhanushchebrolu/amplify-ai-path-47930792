@@ -89,10 +89,10 @@ export function ToolPickerModal({ open, onClose, onSelect, tools, loading, error
       onClick={onClose}
     >
       <div
-        className="relative w-full max-w-3xl mt-4 md:mt-12 rounded-2xl border border-white/10 bg-[#0b0b0e] shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
+        className="relative w-full max-w-3xl mt-4 md:mt-12 rounded-2xl border border-foreground/10 bg-background shadow-2xl overflow-hidden flex flex-col max-h-[85vh]"
         onClick={(e) => e.stopPropagation()}
       >
-        <div className="flex items-center gap-2 px-4 border-b border-white/10">
+        <div className="flex items-center gap-2 px-4 border-b border-foreground/10">
           <Search className="w-4 h-4 text-muted-foreground shrink-0" />
           <input
             ref={inputRef}
@@ -105,7 +105,7 @@ export function ToolPickerModal({ open, onClose, onSelect, tools, loading, error
           <button
             onClick={onClose}
             aria-label="Close"
-            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-white/10"
+            className="p-2 rounded-lg text-muted-foreground hover:text-foreground hover:bg-foreground/10"
           >
             <X className="w-4 h-4" />
           </button>
@@ -115,7 +115,7 @@ export function ToolPickerModal({ open, onClose, onSelect, tools, loading, error
           {loading ? (
             <div className="p-4 grid grid-cols-1 sm:grid-cols-2 gap-2">
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className="h-16 rounded-xl bg-white/[0.04] animate-pulse" />
+                <div key={i} className="h-16 rounded-xl bg-foreground/[0.04] animate-pulse" />
               ))}
             </div>
           ) : error ? (
@@ -137,7 +137,7 @@ export function ToolPickerModal({ open, onClose, onSelect, tools, loading, error
                 </p>
                 <button
                   onClick={() => setQ("")}
-                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] px-4 py-2 text-sm"
+                  className="mt-4 inline-flex items-center gap-2 rounded-full border border-foreground/10 bg-foreground/[0.04] hover:bg-foreground/[0.08] px-4 py-2 text-sm"
                 >
                   <Grid3x3 className="w-3.5 h-3.5" /> Browse all tools
                 </button>
@@ -159,7 +159,7 @@ export function ToolPickerModal({ open, onClose, onSelect, tools, loading, error
                       <button
                         key={c}
                         onClick={() => setQ(c)}
-                        className="text-xs px-3 py-1.5 rounded-full border border-white/10 bg-white/[0.04] hover:bg-white/[0.08] capitalize"
+                        className="text-xs px-3 py-1.5 rounded-full border border-foreground/10 bg-foreground/[0.04] hover:bg-foreground/[0.08] capitalize"
                       >
                         {c}
                       </button>
@@ -198,12 +198,12 @@ function ToolList({ tools, onSelect }: { tools: PickerTool[]; onSelect: (t: Pick
             role="option"
             aria-selected={false}
             onClick={() => onSelect(t)}
-            className="w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left hover:bg-white/[0.06] focus:bg-white/[0.08] focus:outline-none"
+            className="w-full flex items-start gap-3 px-3 py-2.5 rounded-xl text-left hover:bg-foreground/[0.06] focus:bg-foreground/[0.08] focus:outline-none"
           >
             {t.logo_url ? (
               <img src={t.logo_url} alt="" width={36} height={36} className="w-9 h-9 rounded-lg object-cover shrink-0" loading="lazy" />
             ) : (
-              <div className="w-9 h-9 rounded-lg bg-white/10 shrink-0 grid place-items-center text-xs font-semibold">
+              <div className="w-9 h-9 rounded-lg bg-foreground/10 shrink-0 grid place-items-center text-xs font-semibold">
                 {t.name.charAt(0)}
               </div>
             )}
@@ -211,7 +211,7 @@ function ToolList({ tools, onSelect }: { tools: PickerTool[]; onSelect: (t: Pick
               <div className="flex items-center gap-2">
                 <span className="text-sm font-medium truncate">{t.name}</span>
                 {t.featured && (
-                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary uppercase tracking-wider">Featured</span>
+                  <span className="text-[9px] px-1.5 py-0.5 rounded-full bg-primary/20 text-primary-ink uppercase tracking-wider">Featured</span>
                 )}
               </div>
               <div className="text-xs text-muted-foreground truncate">
@@ -219,7 +219,7 @@ function ToolList({ tools, onSelect }: { tools: PickerTool[]; onSelect: (t: Pick
               </div>
             </div>
             {t.pricing && (
-              <span className="text-[10px] px-2 py-0.5 rounded-full border border-white/10 text-muted-foreground shrink-0 mt-0.5">
+              <span className="text-[10px] px-2 py-0.5 rounded-full border border-foreground/10 text-muted-foreground shrink-0 mt-0.5">
                 {t.pricing}
               </span>
             )}

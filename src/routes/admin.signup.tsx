@@ -74,7 +74,7 @@ function AdminSignup() {
 
   return (
     <div className="min-h-screen flex items-center justify-center bg-background px-4 py-12">
-      <div className="w-full max-w-md card-surface rounded-2xl border border-white/10 p-8">
+      <div className="w-full max-w-md card-surface rounded-2xl border border-foreground/10 p-8">
         <h1 className="font-display text-3xl">Create account</h1>
         <p className="text-sm text-muted-foreground mt-2">
           Sign up to access AI Blaze. New accounts start with standard access.
@@ -82,7 +82,7 @@ function AdminSignup() {
 
         {done ? (
           <div className="mt-6 space-y-4">
-            <div className="flex items-start gap-3 p-4 rounded-lg bg-white/[0.04] border border-white/10">
+            <div className="flex items-start gap-3 p-4 rounded-lg bg-foreground/[0.04] border border-foreground/10">
               <CheckCircle2 className="w-5 h-5 text-green-400 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-muted-foreground">
                 We've sent a confirmation link to <span className="text-foreground">{email}</span>. Verify your email, then sign in.
@@ -102,13 +102,13 @@ function AdminSignup() {
                 type="text" required placeholder="Full name" autoComplete="name"
                 value={fullName} onChange={(e) => setFullName(e.target.value)}
                 disabled={loading}
-                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 disabled:opacity-50"
+                className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 disabled:opacity-50"
               />
               <input
                 type="email" required placeholder="Email" autoComplete="email"
                 value={email} onChange={(e) => setEmail(e.target.value)}
                 disabled={loading}
-                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 disabled:opacity-50"
+                className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 disabled:opacity-50"
               />
               <div className="relative">
                 <input
@@ -117,12 +117,12 @@ function AdminSignup() {
                   autoComplete="new-password"
                   value={password} onChange={(e) => setPassword(e.target.value)}
                   disabled={loading}
-                  className="w-full pl-3 pr-10 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 disabled:opacity-50"
+                  className="w-full pl-3 pr-10 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 disabled:opacity-50"
                 />
                 <button
                   type="button" onClick={() => setShowPassword((v) => !v)}
                   aria-label={showPassword ? "Hide password" : "Show password"} tabIndex={-1}
-                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-white/5"
+                  className="absolute right-2 top-1/2 -translate-y-1/2 p-1.5 text-muted-foreground hover:text-foreground rounded-md hover:bg-foreground/5"
                 >
                   {showPassword ? <EyeOff className="w-4 h-4" /> : <Eye className="w-4 h-4" />}
                 </button>
@@ -130,7 +130,7 @@ function AdminSignup() {
 
               {password && (
                 <div className="space-y-1">
-                  <div className="h-1 rounded-full bg-white/[0.06] overflow-hidden">
+                  <div className="h-1 rounded-full bg-foreground/[0.06] overflow-hidden">
                     <div
                       className={`h-full transition-all ${strength.color}`}
                       style={{ width: `${(strength.score / 4) * 100}%` }}
@@ -146,7 +146,7 @@ function AdminSignup() {
                 autoComplete="new-password"
                 value={confirm} onChange={(e) => setConfirm(e.target.value)}
                 disabled={loading}
-                className="w-full px-3 py-2.5 rounded-lg bg-white/[0.04] border border-white/10 text-sm outline-none focus:border-white/25 disabled:opacity-50"
+                className="w-full px-3 py-2.5 rounded-lg bg-foreground/[0.04] border border-foreground/10 text-sm outline-none focus:border-foreground/25 disabled:opacity-50"
               />
               {confirm && confirm !== password && (
                 <p className="text-xs text-red-400">Passwords don't match.</p>

@@ -58,11 +58,11 @@ function ContactPage() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
       <main className="mx-auto max-w-3xl px-6 pt-12 pb-24 w-full">
-        <span className="text-xs uppercase tracking-[0.2em] text-primary">Contact</span>
+        <span className="text-xs uppercase tracking-[0.2em] text-primary-ink">Contact</span>
         <h1 className="font-display text-5xl md:text-6xl mt-3">Get in touch</h1>
         <p className="text-muted-foreground mt-4 max-w-xl">Partnerships, press, feedback, or just saying hi — we read everything.</p>
 
-        <a href="mailto:aiblaze.io@gmail.com" className="mt-6 inline-flex items-center gap-2 text-foreground hover:text-primary">
+        <a href="mailto:aiblaze.io@gmail.com" className="mt-6 inline-flex items-center gap-2 text-foreground hover:text-primary-ink">
           <Mail className="w-4 h-4" /> aiblaze.io@gmail.com
         </a>
 

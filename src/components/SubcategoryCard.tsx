@@ -28,7 +28,7 @@ export function SubcategoryCard({
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: sub.slug }}
       onMouseMove={handleMove}
-      className="bento-card group relative block rounded-2xl border border-white/10 hover:border-white/25 transition-colors p-5 h-[180px] overflow-hidden"
+      className="bento-card group relative block rounded-2xl border border-foreground/10 hover:border-foreground/25 transition-colors p-5 h-[180px] overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 

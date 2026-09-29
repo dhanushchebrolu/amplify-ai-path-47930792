@@ -37,19 +37,19 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
 
   return (
     <div className="fixed inset-0 z-[60] bg-black/75 flex items-center justify-center p-4" onClick={onClose}>
-      <div className="bg-background border border-white/10 rounded-2xl w-full max-w-6xl max-h-[92vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
-        <div className="flex items-center gap-3 px-5 py-4 border-b border-white/10">
-          <Wand2 className="w-5 h-5 text-primary" />
+      <div className="bg-background border border-foreground/10 rounded-2xl w-full max-w-6xl max-h-[92vh] overflow-hidden flex flex-col" onClick={(e) => e.stopPropagation()}>
+        <div className="flex items-center gap-3 px-5 py-4 border-b border-foreground/10">
+          <Wand2 className="w-5 h-5 text-primary-ink" />
           <h2 className="font-display text-lg flex-1">Import HTML Blog</h2>
           <span className="text-[11px] text-muted-foreground hidden sm:inline">Paste from ChatGPT / Claude / Gemini and we auto-extract everything.</span>
-          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-white/5"><X className="w-4 h-4" /></button>
+          <button onClick={onClose} className="p-1.5 rounded-md hover:bg-foreground/5"><X className="w-4 h-4" /></button>
         </div>
 
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 flex-1 overflow-hidden">
           {/* Left: input */}
-          <div className="flex flex-col border-r border-white/10 min-h-0">
-            <div className="flex items-center gap-2 px-4 py-2 border-b border-white/10 bg-white/[0.02]">
-              <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-white/5 hover:bg-white/10 cursor-pointer">
+          <div className="flex flex-col border-r border-foreground/10 min-h-0">
+            <div className="flex items-center gap-2 px-4 py-2 border-b border-foreground/10 bg-foreground/[0.02]">
+              <label className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs bg-foreground/5 hover:bg-foreground/10 cursor-pointer">
                 <Upload className="w-3.5 h-3.5" />
                 Upload .html
                 <input type="file" accept=".html,.htm,text/html" hidden onChange={(e) => { const f = e.target.files?.[0]; if (f) void handleFile(f); }} />
@@ -69,7 +69,7 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
           </div>
 
           {/* Right: preview */}
-          <div className="overflow-auto bg-white/[0.02] min-h-0">
+          <div className="overflow-auto bg-foreground/[0.02] min-h-0">
             {!parsed ? (
               <div className="h-full flex items-center justify-center p-10 text-center text-sm text-muted-foreground">
                 <div>
@@ -86,7 +86,7 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
                   {parsed.cover_url && (
                     <div>
                       <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-1">Featured image</div>
-                      <img src={parsed.cover_url} alt={parsed.cover_alt || ""} className="rounded-lg max-h-32 border border-white/10" />
+                      <img src={parsed.cover_url} alt={parsed.cover_alt || ""} className="rounded-lg max-h-32 border border-foreground/10" />
                       <div className="text-[11px] text-muted-foreground mt-1">ALT: {parsed.cover_alt || "—"}</div>
                     </div>
                   )}
@@ -151,11 +151,11 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
           </div>
         </div>
 
-        <div className="border-t border-white/10 px-5 py-3 flex items-center gap-3">
+        <div className="border-t border-foreground/10 px-5 py-3 flex items-center gap-3">
           <span className="text-[11px] text-muted-foreground hidden sm:inline">
             Importing populates every field below. You can still edit before saving.
           </span>
-          <button onClick={onClose} className="ml-auto px-3.5 py-1.5 rounded-lg border border-white/10 text-sm">Cancel</button>
+          <button onClick={onClose} className="ml-auto px-3.5 py-1.5 rounded-lg border border-foreground/10 text-sm">Cancel</button>
           <button onClick={apply} disabled={!parsed} className="px-3.5 py-1.5 rounded-lg bg-primary text-primary-foreground text-sm inline-flex items-center gap-2 disabled:opacity-40">
             <CheckCircle2 className="w-4 h-4" /> Apply to form
           </button>
@@ -167,7 +167,7 @@ export function BlogImportDialog({ open, onClose, onApply }: Props) {
 
 function Section({ label, children }: { label: string; children: React.ReactNode }) {
   return (
-    <div className="rounded-xl border border-white/10 bg-white/[0.02] p-3">
+    <div className="rounded-xl border border-foreground/10 bg-foreground/[0.02] p-3">
       <div className="text-[10px] uppercase tracking-wide text-muted-foreground mb-2">{label}</div>
       <div className="space-y-1.5">{children}</div>
     </div>
@@ -194,7 +194,7 @@ function Stats({ stats }: { stats: { words: number; readingTime: number; paragra
   return (
     <div className="grid grid-cols-3 sm:grid-cols-4 gap-2">
       {cells.map(([k, v]) => (
-        <div key={k} className="rounded-lg bg-white/[0.03] border border-white/5 px-2.5 py-1.5">
+        <div key={k} className="rounded-lg bg-foreground/[0.03] border border-foreground/5 px-2.5 py-1.5">
           <div className="text-[10px] uppercase tracking-wide text-muted-foreground">{k}</div>
           <div className="text-sm font-medium">{v}</div>
         </div>
@@ -206,7 +206,7 @@ function Stats({ stats }: { stats: { words: number; readingTime: number; paragra
 function ScoreCell({ label, value }: { label: string; value: number }) {
   const color = value >= 80 ? "text-emerald-400" : value >= 60 ? "text-amber-400" : "text-red-400";
   return (
-    <div className="rounded-lg bg-white/[0.03] border border-white/5 px-2 py-2 text-center">
+    <div className="rounded-lg bg-foreground/[0.03] border border-foreground/5 px-2 py-2 text-center">
       <div className={"text-lg font-semibold " + color}>{value}</div>
       <div className="text-[9px] uppercase tracking-wide text-muted-foreground">{label}</div>
     </div>
