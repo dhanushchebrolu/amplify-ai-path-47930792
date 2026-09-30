@@ -3,6 +3,12 @@
   "name": "ai-blaze",
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
+  // Source entry for the Cloudflare Vite plugin, not a deployable bundle: it
+  // imports TanStack Start virtual modules (#tanstack-start-entry, …) that only
+  // `vite build` resolves. `vite build` writes dist/server/wrangler.json and the
+  // gitignored .wrangler/deploy/config.json redirect that `wrangler deploy`
+  // follows. Always deploy with `bun run deploy` (build, then deploy); a bare
+  // `wrangler deploy` in a fresh clone bundles this file and fails.
   "main": "src/server.ts",
   // Mirrors the existing remote Worker settings so `wrangler deploy` keeps
   // them instead of overriding them.
