@@ -9,8 +9,8 @@
   // src/config/env.server.ts (requireServerEnv). Without them the category
   // detail pages and /compare throw during SSR and return 500.
   "vars": {
-    "SUPABASE_URL": "https://kcjsfwnzlwcnucfkesgh.supabase.co",
-    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_2_nTOb1FIsyYbTr-Q8a6pA_WpnjAetq",
-    "SUPABASE_PROJECT_ID": "kcjsfwnzlwcnucfkesgh"
+    "SUPABASE_URL": "https://vcijromdouxsymmglrha.supabase.co",
+    "SUPABASE_PUBLISHABLE_KEY": "sb_publishable_xPn3UHFf5kOLcKM11wjvZA__5NO3gbo",
+    "SUPABASE_PROJECT_ID": "vcijromdouxsymmglrha"
   }
 }

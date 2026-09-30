@@ -105,7 +105,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
       { rel: "alternate", type: "application/rss+xml", href: "https://aiblaze.io/rss.xml" },
       { rel: "preconnect", href: "https://fonts.googleapis.com" },
       { rel: "preconnect", href: "https://fonts.gstatic.com", crossOrigin: "anonymous" },
-      { rel: "dns-prefetch", href: "https://kcjsfwnzlwcnucfkesgh.supabase.co" },
+      { rel: "dns-prefetch", href: "https://vcijromdouxsymmglrha.supabase.co" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Inter+Tight:wght@400;500;600;700;800&family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;1,9..144,400&display=swap",
