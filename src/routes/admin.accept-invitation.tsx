@@ -3,7 +3,6 @@ import { useServerFn } from "@tanstack/react-start";
 import { useEffect, useState } from "react";
 import { z } from "zod";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { acceptAdminInvitation } from "@/lib/admins.functions";
 import { toast } from "sonner";
 
@@ -97,11 +96,14 @@ function AcceptInvitation() {
 
   async function onGoogle() {
     setLoading(true);
-    // Use bare origin — Lovable's OAuth broker only allows the site origin
-    // as redirect_uri, so a deep path produces a 404 on the OAuth callback.
-    const res = await lovable.auth.signInWithOAuth("google", { redirect_uri: window.location.origin });
-    if (res.error) {
-      toast.error(res.error.message ?? "Google sign-in failed");
+    // Return to this page (token included) so the invitation is accepted once
+    // the session lands. The URL must be in the Supabase Auth redirect allow-list.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: window.location.href },
+    });
+    if (error) {
+      toast.error(error.message ?? "Google sign-in failed");
       setLoading(false);
     }
   }

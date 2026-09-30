@@ -1,7 +1,6 @@
 import { createFileRoute, useNavigate, Link } from "@tanstack/react-router";
 import { useEffect, useState } from "react";
 import { supabase } from "@/integrations/supabase/client";
-import { lovable } from "@/integrations/lovable";
 import { toast } from "sonner";
 import { Eye, EyeOff } from "lucide-react";
 import { devSignIn, getDevSession, isDevAuthEnabled, logDevAuthBanner } from "@/lib/dev-auth";
@@ -58,15 +57,16 @@ function AdminLogin() {
 
   async function onGoogle() {
     setLoading(true);
-    try {
-      sessionStorage.setItem("post_oauth_redirect", "/admin");
-    } catch {}
-    const res = await lovable.auth.signInWithOAuth("google", {
-      redirect_uri: window.location.origin,
+    // /admin/callback verifies admin access server-side (checkAdmin) and signs
+    // out non-admin accounts. This URL must be in the Supabase Auth redirect
+    // allow-list.
+    const { error } = await supabase.auth.signInWithOAuth({
+      provider: "google",
+      options: { redirectTo: `${window.location.origin}/admin/callback` },
     });
-    if (res.error) {
+    if (error) {
       const { friendlyAuthError } = await import("@/lib/auth-errors");
-      toast.error(friendlyAuthError(res.error, "oauth"));
+      toast.error(friendlyAuthError(error, "oauth"));
       setLoading(false);
     }
   }
