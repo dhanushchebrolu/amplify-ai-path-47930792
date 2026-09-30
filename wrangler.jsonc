@@ -4,9 +4,11 @@
   "compatibility_date": "2025-09-24",
   "compatibility_flags": ["nodejs_compat"],
   "main": "src/server.ts",
-  // Existing production Custom Domain. Declared here so `wrangler deploy`
-  // keeps it instead of reconciling it away.
-  "routes": [{ "pattern": "aiblaze.io", "custom_domain": true }],
+  // Mirrors the existing remote Worker settings so `wrangler deploy` keeps
+  // them instead of overriding them.
+  "routes": [{ "pattern": "aiblaze.io", "zone_name": "aiblaze.io" }],
+  "workers_dev": true,
+  "preview_urls": true,
   // Non-secret, publishable Supabase config. These MUST be present on the
   // Worker: every SSR loader/server function reads them via
   // src/config/env.server.ts (requireServerEnv). Without them the category
