@@ -6,7 +6,8 @@ import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
 import { BrowseCategoryChips } from "@/components/BrowseCategorySections";
 import { CategoryPanel } from "@/components/CategoryPanel";
 import { ToolCard } from "@/components/ToolCard";
-import { ArrowRight, Search, Sparkles } from "lucide-react";
+import { HeroClothesline } from "@/components/HeroClothesline";
+import { ArrowRight, Search } from "lucide-react";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -35,55 +36,51 @@ function Home() {
     navigate({ to: "/search", search: { q: q.trim() } });
   }
 
-  const subTotal = useMemo(() => catalog.reduce((a, c) => a + c.subs.length, 0), []);
-
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <section className="hero-glow overflow-hidden">
-        <HeroShapes />
-        <div className="relative mx-auto max-w-7xl px-4 sm:px-6 pt-14 sm:pt-24 pb-16 sm:pb-24 text-center">
-          <div className="inline-flex items-center gap-2 rounded-full border border-brand/15 bg-surface/80 backdrop-blur px-3 py-1.5 text-xs font-medium text-[#344054] shadow-[var(--shadow-card)] mb-7 sm:mb-9">
-            <span className="grid place-items-center w-5 h-5 rounded-full bg-highlight text-navy">
-              <Sparkles className="w-3 h-3" />
-            </span>
-            <span className="tabular-nums">{total}+ AI tools</span>
-            <span className="text-border">|</span>
-            <span className="tabular-nums">{catalog.length} categories</span>
+      <section className="px-2 sm:px-4 pt-3 sm:pt-4">
+        <div className="hero-panel mx-auto max-w-[1440px]">
+          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 pt-12 sm:pt-20 text-center">
+            <h1 className="font-condensed font-semibold text-[3rem] leading-[0.98] sm:text-7xl lg:text-[5.75rem] tracking-[-0.01em] text-navy text-balance">
+              Every AI Tool in <span className="text-gradient-brand">one Platform</span>
+            </h1>
+            <p className="mt-4 sm:mt-5 text-base sm:text-lg text-[#475467] max-w-md mx-auto text-balance">
+              Explore, compare, and find the perfect AI product for your needs, all in one place.
+            </p>
+
+            <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 max-w-xl mx-auto">
+              <form
+                onSubmit={submitSearch}
+                role="search"
+                className="flex-1 flex items-center gap-1 h-12 pl-3.5 pr-1.5 rounded-xl bg-surface border border-navy/15 shadow-[0_1px_2px_rgb(16_24_40/0.06),0_10px_24px_-14px_rgb(16_24_40/0.3)] transition-[border-color,box-shadow] duration-200 focus-within:border-brand focus-within:shadow-[0_0_0_4px_rgb(56_103_255/0.14),0_10px_24px_-14px_rgb(16_24_40/0.3)]"
+              >
+                <Search className="w-4 h-4 text-brand shrink-0" />
+                <input
+                  value={q}
+                  onChange={(e) => setQ(e.target.value)}
+                  placeholder={`Search ${total}+ AI tools...`}
+                  aria-label="Search AI tools"
+                  className="flex-1 min-w-0 bg-transparent outline-none px-2 text-[15px] text-navy placeholder:text-muted-foreground"
+                />
+                <button type="submit" className="btn-highlight shrink-0 h-9 px-3.5 text-sm">
+                  Search
+                </button>
+              </form>
+              <Link
+                to="/browse"
+                className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-navy text-white text-sm font-semibold shadow-[0_10px_24px_-12px_rgb(16_24_40/0.6)] hover:bg-brand-dark hover:-translate-y-0.5 transition-all"
+              >
+                Browse all tools
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
           </div>
-          <h1 className="font-display text-[2.6rem] leading-[1.06] sm:text-6xl md:text-7xl lg:text-[5.5rem] md:leading-[1.02] tracking-tight text-navy">
-            Every AI Tool in
-            <br />
-            <em className="text-gradient-brand pr-[0.08em]">one Platform</em>
-          </h1>
-          <p className="mt-6 sm:mt-7 text-base sm:text-lg text-muted-foreground max-w-xl mx-auto text-balance">
-            Find the perfect AI product for your needs, all in one place.
-          </p>
 
-          <form
-            onSubmit={submitSearch}
-            role="search"
-            className="mt-9 sm:mt-11 mx-auto w-full max-w-2xl flex items-center gap-2 p-2 rounded-xl bg-surface border border-navy/15 shadow-[0_1px_2px_rgb(16_24_40/0.06),0_18px_40px_-18px_rgb(16_24_40/0.35)] transition-[border-color,box-shadow] duration-200 focus-within:border-brand focus-within:shadow-[0_0_0_4px_rgb(56_103_255/0.14),0_0_0_7px_rgb(124_77_255/0.07),0_18px_40px_-18px_rgb(16_24_40/0.35)]"
-          >
-            <Search className="w-5 h-5 text-brand ml-2 sm:ml-3 shrink-0" />
-            <input
-              value={q}
-              onChange={(e) => setQ(e.target.value)}
-              placeholder="I'm looking for..."
-              aria-label="Search AI tools"
-              className="flex-1 min-w-0 bg-transparent outline-none px-1.5 sm:px-2 py-2.5 sm:py-3 text-[15px] sm:text-base text-navy placeholder:text-muted-foreground"
-            />
-            <button type="submit" className="btn-highlight shrink-0 px-4 sm:px-6 py-2.5 sm:py-3 text-sm">
-              Search
-            </button>
-          </form>
-
-          <dl className="mt-8 flex flex-wrap items-center justify-center gap-x-6 gap-y-2 text-sm text-muted-foreground">
-            <HeroStat value={`${total}+`} label="tools" />
-            <HeroStat value={String(catalog.length)} label="categories" />
-            <HeroStat value={String(subTotal)} label="sub-categories" />
-          </dl>
+          <div className="mt-4 sm:mt-5 pb-2 sm:pb-4">
+            <HeroClothesline tools={trending} />
+          </div>
         </div>
       </section>
 
@@ -135,38 +132,6 @@ function Home() {
       </section>
 
       <SiteFooter />
-    </div>
-  );
-}
-
-function HeroStat({ value, label }: { value: string; label: string }) {
-  return (
-    <div className="flex items-baseline gap-1.5">
-      <dt className="sr-only">{label}</dt>
-      <dd className="font-semibold text-navy tabular-nums">{value}</dd>
-      <span aria-hidden>{label}</span>
-    </div>
-  );
-}
-
-/** Faint floating geometry behind the hero. Decorative only. */
-function HeroShapes() {
-  return (
-    <div aria-hidden className="pointer-events-none absolute inset-0 -z-0 max-w-7xl mx-auto">
-      <svg className="hero-shape left-[6%] top-[18%] w-16 h-16 hidden sm:block text-brand/25" viewBox="0 0 64 64" fill="none" style={{ ["--r" as string]: "0deg" }}>
-        <circle cx="32" cy="32" r="30" stroke="currentColor" strokeWidth="1.5" />
-        <circle cx="32" cy="32" r="3" fill="currentColor" />
-      </svg>
-      <svg className="hero-shape right-[8%] top-[14%] w-14 h-14 hidden sm:block text-violet-accent/25" viewBox="0 0 56 56" fill="none" style={{ ["--r" as string]: "18deg", animationDelay: "-3s" }}>
-        <rect x="6" y="6" width="44" height="44" rx="10" stroke="currentColor" strokeWidth="1.5" />
-      </svg>
-      <svg className="hero-shape left-[14%] bottom-[16%] w-10 h-10 hidden md:block text-violet-accent/30" viewBox="0 0 40 40" fill="none" style={{ ["--r" as string]: "-12deg", animationDelay: "-5s" }}>
-        <path d="M20 4 36 34H4Z" stroke="currentColor" strokeWidth="1.5" strokeLinejoin="round" />
-      </svg>
-      <svg className="hero-shape right-[15%] bottom-[20%] w-8 h-8 hidden sm:block text-brand/30" viewBox="0 0 32 32" fill="none" style={{ animationDelay: "-2s" }}>
-        <path d="M16 4v24M4 16h24" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" />
-      </svg>
-      <span className="hero-shape right-[24%] top-[30%] hidden lg:block w-2.5 h-2.5 rounded-full bg-highlight" style={{ animationDelay: "-6s" }} />
     </div>
   );
 }
