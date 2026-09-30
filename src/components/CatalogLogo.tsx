@@ -31,7 +31,7 @@ export function CatalogLogo({ name, website, size = 44, rounded = "lg", classNam
 
   return (
     <div
-      className={cn("flex items-center justify-center shrink-0 ring-1 ring-foreground/10 shadow-md overflow-hidden", radius, className)}
+      className={cn("flex items-center justify-center shrink-0 ring-1 ring-navy/10 shadow-[0_1px_3px_rgb(16_24_40/0.12)] overflow-hidden", radius, className)}
       style={{ width: size, height: size, backgroundColor: bg }}
       aria-label={`${name} logo`}
     >

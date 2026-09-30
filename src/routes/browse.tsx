@@ -25,14 +25,20 @@ function Browse() {
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <main className="mx-auto max-w-7xl px-6 pt-12 pb-20 w-full">
-        <Link to="/" className="text-sm text-muted-foreground hover:text-foreground">← Back to home</Link>
-        <h1 className="font-display text-5xl md:text-6xl mt-3">Browse all AI tools</h1>
-        <p className="mt-3 text-muted-foreground max-w-2xl">
-          {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
-        </p>
-
-        <BrowseCategoryChips categories={catalog} />
+      <div className="hero-glow border-b border-border">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 pt-10 sm:pt-14 pb-10 sm:pb-12 w-full">
+          <Link to="/" className="text-sm font-medium text-muted-foreground hover:text-brand transition-colors">← Back to home</Link>
+          <span className="eyebrow mt-6 flex">The complete directory</span>
+          <h1 className="font-display text-[2.5rem] leading-[1.06] sm:text-5xl md:text-6xl mt-3 text-navy">
+            Browse all <em className="text-gradient-brand pr-[0.06em]">AI tools</em>
+          </h1>
+          <p className="mt-4 text-muted-foreground max-w-2xl">
+            {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
+          </p>
+          <BrowseCategoryChips categories={catalog} />
+        </div>
+      </div>
+      <main className="mx-auto max-w-7xl px-4 sm:px-6 pb-20 w-full">
         <BrowseCategorySections categories={catalog} />
       </main>
       <SiteFooter />

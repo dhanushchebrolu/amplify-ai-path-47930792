@@ -20,39 +20,42 @@ export function SiteHeader() {
     return () => document.removeEventListener("mousedown", onClick);
   }, []);
 
+  // `.nav-link` styles the active state from TanStack's data-status="active".
   const navLinks = (
     <>
-      <Link to="/" className="hover:text-foreground transition-colors" activeOptions={{ exact: true }} activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Home</Link>
-      <Link to="/browse" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Browse</Link>
-      <Link to="/compare" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Compare</Link>
-      <Link to="/prompts" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Prompts</Link>
-      <Link to="/blog" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Blog</Link>
-      <Link to="/ranking" className="hover:text-foreground transition-colors" activeProps={{ className: "text-foreground" }} onClick={() => setMobileOpen(false)}>Ranking</Link>
+      <Link to="/" className="nav-link" activeOptions={{ exact: true }} onClick={() => setMobileOpen(false)}>Home</Link>
+      <Link to="/browse" className="nav-link" onClick={() => setMobileOpen(false)}>Browse</Link>
+      <Link to="/compare" className="nav-link" onClick={() => setMobileOpen(false)}>Compare</Link>
+      <Link to="/prompts" className="nav-link" onClick={() => setMobileOpen(false)}>Prompts</Link>
+      <Link to="/blog" className="nav-link" onClick={() => setMobileOpen(false)}>Blog</Link>
+      <Link to="/ranking" className="nav-link" onClick={() => setMobileOpen(false)}>Ranking</Link>
     </>
   );
 
   return (
-    <header className="sticky top-0 z-40 bg-background/95 border-b border-border">
-      <div className="mx-auto max-w-7xl px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-border">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between">
         <Link to="/" className="flex items-center gap-2.5 group min-w-0">
-          <img src={LOGO_MARK} alt="" width={44} height={44} className="w-11 h-11 shrink-0" />
-          <span className="font-semibold tracking-tight text-xl whitespace-nowrap">AI Blaze</span>
+          <span className="shrink-0 rounded-[11px] p-[1.5px] bg-gradient-to-br from-brand via-violet-accent to-highlight shadow-[0_4px_12px_-4px_rgb(56_103_255/0.45)] transition-transform duration-200 group-hover:-rotate-3">
+            <img src={LOGO_MARK} alt="" width={36} height={36} className="block w-9 h-9 rounded-[9.5px]" />
+          </span>
+          <span className="font-semibold tracking-tight text-[1.2rem] text-navy whitespace-nowrap">AI Blaze</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-6 text-sm text-muted-foreground">
+        <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
           {navLinks}
           <div ref={ref} className="relative">
             <button
               onClick={() => setOpen((v) => !v)}
-              className="inline-flex items-center gap-1 hover:text-foreground transition-colors"
+              className={`nav-link inline-flex items-center gap-1 ${open ? "text-brand" : ""}`}
               aria-haspopup="menu"
               aria-expanded={open}
             >
               Learn New <ChevronDown className={`w-3.5 h-3.5 transition-transform ${open ? "rotate-180" : ""}`} />
             </button>
             {open && (
-              <div className="absolute right-0 mt-3 w-64 rounded-2xl border border-border bg-popover shadow-lg p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
+              <div className="absolute right-0 mt-4 w-72 rounded-xl border border-border bg-popover shadow-[var(--shadow-card-hover)] p-2 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                 <DropdownItem to="/learn/spin" icon={<Compass className="w-4 h-4" />} title="Spin" desc="Drag the AI globe, land on a task." onClick={() => setOpen(false)} />
                 <DropdownItem to="/learn/scratch" icon={<ScratchIcon className="w-4 h-4" />} title="Scratch" desc="Reveal a hidden challenge." onClick={() => setOpen(false)} />
                 <DropdownItem to="/learn/swipe" icon={<Sparkles className="w-4 h-4" />} title="Swipe" desc="Tinder-style discovery." onClick={() => setOpen(false)} />
@@ -64,7 +67,7 @@ export function SiteHeader() {
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen((v) => !v)}
-          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg hover:bg-foreground/[0.06] text-foreground"
+          className="md:hidden inline-flex items-center justify-center w-10 h-10 rounded-lg border border-border bg-surface text-navy hover:border-brand/40 hover:text-brand transition-colors"
           aria-label="Toggle menu"
           aria-expanded={mobileOpen}
         >
@@ -74,11 +77,11 @@ export function SiteHeader() {
 
       {/* Mobile menu panel */}
       {mobileOpen && (
-        <div className="md:hidden border-t border-border bg-background">
-          <nav className="mx-auto max-w-7xl px-6 py-4 flex flex-col gap-3 text-sm text-muted-foreground">
+        <div className="md:hidden border-t border-border bg-background shadow-[0_12px_24px_-16px_rgb(16_24_40/0.25)]">
+          <nav className="mobile-nav mx-auto max-w-7xl px-4 sm:px-6 py-3 flex flex-col text-[15px] font-medium">
             {navLinks}
-            <div className="pt-2 border-t border-border/60">
-              <p className="text-xs uppercase tracking-wide text-muted-foreground/70 mb-2">Learn New</p>
+            <div className="pt-3 mt-2 border-t border-border">
+              <p className="eyebrow mb-2">Learn New</p>
               <div className="flex flex-col gap-1">
                 <DropdownItem to="/learn/spin" icon={<Compass className="w-4 h-4" />} title="Spin" desc="Drag the AI globe, land on a task." onClick={() => setMobileOpen(false)} />
                 <DropdownItem to="/learn/scratch" icon={<ScratchIcon className="w-4 h-4" />} title="Scratch" desc="Reveal a hidden challenge." onClick={() => setMobileOpen(false)} />
@@ -97,11 +100,11 @@ function DropdownItem({ to, icon, title, desc, onClick }: { to: string; icon: Re
     <Link
       to={to}
       onClick={onClick}
-      className="flex items-start gap-3 p-3 rounded-xl hover:bg-foreground/[0.05] transition-colors group"
+      className="flex items-start gap-3 p-3 rounded-lg hover:bg-surface-blue transition-colors group"
     >
-      <span className="shrink-0 w-9 h-9 rounded-lg bg-primary/10 text-primary-ink grid place-items-center">{icon}</span>
+      <span className="shrink-0 w-9 h-9 rounded-lg bg-gradient-to-br from-surface-blue to-surface-violet ring-1 ring-brand/15 text-brand grid place-items-center group-hover:text-violet-accent transition-colors">{icon}</span>
       <span className="flex-1 min-w-0">
-        <span className="block text-sm font-medium text-foreground">{title}</span>
+        <span className="block text-sm font-semibold text-navy group-hover:text-brand-dark transition-colors">{title}</span>
         <span className="block text-xs text-muted-foreground mt-0.5">{desc}</span>
       </span>
     </Link>
@@ -112,17 +115,18 @@ export function SiteFooter() {
   const [bugOpen, setBugOpen] = useState(false);
   const year = new Date().getFullYear();
   return (
-    <footer className="border-t border-border/60 mt-24 bg-background/40">
-      <div className="mx-auto max-w-7xl px-6 py-14 grid gap-10 md:grid-cols-4">
+    <footer className="relative border-t border-border mt-24 bg-surface">
+      <div aria-hidden className="absolute inset-x-0 top-0 h-px bg-gradient-to-r from-transparent via-brand/40 to-transparent" />
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 py-14 grid gap-10 sm:grid-cols-2 md:grid-cols-4">
         <div>
-          <div className="flex items-center gap-2">
-            <img src={LOGO_MARK} alt="" width={40} height={40} className="w-10 h-10" />
-            <span className="font-semibold">AI Blaze</span>
+          <div className="flex items-center gap-2.5">
+            <img src={LOGO_MARK} alt="" width={36} height={36} className="w-9 h-9 rounded-[9px]" />
+            <span className="font-semibold text-navy">AI Blaze</span>
           </div>
           <p className="mt-3 text-sm text-muted-foreground max-w-xs">
             Every AI tool in one platform. Discover, compare, and learn the best AI tools for writing, video, image, audio, coding, marketing and more.
           </p>
-          <a href="mailto:aiblaze.io@gmail.com" className="mt-4 inline-flex items-center gap-2 text-sm text-foreground hover:text-primary-ink">
+          <a href="mailto:aiblaze.io@gmail.com" className="mt-4 inline-flex items-center gap-2 text-sm font-medium text-navy hover:text-brand transition-colors">
             <Mail className="w-4 h-4" /> aiblaze.io@gmail.com
           </a>
         </div>
@@ -146,23 +150,23 @@ export function SiteFooter() {
         ]} />
 
         <div>
-          <h4 className="text-sm font-semibold text-foreground">Company</h4>
+          <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-navy">Company</h4>
           <ul className="mt-4 space-y-2 text-sm">
-            <li><Link to="/about" className="text-muted-foreground hover:text-foreground">About</Link></li>
-            <li><Link to="/contact" className="text-muted-foreground hover:text-foreground">Contact</Link></li>
+            <li><Link to="/about" className="text-muted-foreground hover:text-brand transition-colors">About</Link></li>
+            <li><Link to="/contact" className="text-muted-foreground hover:text-brand transition-colors">Contact</Link></li>
             <li>
-              <button onClick={() => setBugOpen(true)} className="text-muted-foreground hover:text-foreground inline-flex items-center gap-1.5">
+              <button onClick={() => setBugOpen(true)} className="text-muted-foreground hover:text-brand transition-colors inline-flex items-center gap-1.5">
                 <Bug className="w-3.5 h-3.5" /> Report a bug
               </button>
             </li>
-            <li><a href="/sitemap.xml" className="text-muted-foreground hover:text-foreground">Sitemap</a></li>
+            <li><a href="/sitemap.xml" className="text-muted-foreground hover:text-brand transition-colors">Sitemap</a></li>
           </ul>
         </div>
       </div>
 
-      <div className="border-t border-border/60">
-        <div className="mx-auto max-w-7xl px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
-          <p>© {year} AI Blaze · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-foreground">aiblaze.io@gmail.com</a></p>
+      <div className="border-t border-border bg-background">
+        <div className="mx-auto max-w-7xl px-4 sm:px-6 py-5 flex flex-col md:flex-row gap-3 items-start md:items-center justify-between text-xs text-muted-foreground">
+          <p>© {year} AI Blaze · All rights reserved · <a href="mailto:aiblaze.io@gmail.com" className="hover:text-brand transition-colors">aiblaze.io@gmail.com</a></p>
           <p>Built for AI builders and learners worldwide.</p>
         </div>
       </div>
@@ -171,7 +175,7 @@ export function SiteFooter() {
       <button
         onClick={() => setBugOpen(true)}
         aria-label="Report a bug"
-        className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-full bg-primary text-primary-foreground px-4 py-2.5 text-sm font-medium shadow-lg hover:opacity-90 transition-opacity"
+        className="fixed bottom-5 right-5 z-50 inline-flex items-center gap-2 rounded-lg bg-navy text-white px-3.5 py-2.5 text-sm font-medium shadow-[0_8px_24px_-8px_rgb(16_24_40/0.5)] hover:bg-brand-dark hover:-translate-y-0.5 transition-all"
       >
         <Bug className="w-4 h-4" /> Report a bug
       </button>
@@ -184,10 +188,10 @@ export function SiteFooter() {
 function FooterCol({ title, links }: { title: string; links: { label: string; to: string }[] }) {
   return (
     <div>
-      <h4 className="text-sm font-semibold text-foreground">{title}</h4>
+      <h4 className="text-xs font-semibold uppercase tracking-[0.12em] text-navy">{title}</h4>
       <ul className="mt-4 space-y-2 text-sm">
         {links.map((l) => (
-          <li key={l.to}><Link to={l.to} className="text-muted-foreground hover:text-foreground">{l.label}</Link></li>
+          <li key={l.to}><Link to={l.to} className="text-muted-foreground hover:text-brand transition-colors">{l.label}</Link></li>
         ))}
       </ul>
     </div>

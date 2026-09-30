@@ -1,4 +1,6 @@
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
+import { categoryAccent } from "@/lib/category-accent";
+import { cn } from "@/lib/utils";
 import { useMemo, useState } from "react";
 import { getCatalogCategory, getCatalogSub, type CatalogCategory, type CatalogSub } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
@@ -127,17 +129,18 @@ function SubPage() {
 
   const otherSubs = category.subs.filter((s) => s.slug !== sub.slug);
   const headline = seo?.long_form?.h1 ?? sub.name;
+  const accent = categoryAccent(category.slug);
 
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
-      <main className="mx-auto max-w-7xl px-6 pt-10 pb-16 w-full">
+      <main className={cn("mx-auto max-w-7xl px-4 sm:px-6 pt-10 pb-16 w-full", accent.className)}>
         <nav className="text-sm text-muted-foreground flex items-center gap-2 flex-wrap">
-          <Link to="/browse" className="hover:text-foreground">Browse</Link>
-          <span>/</span>
-          <Link to="/category/$slug" params={{ slug: category.slug }} className="hover:text-foreground">{category.short}</Link>
-          <span>/</span>
-          <span className="text-foreground">{sub.name}</span>
+          <Link to="/browse" className="hover:text-cat transition-colors">Browse</Link>
+          <span className="text-border">/</span>
+          <Link to="/category/$slug" params={{ slug: category.slug }} className="hover:text-cat transition-colors">{category.short}</Link>
+          <span className="text-border">/</span>
+          <span className="font-medium text-navy">{sub.name}</span>
         </nav>
 
         <div className="mt-8 grid grid-cols-1 lg:grid-cols-[240px_1fr] gap-10 lg:gap-12">
@@ -146,13 +149,19 @@ function SubPage() {
 
 
           <section>
-            <h1 className="font-display text-4xl md:text-5xl">{headline}</h1>
+            <div className="flex items-center gap-2 text-sm font-semibold text-cat">
+              <span className="grid place-items-center w-8 h-8 rounded-lg bg-cat-soft">
+                <accent.icon className="w-4 h-4" strokeWidth={1.8} />
+              </span>
+              {category.short}
+            </div>
+            <h1 className="mt-4 font-display text-[2.1rem] leading-[1.08] sm:text-4xl md:text-5xl text-navy">{headline}</h1>
             <p className="mt-3 text-muted-foreground max-w-3xl">
-              {sub.tools.length} curated tools in {category.name}.
+              <span className="font-semibold text-navy tabular-nums">{sub.tools.length}</span> curated tools in {category.name}.
             </p>
 
-            <div className="mt-6 flex items-center gap-2 p-1.5 rounded-2xl bg-foreground/[0.04] border border-foreground/10 max-w-xl">
-              <Search className="w-4 h-4 text-muted-foreground ml-3" />
+            <div className="mt-6 flex items-center gap-2 p-1.5 rounded-xl bg-surface border border-navy/15 shadow-[var(--shadow-card)] max-w-xl transition-[border-color,box-shadow] focus-within:border-brand focus-within:shadow-[0_0_0_4px_rgb(56_103_255/0.12)]">
+              <Search className="w-4 h-4 text-brand ml-3" />
               <input
                 value={q}
                 onChange={(e) => setQ(e.target.value)}
@@ -165,7 +174,7 @@ function SubPage() {
               {filtered.length} of {sub.tools.length}
             </div>
 
-            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+            <div className="mt-5 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {filtered.map((t, i) => (
                 <CatalogToolCard key={`${t.name}-${i}`} tool={t} categorySlug={category.slug} subSlug={sub.slug} />
               ))}
@@ -196,11 +205,9 @@ function SubSidebar({ category, activeSubSlug }: { category: CatalogCategory; ac
   return (
     <aside
       ref={ref}
-      className="self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
+      className="self-start min-w-0 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
     >
-      <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">
-        {category.short}
-      </div>
+      <div className="eyebrow mb-3">{category.short}</div>
       <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
         {category.subs.map((s) => (
           <div key={s.slug} className="shrink-0">
@@ -223,8 +230,8 @@ function SubLink({
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active
-          ? "bg-foreground/[0.06] text-foreground border border-foreground/10"
-          : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.03]")
+          ? "block bg-surface text-navy font-semibold border border-border shadow-[var(--shadow-card)] border-l-[3px] border-l-[var(--cat)]"
+          : "block text-muted-foreground border border-transparent hover:text-navy hover:bg-surface")
       }
     >
       {children}

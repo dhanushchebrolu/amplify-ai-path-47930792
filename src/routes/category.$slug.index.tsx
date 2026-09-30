@@ -1,3 +1,5 @@
+import { categoryAccent } from "@/lib/category-accent";
+import { cn } from "@/lib/utils";
 import { createFileRoute, Link, notFound } from "@tanstack/react-router";
 import { catalog, getCatalogCategory, type CatalogCategory } from "@/data/catalog";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
@@ -109,13 +111,14 @@ function CategoryPage() {
   const others = catalog.filter((c) => c.slug !== category.slug);
   const total = category.subs.reduce((a, s) => a + s.tools.length, 0);
   const headline = seo?.long_form?.h1 ?? category.name;
+  const accent = categoryAccent(category.slug);
 
   return (
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <main className="mx-auto max-w-7xl px-6 pt-10 pb-16 w-full">
-        <Link to="/browse" className="text-sm text-muted-foreground hover:text-foreground inline-flex items-center gap-1">
+      <main className={cn("mx-auto max-w-7xl px-4 sm:px-6 pt-10 pb-16 w-full", accent.className)}>
+        <Link to="/browse" className="text-sm font-medium text-muted-foreground hover:text-cat transition-colors inline-flex items-center gap-1">
           ← All categories
         </Link>
 
@@ -125,12 +128,22 @@ function CategoryPage() {
 
 
           <section>
-            <h1 className="font-display text-5xl md:text-6xl">{headline}</h1>
-            <p className="mt-3 text-muted-foreground max-w-3xl">
-              {total}+ tools across {category.subs.length} sub-categories. Pick a sub-category to dive in.
-            </p>
+            <div className="relative overflow-hidden rounded-2xl border border-[color-mix(in_oklab,var(--cat)_16%,var(--border))] bg-gradient-to-br from-[var(--cat-tint)] via-surface to-surface p-6 sm:p-8 shadow-[var(--shadow-card)]">
+              <div aria-hidden className="absolute inset-x-0 top-0 h-[3px] bg-[var(--cat)] opacity-80" />
+              <span className="grid place-items-center w-12 h-12 rounded-xl bg-cat-soft text-cat ring-1 ring-[color-mix(in_oklab,var(--cat)_22%,transparent)]">
+                <accent.icon className="w-6 h-6" strokeWidth={1.7} />
+              </span>
+              <h1 className="mt-5 font-display text-[2.25rem] leading-[1.08] sm:text-5xl md:text-6xl text-navy">{headline}</h1>
+              <p className="mt-3 text-muted-foreground max-w-3xl">
+                {total}+ tools across {category.subs.length} sub-categories. Pick a sub-category to dive in.
+              </p>
+              <div className="mt-5 flex flex-wrap gap-2 text-sm">
+                <span className="inline-flex items-center gap-2 rounded-lg bg-surface border border-border px-3 py-1.5"><span className="cat-dot" /><span className="font-semibold text-navy tabular-nums">{total}+</span> tools</span>
+                <span className="inline-flex items-center gap-2 rounded-lg bg-surface border border-border px-3 py-1.5"><span className="cat-dot" /><span className="font-semibold text-navy tabular-nums">{category.subs.length}</span> sub-categories</span>
+              </div>
+            </div>
 
-            <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+            <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {category.subs.map((sub) => (
                 <SubcategoryCard key={sub.slug} catSlug={category.slug} sub={sub} />
               ))}
@@ -161,9 +174,9 @@ function CategorySidebar({ activeSlug }: { activeSlug: string }) {
   return (
     <aside
       ref={ref}
-      className="self-start min-w-0 -mx-6 px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
+      className="self-start min-w-0 -mx-4 px-4 sm:-mx-6 sm:px-6 lg:mx-0 lg:px-3 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:overflow-y-auto lg:overflow-x-hidden lg:py-6 scrollbar-thin"
     >
-      <div className="text-xs uppercase tracking-wider text-muted-foreground mb-3">Categories</div>
+      <div className="eyebrow mb-3">Categories</div>
       <nav className="flex lg:flex-col gap-2 overflow-x-auto lg:overflow-visible scrollbar-thin pb-2 lg:pb-0">
         {catalog.map((c) => (
           <div key={c.slug} className="shrink-0">
@@ -186,8 +199,8 @@ function CatLink({
       className={
         "text-sm px-3 py-2 rounded-lg whitespace-nowrap transition-colors " +
         (active
-          ? "bg-foreground/[0.06] text-foreground border border-foreground/10"
-          : "text-muted-foreground hover:text-foreground hover:bg-foreground/[0.03]")
+          ? "block bg-surface text-navy font-semibold border border-border shadow-[var(--shadow-card)] border-l-[3px] border-l-[var(--cat)]"
+          : "block text-muted-foreground border border-transparent hover:text-navy hover:bg-surface")
       }
     >
       {children}

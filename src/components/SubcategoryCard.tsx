@@ -4,6 +4,7 @@ import type { CatalogSub } from "@/data/catalog";
 import { CatalogLogo } from "@/components/CatalogLogo";
 import { ArrowRight } from "lucide-react";
 
+/** Sub-category card. Picks up --cat/--cat-tint from an enclosing .cat-* scope. */
 export function SubcategoryCard({
   catSlug,
   sub,
@@ -13,6 +14,7 @@ export function SubcategoryCard({
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const preview = sub.tools.slice(0, 4);
+  const extra = sub.tools.length - preview.length;
 
   function handleMove(e: React.MouseEvent<HTMLAnchorElement>) {
     const el = ref.current;
@@ -28,25 +30,34 @@ export function SubcategoryCard({
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: sub.slug }}
       onMouseMove={handleMove}
-      className="bento-card group relative block rounded-2xl border border-foreground/10 hover:border-foreground/25 transition-colors p-5 h-[180px] overflow-hidden"
+      className="bento-card cat-edge group relative block rounded-xl border border-border p-5 h-[168px] overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="relative flex flex-col h-full">
-        <h3 className="text-base font-medium text-foreground leading-snug line-clamp-2">
+        <h3 className="text-base font-semibold text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
           {sub.name}
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">{sub.tools.length} tools</p>
+        <p className="text-xs text-muted-foreground mt-1">
+          <span className="font-semibold text-navy tabular-nums">{sub.tools.length}</span> tools
+        </p>
 
         <div className="mt-auto flex items-end justify-between">
-          <div className="flex -space-x-2">
+          <div className="logo-stack flex items-center">
             {preview.map((t, i) => (
-              <div key={i} className="ring-2 ring-background rounded-full">
-                <CatalogLogo name={t.name} website={t.website} size={28} rounded="full" />
-              </div>
+              <span key={i} className="rounded-full ring-2 ring-white shadow-sm" style={{ zIndex: preview.length - i }}>
+                <CatalogLogo name={t.name} website={t.website} size={30} rounded="full" className="shadow-none ring-0" />
+              </span>
             ))}
+            {extra > 0 && (
+              <span className="relative z-10 grid place-items-center h-[30px] min-w-[34px] px-2 rounded-full ring-2 ring-white bg-cat-tint text-[10px] font-semibold text-cat tabular-nums">
+                +{extra}
+              </span>
+            )}
           </div>
-          <ArrowRight className="w-4 h-4 text-muted-foreground group-hover:text-foreground group-hover:translate-x-0.5 transition-all" />
+          <span className="grid place-items-center w-8 h-8 rounded-lg bg-cat-tint text-cat transition-transform duration-200 group-hover:translate-x-1">
+            <ArrowRight className="w-4 h-4" />
+          </span>
         </div>
       </div>
     </Link>

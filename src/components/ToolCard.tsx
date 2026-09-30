@@ -18,7 +18,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
     <div
       ref={ref}
       onMouseMove={handleMove}
-      className="bento-card group relative card-surface p-5 flex flex-col gap-4 hover:border-foreground/20 transition-colors h-full overflow-hidden"
+      className="bento-card group relative rounded-xl border border-border hover:border-brand/30 p-5 flex flex-col gap-4 h-full overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
@@ -29,7 +29,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
             <Link
               to="/tool/$slug"
               params={{ slug: tool.slug }}
-              className="font-semibold text-foreground hover:underline underline-offset-4 decoration-white/30"
+              className="font-semibold text-navy hover:text-brand-dark transition-colors"
             >
               {tool.name}
             </Link>
@@ -38,8 +38,8 @@ export function ToolCard({ tool }: { tool: Tool }) {
               {tool.trending && (
                 <>
                   <span>·</span>
-                  <span className="inline-flex items-center gap-1 text-primary-ink/90">
-                    <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse" />
+                  <span className="inline-flex items-center gap-1 font-medium text-[#8A6100]">
+                    <span className="w-1.5 h-1.5 rounded-full bg-highlight ring-2 ring-highlight/30 animate-pulse" />
                     Trending
                   </span>
                 </>
@@ -53,7 +53,7 @@ export function ToolCard({ tool }: { tool: Tool }) {
         {tool.tags.slice(0, 2).map((t) => (
           <span
             key={t}
-            className="text-[11px] px-2 py-0.5 rounded-full bg-foreground/[0.04] border border-foreground/[0.06] text-muted-foreground"
+            className="text-[11px] font-medium px-2 py-0.5 rounded-md bg-surface-blue border border-brand/10 text-brand-dark"
           >
             {t}
           </span>
@@ -65,12 +65,12 @@ export function ToolCard({ tool }: { tool: Tool }) {
       </p>
 
       <div className="relative mt-auto flex items-center justify-between pt-3 border-t border-border/60">
-        <span className="text-xs text-muted-foreground">{tool.priceFrom ?? tool.pricing}</span>
+        <span className="text-xs font-medium text-navy/80">{tool.priceFrom ?? tool.pricing}</span>
         <a
           href={tool.website}
           target="_blank"
           rel="noopener sponsored"
-          className="inline-flex items-center gap-1 text-xs font-medium bg-foreground/[0.06] hover:bg-foreground/[0.12] border border-foreground/10 rounded-full px-3 py-1.5 transition-colors"
+          className="inline-flex items-center gap-1 text-xs font-semibold text-navy bg-surface border border-navy/15 hover:border-brand hover:text-brand-dark rounded-lg px-3 py-1.5 transition-colors"
         >
           Visit <ArrowUpRight className="w-3 h-3" />
         </a>
