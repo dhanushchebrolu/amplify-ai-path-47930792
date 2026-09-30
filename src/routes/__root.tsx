@@ -173,22 +173,6 @@ function AuthSync() {
     // Development-only environment sanity check.
     import("@/lib/auth-health").then((m) => m.runAuthHealthCheck()).catch(() => {});
 
-    // On first mount, honor pending OAuth trampoline even if the session was
-    // already restored before we mounted (INITIAL_SESSION already fired).
-    try {
-      const target = sessionStorage.getItem("post_oauth_redirect");
-      if (target) {
-        supabase.auth.getSession().then(({ data }) => {
-          if (data.session) {
-            sessionStorage.removeItem("post_oauth_redirect");
-            if (window.location.pathname !== target) {
-              window.location.replace(target);
-            }
-          }
-        });
-      }
-    } catch {}
-
     const { data: { subscription } } = supabase.auth.onAuthStateChange((event, session) => {
       // Filter noisy events to avoid thrashing router/query cache.
       if (
@@ -208,22 +192,6 @@ function AuthSync() {
           window.location.replace("/admin/reset-password");
         }
         return;
-      }
-
-      // Post-OAuth trampoline: broker forces redirect_uri to the bare origin,
-      // so /admin/login stores the intended destination in sessionStorage and
-      // we forward once the SIGNED_IN event lands.
-      if (event === "SIGNED_IN" && session) {
-        try {
-          const target = sessionStorage.getItem("post_oauth_redirect");
-          if (target) {
-            sessionStorage.removeItem("post_oauth_redirect");
-            if (window.location.pathname !== target) {
-              window.location.replace(target);
-              return;
-            }
-          }
-        } catch {}
       }
 
       router.invalidate();

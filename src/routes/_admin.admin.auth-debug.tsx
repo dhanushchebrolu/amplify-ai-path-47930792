@@ -128,7 +128,6 @@ function AuthDebug() {
       diagnostics: diag ?? { error: diagError },
       routing: {
         currentPath: window.location.pathname,
-        postOAuthRedirect: sessionStorage.getItem("post_oauth_redirect"),
       },
       storage: { cookiePresent, storageHasSession },
       checks,
@@ -203,14 +202,13 @@ function AuthDebug() {
         <Row k="Supabase URL" v={supabaseUrl} />
         <Row k="Supabase project ID" v={projectId} />
         <Row k="localStorage session key" v={storageKey} />
-        <Row k="OAuth redirect_uri (used)" v={origin} />
+        <Row k="OAuth redirect (login)" v={`${origin}/admin/callback`} />
         <Row k="Password reset redirect" v={`${origin}/admin/reset-password`} />
         <Row k="Invitation redirect" v={`${origin}/admin/accept-invitation`} />
       </Section>
 
       <Section title="Routing">
         <Row k="Current path" v={typeof window !== "undefined" ? window.location.pathname : ""} />
-        <Row k="Post-OAuth redirect (pending)" v={typeof window !== "undefined" ? sessionStorage.getItem("post_oauth_redirect") : null} />
         <Row k="Recovery redirect (route)" v="/admin/reset-password" />
       </Section>
 
