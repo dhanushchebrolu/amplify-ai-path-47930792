@@ -6,7 +6,7 @@
   "main": "src/server.ts",
   // Mirrors the existing remote Worker settings so `wrangler deploy` keeps
   // them instead of overriding them.
-  "routes": [{ "pattern": "aiblaze.io", "zone_name": "aiblaze.io" }],
+  "routes": [{ "pattern": "aiblaze.io", "zone_name": "aiblaze.io", "custom_domain": true }],
   "workers_dev": true,
   "preview_urls": true,
   // Non-secret, publishable Supabase config. These MUST be present on the
