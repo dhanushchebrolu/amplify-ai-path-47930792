@@ -1,5 +1,5 @@
 import { Link } from "@tanstack/react-router";
-import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail, Menu, X } from "lucide-react";
+import { ChevronDown, Sparkles, Eraser, Compass, Bug, Mail, Menu, X, Search, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { BugReportDialog } from "@/components/BugReportDialog";
 
@@ -33,17 +33,17 @@ export function SiteHeader() {
   );
 
   return (
-    <header className="sticky top-0 z-40 bg-background/90 backdrop-blur-md border-b border-border">
-      <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 flex items-center justify-between">
+    <header className="sticky top-0 z-40 bg-white/85 backdrop-blur-md border-b border-border/70">
+      <div className="mx-auto max-w-7xl px-4 sm:px-6 h-16 md:h-[72px] flex items-center justify-between gap-4">
         <Link to="/" className="flex items-center gap-2.5 group min-w-0">
           <span className="shrink-0 rounded-[11px] p-[1.5px] bg-gradient-to-br from-brand via-violet-accent to-highlight shadow-[0_4px_12px_-4px_rgb(56_103_255/0.45)] transition-transform duration-200 group-hover:-rotate-3">
             <img src={LOGO_MARK} alt="" width={36} height={36} className="block w-9 h-9 rounded-[9.5px]" />
           </span>
-          <span className="font-semibold tracking-tight text-[1.2rem] text-navy whitespace-nowrap">AI Blaze</span>
+          <span className="font-bold tracking-[-0.03em] text-[1.35rem] text-navy whitespace-nowrap">AI Blaze</span>
         </Link>
 
         {/* Desktop nav */}
-        <nav className="hidden md:flex items-center gap-7 text-sm font-medium">
+        <nav className="hidden md:flex flex-1 items-center justify-center gap-6 lg:gap-8 text-[15px] font-medium">
           {navLinks}
           <div ref={ref} className="relative">
             <button
@@ -64,6 +64,23 @@ export function SiteHeader() {
           </div>
         </nav>
 
+        <div className="flex items-center gap-2 sm:gap-3 shrink-0">
+          <Link
+            to="/search"
+            search={{ q: "" }}
+            aria-label="Search AI tools"
+            className="grid place-items-center w-10 h-10 md:w-11 md:h-11 rounded-full bg-white text-navy ring-1 ring-navy/10 shadow-[0_4px_12px_-6px_rgb(16_24_40/0.3)] hover:text-brand hover:ring-brand/30 transition-colors"
+          >
+            <Search className="w-[18px] h-[18px]" />
+          </Link>
+          <Link
+            to="/admin/login"
+            className="hidden sm:inline-flex items-center gap-2 h-10 md:h-11 px-4 md:px-5 rounded-xl text-white text-[15px] font-semibold bg-gradient-to-r from-[#3867FF] to-[#5B5BFF] shadow-[0_10px_22px_-10px_rgb(56_103_255/0.8)] hover:-translate-y-0.5 hover:brightness-105 transition-all"
+          >
+            <UserRound className="w-[18px] h-[18px]" />
+            Sign In
+          </Link>
+
         {/* Mobile hamburger */}
         <button
           onClick={() => setMobileOpen((v) => !v)}
@@ -73,6 +90,7 @@ export function SiteHeader() {
         >
           {mobileOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
         </button>
+        </div>
       </div>
 
       {/* Mobile menu panel */}
@@ -80,6 +98,7 @@ export function SiteHeader() {
         <div className="md:hidden border-t border-border bg-background shadow-[0_12px_24px_-16px_rgb(16_24_40/0.25)]">
           <nav className="mobile-nav mx-auto max-w-7xl px-4 sm:px-6 py-3 flex flex-col text-[15px] font-medium">
             {navLinks}
+            <Link to="/admin/login" className="nav-link sm:hidden" onClick={() => setMobileOpen(false)}>Sign In</Link>
             <div className="pt-3 mt-2 border-t border-border">
               <p className="eyebrow mb-2">Learn New</p>
               <div className="flex flex-col gap-1">
