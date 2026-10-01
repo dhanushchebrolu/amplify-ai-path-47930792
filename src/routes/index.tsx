@@ -83,8 +83,8 @@ function Home() {
         </div>
       </section>
 
-      <section id="browse" className="section-surface section-rule">
-        <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
+      <section id="browse" className="bg-background">
+        <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 pt-4 sm:pt-6 pb-16">
           <p className="text-base sm:text-lg text-muted-foreground">
             {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
           </p>
