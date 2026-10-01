@@ -24,7 +24,6 @@ export function SiteHeader() {
   const navLinks = (
     <>
       <Link to="/" className="nav-link" activeOptions={{ exact: true }} onClick={() => setMobileOpen(false)}>Home</Link>
-      <Link to="/browse" className="nav-link" onClick={() => setMobileOpen(false)}>Browse</Link>
       <Link to="/compare" className="nav-link" onClick={() => setMobileOpen(false)}>Compare</Link>
       <Link to="/prompts" className="nav-link" onClick={() => setMobileOpen(false)}>Prompts</Link>
       <Link to="/blog" className="nav-link" onClick={() => setMobileOpen(false)}>Blog</Link>

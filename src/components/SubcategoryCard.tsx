@@ -14,7 +14,6 @@ export function SubcategoryCard({
 }) {
   const ref = useRef<HTMLAnchorElement>(null);
   const preview = sub.tools.slice(0, 4);
-  const extra = sub.tools.length - preview.length;
 
   function handleMove(e: React.MouseEvent<HTMLAnchorElement>) {
     const el = ref.current;
@@ -30,34 +29,25 @@ export function SubcategoryCard({
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: sub.slug }}
       onMouseMove={handleMove}
-      className="bento-card cat-edge group relative block rounded-xl border border-border p-5 h-[168px] overflow-hidden"
+      className="bento-card group relative block rounded-2xl border border-border hover:border-[color-mix(in_oklab,var(--cat,var(--brand))_40%,var(--border))] p-5 sm:p-6 h-[170px] sm:h-[224px] overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
 
       <div className="relative flex flex-col h-full">
-        <h3 className="text-base font-semibold text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
+        <h3 className="text-[1.15rem] font-semibold tracking-[-0.01em] text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
           {sub.name}
         </h3>
-        <p className="text-xs text-muted-foreground mt-1">
-          <span className="font-semibold text-navy tabular-nums">{sub.tools.length}</span> tools
-        </p>
+        <p className="text-sm text-muted-foreground mt-1.5">{sub.tools.length} tools</p>
 
-        <div className="mt-auto flex items-end justify-between">
+        <div className="mt-auto flex items-center justify-between">
           <div className="logo-stack flex items-center">
             {preview.map((t, i) => (
               <span key={i} className="rounded-full ring-2 ring-white shadow-sm" style={{ zIndex: preview.length - i }}>
-                <CatalogLogo name={t.name} website={t.website} size={30} rounded="full" className="shadow-none ring-0" />
+                <CatalogLogo name={t.name} website={t.website} size={34} rounded="full" className="shadow-none ring-0" />
               </span>
             ))}
-            {extra > 0 && (
-              <span className="relative z-10 grid place-items-center h-[30px] min-w-[34px] px-2 rounded-full ring-2 ring-white bg-cat-tint text-[10px] font-semibold text-cat tabular-nums">
-                +{extra}
-              </span>
-            )}
           </div>
-          <span className="grid place-items-center w-8 h-8 rounded-lg bg-cat-tint text-cat transition-transform duration-200 group-hover:translate-x-1">
-            <ArrowRight className="w-4 h-4" />
-          </span>
+          <ArrowRight className="w-5 h-5 text-muted-foreground transition-all duration-200 group-hover:text-cat group-hover:translate-x-1" />
         </div>
       </div>
     </Link>
