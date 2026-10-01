@@ -84,7 +84,7 @@ function Home() {
       </section>
 
       <section id="browse" className="bg-background">
-        <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 pt-4 sm:pt-6 pb-16">
+        <div className="w-full mx-auto max-w-[1400px] px-4 sm:px-6 pt-4 sm:pt-6 pb-16">
           <p className="text-base sm:text-lg text-muted-foreground">
             {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
           </p>
