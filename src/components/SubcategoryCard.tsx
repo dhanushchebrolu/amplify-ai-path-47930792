@@ -2,6 +2,7 @@ import { Link } from "@tanstack/react-router";
 import { useRef } from "react";
 import type { CatalogSub } from "@/data/catalog";
 import { CatalogLogo } from "@/components/CatalogLogo";
+import { CardArt, artForSub, artMirror } from "@/components/CardArt";
 import { ArrowRight } from "lucide-react";
 
 /** Sub-category card. Picks up --cat/--cat-tint from an enclosing .cat-* scope. */
@@ -30,12 +31,17 @@ export function SubcategoryCard({
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: sub.slug }}
       onMouseMove={handleMove}
-      className="bento-card cat-edge group relative block rounded-xl border border-border p-5 h-[168px] overflow-hidden"
+      className="bento-card cat-edge group relative block rounded-xl border border-border p-5 h-[176px] overflow-hidden"
     >
       <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+      <CardArt
+        kind={artForSub(sub.name, sub.slug, catSlug)}
+        mirror={artMirror(sub.slug)}
+        className="absolute right-0 top-0 h-[104px] sm:h-[112px] w-[40%] sm:w-[46%] origin-top-right transition-transform duration-300 group-hover:scale-[1.04]"
+      />
 
       <div className="relative flex flex-col h-full">
-        <h3 className="text-base font-semibold text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
+        <h3 className="max-w-[56%] text-base font-semibold text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
           {sub.name}
         </h3>
         <p className="text-xs text-muted-foreground mt-1">
