@@ -1,8 +1,7 @@
 import { Link } from "@tanstack/react-router";
-import { useRef } from "react";
 import type { CatalogSub } from "@/data/catalog";
 import { CatalogLogo } from "@/components/CatalogLogo";
-import { CardArt, artForSub, artMirror } from "@/components/CardArt";
+import { subDescription, subIcon } from "@/data/subcategory-meta";
 import { ArrowRight } from "lucide-react";
 
 /** Sub-category card. Picks up --cat/--cat-tint from an enclosing .cat-* scope. */
@@ -13,58 +12,56 @@ export function SubcategoryCard({
   catSlug: string;
   sub: CatalogSub;
 }) {
-  const ref = useRef<HTMLAnchorElement>(null);
   const preview = sub.tools.slice(0, 4);
   const extra = sub.tools.length - preview.length;
-
-  function handleMove(e: React.MouseEvent<HTMLAnchorElement>) {
-    const el = ref.current;
-    if (!el) return;
-    const r = el.getBoundingClientRect();
-    el.style.setProperty("--mx", `${e.clientX - r.left}px`);
-    el.style.setProperty("--my", `${e.clientY - r.top}px`);
-  }
+  const Icon = subIcon(sub.name);
 
   return (
     <Link
-      ref={ref}
       to="/category/$slug/$sub"
       params={{ slug: catSlug, sub: sub.slug }}
-      onMouseMove={handleMove}
-      className="bento-card cat-edge group relative block rounded-xl border border-border p-5 h-[176px] overflow-hidden"
+      className="sub-card group flex h-full flex-col rounded-xl border border-border bg-surface p-5 sm:p-6"
     >
-      <div className="bento-spotlight pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-      <CardArt
-        kind={artForSub(sub.name, sub.slug, catSlug)}
-        mirror={artMirror(sub.slug)}
-        className="absolute right-0 top-0 h-[104px] sm:h-[112px] w-[40%] sm:w-[46%] origin-top-right transition-transform duration-300 group-hover:scale-[1.04]"
-      />
-
-      <div className="relative flex flex-col h-full">
-        <h3 className="max-w-[56%] text-base font-semibold text-navy leading-snug line-clamp-2 group-hover:text-cat transition-colors">
-          {sub.name}
-        </h3>
-        <p className="text-xs text-muted-foreground mt-1">
-          <span className="font-semibold text-navy tabular-nums">{sub.tools.length}</span> tools
-        </p>
-
-        <div className="mt-auto flex items-end justify-between">
-          <div className="logo-stack flex items-center">
-            {preview.map((t, i) => (
-              <span key={i} className="rounded-full ring-2 ring-white shadow-sm" style={{ zIndex: preview.length - i }}>
-                <CatalogLogo name={t.name} website={t.website} size={30} rounded="full" className="shadow-none ring-0" />
-              </span>
-            ))}
-            {extra > 0 && (
-              <span className="relative z-10 grid place-items-center h-[30px] min-w-[34px] px-2 rounded-full ring-2 ring-white bg-cat-tint text-[10px] font-semibold text-cat tabular-nums">
-                +{extra}
-              </span>
-            )}
-          </div>
-          <span className="grid place-items-center w-8 h-8 rounded-lg bg-cat-tint text-cat transition-transform duration-200 group-hover:translate-x-1">
-            <ArrowRight className="w-4 h-4" />
-          </span>
+      <div className="flex items-start gap-4">
+        <span className="grid shrink-0 place-items-center w-12 h-12 sm:w-14 sm:h-14 rounded-xl bg-[#F1F4FB] text-navy/80 transition-colors group-hover:bg-cat-tint group-hover:text-cat">
+          <Icon className="w-5 h-5 sm:w-6 sm:h-6" strokeWidth={1.7} />
+        </span>
+        <div className="min-w-0">
+          <h3 className="font-display text-[1.3rem] sm:text-[1.4rem] leading-tight tracking-[-0.01em] text-navy group-hover:text-cat transition-colors">
+            {sub.name}
+          </h3>
+          <p className="mt-1.5 text-[14px] leading-relaxed text-muted-foreground line-clamp-2">
+            {subDescription(catSlug, sub.slug, sub.name)}
+          </p>
         </div>
+      </div>
+
+      <div className="mt-auto pt-6 flex items-center">
+        <span className="shrink-0 text-sm text-[#475467] tabular-nums">{sub.tools.length} tools</span>
+        <span aria-hidden className="mx-4 sm:mx-5 h-8 w-px bg-border" />
+        <div className="flex min-w-0 items-center gap-2.5 sm:gap-3">
+          {preview.map((t, i) => (
+            <span key={i} className={i >= 3 ? "hidden xl:inline-flex" : "inline-flex"}>
+              <CatalogLogo name={t.name} website={t.website} size={30} rounded="lg" className="shadow-none ring-0" />
+            </span>
+          ))}
+          {/* Three logos below xl, four from xl: the "+N" count follows. */}
+          {extra + 1 > 0 && preview.length > 3 && (
+            <span className="xl:hidden shrink-0 rounded-full bg-[#F1F4FB] px-2.5 py-1 text-xs font-medium text-[#475467] tabular-nums">
+              +{extra + 1}
+            </span>
+          )}
+          {extra > 0 && (
+            <span className="hidden xl:inline shrink-0 rounded-full bg-[#F1F4FB] px-2.5 py-1 text-xs font-medium text-[#475467] tabular-nums">
+              +{extra}
+            </span>
+          )}
+        </div>
+        <span className="ml-auto pl-3 shrink-0">
+          <span className="grid place-items-center w-10 h-10 sm:w-11 sm:h-11 rounded-full bg-[#F1F4FB] text-navy transition-all duration-200 group-hover:bg-cat-tint group-hover:text-cat group-hover:translate-x-0.5">
+            <ArrowRight className="w-[18px] h-[18px]" />
+          </span>
+        </span>
       </div>
     </Link>
   );

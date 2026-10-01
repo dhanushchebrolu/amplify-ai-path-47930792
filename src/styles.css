@@ -157,6 +157,20 @@
 .bento-card:hover { transform: translateY(-3px); box-shadow: var(--shadow-card-hover); }
 .bento-spotlight { background: radial-gradient(18rem circle at var(--mx) var(--my), rgb(56 103 255 / 0.06), transparent 70%); }
 
+/* Section label in the category accent (e.g. "— AI WRITING TOOLS") */
+.cat-eyebrow { color: var(--cat-ink, var(--primary-ink)); }
+.cat-eyebrow::before { background: var(--cat, var(--brand)); width: 1.75rem; }
+/* Sub-category card: white panel, quiet border, lift + accent border on hover */
+.sub-card {
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.04);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms;
+}
+.sub-card:hover {
+  transform: translateY(-2px);
+  border-color: color-mix(in oklab, var(--cat, var(--brand)) 35%, var(--border));
+  box-shadow: 0 2px 4px rgb(16 24 40 / 0.04), 0 16px 32px -18px rgb(16 24 40 / 0.25);
+}
+
 /* Category accents: set --cat / --cat-tint via .cat-* on any wrapper */
 /* --cat: fills/bars/dots · --cat-ink: text (≥4.5:1 on white) · --cat-tint: surfaces */
 .cat-blue   { --cat: #3867FF; --cat-ink: #2348C7; --cat-tint: #F5F8FF; }
@@ -350,8 +364,8 @@
   .bubble-float { animation: none; }
   .clothes-card, .hero-float { animation: none; }
   .clothes-card-inner { transition: none; }
-  .bento-card, .btn-primary, .btn-secondary, .btn-highlight, .logo-stack > * { transition: none; }
-  .bento-card:hover { transform: none; }
+  .bento-card, .sub-card, .btn-primary, .btn-secondary, .btn-highlight, .logo-stack > * { transition: none; }
+  .bento-card:hover, .sub-card:hover { transform: none; }
 }
 
 /* ─── Blog content (markdown) ────────────────────────────────────── */
