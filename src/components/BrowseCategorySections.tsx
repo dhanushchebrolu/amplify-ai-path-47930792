@@ -24,31 +24,39 @@ export function BrowseCategoryChips({ categories }: { categories: CatalogCategor
 /** Category → sub-category card sections, as rendered on /browse. */
 export function BrowseCategorySections({ categories }: { categories: CatalogCategory[] }) {
   return (
-    <div className="mt-12 sm:mt-14 space-y-14 sm:space-y-20">
+    <div className="mt-14 space-y-16 sm:space-y-20">
       {categories.map((c) => {
         const preview = c.subs.slice(0, PREVIEW_COUNT);
         const hasMore = c.subs.length > PREVIEW_COUNT;
         const totalInCat = c.subs.reduce((a, s) => a + s.tools.length, 0);
-        const { className: accent } = categoryAccent(c.slug);
+        const { className: accent, icon: Icon } = categoryAccent(c.slug);
         return (
           <section key={c.slug} id={c.slug} className={cn("scroll-mt-24", accent)}>
-            <div className="flex items-end justify-between flex-wrap gap-4">
-              <div className="min-w-0">
-                <h2 className="font-display text-[2rem] sm:text-4xl md:text-[2.75rem] leading-tight text-navy">{c.name}</h2>
-                <p className="text-sm sm:text-base text-muted-foreground mt-1.5">
-                  {c.subs.length} sub-categories · {totalInCat} tools
-                </p>
+            <div className="flex items-end justify-between flex-wrap gap-4 pb-5 border-b border-border">
+              <div className="flex items-start gap-4 min-w-0">
+                <span className="hidden sm:grid shrink-0 place-items-center w-12 h-12 rounded-xl bg-cat-soft text-cat ring-1 ring-[color-mix(in_oklab,var(--cat)_22%,transparent)]">
+                  <Icon className="w-6 h-6" strokeWidth={1.7} />
+                </span>
+                <div className="min-w-0">
+                  <h2 className="font-display text-[1.75rem] sm:text-3xl md:text-4xl leading-tight text-navy">{c.name}</h2>
+                  <p className="text-sm text-muted-foreground mt-1.5 flex items-center gap-2">
+                    <span className="cat-dot" />
+                    <span className="font-semibold text-navy tabular-nums">{c.subs.length}</span> sub-categories
+                    <span className="text-border">•</span>
+                    <span className="font-semibold text-navy tabular-nums">{totalInCat}</span> tools
+                  </p>
+                </div>
               </div>
               <Link
                 to="/category/$slug"
                 params={{ slug: c.slug }}
-                className="group inline-flex items-center gap-2 h-11 px-5 rounded-full bg-surface border border-navy/15 text-sm font-semibold text-navy shadow-[0_1px_2px_rgb(16_24_40/0.05)] hover:border-[var(--cat)] hover:text-cat transition-colors"
+                className="group inline-flex items-center gap-1.5 text-sm font-semibold text-cat"
               >
-                View more <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
+                View category <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-1" />
               </Link>
             </div>
 
-            <div className="mt-7 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
+            <div className="mt-6 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-5">
               {preview.map((sub) => (
                 <SubcategoryCard key={sub.slug} catSlug={c.slug} sub={sub} />
               ))}

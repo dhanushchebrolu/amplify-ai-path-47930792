@@ -289,8 +289,8 @@
 
 /* Chips (jump links / filters) */
 .chip {
-  display: inline-flex; align-items: center; gap: 0.45rem;
-  font-size: 0.875rem; font-weight: 500; padding: 0.5rem 1rem; border-radius: 999px;
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.78rem; font-weight: 500; padding: 0.4rem 0.75rem; border-radius: 0.5rem;
   background: var(--surface); border: 1px solid var(--border); color: #344054;
   transition: border-color 160ms, color 160ms, background-color 160ms;
 }
