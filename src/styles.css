@@ -172,27 +172,6 @@
 .bg-cat-soft { background-color: color-mix(in oklab, var(--cat, var(--brand)) 12%, white); }
 .cat-dot { width: 0.5rem; height: 0.5rem; border-radius: 999px; background: var(--cat, var(--brand)); }
 
-/* Category panel (homepage): tinted card with an accent top rule */
-.cat-panel {
-  position: relative;
-  background: linear-gradient(180deg, var(--cat-tint) 0%, var(--surface) 62%);
-  border: 1px solid color-mix(in oklab, var(--cat) 14%, var(--border));
-  border-radius: 0.875rem;
-  box-shadow: var(--shadow-card);
-  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms var(--ease-out);
-}
-.cat-panel::before {
-  content: ""; position: absolute; left: 1.25rem; right: 1.25rem; top: -1px; height: 3px;
-  border-radius: 0 0 3px 3px; background: var(--cat); opacity: 0.75;
-  transition: opacity 200ms var(--ease-out), left 200ms var(--ease-out), right 200ms var(--ease-out);
-}
-.cat-panel:hover {
-  transform: translateY(-3px);
-  box-shadow: var(--shadow-card-hover);
-  border-color: color-mix(in oklab, var(--cat) 32%, var(--border));
-}
-.cat-panel:hover::before { opacity: 1; left: 0.75rem; right: 0.75rem; }
-
 /* Accent-edged card used by sub-category cards inside a .cat-* scope */
 .cat-edge { border-left: 3px solid color-mix(in oklab, var(--cat, var(--brand)) 70%, white); }
 .cat-edge:hover { border-left-color: var(--cat, var(--brand)); }
@@ -310,8 +289,8 @@
 
 /* Chips (jump links / filters) */
 .chip {
-  display: inline-flex; align-items: center; gap: 0.4rem;
-  font-size: 0.78rem; font-weight: 500; padding: 0.4rem 0.75rem; border-radius: 0.5rem;
+  display: inline-flex; align-items: center; gap: 0.45rem;
+  font-size: 0.875rem; font-weight: 500; padding: 0.5rem 1rem; border-radius: 999px;
   background: var(--surface); border: 1px solid var(--border); color: #344054;
   transition: border-color 160ms, color 160ms, background-color 160ms;
 }
@@ -371,8 +350,8 @@
   .bubble-float { animation: none; }
   .clothes-card, .hero-float { animation: none; }
   .clothes-card-inner { transition: none; }
-  .bento-card, .cat-panel, .btn-primary, .btn-secondary, .btn-highlight, .logo-stack > * { transition: none; }
-  .bento-card:hover, .cat-panel:hover { transform: none; }
+  .bento-card, .btn-primary, .btn-secondary, .btn-highlight, .logo-stack > * { transition: none; }
+  .bento-card:hover { transform: none; }
 }
 
 /* ─── Blog content (markdown) ────────────────────────────────────── */

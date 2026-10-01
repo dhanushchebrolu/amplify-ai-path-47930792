@@ -3,8 +3,7 @@ import { useMemo, useState } from "react";
 import { catalog, catalogTotalTools } from "@/data/catalog";
 import { trendingTools } from "@/data/tools";
 import { SiteHeader, SiteFooter } from "@/components/SiteChrome";
-import { BrowseCategoryChips } from "@/components/BrowseCategorySections";
-import { CategoryPanel } from "@/components/CategoryPanel";
+import { BrowseCategoryChips, BrowseCategorySections } from "@/components/BrowseCategorySections";
 import { ToolCard } from "@/components/ToolCard";
 import { HeroClothesline } from "@/components/HeroClothesline";
 import { HeroDecor } from "@/components/HeroDecor";
@@ -85,30 +84,12 @@ function Home() {
       </section>
 
       <section id="browse" className="section-surface section-rule">
-        <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 py-16 sm:py-20">
-          <div className="flex items-end justify-between flex-wrap gap-5">
-            <div className="max-w-2xl">
-              <span className="eyebrow">Explore the directory</span>
-              <h2 className="mt-3 font-display text-[2rem] sm:text-4xl md:text-5xl leading-[1.08] text-navy">
-                Browse AI tools by category
-              </h2>
-              <p className="mt-3 text-muted-foreground">
-                {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
-              </p>
-            </div>
-            <Link to="/browse" className="btn-secondary group">
-              Explore all {catalog.length} categories
-              <ArrowRight className="w-4 h-4 transition-transform group-hover:translate-x-0.5" />
-            </Link>
-          </div>
-
+        <div className="w-full mx-auto max-w-7xl px-4 sm:px-6 py-12 sm:py-16">
+          <p className="text-base sm:text-lg text-muted-foreground">
+            {total}+ curated tools across {catalog.length} categories. Pick a sub-category to dive deeper.
+          </p>
           <BrowseCategoryChips categories={catalog} />
-
-          <div className="mt-10 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 lg:gap-6">
-            {catalog.map((c) => (
-              <CategoryPanel key={c.slug} category={c} />
-            ))}
-          </div>
+          <BrowseCategorySections categories={catalog} />
         </div>
       </section>
 
