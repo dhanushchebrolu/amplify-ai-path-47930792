@@ -43,7 +43,6 @@
   --color-highlight-foreground: var(--highlight-foreground);
   --font-serif: "Fraunces", ui-serif, Georgia, serif;
   --font-sans: "Inter Tight", "Inter", ui-sans-serif, system-ui, sans-serif;
-  --font-condensed: "Barlow Condensed", "Inter Tight", ui-sans-serif, system-ui, sans-serif;
 }
 
 :root {
@@ -229,61 +228,84 @@
 .btn-highlight:hover { filter: brightness(0.97); transform: translateY(-1px); }
 .btn-primary:active, .btn-secondary:active, .btn-highlight:active { transform: translateY(0); }
 
-/* ─── Homepage hero: panel + clothesline of tool cards ─────────────── */
-.hero-panel {
+/* ─── Homepage hero: full-bleed soft gradient + clothesline of tool cards ── */
+.hero-cosmic {
   position: relative; isolation: isolate; overflow: hidden;
-  border-radius: 1.75rem;
-  border: 1px solid rgb(56 103 255 / 0.12);
   background:
-    radial-gradient(60rem 26rem at 50% -10%, rgb(255 255 255 / 0.9), transparent 70%),
-    linear-gradient(180deg, #EAF0FF 0%, #F2F5FF 55%, #F8F9FF 100%);
+    radial-gradient(ellipse 46% 52% at 50% 40%, #FFFFFF 0%, rgb(255 255 255 / 0.85) 45%, transparent 75%),
+    radial-gradient(48rem 36rem at 4% 30%, #D9DEFF 0%, transparent 65%),
+    radial-gradient(44rem 34rem at 98% 26%, #EEDCFF 0%, transparent 62%),
+    radial-gradient(40rem 22rem at 50% 105%, #E9ECFF 0%, transparent 70%),
+    linear-gradient(180deg, #F3F5FF 0%, #F8F7FF 60%, #FAFAF7 100%);
 }
-.hero-panel::before {
+/* Dot grid, strongest around the headline */
+.hero-cosmic::before {
   content: ""; position: absolute; inset: 0; z-index: -1; pointer-events: none;
-  background-image:
-    linear-gradient(rgb(56 103 255 / 0.07) 1px, transparent 1px),
-    linear-gradient(90deg, rgb(56 103 255 / 0.07) 1px, transparent 1px);
-  background-size: 44px 44px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
-  mask-image: radial-gradient(ellipse 80% 70% at 50% 30%, #000 30%, transparent 85%);
+  background-image: radial-gradient(rgb(76 94 245 / 0.18) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse 42% 46% at 50% 44%, #000 0%, transparent 80%);
+  mask-image: radial-gradient(ellipse 42% 46% at 50% 44%, #000 0%, transparent 80%);
 }
+/* Fade the hero into the page below */
+.hero-cosmic::after {
+  content: ""; position: absolute; left: 0; right: 0; bottom: 0; height: 90px; z-index: -1; pointer-events: none;
+  background: linear-gradient(180deg, transparent, #FAFAF7);
+}
+.hero-orbit { position: absolute; border-radius: 999px; border: 1px solid rgb(124 77 255 / 0.13); pointer-events: none; }
+.hero-streak {
+  position: absolute; pointer-events: none; height: 2px; border-radius: 2px;
+  background: linear-gradient(90deg, transparent, rgb(255 255 255 / 0.95), rgb(196 181 253 / 0.7), transparent);
+  filter: blur(1px); box-shadow: 0 0 18px 4px rgb(167 139 250 / 0.35);
+}
+@keyframes float-y { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+.hero-float { animation: float-y 8s ease-in-out infinite; }
+.hero-headline { font-family: var(--font-sans); font-weight: 800; letter-spacing: -0.05em; }
 
-/* Track is laid out at full size, then scaled per breakpoint; the wrapper
-   height follows the same scale so nothing below jumps. */
-.clothesline { --s: 0.7; height: calc(336px * var(--s)); }
-@media (min-width: 640px)  { .clothesline { --s: 0.82; } }
-@media (min-width: 1024px) { .clothesline { --s: 1; } }
-.clothesline-track { transform: translateX(-50%) scale(var(--s)); transform-origin: top center; }
+/* Track is laid out at full size, then scaled per breakpoint around its
+   visual centre; the wrapper follows the same scale. It overlaps the search
+   row so the string can rise behind it at the edges. */
+.clothesline { --s: 0.62; height: calc(500px * var(--s)); margin-top: calc(-150px * var(--s)); }
+@media (min-width: 640px)  { .clothesline { --s: 0.8; } }
+@media (min-width: 1024px) { .clothesline { --s: 0.92; } }
+@media (min-width: 1536px) { .clothesline { --s: 1; } }
+.clothesline-track { transform: scale(var(--s)); transform-origin: var(--cx, 50%) 0; }
 
 @keyframes clothes-sway {
-  0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 1.1deg)); }
-  50%      { transform: rotate(calc(var(--rot, 0deg) + 1.1deg)); }
+  0%, 100% { transform: rotate(calc(var(--rot, 0deg) - 1deg)); }
+  50%      { transform: rotate(calc(var(--rot, 0deg) + 1deg)); }
 }
 .clothes-card {
   transform: rotate(var(--rot, 0deg));
   transform-origin: 50% 0;
-  animation: clothes-sway 6.5s ease-in-out infinite;
+  animation: clothes-sway 7s ease-in-out infinite;
 }
 .clothes-card:hover { animation-play-state: paused; }
 .clothes-card-inner {
-  box-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 14px 28px -14px rgb(16 24 40 / 0.28);
-  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out), border-color 200ms;
+  box-shadow: 0 1px 2px rgb(16 24 40 / 0.05), 0 18px 36px -16px rgb(40 48 120 / 0.32);
+  transition: transform 200ms var(--ease-out), box-shadow 200ms var(--ease-out);
 }
 .clothes-card:hover .clothes-card-inner {
-  transform: translateY(-4px);
-  border-color: rgb(56 103 255 / 0.35);
-  box-shadow: 0 2px 4px rgb(16 24 40 / 0.06), 0 22px 36px -16px rgb(16 24 40 / 0.35);
+  transform: translateY(-5px);
+  box-shadow: 0 2px 4px rgb(16 24 40 / 0.06), 0 26px 44px -18px rgb(40 48 120 / 0.42);
 }
-/* Clip: small yellow peg sitting on the string, above the card */
+/* Soft-fade the corner illustration into the card */
+.card-art {
+  -webkit-mask-image: linear-gradient(90deg, transparent 0%, #000 38%), linear-gradient(180deg, #000 55%, transparent 100%);
+  -webkit-mask-composite: source-in;
+  mask-image: linear-gradient(90deg, transparent 0%, #000 38%), linear-gradient(180deg, #000 55%, transparent 100%);
+  mask-composite: intersect;
+  border-top-right-radius: 18px;
+}
+/* Clip: small glossy blue peg sitting on the string */
 .clothes-pin {
   position: absolute; left: 50%; top: 0; z-index: 2;
-  width: 14px; height: 26px; margin-left: -7px; border-radius: 3px;
-  background: linear-gradient(180deg, #FFE06B 0%, var(--highlight) 60%, #E9B800 100%);
-  box-shadow: 0 1px 0 rgb(255 255 255 / 0.6) inset, 0 2px 4px rgb(16 24 40 / 0.25);
+  width: 12px; height: 28px; margin-left: -6px; border-radius: 4px;
+  background: linear-gradient(180deg, #8CA0FF 0%, #4C5EF5 55%, #6A3FE0 100%);
+  box-shadow: inset 2px 0 0 rgb(255 255 255 / 0.45), 0 3px 6px rgb(40 48 120 / 0.35);
 }
 .clothes-pin::after {
-  content: ""; position: absolute; left: 50%; top: 5px; width: 2px; height: 10px; margin-left: -1px;
-  border-radius: 1px; background: rgb(16 24 40 / 0.25);
+  content: ""; position: absolute; left: 50%; top: 6px; width: 2px; height: 11px; margin-left: -1px;
+  border-radius: 1px; background: rgb(255 255 255 / 0.55);
 }
 
 /* Chips (jump links / filters) */
@@ -347,7 +369,7 @@
   .fade-in-soft { animation: none; }
   .img-fade-in { transition: none; opacity: 1; }
   .bubble-float { animation: none; }
-  .clothes-card { animation: none; }
+  .clothes-card, .hero-float { animation: none; }
   .clothes-card-inner { transition: none; }
   .bento-card, .cat-panel, .btn-primary, .btn-secondary, .btn-highlight, .logo-stack > * { transition: none; }
   .bento-card:hover, .cat-panel:hover { transform: none; }

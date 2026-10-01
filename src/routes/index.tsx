@@ -7,6 +7,7 @@ import { BrowseCategoryChips } from "@/components/BrowseCategorySections";
 import { CategoryPanel } from "@/components/CategoryPanel";
 import { ToolCard } from "@/components/ToolCard";
 import { HeroClothesline } from "@/components/HeroClothesline";
+import { HeroDecor } from "@/components/HeroDecor";
 import { ArrowRight, Search } from "lucide-react";
 
 export const Route = createFileRoute("/")({
@@ -40,47 +41,46 @@ function Home() {
     <div className="min-h-screen flex flex-col">
       <SiteHeader />
 
-      <section className="px-2 sm:px-4 pt-3 sm:pt-4">
-        <div className="hero-panel mx-auto max-w-[1440px]">
-          <div className="relative mx-auto max-w-4xl px-4 sm:px-6 pt-12 sm:pt-20 text-center">
-            <h1 className="font-condensed font-semibold text-[3rem] leading-[0.98] sm:text-7xl lg:text-[5.75rem] tracking-[-0.01em] text-navy text-balance">
-              Every AI Tool in <span className="text-gradient-brand">one Platform</span>
-            </h1>
-            <p className="mt-4 sm:mt-5 text-base sm:text-lg text-[#475467] max-w-md mx-auto text-balance">
-              Explore, compare, and find the perfect AI product for your needs, all in one place.
-            </p>
+      <section className="hero-cosmic">
+        <HeroDecor />
+        <div className="relative z-10 mx-auto max-w-5xl px-4 sm:px-6 pt-14 sm:pt-24 text-center">
+          <h1 className="hero-headline text-[3.1rem] leading-[0.98] sm:text-7xl lg:text-[6.1rem] lg:leading-[0.95] text-navy text-balance">
+            Every AI Tool in <span className="text-gradient-brand pr-[0.04em]">one Platform</span>
+          </h1>
+          <p className="mt-5 sm:mt-6 text-base sm:text-xl text-[#475467] max-w-xl mx-auto text-balance">
+            Explore, compare, and find the perfect AI product for your needs, all in one place.
+          </p>
 
-            <div className="mt-7 sm:mt-8 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-2.5 max-w-xl mx-auto">
-              <form
-                onSubmit={submitSearch}
-                role="search"
-                className="flex-1 flex items-center gap-1 h-12 pl-3.5 pr-1.5 rounded-xl bg-surface border border-navy/15 shadow-[0_1px_2px_rgb(16_24_40/0.06),0_10px_24px_-14px_rgb(16_24_40/0.3)] transition-[border-color,box-shadow] duration-200 focus-within:border-brand focus-within:shadow-[0_0_0_4px_rgb(56_103_255/0.14),0_10px_24px_-14px_rgb(16_24_40/0.3)]"
-              >
-                <Search className="w-4 h-4 text-brand shrink-0" />
-                <input
-                  value={q}
-                  onChange={(e) => setQ(e.target.value)}
-                  placeholder={`Search ${total}+ AI tools...`}
-                  aria-label="Search AI tools"
-                  className="flex-1 min-w-0 bg-transparent outline-none px-2 text-[15px] text-navy placeholder:text-muted-foreground"
-                />
-                <button type="submit" className="btn-highlight shrink-0 h-9 px-3.5 text-sm">
-                  Search
-                </button>
-              </form>
-              <Link
-                to="/browse"
-                className="inline-flex items-center justify-center gap-2 h-12 px-5 rounded-xl bg-navy text-white text-sm font-semibold shadow-[0_10px_24px_-12px_rgb(16_24_40/0.6)] hover:bg-brand-dark hover:-translate-y-0.5 transition-all"
-              >
-                Browse all tools
-                <ArrowRight className="w-4 h-4" />
-              </Link>
-            </div>
+          <div className="mt-7 sm:mt-9 flex flex-col sm:flex-row items-stretch sm:items-center justify-center gap-3 max-w-3xl mx-auto">
+            <form
+              onSubmit={submitSearch}
+              role="search"
+              className="flex-1 flex items-center gap-2 h-14 sm:h-16 pl-4 sm:pl-5 pr-1.5 sm:pr-2 rounded-2xl bg-white border border-white shadow-[0_2px_4px_rgb(16_24_40/0.04),0_16px_40px_-16px_rgb(60_70_160/0.35)] ring-1 ring-navy/[0.06] transition-[box-shadow] duration-200 focus-within:ring-2 focus-within:ring-brand/60"
+            >
+              <Search className="w-5 h-5 text-brand shrink-0" />
+              <input
+                value={q}
+                onChange={(e) => setQ(e.target.value)}
+                placeholder={`Search ${total}+ AI tools...`}
+                aria-label="Search AI tools"
+                className="flex-1 min-w-0 bg-transparent outline-none px-1.5 text-[15px] sm:text-[17px] text-navy placeholder:text-[#667085]"
+              />
+              <button type="submit" className="btn-highlight shrink-0 h-11 sm:h-12 px-4 sm:px-5 rounded-xl text-[15px]">
+                Search <Search className="w-4 h-4" />
+              </button>
+            </form>
+            <Link
+              to="/browse"
+              className="inline-flex items-center justify-center gap-2.5 h-14 sm:h-16 px-7 rounded-2xl bg-navy text-white text-[15px] sm:text-base font-semibold shadow-[0_16px_32px_-14px_rgb(16_24_40/0.7)] hover:bg-[#1B2440] hover:-translate-y-0.5 transition-all"
+            >
+              Browse all tools
+              <ArrowRight className="w-5 h-5" />
+            </Link>
           </div>
+        </div>
 
-          <div className="mt-4 sm:mt-5 pb-2 sm:pb-4">
-            <HeroClothesline tools={trending} />
-          </div>
+        <div className="relative z-0 mt-2 pb-6">
+          <HeroClothesline tools={trending} />
         </div>
       </section>
 
